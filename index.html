@@ -2,7 +2,445 @@
 <meta charset="utf-8" />
 <title>UE .sav → JSON + Filter (Wasm, read-only)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="styles.css">
+<style>
+  :root { 
+    color-scheme: light dark;
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #252525;
+    --border-color: #333;
+    --text-primary: #e0e0e0;
+    --text-secondary: #999;
+    --accent: #4a9eff;
+    --success: #2aa745;
+    --warning: #e0a000;
+    --danger: #d33;
+    --card-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  }
+  
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f5;
+      --bg-tertiary: #e8e8e8;
+      --border-color: #ddd;
+      --text-primary: #333;
+      --text-secondary: #666;
+      --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+  }
+  
+  * { box-sizing: border-box; }
+  
+  body { 
+    font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 2rem 1rem;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  
+  h1 { 
+    font-size: 1.5rem; 
+    margin: 0 0 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  h1::before {
+    content: "⚡";
+    font-size: 1.8rem;
+  }
+  
+  .controls {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+  }
+  
+  .control-row { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 0.75rem; 
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .control-row:last-child { margin-bottom: 0; }
+  
+  .btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: var(--card-shadow);
+  }
+  
+  .btn:active { transform: translateY(0); }
+  
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  
+  .btn-success {
+    background: var(--success);
+    color: white;
+    border-color: var(--success);
+  }
+  
+  .btn-icon { font-size: 1.1rem; }
+  
+  .hidden { display: none !important; }
+  
+  #drop { 
+    margin: 1.5rem 0; 
+    border: 2px dashed var(--border-color); 
+    border-radius: 12px; 
+    padding: 2rem; 
+    text-align: center;
+    background: var(--bg-secondary);
+    transition: all 0.3s;
+  }
+  
+  #drop.drag-over {
+    border-color: var(--accent);
+    background: rgba(74, 158, 255, 0.1);
+  }
+  
+  #drop .drop-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  #drop .drop-text { color: var(--text-secondary); }
+  
+  .status-bar {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    animation: pulse 2s infinite;
+  }
+  
+  .status-dot.active { background: var(--success); }
+  .status-dot.scanning { background: var(--warning); }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  
+  .results-container {
+    margin-top: 1.5rem;
+  }
+  
+  .results-section {
+    margin-bottom: 2rem;
+  }
+  
+  .section-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+  
+  .item-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+    border-color: var(--accent);
+  }
+  
+  .item-card.hit {
+    border-left: 4px solid var(--success);
+  }
+  
+  .item-card.close {
+    border-left: 4px solid var(--warning);
+    opacity: 0.85;
+  }
+  
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.75rem;
+  }
+  
+  .item-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+    flex: 1;
+  }
+  
+  .item-type {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  
+  .item-scores {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .score-badge {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    position: relative;
+  }
+  
+  .score-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .score-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  
+  .score-value.good { color: var(--success); }
+  .score-value.partial { color: var(--warning); }
+  .score-value.zero { color: var(--text-secondary); opacity: 0.5; }
+  
+  .item-attributes {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    max-height: 100px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: var(--bg-primary);
+    border-radius: 4px;
+    margin-top: 0.5rem;
+  }
+  
+  .item-attributes::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .item-attributes::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+  }
+  
+  .item-attributes::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 2px;
+  }
+  
+  .attribute-pill {
+    display: inline-block;
+    padding: 0.2rem 0.4rem;
+    margin: 0.1rem;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    font-size: 0.75rem;
+  }
+  
+  .attribute-pill.matched {
+    background: rgba(42, 167, 69, 0.2);
+    color: var(--success);
+    border: 1px solid rgba(42, 167, 69, 0.3);
+  }
+  
+  #log {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 1rem;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow: auto;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-color);
+  }
+  
+  #log::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  #log::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+  }
+  
+  #log::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+  
+  .log-entry {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .log-time {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .platform-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .config-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .config-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .config-header h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .config-hint {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: block;
+  }
+
+  .config-inputs {
+    margin-bottom: 1.25rem;
+  }
+
+  .config-group {
+    margin-bottom: 1rem;
+  }
+
+  .config-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .config-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+  }
+
+  .config-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 0.85rem;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+
+  .config-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .config-textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+  }
+
+  .config-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+</style>
 
 <h1>UE .sav → JSON + Filter</h1>
 
@@ -39,6 +477,34 @@
     <button class="btn" id="toggleLog">
       <span class="btn-icon">📋</span> Toggle Log
     </button>
+    <button class="btn" id="toggleConfig">
+      <span class="btn-icon">⚙️</span> Configure Filters
+    </button>
+  </div>
+</div>
+
+<div class="config-panel" id="configPanel" style="display: none;">
+  <div class="config-header">
+    <h3>Filter Configuration</h3>
+    <span class="config-hint">Enter comma-separated attributes. Use * for wildcards (e.g., Fiery*Totem*Damage)</span>
+  </div>
+  <div class="config-inputs">
+    <div class="config-group">
+      <label for="pool1Config">Pool 1 Attributes:</label>
+      <textarea id="pool1Config" class="config-textarea" rows="3" placeholder="Fiery*Totem*Damage, Wisdom, MageryCriticalDamage, LifeStealChance, LifeStealAmount, CriticalChance"></textarea>
+    </div>
+    <div class="config-group">
+      <label for="pool2Config">Pool 2 Attributes:</label>
+      <textarea id="pool2Config" class="config-textarea" rows="3" placeholder="Same as Pool 1 by default"></textarea>
+    </div>
+    <div class="config-group">
+      <label for="pool3Config">Pool 3 Attributes:</label>
+      <textarea id="pool3Config" class="config-textarea" rows="3" placeholder="Same as Pool 1 by default"></textarea>
+    </div>
+  </div>
+  <div class="config-actions">
+    <button class="btn btn-primary" id="applyConfig">Apply & Re-scan</button>
+    <button class="btn" id="resetConfig">Reset to Defaults</button>
   </div>
 </div>
 
@@ -72,6 +538,13 @@
   const $rerunLast = document.getElementById('rerunLast');
   const $clearResults = document.getElementById('clearResults');
   const $toggleLog = document.getElementById('toggleLog');
+  const $toggleConfig = document.getElementById('toggleConfig');
+  const $configPanel = document.getElementById('configPanel');
+  const $pool1Config = document.getElementById('pool1Config');
+  const $pool2Config = document.getElementById('pool2Config');
+  const $pool3Config = document.getElementById('pool3Config');
+  const $applyConfig = document.getElementById('applyConfig');
+  const $resetConfig = document.getElementById('resetConfig');
   const $input = document.getElementById('fileInput');
   const $drop = document.getElementById('drop');
 
@@ -83,6 +556,50 @@
   const hasDirPicker = 'showDirectoryPicker' in window;
   let timer = null;
   const itemResults = new Map(); // Store results by filename
+
+  // Configuration state
+  const defaultFilters = [
+    "Fiery*Totem*Damage", "Wisdom", "MageryCriticalDamage", 
+    "LifeStealChance", "LifeStealAmount", "CriticalChance"
+  ].join(", ");
+  
+  let currentConfig = {
+    slot1: [],
+    slot2: [],
+    slot3: []
+  };
+
+  // Convert string patterns to regex
+  function parseFilterString(filterStr) {
+    if (!filterStr || filterStr.trim() === '') return [];
+    
+    return filterStr.split(',').map(pattern => {
+      const trimmed = pattern.trim();
+      if (!trimmed) return null;
+      
+      // Replace * with .* for regex wildcard
+      const regexPattern = trimmed.replace(/\*/g, '.*');
+      try {
+        return new RegExp(regexPattern, 'i');
+      } catch (e) {
+        log(`⚠️ Invalid pattern: ${trimmed}`);
+        return null;
+      }
+    }).filter(Boolean);
+  }
+
+  // Initialize configuration from defaults
+  function initializeConfig() {
+    const defaultPatterns = parseFilterString(defaultFilters);
+    currentConfig.slot1 = defaultPatterns;
+    currentConfig.slot2 = [...defaultPatterns];
+    currentConfig.slot3 = [...defaultPatterns];
+    
+    // Set initial values in textareas
+    $pool1Config.value = defaultFilters;
+    $pool2Config.value = defaultFilters;
+    $pool3Config.value = defaultFilters;
+  }
 
   // Platform detection
   function detectPlatform() {
@@ -121,6 +638,7 @@
     await init();
     log("✅ Wasm module loaded");
     detectPlatform();
+    initializeConfig();
     setStatus('Ready');
   }
 
@@ -182,6 +700,41 @@
 
   $toggleLog.onclick = () => {
     $log.style.display = $log.style.display === 'none' ? 'block' : 'none';
+  };
+
+  $toggleConfig.onclick = () => {
+    $configPanel.style.display = $configPanel.style.display === 'none' ? 'block' : 'none';
+  };
+
+  $applyConfig.onclick = async () => {
+    // Parse and apply configuration
+    currentConfig.slot1 = parseFilterString($pool1Config.value);
+    currentConfig.slot2 = parseFilterString($pool2Config.value);
+    currentConfig.slot3 = parseFilterString($pool3Config.value);
+    
+    log("⚙️ Configuration updated");
+    
+    // Re-run if we have files
+    if (lastProcessedFiles.length > 0) {
+      log("🔄 Re-running with new configuration...");
+      setStatus('Applying filters...', 'scanning');
+      await processFiles(lastProcessedFiles);
+      setStatus('Ready');
+    }
+    
+    $configPanel.style.display = 'none';
+  };
+
+  $resetConfig.onclick = () => {
+    $pool1Config.value = defaultFilters;
+    $pool2Config.value = defaultFilters;
+    $pool3Config.value = defaultFilters;
+    
+    currentConfig.slot1 = parseFilterString(defaultFilters);
+    currentConfig.slot2 = parseFilterString(defaultFilters);
+    currentConfig.slot3 = parseFilterString(defaultFilters);
+    
+    log("🔄 Configuration reset to defaults");
   };
 
   // Drag & drop
@@ -260,9 +813,9 @@
 
       // Analyze
       const { hits, close, totalItems } = analyzeUeSaveJson(json, {
-        slot1: DEFAULT_SLOT1,
-        slot2: DEFAULT_SLOT2,
-        slot3: DEFAULT_SLOT3,
+        slot1: currentConfig.slot1,
+        slot2: currentConfig.slot2,
+        slot3: currentConfig.slot3,
         includeWeapons: true,
         showClose: true,
         closeMinTotal: 2,

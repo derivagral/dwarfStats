@@ -1,0 +1,413 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>UE .sav → JSON + Filter (Wasm, read-only)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css">
+
+<h1>UE .sav → JSON + Filter</h1>
+
+<div class="status-bar">
+  <div class="status-indicator">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Ready</span>
+  </div>
+  <div class="platform-badge" id="platformBadge">
+    <span id="platformIcon">🌐</span>
+    <span id="platformName">Browser</span>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="control-row">
+    <button class="btn btn-primary" id="pickDir">
+      <span class="btn-icon">📁</span> Pick Folder
+    </button>
+    <button class="btn" id="startWatch">
+      <span class="btn-icon">👁️</span> Start Watching
+    </button>
+    <button class="btn" id="scanNow">
+      <span class="btn-icon">🔍</span> Scan Now
+    </button>
+    <button class="btn" id="rerunLast">
+      <span class="btn-icon">🔄</span> Re-run Last
+    </button>
+  </div>
+  <div class="control-row">
+    <button class="btn" id="clearResults">
+      <span class="btn-icon">🗑️</span> Clear Results
+    </button>
+    <button class="btn" id="toggleLog">
+      <span class="btn-icon">📋</span> Toggle Log
+    </button>
+  </div>
+</div>
+
+<input id="fileInput" type="file" webkitdirectory multiple hidden />
+
+<div id="drop">
+  <div class="drop-icon">📦</div>
+  <div class="drop-text">Drop .sav files here</div>
+</div>
+
+<div class="results-container" id="resultsContainer"></div>
+
+<pre id="log" style="display: none;"></pre>
+
+<script type="module">
+  // Import Wasm and filter
+  import init, { to_json } from './uesave-wasm/pkg/uesave_wasm.js';
+  import { analyzeUeSaveJson, DEFAULT_SLOT1, DEFAULT_SLOT2, DEFAULT_SLOT3 } from './dwarfFilter.js';
+
+  // DOM elements
+  const $log = document.getElementById('log');
+  const $statusDot = document.getElementById('statusDot');
+  const $statusText = document.getElementById('statusText');
+  const $platformBadge = document.getElementById('platformBadge');
+  const $platformIcon = document.getElementById('platformIcon');
+  const $platformName = document.getElementById('platformName');
+  const $resultsContainer = document.getElementById('resultsContainer');
+  const $pickDir = document.getElementById('pickDir');
+  const $startWatch = document.getElementById('startWatch');
+  const $scanNow = document.getElementById('scanNow');
+  const $rerunLast = document.getElementById('rerunLast');
+  const $clearResults = document.getElementById('clearResults');
+  const $toggleLog = document.getElementById('toggleLog');
+  const $input = document.getElementById('fileInput');
+  const $drop = document.getElementById('drop');
+
+  // State
+  let dirHandle = null;
+  let fileListSnapshot = [];
+  let lastProcessedFiles = [];
+  const seen = new Map();
+  const hasDirPicker = 'showDirectoryPicker' in window;
+  let timer = null;
+  const itemResults = new Map(); // Store results by filename
+
+  // Platform detection
+  function detectPlatform() {
+    const ua = navigator.userAgent;
+    if (ua.includes('Safari') && !ua.includes('Chrome')) {
+      $platformIcon.textContent = '🧭';
+      $platformName.textContent = 'Safari';
+      $startWatch.classList.add('hidden');
+    } else if (ua.includes('Firefox')) {
+      $platformIcon.textContent = '🦊';
+      $platformName.textContent = 'Firefox';
+      $startWatch.classList.add('hidden');
+    } else if (hasDirPicker) {
+      $platformIcon.textContent = '🔷';
+      $platformName.textContent = 'Chromium';
+    }
+  }
+
+  // Logging with timestamp
+  function log(...args) {
+    const time = new Date().toLocaleTimeString();
+    $log.textContent += `[${time}] ${args.join(' ')}\n`;
+    $log.scrollTop = $log.scrollHeight;
+  }
+
+  // Status updates
+  function setStatus(text, type = 'ready') {
+    $statusText.textContent = text;
+    $statusDot.className = 'status-dot';
+    if (type === 'active') $statusDot.classList.add('active');
+    if (type === 'scanning') $statusDot.classList.add('scanning');
+  }
+
+  // Initialize
+  async function initialize() {
+    await init();
+    log("✅ Wasm module loaded");
+    detectPlatform();
+    setStatus('Ready');
+  }
+
+  // Button handlers
+  $pickDir.onclick = async () => {
+    if (hasDirPicker) {
+      try {
+        dirHandle = await showDirectoryPicker({ mode: 'read' });
+        log("📁 Folder granted (Chromium)");
+        setStatus('Folder selected', 'active');
+      } catch (e) {
+        log("❌ Pick canceled:", e?.message || e);
+      }
+    } else {
+      $input.click();
+    }
+  };
+
+  $input.onchange = (e) => {
+    fileListSnapshot = Array.from(e.target.files || []);
+    log(`📁 Snapshot selected: ${fileListSnapshot.length} files`);
+    setStatus(`${fileListSnapshot.length} files selected`, 'active');
+  };
+
+  $startWatch.onclick = async () => {
+    if (!hasDirPicker) return alert("Directory watching requires Chrome/Edge/Brave.");
+    if (!dirHandle) {
+      try {
+        dirHandle = await showDirectoryPicker({ mode: 'read' });
+      } catch {
+        return;
+      }
+    }
+    if (timer) clearInterval(timer);
+    log("👁️ Watching... (poll every 10s)");
+    setStatus('Watching', 'active');
+    timer = setInterval(scanOnce, 10000);
+    await scanOnce();
+  };
+
+  $scanNow.onclick = scanOnce;
+  
+  $rerunLast.onclick = async () => {
+    if (lastProcessedFiles.length === 0) {
+      log("⚠️ No files to re-run");
+      return;
+    }
+    log(`🔄 Re-running last ${lastProcessedFiles.length} file(s)`);
+    setStatus('Re-running...', 'scanning');
+    await processFiles(lastProcessedFiles);
+    setStatus('Ready');
+  };
+
+  $clearResults.onclick = () => {
+    itemResults.clear();
+    renderResults();
+    log("🗑️ Results cleared");
+  };
+
+  $toggleLog.onclick = () => {
+    $log.style.display = $log.style.display === 'none' ? 'block' : 'none';
+  };
+
+  // Drag & drop
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    $drop.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  });
+
+  $drop.addEventListener('dragenter', () => $drop.classList.add('drag-over'));
+  $drop.addEventListener('dragleave', () => $drop.classList.remove('drag-over'));
+  
+  $drop.addEventListener('drop', async (e) => {
+    $drop.classList.remove('drag-over');
+    const files = [...e.dataTransfer.files].filter(f => /\.sav$/i.test(f.name));
+    if (!files.length) return;
+    setStatus('Processing dropped files...', 'scanning');
+    await processFiles(files);
+    setStatus('Ready');
+  });
+
+  // Scan once
+  async function scanOnce() {
+    setStatus('Scanning...', 'scanning');
+    
+    if (hasDirPicker && dirHandle) {
+      const files = [];
+      for await (const [name, handle] of dirHandle.entries()) {
+        if (!/\.sav$/i.test(name)) continue;
+        const file = await handle.getFile();
+        files.push(file);
+      }
+      if (!files.length) {
+        log("⚠️ No .sav files found");
+        setStatus('No files found');
+      } else {
+        await processFiles(files);
+      }
+    } else {
+      if (!fileListSnapshot.length) {
+        log("⚠️ No snapshot yet");
+        setStatus('No files selected');
+        return;
+      }
+      const savs = fileListSnapshot.filter(f => /\.sav$/i.test(f.name));
+      await processFiles(savs);
+    }
+    
+    setStatus('Ready');
+  }
+
+  // Process files
+  async function processFiles(files) {
+    lastProcessedFiles = files; // Store for re-run
+    
+    for (const f of files) {
+      const key = (f.webkitRelativePath || f.name) || f.name;
+      const stat = { size: f.size, mtime: f.lastModified };
+      const prev = seen.get(key);
+      
+      if (prev && prev.size === stat.size && prev.mtime === stat.mtime) continue;
+      seen.set(key, stat);
+
+      log(`📄 Converting: ${key} (${(f.size/1024).toFixed(1)} KB)`);
+      const bytes = new Uint8Array(await f.arrayBuffer());
+
+      let json;
+      try {
+        json = to_json(bytes);
+      } catch (e) {
+        console.error(e);
+        log(`❌ Conversion failed: ${e.message || e}`);
+        continue;
+      }
+
+      // Analyze
+      const { hits, close, totalItems } = analyzeUeSaveJson(json, {
+        slot1: DEFAULT_SLOT1,
+        slot2: DEFAULT_SLOT2,
+        slot3: DEFAULT_SLOT3,
+        includeWeapons: true,
+        showClose: true,
+        closeMinTotal: 2,
+        debug: false,
+      });
+
+      // Store results
+      itemResults.set(key, { hits, close, totalItems, timestamp: Date.now() });
+      
+      log(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
+      
+      // Download JSON
+      downloadText(json, f.name.replace(/\.sav$/i, ".json"));
+      
+      try {
+        await playSound();
+      } catch {}
+    }
+    
+    renderResults();
+  }
+
+  // Render results as cards
+  function renderResults() {
+    if (itemResults.size === 0) {
+      $resultsContainer.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📭</div>
+          <div>No results yet. Drop files or scan a folder to begin.</div>
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+    
+    for (const [filename, data] of itemResults) {
+      const { hits, close, totalItems, timestamp } = data;
+      
+      if (hits.length > 0) {
+        html += `
+          <div class="results-section">
+            <div class="section-header">
+              <span>✅</span>
+              <span>Matches - ${filename}</span>
+              <span style="margin-left: auto; font-size: 0.8rem; color: var(--text-secondary);">
+                ${hits.length} items
+              </span>
+            </div>
+            <div class="item-grid">
+              ${hits.map(item => createItemCard(item, 'hit')).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
+      if (close.length > 0) {
+        html += `
+          <div class="results-section">
+            <div class="section-header">
+              <span>⚡</span>
+              <span>Near Misses - ${filename}</span>
+              <span style="margin-left: auto; font-size: 0.8rem; color: var(--text-secondary);">
+                ${close.length} items
+              </span>
+            </div>
+            <div class="item-grid">
+              ${close.map(item => createItemCard(item, 'close')).join('')}
+            </div>
+          </div>
+        `;
+      }
+    }
+    
+    $resultsContainer.innerHTML = html;
+  }
+
+  // Create item card HTML
+  function createItemCard(item, type) {
+    const scoreClass = (val) => val >= 2 ? 'good' : val === 1 ? 'partial' : 'zero';
+    
+    // Get all attributes if available
+    const attrs = item.item?.all_attributes || [];
+    const attrHtml = attrs.length > 0 
+      ? `<div class="item-attributes">
+           ${attrs.map(a => `<span class="attribute-pill">${a}</span>`).join('')}
+         </div>`
+      : '';
+    
+    return `
+      <div class="item-card ${type}">
+        <div class="item-header">
+          <div class="item-name">${item.name}</div>
+          <div class="item-type">${item.type}</div>
+        </div>
+        <div class="item-scores">
+          <div class="score-badge">
+            <div class="score-label">Pool 1</div>
+            <div class="score-value ${scoreClass(item.s1)}">${item.s1}</div>
+          </div>
+          <div class="score-badge">
+            <div class="score-label">Pool 2</div>
+            <div class="score-value ${scoreClass(item.s2)}">${item.s2}</div>
+          </div>
+          <div class="score-badge">
+            <div class="score-label">Pool 3</div>
+            <div class="score-value ${scoreClass(item.s3)}">${item.s3}</div>
+          </div>
+        </div>
+        ${attrHtml}
+      </div>
+    `;
+  }
+
+  // Download helper
+  function downloadText(text, filename) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: "application/json" }));
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // Sound notification
+  async function playSound() {
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = "sine";
+    osc.frequency.value = 760;
+    gain.gain.value = 0.1;
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+    
+    setTimeout(() => {
+      osc.stop();
+      ctx.close();
+    }, 150);
+  }
+
+  // Initialize on load
+  initialize();
+</script>

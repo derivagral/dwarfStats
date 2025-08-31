@@ -540,20 +540,79 @@
   function createItemCard(item, type) {
     const scoreClass = (val) => val >= 2 ? 'good' : val === 1 ? 'partial' : 'zero';
     
-    // Get all attributes if available
-    const attrs = item.item?.all_attributes || [];
-    const attrHtml = attrs.length > 0 
-      ? `<div class="item-attributes">
-           ${attrs.map(a => {
-             // Highlight matching attributes
-             const isMatch = currentFilterPatterns.some(pattern => {
-               const regex = new RegExp(pattern.replace(/\*/g, '.*'), 'i');
-               return regex.test(a);
-             });
-             return `<span class="attribute-pill${isMatch ? ' match' : ''}">${a}</span>`;
-           }).join('')}
-         </div>`
-      : '';
+    // Helper to check if attribute matches filters
+    const isMatch = (attr) => {
+      return currentFilterPatterns.some(pattern => {
+        const regex = new RegExp(pattern.replace(/\*/g, '.*'), 'i');
+        return regex.test(attr);
+      });
+    };
+    
+    // Build pool attributes HTML
+    const pool1Attrs = item.item?.pool1_attributes || [];
+    const pool2Attrs = item.item?.pool2_attributes || [];
+    const pool3Attrs = item.item?.pool3_attributes || [];
+    const inherentAttrs = item.item?.inherent_attributes || [];
+    
+    let poolsHtml = '';
+    
+    // Pool 1
+    if (pool1Attrs.length > 0) {
+      poolsHtml += `
+        <div class="attribute-pool">
+          <div class="pool-header">Pool 1 (${pool1Attrs.length})</div>
+          <div class="pool-attributes">
+            ${pool1Attrs.map(a => 
+              `<span class="attribute-pill${isMatch(a) ? ' match' : ''}">${a}</span>`
+            ).join('')}
+          </div>
+        </div>
+      `;
+    }
+    
+    // Pool 2
+    if (pool2Attrs.length > 0) {
+      poolsHtml += `
+        <div class="attribute-pool">
+          <div class="pool-header">Pool 2 (${pool2Attrs.length})</div>
+          <div class="pool-attributes">
+            ${pool2Attrs.map(a => 
+              `<span class="attribute-pill${isMatch(a) ? ' match' : ''}">${a}</span>`
+            ).join('')}
+          </div>
+        </div>
+      `;
+    }
+    
+    // Pool 3
+    if (pool3Attrs.length > 0) {
+      poolsHtml += `
+        <div class="attribute-pool">
+          <div class="pool-header">Pool 3 (${pool3Attrs.length})</div>
+          <div class="pool-attributes">
+            ${pool3Attrs.map(a => 
+              `<span class="attribute-pill${isMatch(a) ? ' match' : ''}">${a}</span>`
+            ).join('')}
+          </div>
+        </div>
+      `;
+    }
+    
+    // Inherent attributes (if any)
+    if (inherentAttrs.length > 0) {
+      poolsHtml += `
+        <div class="attribute-pool">
+          <div class="pool-header">Inherent (${inherentAttrs.length})</div>
+          <div class="pool-attributes">
+            ${inherentAttrs.map(a => 
+              `<span class="attribute-pill inherent">${a}</span>`
+            ).join('')}
+          </div>
+        </div>
+      `;
+    }
+    
+    const attrHtml = poolsHtml ? `<div class="item-attributes">${poolsHtml}</div>` : '';
     
     return `
       <div class="item-card ${type}">

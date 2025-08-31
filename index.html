@@ -2,445 +2,7 @@
 <meta charset="utf-8" />
 <title>UE .sav → JSON + Filter (Wasm, read-only)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>
-  :root { 
-    color-scheme: light dark;
-    --bg-primary: #0a0a0a;
-    --bg-secondary: #1a1a1a;
-    --bg-tertiary: #252525;
-    --border-color: #333;
-    --text-primary: #e0e0e0;
-    --text-secondary: #999;
-    --accent: #4a9eff;
-    --success: #2aa745;
-    --warning: #e0a000;
-    --danger: #d33;
-    --card-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  }
-  
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg-primary: #ffffff;
-      --bg-secondary: #f5f5f5;
-      --bg-tertiary: #e8e8e8;
-      --border-color: #ddd;
-      --text-primary: #333;
-      --text-secondary: #666;
-      --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-  }
-  
-  * { box-sizing: border-box; }
-  
-  body { 
-    font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-    max-width: 1200px; 
-    margin: 0 auto; 
-    padding: 2rem 1rem;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-  }
-  
-  h1 { 
-    font-size: 1.5rem; 
-    margin: 0 0 1.5rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  h1::before {
-    content: "⚡";
-    font-size: 1.8rem;
-  }
-  
-  .controls {
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid var(--border-color);
-  }
-  
-  .control-row { 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 0.75rem; 
-    align-items: center;
-    margin-bottom: 0.75rem;
-  }
-  
-  .control-row:last-child { margin-bottom: 0; }
-  
-  .btn {
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  
-  .btn:hover {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-    transform: translateY(-1px);
-    box-shadow: var(--card-shadow);
-  }
-  
-  .btn:active { transform: translateY(0); }
-  
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-  
-  .btn-success {
-    background: var(--success);
-    color: white;
-    border-color: var(--success);
-  }
-  
-  .btn-icon { font-size: 1.1rem; }
-  
-  .hidden { display: none !important; }
-  
-  #drop { 
-    margin: 1.5rem 0; 
-    border: 2px dashed var(--border-color); 
-    border-radius: 12px; 
-    padding: 2rem; 
-    text-align: center;
-    background: var(--bg-secondary);
-    transition: all 0.3s;
-  }
-  
-  #drop.drag-over {
-    border-color: var(--accent);
-    background: rgba(74, 158, 255, 0.1);
-  }
-  
-  #drop .drop-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-  #drop .drop-text { color: var(--text-secondary); }
-  
-  .status-bar {
-    background: var(--bg-secondary);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-  }
-  
-  .status-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--text-secondary);
-    animation: pulse 2s infinite;
-  }
-  
-  .status-dot.active { background: var(--success); }
-  .status-dot.scanning { background: var(--warning); }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-  
-  .results-container {
-    margin-top: 1.5rem;
-  }
-  
-  .results-section {
-    margin-bottom: 2rem;
-  }
-  
-  .section-header {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .item-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1rem;
-  }
-  
-  .item-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 1rem;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .item-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--card-shadow);
-    border-color: var(--accent);
-  }
-  
-  .item-card.hit {
-    border-left: 4px solid var(--success);
-  }
-  
-  .item-card.close {
-    border-left: 4px solid var(--warning);
-    opacity: 0.85;
-  }
-  
-  .item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 0.75rem;
-  }
-  
-  .item-name {
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--text-primary);
-    flex: 1;
-  }
-  
-  .item-type {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.5rem;
-    background: var(--bg-tertiary);
-    border-radius: 4px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-  }
-  
-  .item-scores {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .score-badge {
-    flex: 1;
-    text-align: center;
-    padding: 0.5rem;
-    background: var(--bg-tertiary);
-    border-radius: 6px;
-    position: relative;
-  }
-  
-  .score-label {
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .score-value {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-  
-  .score-value.good { color: var(--success); }
-  .score-value.partial { color: var(--warning); }
-  .score-value.zero { color: var(--text-secondary); opacity: 0.5; }
-  
-  .item-attributes {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    max-height: 100px;
-    overflow-y: auto;
-    padding: 0.5rem;
-    background: var(--bg-primary);
-    border-radius: 4px;
-    margin-top: 0.5rem;
-  }
-  
-  .item-attributes::-webkit-scrollbar {
-    width: 4px;
-  }
-  
-  .item-attributes::-webkit-scrollbar-track {
-    background: var(--bg-tertiary);
-  }
-  
-  .item-attributes::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 2px;
-  }
-  
-  .attribute-pill {
-    display: inline-block;
-    padding: 0.2rem 0.4rem;
-    margin: 0.1rem;
-    background: var(--bg-tertiary);
-    border-radius: 3px;
-    font-size: 0.75rem;
-  }
-  
-  .attribute-pill.matched {
-    background: rgba(42, 167, 69, 0.2);
-    color: var(--success);
-    border: 1px solid rgba(42, 167, 69, 0.3);
-  }
-  
-  #log {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    padding: 1rem;
-    border-radius: 10px;
-    white-space: pre-wrap;
-    max-height: 300px;
-    overflow: auto;
-    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-    font-size: 0.85rem;
-    border: 1px solid var(--border-color);
-  }
-  
-  #log::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  #log::-webkit-scrollbar-track {
-    background: var(--bg-tertiary);
-  }
-  
-  #log::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 4px;
-  }
-  
-  .log-entry {
-    padding: 0.25rem 0;
-    border-bottom: 1px solid var(--border-color);
-  }
-  
-  .log-time {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-  }
-  
-  .empty-state {
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-secondary);
-  }
-  
-  .empty-state-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-  }
-  
-  .platform-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.3rem 0.6rem;
-    background: var(--bg-tertiary);
-    border-radius: 6px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-  }
-
-  .config-panel {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .config-header {
-    margin-bottom: 1.25rem;
-  }
-
-  .config-header h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .config-hint {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    display: block;
-  }
-
-  .config-inputs {
-    margin-bottom: 1.25rem;
-  }
-
-  .config-group {
-    margin-bottom: 1rem;
-  }
-
-  .config-group:last-child {
-    margin-bottom: 0;
-  }
-
-  .config-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    font-size: 0.9rem;
-  }
-
-  .config-textarea {
-    width: 100%;
-    padding: 0.75rem;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    color: var(--text-primary);
-    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-    font-size: 0.85rem;
-    resize: vertical;
-    transition: border-color 0.2s;
-  }
-
-  .config-textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-
-  .config-textarea::placeholder {
-    color: var(--text-secondary);
-    opacity: 0.6;
-  }
-
-  .config-actions {
-    display: flex;
-    gap: 0.75rem;
-  }
-</style>
+<link rel="stylesheet" href="styles.css">
 
 <h1>UE .sav → JSON + Filter</h1>
 
@@ -487,19 +49,12 @@
   <div class="config-header">
     <h3>Filter Configuration</h3>
     <span class="config-hint">Enter comma-separated attributes. Use * for wildcards (e.g., Fiery*Totem*Damage)</span>
+    <span class="config-hint" style="display: block; margin-top: 5px;">These filters will be applied to all 3 attribute pools</span>
   </div>
   <div class="config-inputs">
     <div class="config-group">
-      <label for="pool1Config">Pool 1 Attributes:</label>
-      <textarea id="pool1Config" class="config-textarea" rows="3" placeholder="Fiery*Totem*Damage, Wisdom, MageryCriticalDamage, LifeStealChance, LifeStealAmount, CriticalChance"></textarea>
-    </div>
-    <div class="config-group">
-      <label for="pool2Config">Pool 2 Attributes:</label>
-      <textarea id="pool2Config" class="config-textarea" rows="3" placeholder="Same as Pool 1 by default"></textarea>
-    </div>
-    <div class="config-group">
-      <label for="pool3Config">Pool 3 Attributes:</label>
-      <textarea id="pool3Config" class="config-textarea" rows="3" placeholder="Same as Pool 1 by default"></textarea>
+      <label for="filterConfig">Target Attributes:</label>
+      <textarea id="filterConfig" class="config-textarea" rows="3" placeholder="Fiery*Totem*Damage, Wisdom, MageryCriticalDamage, LifeStealChance, LifeStealAmount, CriticalChance"></textarea>
     </div>
   </div>
   <div class="config-actions">
@@ -540,9 +95,7 @@
   const $toggleLog = document.getElementById('toggleLog');
   const $toggleConfig = document.getElementById('toggleConfig');
   const $configPanel = document.getElementById('configPanel');
-  const $pool1Config = document.getElementById('pool1Config');
-  const $pool2Config = document.getElementById('pool2Config');
-  const $pool3Config = document.getElementById('pool3Config');
+  const $filterConfig = document.getElementById('filterConfig');
   const $applyConfig = document.getElementById('applyConfig');
   const $resetConfig = document.getElementById('resetConfig');
   const $input = document.getElementById('fileInput');
@@ -563,42 +116,20 @@
     "LifeStealChance", "LifeStealAmount", "CriticalChance"
   ].join(", ");
   
-  let currentConfig = {
-    slot1: [],
-    slot2: [],
-    slot3: []
-  };
+  let currentFilterPatterns = [];
 
-  // Convert string patterns to regex
+  // Convert string patterns to array (not regex, let the filter module handle that)
   function parseFilterString(filterStr) {
     if (!filterStr || filterStr.trim() === '') return [];
     
-    return filterStr.split(',').map(pattern => {
-      const trimmed = pattern.trim();
-      if (!trimmed) return null;
-      
-      // Replace * with .* for regex wildcard
-      const regexPattern = trimmed.replace(/\*/g, '.*');
-      try {
-        return new RegExp(regexPattern, 'i');
-      } catch (e) {
-        log(`⚠️ Invalid pattern: ${trimmed}`);
-        return null;
-      }
-    }).filter(Boolean);
+    return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
   }
 
   // Initialize configuration from defaults
   function initializeConfig() {
-    const defaultPatterns = parseFilterString(defaultFilters);
-    currentConfig.slot1 = defaultPatterns;
-    currentConfig.slot2 = [...defaultPatterns];
-    currentConfig.slot3 = [...defaultPatterns];
-    
-    // Set initial values in textareas
-    $pool1Config.value = defaultFilters;
-    $pool2Config.value = defaultFilters;
-    $pool3Config.value = defaultFilters;
+    currentFilterPatterns = parseFilterString(defaultFilters);
+    $filterConfig.value = defaultFilters;
+    log("⚙️ Filters initialized:", currentFilterPatterns.join(", "));
   }
 
   // Platform detection
@@ -613,7 +144,7 @@
       $platformName.textContent = 'Firefox';
       $startWatch.classList.add('hidden');
     } else if (hasDirPicker) {
-      $platformIcon.textContent = '🔷';
+      $platformIcon.textContent = '📷';
       $platformName.textContent = 'Chromium';
     }
   }
@@ -657,10 +188,19 @@
     }
   };
 
-  $input.onchange = (e) => {
+  $input.onchange = async (e) => {
     fileListSnapshot = Array.from(e.target.files || []);
     log(`📁 Snapshot selected: ${fileListSnapshot.length} files`);
     setStatus(`${fileListSnapshot.length} files selected`, 'active');
+    
+    // Auto-process .sav files if any were selected
+    const savs = fileListSnapshot.filter(f => /\.sav$/i.test(f.name));
+    if (savs.length > 0) {
+      log(`🔍 Auto-processing ${savs.length} .sav file(s)`);
+      setStatus('Processing...', 'scanning');
+      await processFiles(savs, false); // Don't clear previous results
+      setStatus('Ready');
+    }
   };
 
   $startWatch.onclick = async () => {
@@ -675,7 +215,7 @@
     if (timer) clearInterval(timer);
     log("👁️ Watching... (poll every 10s)");
     setStatus('Watching', 'active');
-    timer = setInterval(scanOnce, 10000);
+    timer = setInterval(() => scanOnce(), 10000);
     await scanOnce();
   };
 
@@ -686,16 +226,25 @@
       log("⚠️ No files to re-run");
       return;
     }
-    log(`🔄 Re-running last ${lastProcessedFiles.length} file(s)`);
+    log(`🔄 Re-running ${lastProcessedFiles.length} file(s)`);
     setStatus('Re-running...', 'scanning');
-    await processFiles(lastProcessedFiles);
+    
+    // Force re-processing by clearing the seen cache for these files
+    for (const file of lastProcessedFiles) {
+      const key = (file.webkitRelativePath || file.name) || file.name;
+      seen.delete(key);
+    }
+    
+    await processFiles(lastProcessedFiles, false); // Don't clear previous results
     setStatus('Ready');
   };
 
   $clearResults.onclick = () => {
     itemResults.clear();
+    lastProcessedFiles = [];
+    seen.clear();
     renderResults();
-    log("🗑️ Results cleared");
+    log("🗑️ Results and file history cleared");
   };
 
   $toggleLog.onclick = () => {
@@ -708,33 +257,50 @@
 
   $applyConfig.onclick = async () => {
     // Parse and apply configuration
-    currentConfig.slot1 = parseFilterString($pool1Config.value);
-    currentConfig.slot2 = parseFilterString($pool2Config.value);
-    currentConfig.slot3 = parseFilterString($pool3Config.value);
+    const newPatterns = parseFilterString($filterConfig.value);
     
-    log("⚙️ Configuration updated");
+    if (newPatterns.length === 0) {
+      log("⚠️ No valid filters provided, keeping current configuration");
+      return;
+    }
     
-    // Re-run if we have files
+    currentFilterPatterns = newPatterns;
+    log("⚙️ Filters updated:", currentFilterPatterns.join(", "));
+    
+    // Re-run if we have files (clear previous since filters changed)
     if (lastProcessedFiles.length > 0) {
-      log("🔄 Re-running with new configuration...");
+      log("🔄 Re-scanning with new filters...");
       setStatus('Applying filters...', 'scanning');
-      await processFiles(lastProcessedFiles);
+      await processFiles(lastProcessedFiles, true); // Clear previous results
       setStatus('Ready');
+    } else {
+      // Clear results even if no files to re-run
+      itemResults.clear();
+      renderResults();
     }
     
     $configPanel.style.display = 'none';
   };
 
-  $resetConfig.onclick = () => {
-    $pool1Config.value = defaultFilters;
-    $pool2Config.value = defaultFilters;
-    $pool3Config.value = defaultFilters;
+  $resetConfig.onclick = async () => {
+    $filterConfig.value = defaultFilters;
+    currentFilterPatterns = parseFilterString(defaultFilters);
     
-    currentConfig.slot1 = parseFilterString(defaultFilters);
-    currentConfig.slot2 = parseFilterString(defaultFilters);
-    currentConfig.slot3 = parseFilterString(defaultFilters);
+    log("🔄 Filters reset to defaults");
     
-    log("🔄 Configuration reset to defaults");
+    // Re-run if we have files (clear previous since filters changed)
+    if (lastProcessedFiles.length > 0) {
+      log("🔄 Re-scanning with default filters...");
+      setStatus('Applying default filters...', 'scanning');
+      await processFiles(lastProcessedFiles, true); // Clear previous results
+      setStatus('Ready');
+    } else {
+      // Clear results even if no files to re-run
+      itemResults.clear();
+      renderResults();
+    }
+    
+    $configPanel.style.display = 'none';
   };
 
   // Drag & drop
@@ -745,15 +311,25 @@
     });
   });
 
-  $drop.addEventListener('dragenter', () => $drop.classList.add('drag-over'));
-  $drop.addEventListener('dragleave', () => $drop.classList.remove('drag-over'));
+  ['dragenter', 'dragover'].forEach(eventName => {
+    $drop.addEventListener(eventName, () => $drop.classList.add('drag-over'));
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    $drop.addEventListener(eventName, () => $drop.classList.remove('drag-over'));
+  });
   
   $drop.addEventListener('drop', async (e) => {
     $drop.classList.remove('drag-over');
     const files = [...e.dataTransfer.files].filter(f => /\.sav$/i.test(f.name));
-    if (!files.length) return;
+    if (!files.length) {
+      log("⚠️ No .sav files in drop");
+      return;
+    }
+    log(`📦 Processing ${files.length} dropped file(s)`);
     setStatus('Processing dropped files...', 'scanning');
-    await processFiles(files);
+    
+    await processFiles(files, false); // Don't clear previous results
     setStatus('Ready');
   });
 
@@ -772,7 +348,7 @@
         log("⚠️ No .sav files found");
         setStatus('No files found');
       } else {
-        await processFiles(files);
+        await processFiles(files, false); // Don't clear previous results
       }
     } else {
       if (!fileListSnapshot.length) {
@@ -781,22 +357,43 @@
         return;
       }
       const savs = fileListSnapshot.filter(f => /\.sav$/i.test(f.name));
-      await processFiles(savs);
+      await processFiles(savs, false); // Don't clear previous results
     }
     
     setStatus('Ready');
   }
 
   // Process files
-  async function processFiles(files) {
-    lastProcessedFiles = files; // Store for re-run
+  async function processFiles(files, clearPrevious = false) {
+    // Clear previous results if requested (e.g., when filters change)
+    if (clearPrevious) {
+      itemResults.clear();
+    }
+    
+    // Update lastProcessedFiles - accumulate unless clearing
+    if (clearPrevious) {
+      lastProcessedFiles = files;
+    } else {
+      // Add new files or update existing ones
+      for (const file of files) {
+        const existingIndex = lastProcessedFiles.findIndex(f => f.name === file.name);
+        if (existingIndex >= 0) {
+          lastProcessedFiles[existingIndex] = file;
+        } else {
+          lastProcessedFiles.push(file);
+        }
+      }
+    }
     
     for (const f of files) {
       const key = (f.webkitRelativePath || f.name) || f.name;
       const stat = { size: f.size, mtime: f.lastModified };
       const prev = seen.get(key);
       
-      if (prev && prev.size === stat.size && prev.mtime === stat.mtime) continue;
+      if (prev && prev.size === stat.size && prev.mtime === stat.mtime) {
+        log(`⏭️ Skipping unchanged: ${key}`);
+        continue;
+      }
       seen.set(key, stat);
 
       log(`📄 Converting: ${key} (${(f.size/1024).toFixed(1)} KB)`);
@@ -811,28 +408,40 @@
         continue;
       }
 
-      // Analyze
-      const { hits, close, totalItems } = analyzeUeSaveJson(json, {
-        slot1: currentConfig.slot1,
-        slot2: currentConfig.slot2,
-        slot3: currentConfig.slot3,
+      // Prepare filter options - use the same patterns for all 3 slots
+      const filterOptions = {
+        slot1: currentFilterPatterns,
+        slot2: currentFilterPatterns,
+        slot3: currentFilterPatterns,
         includeWeapons: true,
         showClose: true,
         closeMinTotal: 2,
         debug: false,
-      });
+      };
 
-      // Store results
-      itemResults.set(key, { hits, close, totalItems, timestamp: Date.now() });
+      // Analyze with current filters
+      const { hits, close, totalItems } = analyzeUeSaveJson(json, filterOptions);
+
+      // Store results - this will update if file already exists
+      itemResults.set(key, { 
+        hits, 
+        close, 
+        totalItems, 
+        timestamp: Date.now(),
+        filters: [...currentFilterPatterns] // Store which filters were used
+      });
       
       log(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
       
       // Download JSON
       downloadText(json, f.name.replace(/\.sav$/i, ".json"));
       
-      try {
-        await playSound();
-      } catch {}
+      // Play sound if we found matches
+      if (hits.length > 0) {
+        try {
+          await playSound();
+        } catch {}
+      }
     }
     
     renderResults();
@@ -843,7 +452,7 @@
     if (itemResults.size === 0) {
       $resultsContainer.innerHTML = `
         <div class="empty-state">
-          <div class="empty-state-icon">📭</div>
+          <div class="empty-state-icon">🔭</div>
           <div>No results yet. Drop files or scan a folder to begin.</div>
         </div>
       `;
@@ -852,8 +461,24 @@
 
     let html = '';
     
-    for (const [filename, data] of itemResults) {
+    // Add current filter display
+    html += `
+      <div class="filter-display" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--surface-secondary); border-radius: 8px;">
+        <strong>Active Filters:</strong> ${currentFilterPatterns.join(", ")}
+        <div style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">
+          ${itemResults.size} file(s) processed | ${lastProcessedFiles.length} file(s) in memory
+        </div>
+      </div>
+    `;
+    
+    // Sort by timestamp (most recent first)
+    const sortedResults = Array.from(itemResults.entries()).sort((a, b) => 
+      b[1].timestamp - a[1].timestamp
+    );
+    
+    for (const [filename, data] of sortedResults) {
       const { hits, close, totalItems, timestamp } = data;
+      const timeStr = new Date(timestamp).toLocaleTimeString();
       
       if (hits.length > 0) {
         html += `
@@ -862,7 +487,7 @@
               <span>✅</span>
               <span>Matches - ${filename}</span>
               <span style="margin-left: auto; font-size: 0.8rem; color: var(--text-secondary);">
-                ${hits.length} items
+                ${hits.length} of ${totalItems} items | ${timeStr}
               </span>
             </div>
             <div class="item-grid">
@@ -879,11 +504,29 @@
               <span>⚡</span>
               <span>Near Misses - ${filename}</span>
               <span style="margin-left: auto; font-size: 0.8rem; color: var(--text-secondary);">
-                ${close.length} items
+                ${close.length} of ${totalItems} items | ${timeStr}
               </span>
             </div>
             <div class="item-grid">
               ${close.map(item => createItemCard(item, 'close')).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
+      // Show message if no results
+      if (hits.length === 0 && close.length === 0) {
+        html += `
+          <div class="results-section">
+            <div class="section-header">
+              <span>📭</span>
+              <span>${filename}</span>
+              <span style="margin-left: auto; font-size: 0.8rem; color: var(--text-secondary);">
+                0 matches from ${totalItems} items | ${timeStr}
+              </span>
+            </div>
+            <div style="padding: 1rem; text-align: center; color: var(--text-secondary);">
+              No items matched the current filters
             </div>
           </div>
         `;
@@ -901,7 +544,14 @@
     const attrs = item.item?.all_attributes || [];
     const attrHtml = attrs.length > 0 
       ? `<div class="item-attributes">
-           ${attrs.map(a => `<span class="attribute-pill">${a}</span>`).join('')}
+           ${attrs.map(a => {
+             // Highlight matching attributes
+             const isMatch = currentFilterPatterns.some(pattern => {
+               const regex = new RegExp(pattern.replace(/\*/g, '.*'), 'i');
+               return regex.test(a);
+             });
+             return `<span class="attribute-pill${isMatch ? ' match' : ''}">${a}</span>`;
+           }).join('')}
          </div>`
       : '';
     

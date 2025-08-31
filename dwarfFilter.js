@@ -3,7 +3,7 @@
 
 export const DEFAULT_SLOT1 = [
   /Fiery.*Totem.*Damage/i, /Wisdom/i, /MageryCriticalDamage/i, 
-  /LifeStealChance/i, /LifeStealAmount/i, /CriticalChance/i
+  /LifeStealChance/i, /LifeStealAmount/i, /\bCriticalChance%/i, /MageryCriticalChance/
 ];
 export const DEFAULT_SLOT2 = [...DEFAULT_SLOT1];
 export const DEFAULT_SLOT3 = [...DEFAULT_SLOT1];

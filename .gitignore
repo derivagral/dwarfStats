@@ -3,7 +3,7 @@ target/
 Cargo.lock
 
 # wasm-pack build artifacts (keep only pkg/)
-uesave-wasm/target/
+#uesave-wasm/target/
 
 # Test/data files (adjust as needed)
 *.sav
@@ -15,4 +15,4 @@ out.json
 .DS_Store
 
 # Keep the pkg directory
-!uesave-wasm/pkg/
+#!uesave-wasm/pkg/

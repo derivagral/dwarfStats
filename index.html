@@ -33,6 +33,9 @@
     </button>
   </div>
   <div class="control-row">
+    <button class="btn" id="downloadJson" style="display: none;">
+      <span class="btn-icon">💾</span> Download JSON
+    </button>
     <button class="btn" id="clearResults">
       <span class="btn-icon">🗑️</span> Clear Results
     </button>
@@ -94,6 +97,7 @@
   const $pickDir = document.getElementById('pickDir');
   const $startWatch = document.getElementById('startWatch');
   const $rerunLast = document.getElementById('rerunLast');
+  const $downloadJson = document.getElementById('downloadJson');
   const $clearResults = document.getElementById('clearResults');
   const $toggleLog = document.getElementById('toggleLog');
   const $toggleConfig = document.getElementById('toggleConfig');
@@ -108,6 +112,7 @@
   // State
   let dirHandle = null;
   let lastProcessedFiles = [];
+  let lastJsonData = new Map(); // Store JSON data for each file
   const seen = new Map();
   const hasDirPicker = 'showDirectoryPicker' in window;
   let timer = null;
@@ -116,7 +121,7 @@
   // Configuration state
   const defaultFilters = [
     "Fiery*Totem*Damage", "Wisdom", "MageryCriticalDamage", "MageryCriticalChance",
-    "\bLifeSteal\b", "LifeStealAmount", "\bCriticalChance"
+    "LifeSteal", "LifeStealAmount", "CriticalChance"
   ].join(", ");
   
   let currentFilterPatterns = [];
@@ -295,11 +300,27 @@
     setStatus('Ready');
   };
 
+  $downloadJson.onclick = () => {
+    if (lastJsonData.size === 0) {
+      log("⚠️ No JSON data to download");
+      return;
+    }
+    
+    // Download all JSON files
+    for (const [filename, json] of lastJsonData) {
+      const jsonFilename = filename.replace(/\.sav$/i, ".json");
+      downloadText(json, jsonFilename);
+      log(`💾 Downloaded: ${jsonFilename}`);
+    }
+  };
+
   $clearResults.onclick = () => {
     itemResults.clear();
     lastProcessedFiles = [];
+    lastJsonData.clear();
     seen.clear();
     renderResults();
+    $downloadJson.style.display = 'none';
     log("🗑️ Results and file history cleared");
   };
 
@@ -429,6 +450,7 @@
   async function processFiles(files, clearPrevious = false) {
     if (clearPrevious) {
       itemResults.clear();
+      lastJsonData.clear();
     }
     
     if (clearPrevious) {
@@ -481,10 +503,13 @@
         filters: [...currentFilterPatterns]
       });
       
+      // Store JSON data for later download
+      lastJsonData.set(key, json);
+      
       log(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
       
-      // Download JSON
-      downloadText(json, f.name.replace(/\.sav$/i, ".json"));
+      // Show download button
+      $downloadJson.style.display = 'inline-flex';
       
       // Play sound if we found matches
       if (hits.length > 0) {

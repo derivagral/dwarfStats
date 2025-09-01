@@ -19,14 +19,14 @@
 
 <div class="controls">
   <div class="control-row">
-    <button class="btn btn-primary" id="pickDir">
+    <button class="btn btn-primary" id="pickFile">
+      <span class="btn-icon">📄</span> Pick .sav File
+    </button>
+    <button class="btn" id="pickDir" style="display: none;">
       <span class="btn-icon">📁</span> Pick Folder
     </button>
-    <button class="btn" id="startWatch">
+    <button class="btn" id="startWatch" style="display: none;">
       <span class="btn-icon">👁️</span> Start Watching
-    </button>
-    <button class="btn" id="scanNow">
-      <span class="btn-icon">🔍</span> Scan Now
     </button>
     <button class="btn" id="rerunLast">
       <span class="btn-icon">🔄</span> Re-run Last
@@ -63,11 +63,14 @@
   </div>
 </div>
 
-<input id="fileInput" type="file" webkitdirectory multiple hidden />
+<!-- Single file input for .sav files -->
+<input id="fileInput" type="file" accept=".sav" hidden />
+<!-- Directory input for Chromium folder selection fallback -->
+<input id="dirInput" type="file" webkitdirectory multiple hidden />
 
 <div id="drop">
   <div class="drop-icon">📦</div>
-  <div class="drop-text">Drop .sav files here</div>
+  <div class="drop-text">Drop .sav files here or use the Pick button above</div>
 </div>
 
 <div class="results-container" id="resultsContainer"></div>
@@ -87,9 +90,9 @@
   const $platformIcon = document.getElementById('platformIcon');
   const $platformName = document.getElementById('platformName');
   const $resultsContainer = document.getElementById('resultsContainer');
+  const $pickFile = document.getElementById('pickFile');
   const $pickDir = document.getElementById('pickDir');
   const $startWatch = document.getElementById('startWatch');
-  const $scanNow = document.getElementById('scanNow');
   const $rerunLast = document.getElementById('rerunLast');
   const $clearResults = document.getElementById('clearResults');
   const $toggleLog = document.getElementById('toggleLog');
@@ -98,12 +101,12 @@
   const $filterConfig = document.getElementById('filterConfig');
   const $applyConfig = document.getElementById('applyConfig');
   const $resetConfig = document.getElementById('resetConfig');
-  const $input = document.getElementById('fileInput');
+  const $fileInput = document.getElementById('fileInput');
+  const $dirInput = document.getElementById('dirInput');
   const $drop = document.getElementById('drop');
 
   // State
   let dirHandle = null;
-  let fileListSnapshot = [];
   let lastProcessedFiles = [];
   const seen = new Map();
   const hasDirPicker = 'showDirectoryPicker' in window;
@@ -113,7 +116,7 @@
   // Configuration state
   const defaultFilters = [
     "Fiery*Totem*Damage", "Wisdom", "MageryCriticalDamage", "MageryCriticalChance",
-    "\bLifeSteal\b", "LifeStealAmount", "\bCriticalChance%"
+    "\bLifeSteal\b", "LifeStealAmount", "\bCriticalChance"
   ].join(", ");
   
   let currentFilterPatterns = [];
@@ -132,20 +135,28 @@
     log("⚙️ Filters initialized:", currentFilterPatterns.join(", "));
   }
 
-  // Platform detection
+  // Platform detection and UI adjustment
   function detectPlatform() {
     const ua = navigator.userAgent;
+    const isChromium = hasDirPicker;
+    
     if (ua.includes('Safari') && !ua.includes('Chrome')) {
       $platformIcon.textContent = '🧭';
       $platformName.textContent = 'Safari';
-      $startWatch.classList.add('hidden');
     } else if (ua.includes('Firefox')) {
       $platformIcon.textContent = '🦊';
       $platformName.textContent = 'Firefox';
-      $startWatch.classList.add('hidden');
-    } else if (hasDirPicker) {
-      $platformIcon.textContent = '📷';
+    } else if (isChromium) {
+      $platformIcon.textContent = '⚡';
       $platformName.textContent = 'Chromium';
+      // Show advanced features for Chromium
+      $pickDir.style.display = 'inline-flex';
+      $startWatch.style.display = 'inline-flex';
+    }
+    
+    // Adjust help text based on browser
+    if (!isChromium) {
+      $drop.querySelector('.drop-text').textContent = 'Drop .sav files here or click "Pick .sav File" above';
     }
   }
 
@@ -174,33 +185,69 @@
   }
 
   // Button handlers
+  $pickFile.onclick = () => {
+    $fileInput.click();
+  };
+
   $pickDir.onclick = async () => {
     if (hasDirPicker) {
       try {
         dirHandle = await showDirectoryPicker({ mode: 'read' });
         log("📁 Folder granted (Chromium)");
         setStatus('Folder selected', 'active');
+        
+        // Auto-scan the folder once
+        await scanOnce();
       } catch (e) {
         log("❌ Pick canceled:", e?.message || e);
       }
     } else {
-      $input.click();
+      // Fallback to directory input (shouldn't happen as button is hidden)
+      $dirInput.click();
     }
   };
 
-  $input.onchange = async (e) => {
-    fileListSnapshot = Array.from(e.target.files || []);
-    log(`📁 Snapshot selected: ${fileListSnapshot.length} files`);
-    setStatus(`${fileListSnapshot.length} files selected`, 'active');
+  // Single file selection handler
+  $fileInput.onchange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
     
-    // Auto-process .sav files if any were selected
-    const savs = fileListSnapshot.filter(f => /\.sav$/i.test(f.name));
-    if (savs.length > 0) {
-      log(`🔍 Auto-processing ${savs.length} .sav file(s)`);
-      setStatus('Processing...', 'scanning');
-      await processFiles(savs, false); // Don't clear previous results
-      setStatus('Ready');
+    if (!/\.sav$/i.test(file.name)) {
+      log("⚠️ Selected file is not a .sav file");
+      setStatus('Invalid file type');
+      return;
     }
+    
+    log(`📄 Selected: ${file.name} (${(file.size/1024).toFixed(1)} KB)`);
+    setStatus('Processing...', 'scanning');
+    
+    await processFiles([file], false);
+    setStatus('Ready');
+    
+    // Clear the input so the same file can be selected again
+    $fileInput.value = '';
+  };
+
+  // Directory input handler (fallback, shouldn't be used)
+  $dirInput.onchange = async (e) => {
+    const files = Array.from(e.target.files || []);
+    const savFiles = files.filter(f => /\.sav$/i.test(f.name));
+    
+    if (savFiles.length === 0) {
+      log("⚠️ No .sav files found in folder");
+      setStatus('No .sav files found');
+      return;
+    }
+    
+    // Sort by last modified and take the most recent
+    savFiles.sort((a, b) => b.lastModified - a.lastModified);
+    const mostRecent = savFiles[0];
+    
+    log(`📁 Found ${savFiles.length} .sav files, using most recent: ${mostRecent.name}`);
+    setStatus('Processing...', 'scanning');
+    
+    await processFiles([mostRecent], false);
+    setStatus('Ready');
   };
 
   $startWatch.onclick = async () => {
@@ -212,15 +259,24 @@
         return;
       }
     }
-    if (timer) clearInterval(timer);
-    log("👁️ Watching... (poll every 10s)");
-    setStatus('Watching', 'active');
-    timer = setInterval(() => scanOnce(), 10000);
-    await scanOnce();
+    
+    if (timer) {
+      // Stop watching
+      clearInterval(timer);
+      timer = null;
+      log("⏹️ Stopped watching");
+      setStatus('Ready');
+      $startWatch.innerHTML = '<span class="btn-icon">👁️</span> Start Watching';
+    } else {
+      // Start watching
+      log("👁️ Watching... (poll every 10s)");
+      setStatus('Watching', 'active');
+      $startWatch.innerHTML = '<span class="btn-icon">⏹️</span> Stop Watching';
+      timer = setInterval(() => scanOnce(), 10000);
+      await scanOnce();
+    }
   };
 
-  $scanNow.onclick = scanOnce;
-  
   $rerunLast.onclick = async () => {
     if (lastProcessedFiles.length === 0) {
       log("⚠️ No files to re-run");
@@ -235,7 +291,7 @@
       seen.delete(key);
     }
     
-    await processFiles(lastProcessedFiles, false); // Don't clear previous results
+    await processFiles(lastProcessedFiles, false);
     setStatus('Ready');
   };
 
@@ -256,7 +312,6 @@
   };
 
   $applyConfig.onclick = async () => {
-    // Parse and apply configuration
     const newPatterns = parseFilterString($filterConfig.value);
     
     if (newPatterns.length === 0) {
@@ -267,14 +322,12 @@
     currentFilterPatterns = newPatterns;
     log("⚙️ Filters updated:", currentFilterPatterns.join(", "));
     
-    // Re-run if we have files (clear previous since filters changed)
     if (lastProcessedFiles.length > 0) {
       log("🔄 Re-scanning with new filters...");
       setStatus('Applying filters...', 'scanning');
-      await processFiles(lastProcessedFiles, true); // Clear previous results
+      await processFiles(lastProcessedFiles, true);
       setStatus('Ready');
     } else {
-      // Clear results even if no files to re-run
       itemResults.clear();
       renderResults();
     }
@@ -288,14 +341,12 @@
     
     log("🔄 Filters reset to defaults");
     
-    // Re-run if we have files (clear previous since filters changed)
     if (lastProcessedFiles.length > 0) {
       log("🔄 Re-scanning with default filters...");
       setStatus('Applying default filters...', 'scanning');
-      await processFiles(lastProcessedFiles, true); // Clear previous results
+      await processFiles(lastProcessedFiles, true);
       setStatus('Ready');
     } else {
-      // Clear results even if no files to re-run
       itemResults.clear();
       renderResults();
     }
@@ -329,52 +380,60 @@
     log(`📦 Processing ${files.length} dropped file(s)`);
     setStatus('Processing dropped files...', 'scanning');
     
-    await processFiles(files, false); // Don't clear previous results
+    await processFiles(files, false);
     setStatus('Ready');
   });
 
-  // Scan once
+  // Scan once (for folder watching)
   async function scanOnce() {
+    if (!hasDirPicker || !dirHandle) return;
+    
     setStatus('Scanning...', 'scanning');
     
-    if (hasDirPicker && dirHandle) {
-      const files = [];
-      for await (const [name, handle] of dirHandle.entries()) {
-        if (!/\.sav$/i.test(name)) continue;
-        const file = await handle.getFile();
-        files.push(file);
-      }
-      if (!files.length) {
-        log("⚠️ No .sav files found");
-        setStatus('No files found');
-      } else {
-        await processFiles(files, false); // Don't clear previous results
-      }
-    } else {
-      if (!fileListSnapshot.length) {
-        log("⚠️ No snapshot yet");
-        setStatus('No files selected');
-        return;
-      }
-      const savs = fileListSnapshot.filter(f => /\.sav$/i.test(f.name));
-      await processFiles(savs, false); // Don't clear previous results
+    const files = [];
+    for await (const [name, handle] of dirHandle.entries()) {
+      if (!/\.sav$/i.test(name)) continue;
+      const file = await handle.getFile();
+      files.push(file);
     }
     
-    setStatus('Ready');
+    if (!files.length) {
+      log("⚠️ No .sav files found");
+      setStatus('No files found');
+      return;
+    }
+    
+    // Process only changed files
+    const changedFiles = [];
+    for (const file of files) {
+      const key = file.name;
+      const stat = { size: file.size, mtime: file.lastModified };
+      const prev = seen.get(key);
+      
+      if (!prev || prev.size !== stat.size || prev.mtime !== stat.mtime) {
+        changedFiles.push(file);
+      }
+    }
+    
+    if (changedFiles.length > 0) {
+      log(`📂 Found ${changedFiles.length} new/changed file(s)`);
+      await processFiles(changedFiles, false);
+    } else {
+      log("⏭️ No changes detected");
+    }
+    
+    setStatus('Watching', 'active');
   }
 
   // Process files
   async function processFiles(files, clearPrevious = false) {
-    // Clear previous results if requested (e.g., when filters change)
     if (clearPrevious) {
       itemResults.clear();
     }
     
-    // Update lastProcessedFiles - accumulate unless clearing
     if (clearPrevious) {
       lastProcessedFiles = files;
     } else {
-      // Add new files or update existing ones
       for (const file of files) {
         const existingIndex = lastProcessedFiles.findIndex(f => f.name === file.name);
         if (existingIndex >= 0) {
@@ -388,12 +447,6 @@
     for (const f of files) {
       const key = (f.webkitRelativePath || f.name) || f.name;
       const stat = { size: f.size, mtime: f.lastModified };
-      const prev = seen.get(key);
-      
-      if (prev && prev.size === stat.size && prev.mtime === stat.mtime) {
-        log(`⏭️ Skipping unchanged: ${key}`);
-        continue;
-      }
       seen.set(key, stat);
 
       log(`📄 Converting: ${key} (${(f.size/1024).toFixed(1)} KB)`);
@@ -408,7 +461,6 @@
         continue;
       }
 
-      // Prepare filter options - use the same patterns for all 3 slots
       const filterOptions = {
         slot1: currentFilterPatterns,
         slot2: currentFilterPatterns,
@@ -419,16 +471,14 @@
         debug: false,
       };
 
-      // Analyze with current filters
       const { hits, close, totalItems } = analyzeUeSaveJson(json, filterOptions);
 
-      // Store results - this will update if file already exists
       itemResults.set(key, { 
         hits, 
         close, 
         totalItems, 
         timestamp: Date.now(),
-        filters: [...currentFilterPatterns] // Store which filters were used
+        filters: [...currentFilterPatterns]
       });
       
       log(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
@@ -453,7 +503,7 @@
       $resultsContainer.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">🔭</div>
-          <div>No results yet. Drop files or scan a folder to begin.</div>
+          <div>No results yet. Select a .sav file or drop one here to begin.</div>
         </div>
       `;
       return;
@@ -461,9 +511,8 @@
 
     let html = '';
     
-    // Add current filter display
     html += `
-      <div class="filter-display" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--surface-secondary); border-radius: 8px;">
+      <div class="filter-display">
         <strong>Active Filters:</strong> ${currentFilterPatterns.join(", ")}
         <div style="margin-top: 0.5rem; font-size: 0.9em; color: var(--text-secondary);">
           ${itemResults.size} file(s) processed | ${lastProcessedFiles.length} file(s) in memory
@@ -471,7 +520,6 @@
       </div>
     `;
     
-    // Sort by timestamp (most recent first)
     const sortedResults = Array.from(itemResults.entries()).sort((a, b) => 
       b[1].timestamp - a[1].timestamp
     );
@@ -514,7 +562,6 @@
         `;
       }
       
-      // Show message if no results
       if (hits.length === 0 && close.length === 0) {
         html += `
           <div class="results-section">
@@ -540,7 +587,6 @@
   function createItemCard(item, type) {
     const scoreClass = (val) => val >= 2 ? 'good' : val === 1 ? 'partial' : 'zero';
     
-    // Helper to check if attribute matches filters
     const isMatch = (attr) => {
       return currentFilterPatterns.some(pattern => {
         const regex = new RegExp(pattern.replace(/\*/g, '.*'), 'i');
@@ -548,7 +594,6 @@
       });
     };
     
-    // Build pool attributes HTML
     const pool1Attrs = item.item?.pool1_attributes || [];
     const pool2Attrs = item.item?.pool2_attributes || [];
     const pool3Attrs = item.item?.pool3_attributes || [];
@@ -556,7 +601,6 @@
     
     let poolsHtml = '';
     
-    // Pool 1
     if (pool1Attrs.length > 0) {
       poolsHtml += `
         <div class="attribute-pool">
@@ -570,7 +614,6 @@
       `;
     }
     
-    // Pool 2
     if (pool2Attrs.length > 0) {
       poolsHtml += `
         <div class="attribute-pool">
@@ -584,7 +627,6 @@
       `;
     }
     
-    // Pool 3
     if (pool3Attrs.length > 0) {
       poolsHtml += `
         <div class="attribute-pool">
@@ -598,7 +640,6 @@
       `;
     }
     
-    // Inherent attributes (if any)
     if (inherentAttrs.length > 0) {
       poolsHtml += `
         <div class="attribute-pool">

@@ -121,7 +121,7 @@
   // Configuration state
   const defaultFilters = [
     "Fiery*Totem*Damage", "Wisdom", "MageryCriticalDamage", "MageryCriticalChance",
-    "LifeSteal", "LifeStealAmount", "CriticalChance"
+    "\bLifeSteal\b", "LifeStealAmount", "\bCriticalChance"
   ].join(", ");
   
   let currentFilterPatterns = [];

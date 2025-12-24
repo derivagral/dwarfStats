@@ -1,5 +1,5 @@
 import { React, html } from "./lib/html.js";
-import { createRoot } from "https://esm.sh/react-dom@18/client";
+import { createRoot } from "https://esm.sh/react-dom@18/client?dev";
 import { initializeApp } from "./appLogic.js";
 import { StatusBar } from "./components/StatusBar.js";
 import { TabNavigation } from "./components/TabNavigation.js";

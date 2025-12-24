@@ -22,7 +22,7 @@ function App() {
       <${StatusBar} />
       <${TabNavigation} />
       <input id="fileInput" type="file" accept=".sav" hidden />
-      <input id="dirInput" type="file" webkitdirectory multiple hidden />
+      <input id="dirInput" type="file" webkitdirectory="true" multiple hidden />
       <${CharacterTab} />
       <${FilterTab} />
       <${LogPanel} />

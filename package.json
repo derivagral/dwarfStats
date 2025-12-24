@@ -1,0 +1,12 @@
+{
+  "name": "dwarf-stats",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.46.0"
+  },
+  "scripts": {
+    "serve": "npx http-server . -p 4173",
+    "test:e2e": "npx http-server . -p 4173 & npx playwright test"
+  }
+}

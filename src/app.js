@@ -1,5 +1,4 @@
-import { React, html } from "./lib/html.js";
-import { createRoot } from "https://esm.sh/react-dom@18/client?dev";
+import { React, esmDevSuffix, html } from "./lib/html.js";
 import { initializeApp } from "./appLogic.js";
 import { StatusBar } from "./components/StatusBar.js";
 import { TabNavigation } from "./components/TabNavigation.js";
@@ -7,6 +6,9 @@ import { CharacterTab } from "./components/CharacterTab.js";
 import { FilterTab } from "./components/FilterTab.js";
 import { LogPanel } from "./components/LogPanel.js";
 
+const { createRoot } = await import(
+  `https://esm.sh/react-dom@18/client${esmDevSuffix}`
+);
 const { useEffect } = React;
 
 function App() {

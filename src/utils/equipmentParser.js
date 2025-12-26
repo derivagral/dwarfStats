@@ -56,14 +56,7 @@ const SLOT_MAPPING = {
   ancient: 'fossil',
   heart: 'fossil',
 
-  // Dragon/Pet (check before offhand) - Equipment_Pet_Fire/Arcane/Lightning
-  dragon: 'dragon',
-  pet: 'dragon',
-  arcane: 'dragon',
-  lightning: 'dragon',
-  fire: 'dragon',
-
-  // Offhand items (goblets, horns, trinkets, belts)
+  // Offhand items (goblets, horns, trinkets, belts) - must come before vague keywords
   goblet: 'offhand',
   horn: 'offhand',
   trinket: 'offhand',
@@ -158,8 +151,22 @@ function determineSlot(itemRow) {
 
   const lowerRow = itemRow.toLowerCase();
 
+  // Check for dragon/pet first with specific pattern (e.g., Equipment_Pet_Fire)
+  if (lowerRow.includes('equipment_pet_') || lowerRow.includes('_pet_')) {
+    return 'dragon';
+  }
+
+  // Check for fossil with specific pattern (e.g., Equipment_Dwarven_Heart)
+  if (lowerRow.includes('dwarven') && lowerRow.includes('heart')) {
+    return 'fossil';
+  }
+
   // Check each slot mapping
   for (const [keyword, slot] of Object.entries(SLOT_MAPPING)) {
+    // Skip these vague keywords that need specific patterns above
+    if (['fossil', 'artifact', 'ancient', 'heart'].includes(keyword)) {
+      continue;
+    }
     if (lowerRow.includes(keyword)) {
       return slot;
     }

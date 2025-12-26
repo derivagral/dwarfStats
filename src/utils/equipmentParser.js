@@ -1,7 +1,10 @@
 // Equipment parser - extracts and processes equipped items from save data
-// Similar to dwarfFilter.js but specifically for EquipmentItems
+// Similar to dwarfFilter.js but specifically for EquipmentItems and HotbarItems
+
+import { getDisplayName, formatAttributeValue } from './attributeDisplay.js';
 
 const EQUIPMENT_ITEMS_PATTERN = /EquipmentItems_\d+_[A-F0-9]+_0/i;
+const HOTBAR_ITEMS_PATTERN = /HotbarItems_\d+_[A-F0-9]+_0/i;
 
 // Map item row names to equipment slots
 const SLOT_MAPPING = {
@@ -26,13 +29,17 @@ const SLOT_MAPPING = {
   boots: 'boots',
   feet: 'boots',
 
-  // Weapon
+  // Weapon - 8 weapon/stance types
   weapon: 'weapon',
   sword: 'weapon',
   axe: 'weapon',
   bow: 'weapon',
   staff: 'weapon',
   wand: 'weapon',
+  mace: 'weapon',
+  maul: 'weapon',
+  dagger: 'weapon',
+  spear: 'weapon',
 
   // Neck
   amulet: 'neck',
@@ -205,18 +212,22 @@ function processEquippedItem(itemStruct) {
 }
 
 // Extract all equipped items from save data
+// Note: Equipment can come from two sources:
+// 1. EquipmentItems_* - armor, accessories, relics, etc.
+// 2. HotbarItems_* - weapons (modern game stores weapons here)
 export function extractEquippedItems(saveData) {
   if (!saveData || typeof saveData !== "object") return [];
 
   const equippedItems = [];
 
-  // Traverse the save data to find EquipmentItems arrays
+  // Traverse the save data to find EquipmentItems and HotbarItems arrays
   function traverse(node, path = []) {
     if (!node || typeof node !== "object") return;
 
     for (const [key, value] of Object.entries(node)) {
-      if (EQUIPMENT_ITEMS_PATTERN.test(key)) {
-        // Found equipment array
+      // Check for both EquipmentItems and HotbarItems patterns
+      if (EQUIPMENT_ITEMS_PATTERN.test(key) || HOTBAR_ITEMS_PATTERN.test(key)) {
+        // Found equipment or hotbar array
         const array = value?.Array?.Struct?.value;
         if (Array.isArray(array)) {
           for (const wrapper of array) {
@@ -226,7 +237,8 @@ export function extractEquippedItems(saveData) {
             }
           }
         }
-        return; // Don't traverse deeper once we find equipment
+        // Continue traversing for other equipment arrays
+        continue;
       }
 
       // Continue traversing
@@ -303,8 +315,9 @@ export function logEquipmentCompressed(equippedItems) {
   for (const item of equippedItems) {
     const topAttrs = item.attributes.slice(0, 3);
     const attrSummary = topAttrs.map(a => {
-      const shortName = a.name.split('.').pop();
-      return `${shortName}: ${typeof a.value === 'number' ? a.value.toFixed(2) : a.value}`;
+      const displayName = getDisplayName(a.name);
+      const displayValue = formatAttributeValue(a.value, a.name);
+      return `${displayName}: ${displayValue}`;
     }).join(', ');
 
     console.log(`[${item.slot.toUpperCase()}] ${item.name}`);

@@ -1,5 +1,6 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { getDisplayName, formatAttributeValue } from '../../utils/attributeDisplay';
 
 export function ItemDetailTooltip({
   item,
@@ -126,14 +127,12 @@ export function ItemDetailTooltip({
         <div className="tooltip-attributes">
           <div className="tooltip-section-title">Attributes</div>
           {itemData.attributes.map((attr, i) => {
-            const shortName = attr.name.split('.').pop();
-            const displayValue = typeof attr.value === 'number'
-              ? attr.value.toFixed(2)
-              : attr.value;
+            const displayName = getDisplayName(attr.name);
+            const displayValue = formatAttributeValue(attr.value, attr.name);
 
             return (
               <div key={i} className="tooltip-attribute">
-                <span className="attr-name">{shortName}</span>
+                <span className="attr-name">{displayName}</span>
                 <span className="attr-value">{displayValue}</span>
               </div>
             );

@@ -16,7 +16,20 @@ export function useFileProcessor() {
     try {
       const bytes = new Uint8Array(await file.arrayBuffer());
       const json = await convertSavToJson(bytes);
-      return { json, parsed: JSON.parse(json), filename: file.name };
+      const parsed = JSON.parse(json);
+
+      // Pretty-print decoded JSON to console for dev experience
+      console.group(`📦 Decoded Save File: ${file.name}`);
+      console.log('Raw JSON String Length:', json.length);
+      console.log('Parsed Object:', parsed);
+
+      // Pretty-print the JSON with color formatting
+      console.log('%c' + JSON.stringify(parsed, null, 2),
+        'color: #4a9eff; font-family: monospace; font-size: 11px;');
+
+      console.groupEnd();
+
+      return { json, parsed, filename: file.name };
     } catch (e) {
       setError(e.message || 'Conversion failed');
       throw e;

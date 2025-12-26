@@ -1,6 +1,8 @@
 // Equipment parser - extracts and processes equipped items from save data
 // Similar to dwarfFilter.js but specifically for EquipmentItems and HotbarItems
 
+import { getDisplayName, formatAttributeValue } from './attributeDisplay.js';
+
 const EQUIPMENT_ITEMS_PATTERN = /EquipmentItems_\d+_[A-F0-9]+_0/i;
 const HOTBAR_ITEMS_PATTERN = /HotbarItems_\d+_[A-F0-9]+_0/i;
 
@@ -313,8 +315,9 @@ export function logEquipmentCompressed(equippedItems) {
   for (const item of equippedItems) {
     const topAttrs = item.attributes.slice(0, 3);
     const attrSummary = topAttrs.map(a => {
-      const shortName = a.name.split('.').pop();
-      return `${shortName}: ${typeof a.value === 'number' ? a.value.toFixed(2) : a.value}`;
+      const displayName = getDisplayName(a.name);
+      const displayValue = formatAttributeValue(a.value, a.name);
+      return `${displayName}: ${displayValue}`;
     }).join(', ');
 
     console.log(`[${item.slot.toUpperCase()}] ${item.name}`);

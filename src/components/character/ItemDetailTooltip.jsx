@@ -2,7 +2,8 @@ import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 
 export function ItemDetailTooltip({ item, visible, slotRef }) {
   const tooltipRef = useRef(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [position, setPosition] = useState({ top: -9999, left: -9999 });
+  const [isPositioned, setIsPositioned] = useState(false);
   const [showAbove, setShowAbove] = useState(false);
 
   const calculatePosition = () => {
@@ -51,24 +52,41 @@ export function ItemDetailTooltip({ item, visible, slotRef }) {
       }
 
       setPosition({ top, left });
+      setIsPositioned(true);
       return true;
     }
     return false;
   };
 
   useLayoutEffect(() => {
-    calculatePosition();
+    if (visible) {
+      // Reset positioning state when showing
+      setIsPositioned(false);
+      setPosition({ top: -9999, left: -9999 });
+
+      // Use requestAnimationFrame to ensure DOM has been laid out
+      const rafId = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          calculatePosition();
+        });
+      });
+
+      return () => cancelAnimationFrame(rafId);
+    } else {
+      setIsPositioned(false);
+      setPosition({ top: -9999, left: -9999 });
+    }
   }, [visible, item]);
 
   // Fallback: recalculate after a brief delay if initial calculation failed
   useEffect(() => {
-    if (visible) {
+    if (visible && !isPositioned) {
       const timer = setTimeout(() => {
         calculatePosition();
-      }, 10);
+      }, 50);
       return () => clearTimeout(timer);
     }
-  }, [visible, item]);
+  }, [visible, item, isPositioned]);
 
   if (!visible || !item || !item.item) return null;
 
@@ -82,7 +100,8 @@ export function ItemDetailTooltip({ item, visible, slotRef }) {
         position: 'fixed',
         top: `${position.top}px`,
         left: `${position.left}px`,
-        visibility: position.top === 0 && position.left === 0 ? 'hidden' : 'visible',
+        opacity: isPositioned ? 1 : 0,
+        transition: 'opacity 0.1s ease-in',
       }}
     >
       <div className="tooltip-header">

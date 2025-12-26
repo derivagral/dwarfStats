@@ -4,9 +4,8 @@ import { CharacterPanel } from './CharacterPanel';
 import { useFileProcessor } from '../../hooks/useFileProcessor';
 import { hasDirPicker } from '../../utils/platform';
 
-export function CharacterTab({ onLog, onStatusChange }) {
-  const [characterData, setCharacterData] = useState(null);
-  const [showFileControls, setShowFileControls] = useState(true);
+export function CharacterTab({ onLog, onStatusChange, saveData, onSaveDataChange }) {
+  const [showFileControls, setShowFileControls] = useState(!saveData);
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
 
@@ -16,7 +15,7 @@ export function CharacterTab({ onLog, onStatusChange }) {
       onLog(`🧙 Loading character: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`);
 
       const result = await processFile(file);
-      setCharacterData({
+      onSaveDataChange({
         filename: result.filename,
         raw: result.parsed,
         equippedItems: result.equippedItems || [],
@@ -33,7 +32,7 @@ export function CharacterTab({ onLog, onStatusChange }) {
       onLog(`❌ ${e.message}`);
       onStatusChange('Error', 'ready');
     }
-  }, [processFile, onLog, onStatusChange]);
+  }, [processFile, onLog, onStatusChange, onSaveDataChange]);
 
   const handleFileDrop = useCallback((files) => {
     if (files.length > 0) {
@@ -83,10 +82,10 @@ export function CharacterTab({ onLog, onStatusChange }) {
   }, [handleFileSelect, onLog, onStatusChange]);
 
   const handleClear = useCallback(() => {
-    setCharacterData(null);
+    onSaveDataChange(null);
     setShowFileControls(true);
     onLog('🗑️ Character data cleared');
-  }, [onLog]);
+  }, [onLog, onSaveDataChange]);
 
   return (
     <div className="tab-content active">
@@ -98,7 +97,7 @@ export function CharacterTab({ onLog, onStatusChange }) {
         onChange={handleFileInputChange}
       />
 
-      {characterData && !showFileControls && (
+      {saveData && !showFileControls && (
         <div className="controls" style={{ padding: '0.75rem 1.25rem' }}>
           <div className="control-row" style={{ marginBottom: 0 }}>
             <Button icon="🗑️" onClick={handleClear}>
@@ -111,7 +110,7 @@ export function CharacterTab({ onLog, onStatusChange }) {
         </div>
       )}
 
-      {(!characterData || showFileControls) && (
+      {(!saveData || showFileControls) && (
         <>
           <div className="controls">
             <div className="control-row">
@@ -121,7 +120,7 @@ export function CharacterTab({ onLog, onStatusChange }) {
               <Button icon="📁" onClick={handlePickDir} hidden={!hasDirPicker()} disabled={isProcessing}>
                 Pick Folder
               </Button>
-              {characterData && (
+              {saveData && (
                 <Button icon="🗑️" onClick={handleClear}>
                   Clear
                 </Button>
@@ -137,8 +136,8 @@ export function CharacterTab({ onLog, onStatusChange }) {
         </>
       )}
 
-      {characterData ? (
-        <CharacterPanel characterData={characterData} />
+      {saveData ? (
+        <CharacterPanel characterData={saveData} />
       ) : (
         <div className="placeholder-message">
           <div className="placeholder-icon">📦</div>

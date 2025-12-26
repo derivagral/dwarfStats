@@ -20,6 +20,7 @@ export default function App() {
   const [platform, setPlatform] = useState({ icon: '🌐', name: 'Browser', isChromium: false });
   const [logVisible, setLogVisible] = useState(false);
   const [wasmReady, setWasmReady] = useState(false);
+  const [saveData, setSaveData] = useState(null);
   const { logs, log } = useLogger();
 
   // Initialize WASM and detect platform
@@ -61,13 +62,23 @@ export default function App() {
       {wasmReady && (
         <>
           {activeTab === 'character' && (
-            <CharacterTab onLog={log} onStatusChange={handleStatusChange} />
+            <CharacterTab
+              onLog={log}
+              onStatusChange={handleStatusChange}
+              saveData={saveData}
+              onSaveDataChange={setSaveData}
+            />
           )}
           {activeTab === 'filter' && (
             <FilterTab onLog={log} onStatusChange={handleStatusChange} />
           )}
           {activeTab === 'stats' && (
-            <StatsTab onLog={log} onStatusChange={handleStatusChange} />
+            <StatsTab
+              onLog={log}
+              onStatusChange={handleStatusChange}
+              saveData={saveData}
+              onSaveDataChange={setSaveData}
+            />
           )}
         </>
       )}

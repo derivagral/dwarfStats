@@ -106,6 +106,9 @@ export function ItemDetailTooltip({
       className="item-tooltip"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onWheel={(event) => {
+        event.stopPropagation();
+      }}
       style={{
         position: 'fixed',
         top: `${position.top}px`,

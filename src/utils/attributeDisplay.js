@@ -1,12 +1,12 @@
 // Attribute display mapping - transforms technical save data attribute names
 // into user-friendly display names for tooltips and UI
 
-// Map of full attribute paths (or partial matches) to display names
+// Map of attribute path patterns to display names
+// Patterns can be:
+// - Full paths: "FieryTotem.DamageMultiplier"
+// - Single segments: "Wisdom%"
+// - The matcher will try to match against the tail of the full path
 const ATTRIBUTE_DISPLAY_MAP = {
-  // Base damage
-  'Damage': 'Damage',
-  'Base.Damage': 'Base Damage',
-
   // Weapon-specific damage types
   'Magery.Damage': 'Magery Damage',
   'MageryDamage%': 'Magery Damage %',
@@ -68,6 +68,14 @@ const ATTRIBUTE_DISPLAY_MAP = {
   'CriticalChance%': 'Critical Chance %',
 
   // Characteristics/Stats
+  'Characteristics.Strength': 'Strength',
+  'Characteristics.Strength%': 'Strength %',
+  'Characteristics.Dexterity': 'Dexterity',
+  'Characteristics.Dexterity%': 'Dexterity %',
+  'Characteristics.Wisdom': 'Wisdom',
+  'Characteristics.Wisdom%': 'Wisdom %',
+  'Characteristics.Vitality': 'Vitality',
+  'Characteristics.Vitality%': 'Vitality %',
   'Strength': 'Strength',
   'Strength%': 'Strength %',
   'Dexterity': 'Dexterity',
@@ -90,12 +98,25 @@ const ATTRIBUTE_DISPLAY_MAP = {
   'Health%': 'Health %',
   'MaxHealth': 'Max Health',
 
-  // Ability-specific attributes
+  // Ability-specific attributes (multi-segment paths)
+  'Abilities.ChainLightning.DamageMultiplier': 'Chain Lightning Damage x',
+  'ChainLightning.DamageMultiplier': 'Chain Lightning Damage x',
   'ChainLightningDamage': 'Chain Lightning Damage',
-  'FieryTotemDamage': 'Fiery Totem Damage',
+
+  'Abilities.FieryTotem.DamageMultiplier': 'Fiery Totem Damage x',
   'FieryTotem.DamageMultiplier': 'Fiery Totem Damage x',
+  'Abilities.FieryTotem.Modifier.DamageBonus': 'Fiery Totem Damage Bonus',
   'FieryTotem.Modifier.DamageBonus': 'Fiery Totem Damage Bonus',
+  'FieryTotemDamage': 'Fiery Totem Damage',
+
+  'Abilities.DragonFlame.DamageMultiplier': 'Dragon Flame Damage x',
+  'DragonFlame.DamageMultiplier': 'Dragon Flame Damage x',
+  'DragonFlame.DamageMulxtiplier': 'Dragon Flame Damage x', // Handle typo in game data
+  'Abilities.DragonFlame.DamageMulxtiplier': 'Dragon Flame Damage x', // Handle typo in game data
   'DragonFlameDamage': 'Dragon Flame Damage',
+
+  'Abilities.EnemyDeath.DamageMultiplier': 'Enemy Death Damage x',
+  'EnemyDeath.DamageMultiplier': 'Enemy Death Damage x',
   'EnemyDeathDamage': 'Enemy Death Damage',
 
   // Other
@@ -104,6 +125,9 @@ const ATTRIBUTE_DISPLAY_MAP = {
   'Charges': 'Charges',
   'ItemTier': 'Item Tier',
 };
+
+// Pre-compute sorted patterns (longest first for better matching)
+const SORTED_PATTERNS = Object.keys(ATTRIBUTE_DISPLAY_MAP).sort((a, b) => b.length - a.length);
 
 // Extract the most relevant part of an attribute name for fallback display
 function extractFallbackName(fullName) {
@@ -123,6 +147,29 @@ function extractFallbackName(fullName) {
   return parts[parts.length - 1];
 }
 
+// Extract the meaningful tail of an attribute path
+// E.g., "EasyRPG.Attributes.Abilities.DragonFlame.DamageMultiplier" -> "DragonFlame.DamageMultiplier"
+function extractAttributeTail(fullName) {
+  if (!fullName) return fullName;
+
+  // Remove common prefixes
+  const prefixesToStrip = [
+    'EasyRPG.Attributes.Abilities.',
+    'EasyRPG.Attributes.DamageSystem.',
+    'EasyRPG.Attributes.Characteristics.',
+    'EasyRPG.Attributes.Base.',
+    'EasyRPG.Attributes.',
+  ];
+
+  for (const prefix of prefixesToStrip) {
+    if (fullName.startsWith(prefix)) {
+      return fullName.substring(prefix.length);
+    }
+  }
+
+  return fullName;
+}
+
 // Transform an attribute name for display
 export function getDisplayName(attributeName) {
   if (!attributeName) return 'Unknown';
@@ -132,22 +179,32 @@ export function getDisplayName(attributeName) {
     return ATTRIBUTE_DISPLAY_MAP[attributeName];
   }
 
-  // Try to find a partial match by checking if the attribute ends with a known pattern
-  for (const [pattern, displayName] of Object.entries(ATTRIBUTE_DISPLAY_MAP)) {
-    if (attributeName.endsWith(pattern)) {
-      return displayName;
+  // Extract the meaningful tail (strip common prefixes)
+  const tail = extractAttributeTail(attributeName);
+
+  // Try exact match on the tail
+  if (tail !== attributeName && ATTRIBUTE_DISPLAY_MAP[tail]) {
+    return ATTRIBUTE_DISPLAY_MAP[tail];
+  }
+
+  // Try matching patterns in order from longest to shortest (more specific first)
+  // This ensures "DragonFlame.DamageMultiplier" matches before "DamageMultiplier"
+  for (const pattern of SORTED_PATTERNS) {
+    // Check if tail ends with the pattern (for multi-segment matches)
+    if (tail.endsWith(pattern)) {
+      return ATTRIBUTE_DISPLAY_MAP[pattern];
     }
   }
 
-  // Try to find a partial match by checking if the attribute contains the pattern
-  for (const [pattern, displayName] of Object.entries(ATTRIBUTE_DISPLAY_MAP)) {
-    if (attributeName.includes(pattern)) {
-      return displayName;
+  // Try contains matching as last resort (case-sensitive)
+  for (const pattern of SORTED_PATTERNS) {
+    if (tail.includes(pattern)) {
+      return ATTRIBUTE_DISPLAY_MAP[pattern];
     }
   }
 
   // Fallback: extract a reasonable name from the path
-  return extractFallbackName(attributeName);
+  return extractFallbackName(tail);
 }
 
 // Format an attribute value for display

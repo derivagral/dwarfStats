@@ -6,6 +6,7 @@ export function InventorySlot({ label, name, type, empty = false, item = null })
   const [isTooltipHovered, setIsTooltipHovered] = useState(false);
   const slotRef = useRef(null);
   const closeTimeoutRef = useRef(null);
+  const hoverStateRef = useRef({ slot: false, tooltip: false });
   const showTooltip = isSlotHovered || isTooltipHovered;
 
   return (
@@ -17,12 +18,16 @@ export function InventorySlot({ label, name, type, empty = false, item = null })
           clearTimeout(closeTimeoutRef.current);
           closeTimeoutRef.current = null;
         }
+        hoverStateRef.current.slot = true;
         setIsSlotHovered(true);
       }}
       onMouseLeave={() => {
+        hoverStateRef.current.slot = false;
         closeTimeoutRef.current = setTimeout(() => {
-          setIsSlotHovered(false);
-        }, 150);
+          if (!hoverStateRef.current.tooltip) {
+            setIsSlotHovered(false);
+          }
+        }, 250);
       }}
     >
       {label && <div className="slot-label">{label}</div>}
@@ -39,12 +44,16 @@ export function InventorySlot({ label, name, type, empty = false, item = null })
               clearTimeout(closeTimeoutRef.current);
               closeTimeoutRef.current = null;
             }
+            hoverStateRef.current.tooltip = true;
             setIsTooltipHovered(true);
           }}
           onMouseLeave={() => {
+            hoverStateRef.current.tooltip = false;
             closeTimeoutRef.current = setTimeout(() => {
-              setIsTooltipHovered(false);
-            }, 150);
+              if (!hoverStateRef.current.slot) {
+                setIsTooltipHovered(false);
+              }
+            }, 250);
           }}
         />
       )}

@@ -1,38 +1,55 @@
 import React from 'react';
 import { InventorySlot } from './InventorySlot';
+import { mapItemsToSlots } from '../../utils/equipmentParser';
 
 export function CharacterPanel({ characterData }) {
   if (!characterData) return null;
 
   const baseName = characterData.filename.replace(/\.sav$/i, '');
 
+  // Map equipped items to their slots
+  const equippedItems = characterData.equippedItems || [];
+  const slotMap = mapItemsToSlots(equippedItems);
+
+  // Helper to create slot data
+  const createSlot = (label, slotKey) => {
+    const item = slotMap[slotKey];
+    return {
+      label,
+      name: item ? item.name : 'Empty',
+      type: item ? item.itemType : '',
+      empty: !item,
+      item: item || null
+    };
+  };
+
   // Left side equipment slots
   const leftSlots = [
-    { label: 'Head', name: 'Empty', type: '', empty: true },
-    { label: 'Chest', name: 'Empty', type: '', empty: true },
-    { label: 'Hands', name: 'Empty', type: '', empty: true },
-    { label: 'Pants', name: 'Empty', type: '', empty: true },
-    { label: 'Boots', name: 'Empty', type: '', empty: true },
+    createSlot('Head', 'head'),
+    createSlot('Chest', 'chest'),
+    createSlot('Hands', 'hands'),
+    createSlot('Pants', 'pants'),
+    createSlot('Boots', 'boots'),
   ];
 
   // Right side equipment slots
   const rightSlots = [
-    { label: 'Neck', name: 'Empty', type: '', empty: true },
-    { label: 'Bracer', name: 'Empty', type: '', empty: true },
-    { label: 'Ring', name: 'Empty', type: '', empty: true },
-    { label: 'Ring', name: 'Empty', type: '', empty: true },
-    { label: 'Relic', name: 'Empty', type: '', empty: true },
+    createSlot('Neck', 'neck'),
+    createSlot('Bracer', 'bracer'),
+    createSlot('Ring', 'ring1'),
+    createSlot('Ring', 'ring2'),
+    createSlot('Relic', 'relic'),
   ];
 
   // Center weapon slot
-  const weaponSlot = { label: 'Weapon', name: 'Empty', type: '', empty: true };
+  const weaponSlot = createSlot('Weapon', 'weapon');
 
   // Bottom offhand slots (4 slots with fixed stats)
   const offhandSlots = [
-    { label: 'Offhand 1', name: 'Empty', type: '', empty: true },
-    { label: 'Offhand 2', name: 'Empty', type: '', empty: true },
-    { label: 'Offhand 3', name: 'Empty', type: '', empty: true },
-    { label: 'Offhand 4', name: 'Empty', type: '', empty: true },
+    createSlot('Offhand 1', 'offhand1'),
+    createSlot('Offhand 2', 'offhand2'),
+    createSlot('Offhand 3', 'offhand3'),
+    createSlot('Offhand 4', 'offhand4'),
   ];
 
   return (
@@ -52,6 +69,7 @@ export function CharacterPanel({ characterData }) {
               name={slot.name}
               type={slot.type}
               empty={slot.empty}
+              item={slot.item}
             />
           ))}
         </div>
@@ -66,6 +84,7 @@ export function CharacterPanel({ characterData }) {
             name={weaponSlot.name}
             type={weaponSlot.type}
             empty={weaponSlot.empty}
+            item={weaponSlot.item}
           />
         </div>
 
@@ -78,6 +97,7 @@ export function CharacterPanel({ characterData }) {
               name={slot.name}
               type={slot.type}
               empty={slot.empty}
+              item={slot.item}
             />
           ))}
         </div>
@@ -94,6 +114,7 @@ export function CharacterPanel({ characterData }) {
               name={slot.name}
               type={slot.type}
               empty={slot.empty}
+              item={slot.item}
             />
           ))}
         </div>

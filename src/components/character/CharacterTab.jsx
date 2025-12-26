@@ -18,10 +18,14 @@ export function CharacterTab({ onLog, onStatusChange }) {
       setCharacterData({
         filename: result.filename,
         raw: result.parsed,
+        equippedItems: result.equippedItems || [],
         timestamp: Date.now()
       });
 
       onLog('✅ Character file loaded successfully');
+      if (result.equippedItems && result.equippedItems.length > 0) {
+        onLog(`📦 Found ${result.equippedItems.length} equipped items`);
+      }
       onStatusChange('Ready', 'ready');
     } catch (e) {
       onLog(`❌ ${e.message}`);

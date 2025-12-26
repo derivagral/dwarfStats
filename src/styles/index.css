@@ -660,6 +660,87 @@ h1::before {
   color: var(--text-secondary);
 }
 
+/* Item Tooltip */
+.inventory-slot {
+  position: relative;
+}
+
+.item-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.5rem;
+  min-width: 250px;
+  max-width: 350px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem;
+  z-index: 1000;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
+.tooltip-header {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tooltip-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+.tooltip-type {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.tooltip-section-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.tooltip-attributes {
+  margin-bottom: 0.75rem;
+}
+
+.tooltip-attribute {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  font-size: 0.85rem;
+}
+
+.tooltip-attribute .attr-name {
+  color: var(--text-primary);
+}
+
+.tooltip-attribute .attr-value {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.tooltip-footer {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.tooltip-item-row {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+  word-break: break-all;
+}
+
 /* Responsive adjustments for equipment layout */
 @media (max-width: 900px) {
   .equipment-layout {

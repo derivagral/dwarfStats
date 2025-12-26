@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { convertSavToJson } from '../utils/wasm';
+import { extractEquippedItems, logEquipmentCompressed } from '../utils/equipmentParser';
 
 export function useFileProcessor() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -29,7 +30,13 @@ export function useFileProcessor() {
 
       console.groupEnd();
 
-      return { json, parsed, filename: file.name };
+      // Extract and log equipped items in compressed format
+      const equippedItems = extractEquippedItems(parsed);
+      if (equippedItems.length > 0) {
+        logEquipmentCompressed(equippedItems);
+      }
+
+      return { json, parsed, filename: file.name, equippedItems };
     } catch (e) {
       setError(e.message || 'Conversion failed');
       throw e;

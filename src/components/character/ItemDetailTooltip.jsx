@@ -1,7 +1,13 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-export function ItemDetailTooltip({ item, visible, slotRef }) {
+export function ItemDetailTooltip({
+  item,
+  visible,
+  slotRef,
+  onMouseEnter,
+  onMouseLeave,
+}) {
   const tooltipRef = useRef(null);
   const [position, setPosition] = useState({ top: -9999, left: -9999 });
   const [isPositioned, setIsPositioned] = useState(false);
@@ -98,6 +104,11 @@ export function ItemDetailTooltip({ item, visible, slotRef }) {
     <div
       ref={tooltipRef}
       className="item-tooltip"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onWheel={(event) => {
+        event.stopPropagation();
+      }}
       style={{
         position: 'fixed',
         top: `${position.top}px`,

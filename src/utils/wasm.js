@@ -7,7 +7,7 @@ export async function initWasm() {
 
   if (!initPromise) {
     initPromise = (async () => {
-      const wasm = await import('/uesave-wasm/pkg/uesave_wasm.js');
+      const wasm = await import('../../uesave-wasm/pkg/uesave_wasm.js');
       await wasm.default();
       wasmModule = wasm;
       return wasm;

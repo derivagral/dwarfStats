@@ -93,6 +93,20 @@ h1::before {
 
 .btn:active { transform: translateY(0); }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn:disabled:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  transform: none;
+  box-shadow: none;
+}
+
 .btn-primary {
   background: var(--accent);
   color: white;
@@ -109,7 +123,7 @@ h1::before {
 
 .hidden { display: none !important; }
 
-#drop, #dropChar {
+.drop-zone {
   margin: 1.5rem 0;
   border: 2px dashed var(--border-color);
   border-radius: 12px;
@@ -119,13 +133,27 @@ h1::before {
   transition: all 0.3s;
 }
 
-#drop.drag-over, #dropChar.drag-over {
+.drop-zone.drag-over {
   border-color: var(--accent);
   background: rgba(74, 158, 255, 0.1);
 }
 
-#drop .drop-icon, #dropChar .drop-icon { font-size: 2rem; margin-bottom: 0.5rem; }
-#drop .drop-text, #dropChar .drop-text { color: var(--text-secondary); }
+.drop-zone .drop-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.drop-zone .drop-text { color: var(--text-secondary); }
+
+.log-panel {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 1rem;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  max-height: 300px;
+  overflow: auto;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  font-size: 0.85rem;
+  border: 1px solid var(--border-color);
+  margin-top: 1rem;
+}
 
 .status-bar {
   background: var(--bg-secondary);
@@ -341,40 +369,17 @@ h1::before {
   font-style: italic;
 }
 
-#log {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  padding: 1rem;
-  border-radius: 10px;
-  white-space: pre-wrap;
-  max-height: 300px;
-  overflow: auto;
-  font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-  font-size: 0.85rem;
-  border: 1px solid var(--border-color);
-}
-
-#log::-webkit-scrollbar {
+.log-panel::-webkit-scrollbar {
   width: 8px;
 }
 
-#log::-webkit-scrollbar-track {
+.log-panel::-webkit-scrollbar-track {
   background: var(--bg-tertiary);
 }
 
-#log::-webkit-scrollbar-thumb {
+.log-panel::-webkit-scrollbar-thumb {
   background: var(--border-color);
   border-radius: 4px;
-}
-
-.log-entry {
-  padding: 0.25rem 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.log-time {
-  color: var(--text-secondary);
-  font-size: 0.8rem;
 }
 
 .empty-state {

@@ -16,3 +16,8 @@ out.json
 
 # Keep the pkg directory
 #!uesave-wasm/pkg/
+
+# Node.js
+node_modules/
+dist/
+.vite/

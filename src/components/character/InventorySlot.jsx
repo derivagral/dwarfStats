@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ItemDetailTooltip } from './ItemDetailTooltip';
 
 export function InventorySlot({ label, name, type, empty = false, item = null }) {
   const [showTooltip, setShowTooltip] = useState(false);
+  const slotRef = useRef(null);
 
   return (
     <div
+      ref={slotRef}
       className={`inventory-slot${empty ? ' empty' : ''}`}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
@@ -18,6 +20,7 @@ export function InventorySlot({ label, name, type, empty = false, item = null })
         <ItemDetailTooltip
           item={{ item }}
           visible={showTooltip}
+          slotRef={slotRef}
         />
       )}
     </div>

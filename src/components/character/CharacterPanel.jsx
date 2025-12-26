@@ -41,7 +41,8 @@ export function CharacterPanel({ characterData }) {
     createSlot('Relic', 'relic'),
   ];
 
-  // Center weapon slot
+  // Center slots
+  const fossilSlot = createSlot('Fossil', 'fossil');
   const weaponSlot = createSlot('Weapon', 'weapon');
 
   // Bottom offhand slots (4 slots with fixed stats)
@@ -74,8 +75,15 @@ export function CharacterPanel({ characterData }) {
           ))}
         </div>
 
-        {/* Center character and weapon */}
+        {/* Center character, fossil, and weapon */}
         <div className="equipment-column equipment-center">
+          <InventorySlot
+            label={fossilSlot.label}
+            name={fossilSlot.name}
+            type={fossilSlot.type}
+            empty={fossilSlot.empty}
+            item={fossilSlot.item}
+          />
           <div className="character-model">
             <div className="character-avatar">🧙</div>
           </div>

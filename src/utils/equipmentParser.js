@@ -50,6 +50,9 @@ const SLOT_MAPPING = {
   shield: 'relic',
   relic: 'relic',
 
+  // Fossil
+  fossil: 'fossil',
+
   // Offhand items (goblets, horns, trinkets, pets, belts)
   goblet: 'offhand',
   horn: 'offhand',
@@ -236,6 +239,7 @@ export function mapItemsToSlots(equippedItems) {
     ring1: null,
     ring2: null,
     relic: null,
+    fossil: null,
     offhand1: null,
     offhand2: null,
     offhand3: null,

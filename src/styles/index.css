@@ -542,6 +542,7 @@ h1::before {
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 1.5rem;
+  padding-bottom: 2.5rem;
   margin-bottom: 1.5rem;
 }
 
@@ -663,21 +664,21 @@ h1::before {
 /* Item Tooltip */
 .inventory-slot {
   position: relative;
+  z-index: 1;
+}
+
+.inventory-slot:hover {
+  z-index: 50;
 }
 
 .item-tooltip {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 0.5rem;
   min-width: 250px;
   max-width: 350px;
   background: var(--bg-secondary);
   border: 2px solid var(--accent);
   border-radius: 8px;
   padding: 1rem;
-  z-index: 1000;
+  z-index: 9999;
   box-shadow: 0 8px 16px rgba(0,0,0,0.5);
   pointer-events: none;
 }

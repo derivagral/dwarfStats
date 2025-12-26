@@ -1,4 +1,5 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 export function ItemDetailTooltip({ item, visible, slotRef }) {
   const tooltipRef = useRef(null);
@@ -89,10 +90,11 @@ export function ItemDetailTooltip({ item, visible, slotRef }) {
   }, [visible, item, isPositioned]);
 
   if (!visible || !item || !item.item) return null;
+  if (typeof document === 'undefined') return null;
 
   const itemData = item.item;
 
-  return (
+  return createPortal(
     <div
       ref={tooltipRef}
       className="item-tooltip"
@@ -133,6 +135,7 @@ export function ItemDetailTooltip({ item, visible, slotRef }) {
           <div className="tooltip-item-row">{itemData.itemRow}</div>
         </div>
       )}
-    </div>
+    </div>,
+    document.body
   );
 }

@@ -10,9 +10,45 @@ const ATTRIBUTE_DISPLAY_MAP = {
   // Weapon-specific damage types
   'Magery.Damage': 'Magery Damage',
   'MageryDamage%': 'Magery Damage %',
-  'Damage.Magery.CriticalDamage%': 'Magery Crit Damage %',
+  'Damage.Magery.CriticalDamage%': 'Magery Critical Damage %',
   'MageryCriticalDamage%': 'Magery Crit Damage %',
   'MageryCriticalChance%': 'Magery Crit Chance %',
+
+  'Mauls.Damage': 'Mauls Damage',
+  'MaulsDamage%': 'Mauls Damage %',
+  'Damage.Mauls.CriticalDamage%': 'Mauls Critical Damage %',
+  'MaulsCriticalDamage%': 'Mauls Crit Damage %',
+  'MaulsCriticalChance%': 'Mauls Crit Chance %',
+
+  'Archery.Damage': 'Archery Damage',
+  'ArcheryDamage%': 'Archery Damage %',
+  'Damage.Archery.CriticalDamage%': 'Archery Critical Damage %',
+  'ArcheryCriticalDamage%': 'Archery Crit Damage %',
+  'ArcheryCriticalChance%': 'Archery Crit Chance %',
+
+  'Unarmed.Damage': 'Unarmed Damage',
+  'UnarmedDamage%': 'Unarmed Damage %',
+  'Damage.Unarmed.CriticalDamage%': 'Unarmed Critical Damage %',
+  'UnarmedCriticalDamage%': 'Unarmed Crit Damage %',
+  'UnarmedCriticalChance%': 'Unarmed Crit Chance %',
+
+  'Sword.Damage': 'Sword Damage',
+  'SwordDamage%': 'Sword Damage %',
+  'Damage.Sword.CriticalDamage%': 'Sword Critical Damage %',
+  'SwordCriticalDamage%': 'Sword Crit Damage %',
+  'SwordCriticalChance%': 'Sword Crit Chance %',
+
+  'Spear.Damage': 'Spear Damage',
+  'SpearDamage%': 'Spear Damage %',
+  'Damage.Spear.CriticalDamage%': 'Spear Critical Damage %',
+  'SpearCriticalDamage%': 'Spear Crit Damage %',
+  'SpearCriticalChance%': 'Spear Crit Chance %',
+
+  'Scythes.Damage': 'Scythes Damage',
+  'ScythesDamage%': 'Scythes Damage %',
+  'Damage.Scythes.CriticalDamage%': 'Scythes Critical Damage %',
+  'ScythesCriticalDamage%': 'Scythes Crit Damage %',
+  'ScythesCriticalChance%': 'Scythes Crit Chance %',
 
   'Melee.Damage': 'Melee Damage',
   'MeleeDamage%': 'Melee Damage %',
@@ -27,7 +63,7 @@ const ATTRIBUTE_DISPLAY_MAP = {
   'RangedCriticalChance%': 'Ranged Crit Chance %',
 
   // Generic critical stats
-  'CriticalDamage': 'Critical Damage',
+  'CriticalDamage': 'Critical Damage %',
   'CriticalDamage%': 'Critical Damage %',
   'CriticalChance%': 'Critical Chance %',
 
@@ -38,8 +74,14 @@ const ATTRIBUTE_DISPLAY_MAP = {
   'Dexterity%': 'Dexterity %',
   'Wisdom': 'Wisdom',
   'Wisdom%': 'Wisdom %',
-  'Vitality': 'Vitality',
-  'Vitality%': 'Vitality %',
+  'Luck': 'Luck',
+  'Luck%': 'Luck %',
+  'Agility': 'Agility',
+  'Agility%': 'Agility %',
+  'Stamina': 'Stamina',
+  'Stamina%': 'Stamina %',
+  'Endurance': 'Endurance',
+  'Endurance%': 'Endurance %',
 
   // Defensive stats
   'armor': 'Armor',

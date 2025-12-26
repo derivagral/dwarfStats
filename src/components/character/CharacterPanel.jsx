@@ -45,7 +45,9 @@ export function CharacterPanel({ characterData }) {
   const fossilSlot = createSlot('Fossil', 'fossil');
   const weaponSlot = createSlot('Weapon', 'weapon');
 
-  // Bottom offhand slots (4 slots with fixed stats)
+  // Bottom slots - dragon/pet and offhand items
+  const dragonSlot = createSlot('Dragon', 'dragon');
+
   const offhandSlots = [
     createSlot('Offhand 1', 'offhand1'),
     createSlot('Offhand 2', 'offhand2'),
@@ -111,10 +113,17 @@ export function CharacterPanel({ characterData }) {
         </div>
       </div>
 
-      {/* Bottom offhand slots */}
+      {/* Bottom dragon and offhand slots */}
       <div className="equipment-section">
         <div className="section-title">Offhand Equipment</div>
         <div className="offhand-grid">
+          <InventorySlot
+            label={dragonSlot.label}
+            name={dragonSlot.name}
+            type={dragonSlot.type}
+            empty={dragonSlot.empty}
+            item={dragonSlot.item}
+          />
           {offhandSlots.map((slot, i) => (
             <InventorySlot
               key={`offhand-${i}`}

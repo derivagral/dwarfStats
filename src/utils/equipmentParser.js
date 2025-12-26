@@ -50,14 +50,19 @@ const SLOT_MAPPING = {
   shield: 'relic',
   relic: 'relic',
 
-  // Fossil
+  // Fossil (check before offhand) - add common variations
   fossil: 'fossil',
+  artifact: 'fossil',
+  ancient: 'fossil',
 
-  // Offhand items (goblets, horns, trinkets, pets, belts)
+  // Dragon/Pet (check before offhand)
+  dragon: 'dragon',
+  pet: 'dragon',
+
+  // Offhand items (goblets, horns, trinkets, belts)
   goblet: 'offhand',
   horn: 'offhand',
   trinket: 'offhand',
-  pet: 'offhand',
   belt: 'offhand',
   waistband: 'offhand',
   heart: 'offhand',
@@ -240,6 +245,7 @@ export function mapItemsToSlots(equippedItems) {
     ring2: null,
     relic: null,
     fossil: null,
+    dragon: null,
     offhand1: null,
     offhand2: null,
     offhand3: null,
@@ -292,8 +298,8 @@ export function logEquipmentCompressed(equippedItems) {
     }).join(', ');
 
     console.log(`[${item.slot.toUpperCase()}] ${item.name}`);
-    console.log(`  Type: ${item.itemType} | Attrs: ${attrSummary}`);
-    console.log(`  (${item.attributes.length} total attributes)`);
+    console.log(`  Type: ${item.itemType} | Row: ${item.itemRow}`);
+    console.log(`  Attrs: ${attrSummary} (${item.attributes.length} total)`);
   }
 
   console.groupEnd();

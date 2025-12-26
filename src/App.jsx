@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { StatusBar, TabNavigation, LogPanel } from './components/common';
 import { CharacterTab } from './components/character';
 import { FilterTab } from './components/filter';
+import { StatsTab } from './components/stats';
 import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
@@ -9,6 +10,7 @@ import { useLogger } from './hooks/useLogger';
 const TABS = [
   { id: 'character', label: 'Character', icon: '🧙' },
   { id: 'filter', label: 'Filter', icon: '🔍' },
+  { id: 'stats', label: 'Stats', icon: '📊' },
 ];
 
 export default function App() {
@@ -63,6 +65,9 @@ export default function App() {
           )}
           {activeTab === 'filter' && (
             <FilterTab onLog={log} onStatusChange={handleStatusChange} />
+          )}
+          {activeTab === 'stats' && (
+            <StatsTab onLog={log} onStatusChange={handleStatusChange} />
           )}
         </>
       )}

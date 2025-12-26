@@ -50,14 +50,18 @@ const SLOT_MAPPING = {
   shield: 'relic',
   relic: 'relic',
 
-  // Fossil (check before offhand) - add common variations
+  // Fossil (check before offhand) - Equipment_Dwarven_Heart
   fossil: 'fossil',
   artifact: 'fossil',
   ancient: 'fossil',
+  heart: 'fossil',
 
-  // Dragon/Pet (check before offhand)
+  // Dragon/Pet (check before offhand) - Equipment_Pet_Fire/Arcane/Lightning
   dragon: 'dragon',
   pet: 'dragon',
+  arcane: 'dragon',
+  lightning: 'dragon',
+  fire: 'dragon',
 
   // Offhand items (goblets, horns, trinkets, belts)
   goblet: 'offhand',
@@ -65,7 +69,6 @@ const SLOT_MAPPING = {
   trinket: 'offhand',
   belt: 'offhand',
   waistband: 'offhand',
-  heart: 'offhand',
 };
 
 // Extract item row name from ItemHandle structure

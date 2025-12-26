@@ -10,10 +10,12 @@ export function ItemDetailTooltip({ item, visible, slotRef }) {
       const slotRect = slotRef.current.getBoundingClientRect();
       const tooltipRect = tooltipRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
 
       // Check if there's enough space below
       const spaceBelow = viewportHeight - slotRect.bottom;
       const tooltipHeight = tooltipRect.height || 300; // estimated height
+      const tooltipWidth = tooltipRect.width || 300;
 
       // Position above if less than 350px space below
       const shouldShowAbove = spaceBelow < 350;
@@ -26,12 +28,21 @@ export function ItemDetailTooltip({ item, visible, slotRef }) {
         top = slotRect.bottom + 8;
       }
 
-      left = slotRect.left + (slotRect.width / 2) - (tooltipRect.width / 2);
+      // Try to center tooltip on the slot
+      left = slotRect.left + (slotRect.width / 2) - (tooltipWidth / 2);
 
       // Ensure tooltip doesn't go off screen horizontally
-      if (left < 10) left = 10;
-      if (left + tooltipRect.width > window.innerWidth - 10) {
-        left = window.innerWidth - tooltipRect.width - 10;
+      const padding = 10;
+      if (left < padding) {
+        left = padding;
+      }
+      if (left + tooltipWidth > viewportWidth - padding) {
+        left = viewportWidth - tooltipWidth - padding;
+      }
+
+      // If tooltip would still overflow, position it to the left of the slot
+      if (left + tooltipWidth > viewportWidth - padding && slotRect.left > tooltipWidth + padding) {
+        left = slotRect.left - tooltipWidth - 8;
       }
 
       setPosition({ top, left });

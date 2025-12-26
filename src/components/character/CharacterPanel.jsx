@@ -11,11 +11,25 @@ export function CharacterPanel({ characterData }) {
   const equippedItems = characterData.equippedItems || [];
   const slotMap = mapItemsToSlots(equippedItems);
 
+  // Helper to determine offhand label from item
+  const getOffhandLabel = (item) => {
+    if (!item || !item.itemRow) return 'Offhand';
+
+    const lowerRow = item.itemRow.toLowerCase();
+    if (lowerRow.includes('belt')) return 'Belt';
+    if (lowerRow.includes('goblet')) return 'Goblet';
+    if (lowerRow.includes('horn')) return 'Horn';
+    if (lowerRow.includes('relic')) return 'Relic';
+    if (lowerRow.includes('trinket')) return 'Trinket';
+    return 'Offhand';
+  };
+
   // Helper to create slot data
-  const createSlot = (label, slotKey) => {
+  const createSlot = (label, slotKey, isDynamic = false) => {
     const item = slotMap[slotKey];
+    const finalLabel = isDynamic && item ? getOffhandLabel(item) : label;
     return {
-      label,
+      label: finalLabel,
       name: item ? item.name : 'Empty',
       type: item ? item.itemType : '',
       empty: !item,
@@ -49,10 +63,10 @@ export function CharacterPanel({ characterData }) {
   const dragonSlot = createSlot('Dragon', 'dragon');
 
   const offhandSlots = [
-    createSlot('Offhand 1', 'offhand1'),
-    createSlot('Offhand 2', 'offhand2'),
-    createSlot('Offhand 3', 'offhand3'),
-    createSlot('Offhand 4', 'offhand4'),
+    createSlot('Offhand', 'offhand1', true),
+    createSlot('Offhand', 'offhand2', true),
+    createSlot('Offhand', 'offhand3', true),
+    createSlot('Offhand', 'offhand4', true),
   ];
 
   return (

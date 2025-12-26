@@ -712,6 +712,23 @@ h1::before {
 
 .tooltip-attributes {
   margin-bottom: 0.75rem;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.tooltip-attributes::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tooltip-attributes::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+  border-radius: 3px;
+}
+
+.tooltip-attributes::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
 }
 
 .tooltip-attribute {

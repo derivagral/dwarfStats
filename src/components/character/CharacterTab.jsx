@@ -6,6 +6,7 @@ import { hasDirPicker } from '../../utils/platform';
 
 export function CharacterTab({ onLog, onStatusChange }) {
   const [characterData, setCharacterData] = useState(null);
+  const [showFileControls, setShowFileControls] = useState(true);
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
 
@@ -27,6 +28,7 @@ export function CharacterTab({ onLog, onStatusChange }) {
         onLog(`📦 Found ${result.equippedItems.length} equipped items`);
       }
       onStatusChange('Ready', 'ready');
+      setShowFileControls(false);
     } catch (e) {
       onLog(`❌ ${e.message}`);
       onStatusChange('Error', 'ready');
@@ -82,6 +84,7 @@ export function CharacterTab({ onLog, onStatusChange }) {
 
   const handleClear = useCallback(() => {
     setCharacterData(null);
+    setShowFileControls(true);
     onLog('🗑️ Character data cleared');
   }, [onLog]);
 
@@ -95,25 +98,44 @@ export function CharacterTab({ onLog, onStatusChange }) {
         onChange={handleFileInputChange}
       />
 
-      <div className="controls">
-        <div className="control-row">
-          <Button icon="📄" variant="primary" onClick={handlePickFile} disabled={isProcessing}>
-            Pick .sav File
-          </Button>
-          <Button icon="📁" onClick={handlePickDir} hidden={!hasDirPicker()} disabled={isProcessing}>
-            Pick Folder
-          </Button>
-          <Button icon="🗑️" onClick={handleClear} disabled={!characterData}>
-            Clear
-          </Button>
+      {characterData && !showFileControls && (
+        <div className="controls" style={{ padding: '0.75rem 1.25rem' }}>
+          <div className="control-row" style={{ marginBottom: 0 }}>
+            <Button icon="🗑️" onClick={handleClear}>
+              Clear
+            </Button>
+            <Button icon="📂" onClick={() => setShowFileControls(true)}>
+              Load Different File
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
-      <DropZone
-        icon="🧙"
-        text="Drop a character .sav file to view inventory"
-        onFileDrop={handleFileDrop}
-      />
+      {(!characterData || showFileControls) && (
+        <>
+          <div className="controls">
+            <div className="control-row">
+              <Button icon="📄" variant="primary" onClick={handlePickFile} disabled={isProcessing}>
+                Pick .sav File
+              </Button>
+              <Button icon="📁" onClick={handlePickDir} hidden={!hasDirPicker()} disabled={isProcessing}>
+                Pick Folder
+              </Button>
+              {characterData && (
+                <Button icon="🗑️" onClick={handleClear}>
+                  Clear
+                </Button>
+              )}
+            </div>
+          </div>
+
+          <DropZone
+            icon="🧙"
+            text="Drop a character .sav file to view inventory"
+            onFileDrop={handleFileDrop}
+          />
+        </>
+      )}
 
       {characterData ? (
         <CharacterPanel characterData={characterData} />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { InventorySlot } from './InventorySlot';
+import { StatsPanel } from './StatsPanel';
 import { mapItemsToSlots } from '../../utils/equipmentParser';
 
 export function CharacterPanel({ characterData }) {
@@ -76,79 +77,87 @@ export function CharacterPanel({ characterData }) {
         <span className="character-class">Unknown Class</span>
       </div>
 
-      <div className="equipment-layout">
-        {/* Left side slots */}
-        <div className="equipment-column equipment-left">
-          {leftSlots.map((slot, i) => (
-            <InventorySlot
-              key={`left-${i}`}
-              label={slot.label}
-              name={slot.name}
-              type={slot.type}
-              empty={slot.empty}
-              item={slot.item}
-            />
-          ))}
-        </div>
+      <div className="character-content">
+        {/* Equipment Section */}
+        <div className="equipment-section-wrapper">
+          <div className="equipment-layout">
+            {/* Left side slots */}
+            <div className="equipment-column equipment-left">
+              {leftSlots.map((slot, i) => (
+                <InventorySlot
+                  key={`left-${i}`}
+                  label={slot.label}
+                  name={slot.name}
+                  type={slot.type}
+                  empty={slot.empty}
+                  item={slot.item}
+                />
+              ))}
+            </div>
 
-        {/* Center character, fossil, and weapon */}
-        <div className="equipment-column equipment-center">
-          <InventorySlot
-            label={fossilSlot.label}
-            name={fossilSlot.name}
-            type={fossilSlot.type}
-            empty={fossilSlot.empty}
-            item={fossilSlot.item}
-          />
-          <div className="character-model">
-            <div className="character-avatar">🧙</div>
+            {/* Center character, fossil, and weapon */}
+            <div className="equipment-column equipment-center">
+              <InventorySlot
+                label={fossilSlot.label}
+                name={fossilSlot.name}
+                type={fossilSlot.type}
+                empty={fossilSlot.empty}
+                item={fossilSlot.item}
+              />
+              <div className="character-model">
+                <div className="character-avatar">🧙</div>
+              </div>
+              <InventorySlot
+                label={weaponSlot.label}
+                name={weaponSlot.name}
+                type={weaponSlot.type}
+                empty={weaponSlot.empty}
+                item={weaponSlot.item}
+              />
+            </div>
+
+            {/* Right side slots */}
+            <div className="equipment-column equipment-right">
+              {rightSlots.map((slot, i) => (
+                <InventorySlot
+                  key={`right-${i}`}
+                  label={slot.label}
+                  name={slot.name}
+                  type={slot.type}
+                  empty={slot.empty}
+                  item={slot.item}
+                />
+              ))}
+            </div>
           </div>
-          <InventorySlot
-            label={weaponSlot.label}
-            name={weaponSlot.name}
-            type={weaponSlot.type}
-            empty={weaponSlot.empty}
-            item={weaponSlot.item}
-          />
+
+          {/* Bottom dragon and offhand slots */}
+          <div className="equipment-section">
+            <div className="section-title">Offhand Equipment</div>
+            <div className="offhand-grid">
+              <InventorySlot
+                label={dragonSlot.label}
+                name={dragonSlot.name}
+                type={dragonSlot.type}
+                empty={dragonSlot.empty}
+                item={dragonSlot.item}
+              />
+              {offhandSlots.map((slot, i) => (
+                <InventorySlot
+                  key={`offhand-${i}`}
+                  label={slot.label}
+                  name={slot.name}
+                  type={slot.type}
+                  empty={slot.empty}
+                  item={slot.item}
+                />
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Right side slots */}
-        <div className="equipment-column equipment-right">
-          {rightSlots.map((slot, i) => (
-            <InventorySlot
-              key={`right-${i}`}
-              label={slot.label}
-              name={slot.name}
-              type={slot.type}
-              empty={slot.empty}
-              item={slot.item}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom dragon and offhand slots */}
-      <div className="equipment-section">
-        <div className="section-title">Offhand Equipment</div>
-        <div className="offhand-grid">
-          <InventorySlot
-            label={dragonSlot.label}
-            name={dragonSlot.name}
-            type={dragonSlot.type}
-            empty={dragonSlot.empty}
-            item={dragonSlot.item}
-          />
-          {offhandSlots.map((slot, i) => (
-            <InventorySlot
-              key={`offhand-${i}`}
-              label={slot.label}
-              name={slot.name}
-              type={slot.type}
-              empty={slot.empty}
-              item={slot.item}
-            />
-          ))}
-        </div>
+        {/* Stats Section */}
+        <StatsPanel characterData={characterData} />
       </div>
     </div>
   );

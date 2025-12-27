@@ -817,3 +817,240 @@ h1::before {
   margin-bottom: 1rem;
   opacity: 0.5;
 }
+
+/* Character Content - Two Column Layout (Equipment + Stats) */
+.character-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.equipment-section-wrapper {
+  flex: 1;
+}
+
+/* Stats Panel */
+.stats-panel {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1rem;
+  min-width: 280px;
+}
+
+.stats-header {
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.stats-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stats-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stats-category {
+  margin-bottom: 0.5rem;
+}
+
+.category-header {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.category-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Stat Line */
+.stat-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.15s;
+  cursor: default;
+}
+
+.stat-line:hover {
+  background: var(--bg-tertiary);
+}
+
+.stat-line .stat-name {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.stat-line .stat-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.stat-line.no-value .stat-value {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.stats-footer {
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.stats-note {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-align: center;
+  font-style: italic;
+}
+
+.stats-empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Stat Tooltip */
+.stat-tooltip {
+  min-width: 220px;
+  max-width: 320px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem;
+  z-index: 9999;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  pointer-events: auto;
+}
+
+.stat-tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.stat-tooltip-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.stat-tooltip-value {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.stat-tooltip-description {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.stat-tooltip-breakdown {
+  margin-bottom: 0.75rem;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.stat-tooltip-breakdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stat-tooltip-breakdown::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+  border-radius: 3px;
+}
+
+.stat-tooltip-breakdown::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.stat-tooltip-section-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.stat-tooltip-source {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  font-size: 0.8rem;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.stat-tooltip-source:last-child {
+  border-bottom: none;
+}
+
+.stat-tooltip-source .source-item {
+  color: var(--text-primary);
+  flex: 1;
+  margin-right: 0.5rem;
+}
+
+.stat-tooltip-source .source-value {
+  color: var(--success);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.stat-tooltip-empty {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 0.5rem;
+  font-style: italic;
+}
+
+.stat-tooltip-footer {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.stat-tooltip-note {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-align: center;
+  font-style: italic;
+}
+
+/* Responsive adjustments for character content */
+@media (max-width: 1100px) {
+  .character-content {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-panel {
+    min-width: unset;
+  }
+}

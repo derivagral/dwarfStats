@@ -268,7 +268,7 @@ export function FilterTab({ initialSaveData, onLog, onStatusChange }) {
   const sortedResults = Array.from(results.entries()).sort((a, b) => b[1].timestamp - a[1].timestamp);
 
   return (
-    <div className="tab-content">
+    <div className="tab-content active">
       <input
         ref={fileInputRef}
         type="file"

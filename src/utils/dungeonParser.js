@@ -1,5 +1,5 @@
 /**
- * Mapping of dungeon counter keys to friendly display names
+ * Mapping of dungeon counter key prefixes to friendly display names
  */
 const DUNGEON_DISPLAY_NAMES = {
   OlympusCounter: 'Olympus',
@@ -8,6 +8,19 @@ const DUNGEON_DISPLAY_NAMES = {
   CathedralCounter: 'Cathedral of Fire',
   ElisyaCounter: 'Elisya',
   SkorchCounter: 'Skorch',
+  ElvenCounter: 'Elven Capital',
+  GraveDiggerCounter: 'Gravedigger Cove',
+  HourglassCounter: 'Hourglass',
+  EnclaveCounter: 'Underground Enclave',
+  MinLodurCounter: 'Min Lodur',
+  CasinoCounter: 'Fortune',
+  ZulCounter: 'Zul',
+  UberDrythusCounter: 'Dark Drythus',
+  UberOlympusCounter: 'Dark Olympus',
+  UberBridgeDemigodsCounter: 'Dark Bridge',
+  UberCathedralCounter: 'Dark Archeon',
+  UberZulCounter: 'Dark Zul',
+  UberSkorchCounter: 'Dark Skorch',
 };
 
 /**

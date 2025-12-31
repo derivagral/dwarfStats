@@ -645,3 +645,114 @@ h1::before {
   margin-bottom: 1rem;
   opacity: 0.5;
 }
+
+/* Disabled tab styles */
+.tab-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.tab-btn.disabled:hover {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+/* Upload Tab Hero */
+.upload-hero {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.upload-hero-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.upload-hero-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--text-primary);
+}
+
+.upload-hero-subtitle {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Upload Info Section */
+.upload-info {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.upload-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.upload-info-item:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.upload-info-icon {
+  font-size: 1.25rem;
+  width: 2rem;
+  text-align: center;
+}
+
+/* Current File Info */
+.current-file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.current-file-icon {
+  font-size: 1rem;
+}
+
+.current-file-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* DropZone styles (reusable component) */
+.drop-zone {
+  margin: 1.5rem 0;
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  background: var(--bg-secondary);
+  transition: all 0.3s;
+}
+
+.drop-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(74, 158, 255, 0.1);
+}
+
+.drop-zone .drop-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.drop-zone .drop-text {
+  color: var(--text-secondary);
+}

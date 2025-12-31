@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Button, DropZone } from '../common';
 import { FilterConfig } from './FilterConfig';
 import { ResultsSection, EmptyResultsSection } from './ResultsSection';
@@ -17,7 +17,7 @@ function parseFilterString(filterStr) {
   return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
 }
 
-export function FilterTab({ onLog, onStatusChange }) {
+export function FilterTab({ initialSaveData, onLog, onStatusChange }) {
   const [results, setResults] = useState(new Map());
   const [filterValue, setFilterValue] = useState(DEFAULT_FILTERS);
   const [filterPatterns, setFilterPatterns] = useState(parseFilterString(DEFAULT_FILTERS));
@@ -25,6 +25,7 @@ export function FilterTab({ onLog, onStatusChange }) {
   const [lastFiles, setLastFiles] = useState([]);
   const [dirHandle, setDirHandle] = useState(null);
   const [watching, setWatching] = useState(false);
+  const [initialProcessed, setInitialProcessed] = useState(false);
   const watchTimerRef = useRef(null);
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
@@ -69,6 +70,47 @@ export function FilterTab({ onLog, onStatusChange }) {
       }
     }
   }, [filterPatterns, processFile, onLog]);
+
+  // Process initial save data when tab is first accessed
+  useEffect(() => {
+    if (initialSaveData && !initialProcessed) {
+      setInitialProcessed(true);
+      // Use the already-parsed JSON data from the initial save
+      const filterOptions = {
+        slot1: filterPatterns,
+        slot2: filterPatterns,
+        slot3: filterPatterns,
+        includeWeapons: true,
+        showClose: true,
+        closeMinTotal: 2,
+        debug: false,
+      };
+
+      const { hits, close, totalItems } = analyzeUeSaveJson(initialSaveData.json, filterOptions);
+
+      setResults(prev => {
+        const next = new Map(prev);
+        next.set(initialSaveData.filename, {
+          hits,
+          close,
+          totalItems,
+          timestamp: Date.now(),
+          filters: [...filterPatterns]
+        });
+        return next;
+      });
+
+      if (initialSaveData.file) {
+        setLastFiles([initialSaveData.file]);
+      }
+
+      onLog(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${initialSaveData.filename}`);
+
+      if (hits.length > 0) {
+        playNotificationSound();
+      }
+    }
+  }, [initialSaveData, initialProcessed, filterPatterns, onLog]);
 
   const handleFileDrop = useCallback(async (files) => {
     setLastFiles(files);

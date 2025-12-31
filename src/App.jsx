@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StatusBar, TabNavigation, LogPanel } from './components/common';
+import { UploadTab } from './components/upload';
 import { CharacterTab } from './components/character';
 import { FilterTab } from './components/filter';
 import { StatsTab } from './components/stats';
@@ -8,13 +9,14 @@ import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 
 const TABS = [
+  { id: 'upload', label: 'Upload', icon: '📂' },
   { id: 'character', label: 'Character', icon: '🧙' },
   { id: 'filter', label: 'Filter', icon: '🔍' },
   { id: 'stats', label: 'Stats', icon: '📊' },
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('character');
+  const [activeTab, setActiveTab] = useState('upload');
   const [status, setStatus] = useState('Loading...');
   const [statusType, setStatusType] = useState('scanning');
   const [platform, setPlatform] = useState({ icon: '🌐', name: 'Browser', isChromium: false });
@@ -51,26 +53,39 @@ export default function App() {
     setLogVisible(prev => !prev);
   }, []);
 
+  const handleFileLoaded = useCallback((data) => {
+    setSaveData(data);
+    setActiveTab('character');
+    log(`🎮 Save loaded: ${data.filename}`);
+  }, [log]);
+
+  const handleClearSave = useCallback(() => {
+    setSaveData(null);
+    setActiveTab('upload');
+    log('🗑️ Save data cleared');
+  }, [log]);
+
+  // Determine which tabs are disabled
+  const disabledTabs = saveData ? [] : ['character', 'filter'];
+
   return (
     <div className="app">
       <h1>Dwarf Stats</h1>
 
       <StatusBar status={status} statusType={statusType} platform={platform} />
 
-      <TabNavigation tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} />
+      <TabNavigation tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} disabledTabs={disabledTabs} />
 
       {wasmReady && (
         <>
-          {activeTab === 'character' && (
-            <CharacterTab
-              onLog={log}
-              onStatusChange={handleStatusChange}
-              saveData={saveData}
-              onSaveDataChange={setSaveData}
-            />
+          {activeTab === 'upload' && (
+            <UploadTab onFileLoaded={handleFileLoaded} onLog={log} onStatusChange={handleStatusChange} />
           )}
-          {activeTab === 'filter' && (
-            <FilterTab onLog={log} onStatusChange={handleStatusChange} />
+          {activeTab === 'character' && saveData && (
+            <CharacterTab saveData={saveData} onClearSave={handleClearSave} onLog={log} onStatusChange={handleStatusChange} />
+          )}
+          {activeTab === 'filter' && saveData && (
+            <FilterTab initialSaveData={saveData} onLog={log} onStatusChange={handleStatusChange} />
           )}
           {activeTab === 'stats' && (
             <StatsTab

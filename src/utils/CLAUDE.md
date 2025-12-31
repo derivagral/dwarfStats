@@ -10,6 +10,7 @@ Core logic for save file parsing, filtering, and display.
 | `dwarfFilter.js` | Item filtering engine | `analyzeUeSaveJson()` |
 | `equipmentParser.js` | Equipment extraction | `extractEquippedItems()`, `mapItemsToSlots()` |
 | `attributeDisplay.js` | Friendly stat names | `getDisplayName()`, `formatAttributeValue()` |
+| `statBuckets.js` | Stat override definitions | `STAT_TYPES`, `BUCKET_DEFINITIONS`, helpers |
 | `platform.js` | Browser detection | `getPlatformInfo()` |
 | `sound.js` | Audio notifications | `playMatchSound()` |
 
@@ -114,6 +115,62 @@ formatAttributeValue('AddedAttributeValue.Wisdom', 15);
 - Resistances and currencies
 - Critical chance/damage
 - Life steal variants
+
+## statBuckets.js - Stat Override Definitions
+
+Defines stat types and bucket structures for the character stat editor.
+
+```js
+import {
+  STAT_TYPES,
+  BUCKET_DEFINITIONS,
+  BUCKET_ORDER,
+  getStatType,
+  isStatAllowedInBucket,
+  createEmptyOverrides,
+  sumOverridesByStatId,
+} from './utils/statBuckets';
+```
+
+**STAT_TYPES:** Array of available stat types:
+```js
+{ id: 'strength', name: 'Strength', category: 'attributes', defaultValue: 0 }
+{ id: 'critChance', name: 'Critical Chance', category: 'offense', isPercent: true }
+```
+
+**BUCKET_DEFINITIONS:** Configuration for stat buckets:
+```js
+{
+  base: {
+    id: 'base',
+    name: 'Base Stats',
+    description: 'Inherent stats from class, level, and item base',
+    maxSlots: 4,
+    allowedStats: null,        // null = all stats allowed
+    slotRestrictions: null,    // null = applies to all equipment
+    defaultSlots: [...]
+  },
+  mainStats: {
+    allowedStats: ['strength', 'dexterity', 'wisdom', 'vitality'],
+    // ... only primary attributes allowed
+  },
+  // affixes, enchants, monograms...
+}
+```
+
+**Helper functions:**
+- `getStatType(id)` - Get stat definition by ID
+- `isStatAllowedInBucket(bucketId, statId)` - Validate stat for bucket
+- `createEmptyOverrides()` - Initialize empty state for all buckets
+- `sumOverridesByStatId(overrides)` - Calculate totals for each stat
+
+**Adding a new bucket:**
+1. Add definition to `BUCKET_DEFINITIONS`
+2. Add ID to `BUCKET_ORDER` array
+3. Bucket will appear in StatEditor automatically
+
+**Adding a new stat type:**
+Add entry to `STAT_TYPES` array with id, name, category, defaultValue, and optional isPercent flag.
 
 ## platform.js - Browser Detection
 

@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { InventorySlot } from './InventorySlot';
 import { StatsPanel } from './StatsPanel';
+import { StatEditor } from './StatEditor';
 import { mapItemsToSlots } from '../../utils/equipmentParser';
+import { useCharacterOverrides } from '../../hooks/useCharacterOverrides';
 
 export function CharacterPanel({ characterData }) {
+  const [showEditor, setShowEditor] = useState(false);
+
+  const {
+    overrides,
+    totals,
+    hasOverrides,
+    updateSlot,
+    addSlot,
+    removeSlot,
+    clearBucket,
+    clearAll,
+  } = useCharacterOverrides();
+
   if (!characterData) return null;
 
   const baseName = characterData.filename.replace(/\.sav$/i, '');
@@ -157,7 +172,36 @@ export function CharacterPanel({ characterData }) {
         </div>
 
         {/* Stats Section */}
-        <StatsPanel characterData={characterData} />
+        <div className="stats-section-wrapper">
+          <div className="stats-section-header">
+            <button
+              type="button"
+              className={`stats-editor-toggle ${showEditor ? 'active' : ''}`}
+              onClick={() => setShowEditor(!showEditor)}
+            >
+              {showEditor ? 'Hide Editor' : 'Edit Stats'}
+              {hasOverrides && <span className="editor-indicator">•</span>}
+            </button>
+          </div>
+
+          {showEditor && (
+            <StatEditor
+              overrides={overrides}
+              totals={totals}
+              hasOverrides={hasOverrides}
+              onUpdateSlot={updateSlot}
+              onAddSlot={addSlot}
+              onRemoveSlot={removeSlot}
+              onClearBucket={clearBucket}
+              onClearAll={clearAll}
+            />
+          )}
+
+          <StatsPanel
+            characterData={characterData}
+            overrideTotals={totals}
+          />
+        </div>
       </div>
     </div>
   );

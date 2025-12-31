@@ -237,10 +237,13 @@ const defaultStatDefinitions = [
 /**
  * Hook to derive stats from character data
  * @param {Object} characterData - The character data including equipped items
- * @param {Array} customDefinitions - Optional custom stat definitions to use instead of defaults
+ * @param {Object} options - Optional configuration
+ * @param {Array} options.customDefinitions - Custom stat definitions to use instead of defaults
+ * @param {Object} options.overrideTotals - Stat override totals from useCharacterOverrides (statId -> value)
  * @returns {Object} - { stats, categories, getStat, getCategory }
  */
-export function useDerivedStats(characterData, customDefinitions = null) {
+export function useDerivedStats(characterData, options = {}) {
+  const { customDefinitions = null, overrideTotals = null } = options;
   const definitions = customDefinitions || defaultStatDefinitions;
 
   const derivedStats = useMemo(() => {
@@ -263,25 +266,43 @@ export function useDerivedStats(characterData, customDefinitions = null) {
         }
       }
 
+      // Get override value for this stat
+      const overrideValue = overrideTotals?.[def.id] || 0;
+
       // Build sources object for calculation
       const sources = {
         itemSum,
         saveValues,
         items,
-        saveData
+        saveData,
+        overrideValue,
       };
 
-      // Calculate final value
-      const rawValue = def.calculate(sources);
+      // Calculate final value (base + overrides)
+      const baseValue = def.calculate(sources);
+      const rawValue = baseValue + overrideValue;
       const formattedValue = def.format ? def.format(rawValue) : rawValue.toString();
+
+      // Add override to breakdown if present
+      const breakdown = [...itemSum.breakdown];
+      if (overrideValue !== 0) {
+        breakdown.push({
+          source: 'Manual Override',
+          slot: 'override',
+          attribute: def.name,
+          value: overrideValue,
+        });
+      }
 
       return {
         id: def.id,
         name: def.name,
         category: def.category,
         value: rawValue,
+        baseValue,
+        overrideValue,
         formattedValue,
-        breakdown: itemSum.breakdown,
+        breakdown,
         description: def.description,
         sources: def.sources
       };

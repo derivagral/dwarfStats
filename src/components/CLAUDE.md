@@ -50,14 +50,18 @@ Single-file tab for all upload methods:
 
 ## Character Tab (`character/`)
 
-Equipment inventory display with tooltips.
+Equipment inventory display with tooltips and stat editing.
 
 | Component | Purpose |
 |-----------|---------|
 | `CharacterTab` | Tab container, passes saveData |
-| `CharacterPanel` | Layout manager, maps items to slots |
+| `CharacterPanel` | Layout manager, maps items to slots, hosts stat editor |
 | `InventorySlot` | Individual slot with hover state |
 | `ItemDetailTooltip` | Attribute tooltip with smart positioning |
+| `StatsPanel` | Displays derived stats with category grouping |
+| `StatEditor` | Container for all stat editing buckets |
+| `StatBucket` | Collapsible group of editable stat slots |
+| `StatInput` | Numeric input with +/- controls |
 
 **Slot types (12 main + 4 offhand):**
 - Main: head, chest, hands, pants, boots, neck, bracer, ring1, ring2, relic, weapon, fossil
@@ -67,6 +71,11 @@ Equipment inventory display with tooltips.
 - Detects viewport edges
 - Adjusts for scroll position
 - Prevents off-screen rendering
+
+**Stat Editing System:**
+Stats can be overridden via buckets (Base Stats, Main Stats, Affixes, Enchants, Monograms).
+Each bucket contains slots where users select a stat type and value.
+Overrides are summed and added to derived stats from equipment.
 
 ## Filter Tab (`filter/`)
 

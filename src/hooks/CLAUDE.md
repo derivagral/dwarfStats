@@ -2,6 +2,77 @@
 
 Custom React hooks for reusable logic.
 
+## useDerivedStats
+
+Calculates derived character stats from equipped items and manual overrides.
+
+```js
+import { useDerivedStats } from './hooks/useDerivedStats';
+
+const { stats, categories, getStat, getCategory } = useDerivedStats(
+  characterData,
+  {
+    customDefinitions: null,      // Optional custom stat definitions
+    overrideTotals: { strength: 10 }  // Manual stat overrides
+  }
+);
+```
+
+**Returns:**
+| Property | Type | Description |
+|----------|------|-------------|
+| `stats` | `Array` | All calculated stats |
+| `categories` | `Object` | Stats grouped by category |
+| `getStat` | `(id) => stat` | Get stat by ID |
+| `getCategory` | `(cat) => stats[]` | Get stats in category |
+
+**Stat object shape:**
+```js
+{
+  id: 'strength',
+  name: 'Strength',
+  category: 'attributes',
+  value: 25,              // Final value (base + overrides)
+  baseValue: 15,          // Value from items only
+  overrideValue: 10,      // Value from manual overrides
+  formattedValue: '25',
+  breakdown: [...],       // Source breakdown for tooltip
+  description: '...'
+}
+```
+
+## useCharacterOverrides
+
+Manages editable stat overrides across multiple buckets (Base Stats, Main Stats, Affixes, Enchants, Monograms).
+
+```js
+import { useCharacterOverrides } from './hooks/useCharacterOverrides';
+
+const {
+  overrides,      // Full overrides state
+  totals,         // { statId: totalValue } for all overrides
+  hasOverrides,   // Boolean: any values set?
+  updateSlot,     // (bucketId, slotIndex, updates) => void
+  addSlot,        // (bucketId) => void
+  removeSlot,     // (bucketId, slotIndex) => void
+  clearBucket,    // (bucketId) => void
+  clearAll,       // () => void
+  reset,          // (newState?) => void
+  getBucket,      // (bucketId) => bucket state
+} = useCharacterOverrides({ onChange: (overrides) => {} });
+```
+
+**Bucket structure:**
+```js
+{
+  bucketId: 'base',
+  slots: [
+    { id: 'base-0', statId: 'strength', value: 10 },
+    { id: 'base-1', statId: null, value: 0 },
+  ]
+}
+```
+
 ## useFileProcessor
 
 Handles file reading and WASM conversion pipeline.

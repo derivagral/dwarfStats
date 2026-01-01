@@ -7,97 +7,6 @@
 // - Single segments: "Wisdom%"
 // - The matcher will try to match against the tail of the full path
 const ATTRIBUTE_DISPLAY_MAP = {
-  // Weapon-specific damage types
-  'Magery.Damage': 'Magery Damage',
-  'MageryDamage%': 'Magery Damage %',
-  'Damage.Magery.CriticalDamage%': 'Magery Critical Damage %',
-  'MageryCriticalDamage%': 'Magery Crit Damage %',
-  'MageryCriticalChance%': 'Magery Crit Chance %',
-
-  'Mauls.Damage': 'Mauls Damage',
-  'MaulsDamage%': 'Mauls Damage %',
-  'Damage.Mauls.CriticalDamage%': 'Mauls Critical Damage %',
-  'MaulsCriticalDamage%': 'Mauls Crit Damage %',
-  'MaulsCriticalChance%': 'Mauls Crit Chance %',
-
-  'Archery.Damage': 'Archery Damage',
-  'ArcheryDamage%': 'Archery Damage %',
-  'Damage.Archery.CriticalDamage%': 'Archery Critical Damage %',
-  'ArcheryCriticalDamage%': 'Archery Crit Damage %',
-  'ArcheryCriticalChance%': 'Archery Crit Chance %',
-
-  'Unarmed.Damage': 'Unarmed Damage',
-  'UnarmedDamage%': 'Unarmed Damage %',
-  'Damage.Unarmed.CriticalDamage%': 'Unarmed Critical Damage %',
-  'UnarmedCriticalDamage%': 'Unarmed Crit Damage %',
-  'UnarmedCriticalChance%': 'Unarmed Crit Chance %',
-
-  'Sword.Damage': 'Sword Damage',
-  'SwordDamage%': 'Sword Damage %',
-  'Damage.Sword.CriticalDamage%': 'Sword Critical Damage %',
-  'SwordCriticalDamage%': 'Sword Crit Damage %',
-  'SwordCriticalChance%': 'Sword Crit Chance %',
-
-  'Spear.Damage': 'Spear Damage',
-  'SpearDamage%': 'Spear Damage %',
-  'Damage.Spear.CriticalDamage%': 'Spear Critical Damage %',
-  'SpearCriticalDamage%': 'Spear Crit Damage %',
-  'SpearCriticalChance%': 'Spear Crit Chance %',
-
-  'Scythes.Damage': 'Scythes Damage',
-  'ScythesDamage%': 'Scythes Damage %',
-  'Damage.Scythes.CriticalDamage%': 'Scythes Critical Damage %',
-  'ScythesCriticalDamage%': 'Scythes Crit Damage %',
-  'ScythesCriticalChance%': 'Scythes Crit Chance %',
-
-  'Melee.Damage': 'Melee Damage',
-  'MeleeDamage%': 'Melee Damage %',
-  'Damage.Melee.CriticalDamage%': 'Melee Crit Damage %',
-  'MeleeCriticalDamage%': 'Melee Crit Damage %',
-  'MeleeCriticalChance%': 'Melee Crit Chance %',
-
-  'Ranged.Damage': 'Ranged Damage',
-  'RangedDamage%': 'Ranged Damage %',
-  'Damage.Ranged.CriticalDamage%': 'Ranged Crit Damage %',
-  'RangedCriticalDamage%': 'Ranged Crit Damage %',
-  'RangedCriticalChance%': 'Ranged Crit Chance %',
-
-  // Generic critical stats
-  'CriticalDamage': 'Critical Damage %',
-  'CriticalDamage%': 'Critical Damage %',
-  'CriticalChance%': 'Critical Chance %',
-
-  // Characteristics/Stats
-  'Characteristics.Strength': 'Strength',
-  'Characteristics.Strength%': 'Strength %',
-  'Characteristics.Dexterity': 'Dexterity',
-  'Characteristics.Dexterity%': 'Dexterity %',
-  'Characteristics.Wisdom': 'Wisdom',
-  'Characteristics.Wisdom%': 'Wisdom %',
-  'Characteristics.Vitality': 'Vitality',
-  'Characteristics.Vitality%': 'Vitality %',
-  'Strength': 'Strength',
-  'Strength%': 'Strength %',
-  'Dexterity': 'Dexterity',
-  'Dexterity%': 'Dexterity %',
-  'Wisdom': 'Wisdom',
-  'Wisdom%': 'Wisdom %',
-  'Luck': 'Luck',
-  'Luck%': 'Luck %',
-  'Agility': 'Agility',
-  'Agility%': 'Agility %',
-  'Stamina': 'Stamina',
-  'Stamina%': 'Stamina %',
-  'Endurance': 'Endurance',
-  'Endurance%': 'Endurance %',
-
-  // Defensive stats
-  'armor': 'Armor',
-  'Armor': 'Armor',
-  'Health': 'Health',
-  'Health%': 'Health %',
-  'MaxHealth': 'Max Health',
-
   // Ability-specific attributes (multi-segment paths)
   'Abilities.ChainLightning.DamageMultiplier': 'Chain Lightning Damage x',
   'ChainLightning.DamageMultiplier': 'Chain Lightning Damage x',
@@ -110,10 +19,94 @@ const ATTRIBUTE_DISPLAY_MAP = {
   'FieryTotemDamage': 'Fiery Totem Damage',
 
   'Abilities.DragonFlame.DamageMultiplier': 'Dragon Flame Damage x',
-  'DragonFlame.DamageMultiplier': 'Dragon Flame Damage x',
-  'DragonFlame.DamageMulxtiplier': 'Dragon Flame Damage x', // Handle typo in game data
+  'DragonFlame.DamageMultiplier': 'Dragon Flame Damage',
+  'DragonFlame.DamageMulxtiplier': 'Dragon Flame Damage', // Handle typo in game data
   'Abilities.DragonFlame.DamageMulxtiplier': 'Dragon Flame Damage x', // Handle typo in game data
   'DragonFlameDamage': 'Dragon Flame Damage',
+
+  'Boss%': 'Boss Damage Bonus',
+  // '.Damage%': 'Damage Bonus',
+  // Weapon-specific damage types
+  'Magery.Damage': 'Magery Damage',
+  'MageryDamage%': 'Magery Damage %',
+  'Damage.Magery.CriticalDamage%': 'Magery Critical Damage %',
+  'MageryCriticalDamage%': 'Magery Crit Damage %',
+  'MageryCriticalChance%': 'Magery Crit Chance %',
+
+  'Mauls.Damage': 'Mauls Damage',
+  'MaulsDamage%': 'Mauls Damage',
+  'PoleArm%': 'Mauls Damage',
+  'Damage.Mauls.CriticalDamage%': 'Mauls Critical Damage',
+  'MaulsCriticalDamage%': 'Mauls Crit Damage',
+  'MaulsCriticalChance%': 'Mauls Crit Chance',
+
+  'Archery.Damage': 'Archery Damage',
+  'ArcheryDamage%': 'Archery Damage',
+  'Damage.Archery.CriticalDamage%': 'Archery Critical Damage',
+  'ArcheryCriticalDamage%': 'Archery Crit Damage',
+  'ArcheryCriticalChance%': 'Archery Crit Chance',
+
+  'Unarmed.Damage': 'Unarmed Damage',
+  'UnarmedDamage%': 'Unarmed Damage',
+  'Damage.Unarmed.CriticalDamage%': 'Unarmed Critical Damage',
+  'UnarmedCriticalDamage%': 'Unarmed Crit Damage',
+  'UnarmedCriticalChance%': 'Unarmed Crit Chance',
+
+  'Sword.Damage': 'Sword Damage',
+  'SwordDamage%': 'Sword Damage',
+  'Damage.Sword.CriticalDamage%': 'Sword Critical Damage',
+  'SwordCriticalDamage%': 'Sword Crit Damage',
+  'SwordCriticalChance%': 'Sword Crit Chance',
+
+  'Spear.Damage': 'Spear Damage',
+  'SpearDamage%': 'Spear Damage',
+  'Damage.Spear.CriticalDamage%': 'Spear Critical Damage',
+  'SpearCriticalDamage%': 'Spear Crit Damage',
+  'SpearCriticalChance%': 'Spear Crit Chance',
+
+  'Scythes.Damage': 'Scythes Damage',
+  'ScythesDamage%': 'Scythes Damage',
+  'Damage.Scythes.CriticalDamage%': 'Scythes Critical Damage',
+  'ScythesCriticalDamage%': 'Scythes Crit Damage',
+  'ScythesCriticalChance%': 'Scythes Crit Chance',
+
+  // Generic critical stats
+  'CriticalDamage': 'Critical Damage',
+  'CriticalDamage%': 'Critical Damage',
+  'CriticalChance%': 'Critical Chance',
+
+  // Characteristics/Stats
+  'Characteristics.Strength': 'Strength',
+  'Characteristics.Strength%': 'Strength Bonus',
+  'Characteristics.Dexterity': 'Dexterity',
+  'Characteristics.Dexterity%': 'Dexterity Bonus',
+  'Characteristics.Wisdom': 'Wisdom',
+  'Characteristics.Wisdom%': 'Wisdom Bonus',
+  'Characteristics.Vitality': 'Vitality',
+  'Characteristics.Vitality%': 'Vitality Bonus',
+  'Strength': 'Strength',
+  'Strength%': 'Strength Bonus',
+  'Dexterity': 'Dexterity',
+  'Dexterity%': 'Dexterity Bonus',
+  'Wisdom': 'Wisdom',
+  'Wisdom%': 'Wisdom Bonus',
+  'Luck': 'Luck',
+  'Luck%': 'Luck Bonus',
+  'Agility': 'Agility',
+  'Agility%': 'Agility Bonus',
+  'Stamina': 'Stamina',
+  'Stamina%': 'Stamina Bonus',
+  'Endurance': 'Endurance',
+  'Endurance%': 'Endurance Bonus',
+  'Intelligence': 'Endurance',
+  'Intelligence%': 'Endurance Bonus',
+
+  // Defensive stats
+  'armor': 'Armor',
+  'Armor': 'Armor',
+  'Health': 'Health',
+  'Health%': 'Health Bonus',
+  'MaxHealth': 'Max Health',
 
   'Abilities.EnemyDeath.DamageMultiplier': 'Enemy Death Damage x',
   'EnemyDeath.DamageMultiplier': 'Enemy Death Damage x',

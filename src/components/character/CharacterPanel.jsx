@@ -30,6 +30,20 @@ export function CharacterPanel({ characterData }) {
   const equippedItems = characterData.equippedItems || [];
   const slotMap = mapItemsToSlots(equippedItems);
 
+  // Build modified slot map with overrides applied (for tooltips)
+  const modifiedSlotMap = useMemo(() => {
+    const result = {};
+    for (const [slotKey, item] of Object.entries(slotMap)) {
+      if (item && hasSlotOverrides(slotKey)) {
+        const modifiedAttributes = applyOverridesToItem(slotKey, item.attributes);
+        result[slotKey] = { ...item, attributes: modifiedAttributes };
+      } else {
+        result[slotKey] = item;
+      }
+    }
+    return result;
+  }, [slotMap, overrides, hasSlotOverrides, applyOverridesToItem]);
+
   // Handle item selection
   const handleSelectItem = useCallback((slotKey, item) => {
     if (selectedSlot === slotKey) {
@@ -61,9 +75,9 @@ export function CharacterPanel({ characterData }) {
     return 'Offhand';
   };
 
-  // Helper to create slot data
+  // Helper to create slot data (uses modified items for tooltip display)
   const createSlot = (label, slotKey, isDynamic = false) => {
-    const item = slotMap[slotKey];
+    const item = modifiedSlotMap[slotKey];
     const finalLabel = isDynamic && item ? getOffhandLabel(item) : label;
     return {
       slotKey,
@@ -180,10 +194,10 @@ export function CharacterPanel({ characterData }) {
             </div>
           </div>
 
-          {/* Item Editor Panel */}
-          {selectedSlot && selectedItem && (
+          {/* Item Editor Panel - use original item for base stats */}
+          {selectedSlot && slotMap[selectedSlot] && (
             <ItemEditor
-              item={selectedItem}
+              item={slotMap[selectedSlot]}
               slotKey={selectedSlot}
               slotOverrides={getSlotOverrides(selectedSlot)}
               onUpdateMod={(modIndex, updates) => updateMod(selectedSlot, modIndex, updates)}

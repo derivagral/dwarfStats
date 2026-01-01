@@ -4,17 +4,14 @@ Custom React hooks for reusable logic.
 
 ## useDerivedStats
 
-Calculates derived character stats from equipped items and manual overrides.
+Calculates derived character stats from equipped items.
 
 ```js
 import { useDerivedStats } from './hooks/useDerivedStats';
 
 const { stats, categories, getStat, getCategory } = useDerivedStats(
-  characterData,
-  {
-    customDefinitions: null,      // Optional custom stat definitions
-    overrideTotals: { strength: 10 }  // Manual stat overrides
-  }
+  characterData,      // Character data with equippedItems
+  customDefinitions   // Optional custom stat definitions array
 );
 ```
 
@@ -32,46 +29,49 @@ const { stats, categories, getStat, getCategory } = useDerivedStats(
   id: 'strength',
   name: 'Strength',
   category: 'attributes',
-  value: 25,              // Final value (base + overrides)
-  baseValue: 15,          // Value from items only
-  overrideValue: 10,      // Value from manual overrides
+  value: 25,
   formattedValue: '25',
   breakdown: [...],       // Source breakdown for tooltip
   description: '...'
 }
 ```
 
-## useCharacterOverrides
+## useItemOverrides
 
-Manages editable stat overrides across multiple buckets (Base Stats, Main Stats, Affixes, Enchants, Monograms).
+Manages per-item stat modifications. Each equipped item can have stats added, removed, or modified.
 
 ```js
-import { useCharacterOverrides } from './hooks/useCharacterOverrides';
+import { useItemOverrides } from './hooks/useItemOverrides';
 
 const {
-  overrides,      // Full overrides state
-  totals,         // { statId: totalValue } for all overrides
-  hasOverrides,   // Boolean: any values set?
-  updateSlot,     // (bucketId, slotIndex, updates) => void
-  addSlot,        // (bucketId) => void
-  removeSlot,     // (bucketId, slotIndex) => void
-  clearBucket,    // (bucketId) => void
-  clearAll,       // () => void
-  reset,          // (newState?) => void
-  getBucket,      // (bucketId) => bucket state
-} = useCharacterOverrides({ onChange: (overrides) => {} });
+  overrides,           // Full state: { slotKey: { mods: [], removedIndices: [] } }
+  hasAnyOverrides,     // Boolean: any modifications exist?
+  getSlotOverrides,    // (slotKey) => slot override state
+  hasSlotOverrides,    // (slotKey) => boolean
+  applyOverridesToItem,// (slotKey, baseAttributes) => modified attributes
+  updateMod,           // (slotKey, modIndex, updates) => void
+  addMod,              // (slotKey, mod?) => void
+  removeMod,           // (slotKey, modIndex) => void
+  removeBaseStat,      // (slotKey, baseStatIndex) => void
+  restoreBaseStat,     // (slotKey, baseStatIndex) => void
+  clearSlot,           // (slotKey) => void
+  clearAll,            // () => void
+} = useItemOverrides({ onChange: (overrides) => {} });
 ```
 
-**Bucket structure:**
+**Slot override structure:**
 ```js
 {
-  bucketId: 'base',
-  slots: [
-    { id: 'base-0', statId: 'strength', value: 10 },
-    { id: 'base-1', statId: null, value: 0 },
-  ]
+  mods: [
+    { id: 'mod-123', name: 'Strength', value: 15, isNew: true }
+  ],
+  removedIndices: [0, 2]  // Indices of base stats to hide
 }
 ```
+
+**Usage with CharacterPanel:**
+Item overrides are applied to equippedItems before passing to StatsPanel.
+Modified items include both remaining base stats and added mods.
 
 ## useFileProcessor
 

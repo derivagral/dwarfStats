@@ -237,13 +237,10 @@ const defaultStatDefinitions = [
 /**
  * Hook to derive stats from character data
  * @param {Object} characterData - The character data including equipped items
- * @param {Object} options - Optional configuration
- * @param {Array} options.customDefinitions - Custom stat definitions to use instead of defaults
- * @param {Object} options.overrideTotals - Stat override totals from useCharacterOverrides (statId -> value)
+ * @param {Array} customDefinitions - Optional custom stat definitions to use instead of defaults
  * @returns {Object} - { stats, categories, getStat, getCategory }
  */
-export function useDerivedStats(characterData, options = {}) {
-  const { customDefinitions = null, overrideTotals = null } = options;
+export function useDerivedStats(characterData, customDefinitions = null) {
   const definitions = customDefinitions || defaultStatDefinitions;
 
   const derivedStats = useMemo(() => {
@@ -255,7 +252,7 @@ export function useDerivedStats(characterData, options = {}) {
     const saveData = characterData.raw || {};
 
     const stats = definitions.map(def => {
-      // Calculate sum from items
+      // Calculate sum from items (includes any modified item stats)
       const itemSum = sumFromItems(items, def.sources);
 
       // Get any direct save data values
@@ -266,43 +263,25 @@ export function useDerivedStats(characterData, options = {}) {
         }
       }
 
-      // Get override value for this stat
-      const overrideValue = overrideTotals?.[def.id] || 0;
-
       // Build sources object for calculation
       const sources = {
         itemSum,
         saveValues,
         items,
-        saveData,
-        overrideValue,
+        saveData
       };
 
-      // Calculate final value (base + overrides)
-      const baseValue = def.calculate(sources);
-      const rawValue = baseValue + overrideValue;
+      // Calculate final value
+      const rawValue = def.calculate(sources);
       const formattedValue = def.format ? def.format(rawValue) : rawValue.toString();
-
-      // Add override to breakdown if present
-      const breakdown = [...itemSum.breakdown];
-      if (overrideValue !== 0) {
-        breakdown.push({
-          source: 'Manual Override',
-          slot: 'override',
-          attribute: def.name,
-          value: overrideValue,
-        });
-      }
 
       return {
         id: def.id,
         name: def.name,
         category: def.category,
         value: rawValue,
-        baseValue,
-        overrideValue,
         formattedValue,
-        breakdown,
+        breakdown: itemSum.breakdown,
         description: def.description,
         sources: def.sources
       };

@@ -50,17 +50,16 @@ Single-file tab for all upload methods:
 
 ## Character Tab (`character/`)
 
-Equipment inventory display with tooltips and stat editing.
+Equipment inventory display with item-level stat editing.
 
 | Component | Purpose |
 |-----------|---------|
 | `CharacterTab` | Tab container, passes saveData |
-| `CharacterPanel` | Layout manager, maps items to slots, hosts stat editor |
-| `InventorySlot` | Individual slot with hover state |
+| `CharacterPanel` | Layout manager, maps items to slots, hosts item editor |
+| `InventorySlot` | Clickable slot with selection and override indicators |
 | `ItemDetailTooltip` | Attribute tooltip with smart positioning |
 | `StatsPanel` | Displays derived stats with category grouping |
-| `StatEditor` | Container for all stat editing buckets |
-| `StatBucket` | Collapsible group of editable stat slots |
+| `ItemEditor` | Panel for editing individual item stats |
 | `StatInput` | Numeric input with +/- controls |
 
 **Slot types (12 main + 4 offhand):**
@@ -71,11 +70,14 @@ Equipment inventory display with tooltips and stat editing.
 - Detects viewport edges
 - Adjusts for scroll position
 - Prevents off-screen rendering
+- Hidden when item is selected for editing
 
-**Stat Editing System:**
-Stats can be overridden via buckets (Base Stats, Main Stats, Affixes, Enchants, Monograms).
-Each bucket contains slots where users select a stat type and value.
-Overrides are summed and added to derived stats from equipment.
+**Item-Level Stat Editing:**
+Click any equipped item to open the ItemEditor panel below the equipment grid.
+- View and remove base stats from the item
+- Add custom stats with type selector and value input
+- Changes immediately reflect in the StatsPanel on the right
+- Edit icon (✎) shows on slots with modifications
 
 ## Filter Tab (`filter/`)
 

@@ -13,11 +13,10 @@ const categoryOrder = ['attributes', 'offense', 'defense', 'resistances'];
 
 /**
  * @param {Object} props
- * @param {Object} props.characterData - Character data with equipped items
- * @param {Object} props.overrideTotals - Optional override totals from StatEditor
+ * @param {Object} props.characterData - Character data with equipped items (may include modified items)
  */
-export function StatsPanel({ characterData, overrideTotals }) {
-  const { categories } = useDerivedStats(characterData, { overrideTotals });
+export function StatsPanel({ characterData }) {
+  const { categories } = useDerivedStats(characterData);
 
   if (!characterData) {
     return (

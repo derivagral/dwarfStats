@@ -116,61 +116,35 @@ formatAttributeValue('AddedAttributeValue.Wisdom', 15);
 - Critical chance/damage
 - Life steal variants
 
-## statBuckets.js - Stat Override Definitions
+## statBuckets.js - Stat Type Definitions
 
-Defines stat types and bucket structures for the character stat editor.
+Defines available stat types for the item editor dropdown.
 
 ```js
-import {
-  STAT_TYPES,
-  BUCKET_DEFINITIONS,
-  BUCKET_ORDER,
-  getStatType,
-  isStatAllowedInBucket,
-  createEmptyOverrides,
-  sumOverridesByStatId,
-} from './utils/statBuckets';
+import { STAT_TYPES, getStatType } from './utils/statBuckets';
 ```
 
-**STAT_TYPES:** Array of available stat types:
+**STAT_TYPES:** Array of available stat types (18 stats across 4 categories):
 ```js
 { id: 'strength', name: 'Strength', category: 'attributes', defaultValue: 0 }
 { id: 'critChance', name: 'Critical Chance', category: 'offense', isPercent: true }
 ```
 
-**BUCKET_DEFINITIONS:** Configuration for stat buckets:
-```js
-{
-  base: {
-    id: 'base',
-    name: 'Base Stats',
-    description: 'Inherent stats from class, level, and item base',
-    maxSlots: 4,
-    allowedStats: null,        // null = all stats allowed
-    slotRestrictions: null,    // null = applies to all equipment
-    defaultSlots: [...]
-  },
-  mainStats: {
-    allowedStats: ['strength', 'dexterity', 'wisdom', 'vitality'],
-    // ... only primary attributes allowed
-  },
-  // affixes, enchants, monograms...
-}
-```
+**Categories:**
+- `attributes`: Strength, Dexterity, Wisdom, Vitality
+- `offense`: Physical/Magery Damage, Crit Chance/Damage, Attack Speed
+- `defense`: Armor, Health, Health Regen, Evasion, Block Chance
+- `resistances`: Fire, Cold, Lightning, Poison Resistance
 
 **Helper functions:**
 - `getStatType(id)` - Get stat definition by ID
-- `isStatAllowedInBucket(bucketId, statId)` - Validate stat for bucket
-- `createEmptyOverrides()` - Initialize empty state for all buckets
-- `sumOverridesByStatId(overrides)` - Calculate totals for each stat
-
-**Adding a new bucket:**
-1. Add definition to `BUCKET_DEFINITIONS`
-2. Add ID to `BUCKET_ORDER` array
-3. Bucket will appear in StatEditor automatically
+- `getStatTypesByCategory(category)` - Get all stats in a category
 
 **Adding a new stat type:**
-Add entry to `STAT_TYPES` array with id, name, category, defaultValue, and optional isPercent flag.
+Add entry to `STAT_TYPES` array:
+```js
+{ id: 'newStat', name: 'New Stat', category: 'offense', defaultValue: 0, isPercent: false }
+```
 
 ## platform.js - Browser Detection
 

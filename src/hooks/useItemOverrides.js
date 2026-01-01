@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
+import { getStatType } from '../utils/statBuckets';
 
 /**
  * Hook for managing per-item stat overrides
@@ -165,14 +166,17 @@ export function useItemOverrides(options = {}) {
       !slotData.removedIndices.includes(index)
     );
 
-    // Add new/modified stats
+    // Add new/modified stats using attributeName for pattern matching
     for (const mod of slotData.mods) {
-      if (mod.name && mod.value !== undefined) {
-        result.push({
-          name: mod.name,
-          value: mod.value,
-          isOverride: true,
-        });
+      if (mod.statId && mod.value !== undefined) {
+        const statType = getStatType(mod.statId);
+        if (statType) {
+          result.push({
+            name: statType.attributeName, // Use attributeName for pattern matching
+            value: mod.value,
+            isOverride: true,
+          });
+        }
       }
     }
 

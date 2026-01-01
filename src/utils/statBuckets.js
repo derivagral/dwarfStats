@@ -13,32 +13,33 @@
  */
 
 // Available stat types that can be selected in editors
+// `attributeName` is the internal name that matches useDerivedStats regex patterns
 export const STAT_TYPES = [
   // Primary Attributes
-  { id: 'strength', name: 'Strength', category: 'attributes', defaultValue: 0 },
-  { id: 'dexterity', name: 'Dexterity', category: 'attributes', defaultValue: 0 },
-  { id: 'wisdom', name: 'Wisdom', category: 'attributes', defaultValue: 0 },
-  { id: 'vitality', name: 'Vitality', category: 'attributes', defaultValue: 0 },
+  { id: 'strength', name: 'Strength', attributeName: 'Characteristics.Strength', category: 'attributes', defaultValue: 0 },
+  { id: 'dexterity', name: 'Dexterity', attributeName: 'Characteristics.Dexterity', category: 'attributes', defaultValue: 0 },
+  { id: 'wisdom', name: 'Wisdom', attributeName: 'Characteristics.Wisdom', category: 'attributes', defaultValue: 0 },
+  { id: 'vitality', name: 'Vitality', attributeName: 'Characteristics.Vitality', category: 'attributes', defaultValue: 0 },
 
   // Offense
-  { id: 'physicalDamage', name: 'Physical Damage', category: 'offense', defaultValue: 0 },
-  { id: 'mageryDamage', name: 'Magery Damage', category: 'offense', defaultValue: 0 },
-  { id: 'critChance', name: 'Critical Chance', category: 'offense', defaultValue: 0, isPercent: true },
-  { id: 'critDamage', name: 'Critical Damage', category: 'offense', defaultValue: 0, isPercent: true },
-  { id: 'attackSpeed', name: 'Attack Speed', category: 'offense', defaultValue: 0, isPercent: true },
+  { id: 'physicalDamage', name: 'Physical Damage', attributeName: 'PhysicalDamage', category: 'offense', defaultValue: 0 },
+  { id: 'mageryDamage', name: 'Magery Damage', attributeName: 'MageryDamage', category: 'offense', defaultValue: 0 },
+  { id: 'critChance', name: 'Critical Chance', attributeName: 'CriticalChance', category: 'offense', defaultValue: 0, isPercent: true },
+  { id: 'critDamage', name: 'Critical Damage', attributeName: 'CriticalDamage%', category: 'offense', defaultValue: 0, isPercent: true },
+  { id: 'attackSpeed', name: 'Attack Speed', attributeName: 'AttackSpeed', category: 'offense', defaultValue: 0, isPercent: true },
 
   // Defense
-  { id: 'armor', name: 'Armor', category: 'defense', defaultValue: 0 },
-  { id: 'health', name: 'Health', category: 'defense', defaultValue: 0 },
-  { id: 'healthRegen', name: 'Health Regen', category: 'defense', defaultValue: 0 },
-  { id: 'evasion', name: 'Evasion', category: 'defense', defaultValue: 0, isPercent: true },
-  { id: 'blockChance', name: 'Block Chance', category: 'defense', defaultValue: 0, isPercent: true },
+  { id: 'armor', name: 'Armor', attributeName: 'Armor', category: 'defense', defaultValue: 0 },
+  { id: 'health', name: 'Health', attributeName: 'MaxHealth', category: 'defense', defaultValue: 0 },
+  { id: 'healthRegen', name: 'Health Regen', attributeName: 'HealthRegen', category: 'defense', defaultValue: 0 },
+  { id: 'evasion', name: 'Evasion', attributeName: 'Evasion', category: 'defense', defaultValue: 0, isPercent: true },
+  { id: 'blockChance', name: 'Block Chance', attributeName: 'BlockChance', category: 'defense', defaultValue: 0, isPercent: true },
 
   // Resistances
-  { id: 'fireResist', name: 'Fire Resistance', category: 'resistances', defaultValue: 0, isPercent: true },
-  { id: 'coldResist', name: 'Cold Resistance', category: 'resistances', defaultValue: 0, isPercent: true },
-  { id: 'lightningResist', name: 'Lightning Resistance', category: 'resistances', defaultValue: 0, isPercent: true },
-  { id: 'poisonResist', name: 'Poison Resistance', category: 'resistances', defaultValue: 0, isPercent: true },
+  { id: 'fireResist', name: 'Fire Resistance', attributeName: 'FireResist', category: 'resistances', defaultValue: 0, isPercent: true },
+  { id: 'coldResist', name: 'Cold Resistance', attributeName: 'ColdResist', category: 'resistances', defaultValue: 0, isPercent: true },
+  { id: 'lightningResist', name: 'Lightning Resistance', attributeName: 'LightningResist', category: 'resistances', defaultValue: 0, isPercent: true },
+  { id: 'poisonResist', name: 'Poison Resistance', attributeName: 'PoisonResist', category: 'resistances', defaultValue: 0, isPercent: true },
 ];
 
 // Get stat type by id

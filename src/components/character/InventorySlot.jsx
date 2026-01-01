@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { ItemDetailTooltip } from './ItemDetailTooltip';
 
 export function InventorySlot({
@@ -18,6 +18,20 @@ export function InventorySlot({
   const closeTimeoutRef = useRef(null);
   const hoverStateRef = useRef({ slot: false, tooltip: false });
   const showTooltip = (isSlotHovered || isTooltipHovered) && !isSelected;
+
+  // Reset hover states when selection changes to prevent stale tooltip
+  useEffect(() => {
+    if (isSelected) {
+      // Clear hover states when becoming selected
+      hoverStateRef.current = { slot: false, tooltip: false };
+      setIsSlotHovered(false);
+      setIsTooltipHovered(false);
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+        closeTimeoutRef.current = null;
+      }
+    }
+  }, [isSelected]);
 
   const handleClick = useCallback((e) => {
     if (!empty && item && onSelect) {

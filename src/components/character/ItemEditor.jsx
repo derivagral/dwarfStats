@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import { StatInput } from './StatInput';
 import { getDisplayName } from '../../utils/attributeDisplay';
-import { STAT_TYPES } from '../../utils/statBuckets';
+import { STAT_TYPES, getStatType } from '../../utils/statBuckets';
 
 /**
  * Panel for editing an individual item's stats
@@ -30,6 +30,15 @@ export function ItemEditor({
   onClearSlot,
   onClose,
 }) {
+  const editorRef = useRef(null);
+
+  // Scroll editor into view when it opens
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [slotKey]);
+
   if (!item) return null;
 
   const baseAttributes = item.attributes || [];
@@ -37,13 +46,13 @@ export function ItemEditor({
 
   const hasChanges = mods.length > 0 || removedIndices.length > 0;
 
-  // Handle adding a new stat
+  // Handle adding a new stat - store statId, not name
   const handleAddStat = useCallback(() => {
-    onAddMod?.({ name: '', value: 0, isNew: true });
+    onAddMod?.({ statId: '', value: 0, isNew: true });
   }, [onAddMod]);
 
   return (
-    <div className="item-editor">
+    <div className="item-editor" ref={editorRef}>
       <div className="item-editor-header">
         <div className="item-editor-title">
           <span className="item-editor-name">{item.name}</span>
@@ -154,22 +163,23 @@ function BaseStatRow({ attr, isRemoved, onRemove, onRestore }) {
 
 /**
  * Row for editing an added/modified stat
+ * Now uses statId to track which stat is selected
  */
 function ModStatRow({ mod, onUpdate, onRemove }) {
-  // Determine if this is a percentage stat
-  const statType = STAT_TYPES.find(s => s.name === mod.name || s.id === mod.name);
+  // Look up stat type by statId
+  const statType = mod.statId ? getStatType(mod.statId) : null;
   const isPercent = statType?.isPercent || false;
 
   return (
     <div className="item-editor-stat-row mod-stat">
       <select
         className="stat-row-select"
-        value={mod.name}
-        onChange={(e) => onUpdate({ name: e.target.value })}
+        value={mod.statId || ''}
+        onChange={(e) => onUpdate({ statId: e.target.value })}
       >
         <option value="">Select stat...</option>
         {STAT_TYPES.map(stat => (
-          <option key={stat.id} value={stat.name}>
+          <option key={stat.id} value={stat.id}>
             {stat.name}
           </option>
         ))}
@@ -179,7 +189,7 @@ function ModStatRow({ mod, onUpdate, onRemove }) {
         value={mod.value}
         onChange={(value) => onUpdate({ value })}
         isPercent={isPercent}
-        disabled={!mod.name}
+        disabled={!mod.statId}
         step={isPercent ? 1 : 1}
       />
 

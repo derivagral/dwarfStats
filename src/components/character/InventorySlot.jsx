@@ -1,18 +1,50 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { ItemDetailTooltip } from './ItemDetailTooltip';
 
-export function InventorySlot({ label, name, type, empty = false, item = null }) {
+export function InventorySlot({
+  label,
+  name,
+  type,
+  empty = false,
+  item = null,
+  slotKey = null,
+  isSelected = false,
+  hasOverrides = false,
+  onSelect = null,
+}) {
   const [isSlotHovered, setIsSlotHovered] = useState(false);
   const [isTooltipHovered, setIsTooltipHovered] = useState(false);
   const slotRef = useRef(null);
   const closeTimeoutRef = useRef(null);
   const hoverStateRef = useRef({ slot: false, tooltip: false });
-  const showTooltip = isSlotHovered || isTooltipHovered;
+  const showTooltip = (isSlotHovered || isTooltipHovered) && !isSelected;
+
+  // Reset hover states when selection changes to prevent stale tooltip
+  useEffect(() => {
+    if (isSelected) {
+      // Clear hover states when becoming selected
+      hoverStateRef.current = { slot: false, tooltip: false };
+      setIsSlotHovered(false);
+      setIsTooltipHovered(false);
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+        closeTimeoutRef.current = null;
+      }
+    }
+  }, [isSelected]);
+
+  const handleClick = useCallback((e) => {
+    if (!empty && item && onSelect) {
+      e.stopPropagation();
+      onSelect(slotKey, item);
+    }
+  }, [empty, item, slotKey, onSelect]);
 
   return (
     <div
       ref={slotRef}
-      className={`inventory-slot${empty ? ' empty' : ''}`}
+      className={`inventory-slot${empty ? ' empty' : ''}${isSelected ? ' selected' : ''}${hasOverrides ? ' has-overrides' : ''}`}
+      onClick={handleClick}
       onMouseEnter={() => {
         if (closeTimeoutRef.current) {
           clearTimeout(closeTimeoutRef.current);
@@ -33,6 +65,7 @@ export function InventorySlot({ label, name, type, empty = false, item = null })
       {label && <div className="slot-label">{label}</div>}
       <div className="slot-item-name">{name}</div>
       {type && <div className="slot-item-type">{type}</div>}
+      {hasOverrides && <span className="slot-override-indicator" title="Has modifications">✎</span>}
 
       {!empty && item && (
         <ItemDetailTooltip

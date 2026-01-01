@@ -11,6 +11,10 @@ const categoryLabels = {
 
 const categoryOrder = ['attributes', 'offense', 'defense', 'resistances'];
 
+/**
+ * @param {Object} props
+ * @param {Object} props.characterData - Character data with equipped items (may include modified items)
+ */
 export function StatsPanel({ characterData }) {
   const { categories } = useDerivedStats(characterData);
 

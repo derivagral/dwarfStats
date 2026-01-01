@@ -252,7 +252,7 @@ export function useDerivedStats(characterData, customDefinitions = null) {
     const saveData = characterData.raw || {};
 
     const stats = definitions.map(def => {
-      // Calculate sum from items
+      // Calculate sum from items (includes any modified item stats)
       const itemSum = sumFromItems(items, def.sources);
 
       // Get any direct save data values

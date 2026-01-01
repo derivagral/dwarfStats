@@ -50,14 +50,17 @@ Single-file tab for all upload methods:
 
 ## Character Tab (`character/`)
 
-Equipment inventory display with tooltips.
+Equipment inventory display with item-level stat editing.
 
 | Component | Purpose |
 |-----------|---------|
 | `CharacterTab` | Tab container, passes saveData |
-| `CharacterPanel` | Layout manager, maps items to slots |
-| `InventorySlot` | Individual slot with hover state |
+| `CharacterPanel` | Layout manager, maps items to slots, hosts item editor |
+| `InventorySlot` | Clickable slot with selection and override indicators |
 | `ItemDetailTooltip` | Attribute tooltip with smart positioning |
+| `StatsPanel` | Displays derived stats with category grouping |
+| `ItemEditor` | Panel for editing individual item stats |
+| `StatInput` | Numeric input with +/- controls |
 
 **Slot types (12 main + 4 offhand):**
 - Main: head, chest, hands, pants, boots, neck, bracer, ring1, ring2, relic, weapon, fossil
@@ -67,6 +70,14 @@ Equipment inventory display with tooltips.
 - Detects viewport edges
 - Adjusts for scroll position
 - Prevents off-screen rendering
+- Hidden when item is selected for editing
+
+**Item-Level Stat Editing:**
+Click any equipped item to open the ItemEditor panel below the equipment grid.
+- View and remove base stats from the item
+- Add custom stats with type selector and value input
+- Changes immediately reflect in the StatsPanel on the right
+- Edit icon (✎) shows on slots with modifications
 
 ## Filter Tab (`filter/`)
 

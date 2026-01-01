@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { InventorySlot } from './InventorySlot';
 import { StatsPanel } from './StatsPanel';
+import { ItemEditor } from './ItemEditor';
 import { mapItemsToSlots } from '../../utils/equipmentParser';
+import { useItemOverrides } from '../../hooks/useItemOverrides';
 
 export function CharacterPanel({ characterData }) {
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const {
+    overrides,
+    hasSlotOverrides,
+    getSlotOverrides,
+    applyOverridesToItem,
+    updateMod,
+    addMod,
+    removeMod,
+    removeBaseStat,
+    restoreBaseStat,
+    clearSlot,
+  } = useItemOverrides();
+
   if (!characterData) return null;
 
   const baseName = characterData.filename.replace(/\.sav$/i, '');
@@ -11,6 +29,38 @@ export function CharacterPanel({ characterData }) {
   // Map equipped items to their slots
   const equippedItems = characterData.equippedItems || [];
   const slotMap = mapItemsToSlots(equippedItems);
+
+  // Build modified slot map with overrides applied (for tooltips)
+  const modifiedSlotMap = useMemo(() => {
+    const result = {};
+    for (const [slotKey, item] of Object.entries(slotMap)) {
+      if (item && hasSlotOverrides(slotKey)) {
+        const modifiedAttributes = applyOverridesToItem(slotKey, item.attributes);
+        result[slotKey] = { ...item, attributes: modifiedAttributes };
+      } else {
+        result[slotKey] = item;
+      }
+    }
+    return result;
+  }, [slotMap, overrides, hasSlotOverrides, applyOverridesToItem]);
+
+  // Handle item selection
+  const handleSelectItem = useCallback((slotKey, item) => {
+    if (selectedSlot === slotKey) {
+      // Clicking selected item deselects it
+      setSelectedSlot(null);
+      setSelectedItem(null);
+    } else {
+      setSelectedSlot(slotKey);
+      setSelectedItem(item);
+    }
+  }, [selectedSlot]);
+
+  // Handle closing editor
+  const handleCloseEditor = useCallback(() => {
+    setSelectedSlot(null);
+    setSelectedItem(null);
+  }, []);
 
   // Helper to determine offhand label from item
   const getOffhandLabel = (item) => {
@@ -25,11 +75,12 @@ export function CharacterPanel({ characterData }) {
     return 'Offhand';
   };
 
-  // Helper to create slot data
+  // Helper to create slot data (uses modified items for tooltip display)
   const createSlot = (label, slotKey, isDynamic = false) => {
-    const item = slotMap[slotKey];
+    const item = modifiedSlotMap[slotKey];
     const finalLabel = isDynamic && item ? getOffhandLabel(item) : label;
     return {
+      slotKey,
       label: finalLabel,
       name: item ? item.name : 'Empty',
       type: item ? item.itemType : '',
@@ -70,6 +121,39 @@ export function CharacterPanel({ characterData }) {
     createSlot('Offhand', 'offhand4', true),
   ];
 
+  // Build modified items for stats calculation
+  const modifiedItems = useMemo(() => {
+    return equippedItems.map(item => {
+      const slotKey = item.slot;
+      if (!slotKey || !hasSlotOverrides(slotKey)) return item;
+
+      const modifiedAttributes = applyOverridesToItem(slotKey, item.attributes);
+      return { ...item, attributes: modifiedAttributes };
+    });
+  }, [equippedItems, overrides, hasSlotOverrides, applyOverridesToItem]);
+
+  // Modified character data for stats panel
+  const modifiedCharacterData = useMemo(() => ({
+    ...characterData,
+    equippedItems: modifiedItems,
+  }), [characterData, modifiedItems]);
+
+  // Render slot helper
+  const renderSlot = (slot) => (
+    <InventorySlot
+      key={slot.slotKey}
+      slotKey={slot.slotKey}
+      label={slot.label}
+      name={slot.name}
+      type={slot.type}
+      empty={slot.empty}
+      item={slot.item}
+      isSelected={selectedSlot === slot.slotKey}
+      hasOverrides={hasSlotOverrides(slot.slotKey)}
+      onSelect={handleSelectItem}
+    />
+  );
+
   return (
     <div className="character-panel">
       <div className="character-header">
@@ -83,51 +167,21 @@ export function CharacterPanel({ characterData }) {
           <div className="equipment-layout">
             {/* Left side slots */}
             <div className="equipment-column equipment-left">
-              {leftSlots.map((slot, i) => (
-                <InventorySlot
-                  key={`left-${i}`}
-                  label={slot.label}
-                  name={slot.name}
-                  type={slot.type}
-                  empty={slot.empty}
-                  item={slot.item}
-                />
-              ))}
+              {leftSlots.map(renderSlot)}
             </div>
 
             {/* Center character, fossil, and weapon */}
             <div className="equipment-column equipment-center">
-              <InventorySlot
-                label={fossilSlot.label}
-                name={fossilSlot.name}
-                type={fossilSlot.type}
-                empty={fossilSlot.empty}
-                item={fossilSlot.item}
-              />
+              {renderSlot(fossilSlot)}
               <div className="character-model">
                 <div className="character-avatar">🧙</div>
               </div>
-              <InventorySlot
-                label={weaponSlot.label}
-                name={weaponSlot.name}
-                type={weaponSlot.type}
-                empty={weaponSlot.empty}
-                item={weaponSlot.item}
-              />
+              {renderSlot(weaponSlot)}
             </div>
 
             {/* Right side slots */}
             <div className="equipment-column equipment-right">
-              {rightSlots.map((slot, i) => (
-                <InventorySlot
-                  key={`right-${i}`}
-                  label={slot.label}
-                  name={slot.name}
-                  type={slot.type}
-                  empty={slot.empty}
-                  item={slot.item}
-                />
-              ))}
+              {rightSlots.map(renderSlot)}
             </div>
           </div>
 
@@ -135,29 +189,30 @@ export function CharacterPanel({ characterData }) {
           <div className="equipment-section">
             <div className="section-title">Offhand Equipment</div>
             <div className="offhand-grid">
-              <InventorySlot
-                label={dragonSlot.label}
-                name={dragonSlot.name}
-                type={dragonSlot.type}
-                empty={dragonSlot.empty}
-                item={dragonSlot.item}
-              />
-              {offhandSlots.map((slot, i) => (
-                <InventorySlot
-                  key={`offhand-${i}`}
-                  label={slot.label}
-                  name={slot.name}
-                  type={slot.type}
-                  empty={slot.empty}
-                  item={slot.item}
-                />
-              ))}
+              {renderSlot(dragonSlot)}
+              {offhandSlots.map(renderSlot)}
             </div>
           </div>
+
+          {/* Item Editor Panel - use original item for base stats */}
+          {selectedSlot && slotMap[selectedSlot] && (
+            <ItemEditor
+              item={slotMap[selectedSlot]}
+              slotKey={selectedSlot}
+              slotOverrides={getSlotOverrides(selectedSlot)}
+              onUpdateMod={(modIndex, updates) => updateMod(selectedSlot, modIndex, updates)}
+              onAddMod={(mod) => addMod(selectedSlot, mod)}
+              onRemoveMod={(modIndex) => removeMod(selectedSlot, modIndex)}
+              onRemoveBaseStat={(index) => removeBaseStat(selectedSlot, index)}
+              onRestoreBaseStat={(index) => restoreBaseStat(selectedSlot, index)}
+              onClearSlot={() => clearSlot(selectedSlot)}
+              onClose={handleCloseEditor}
+            />
+          )}
         </div>
 
         {/* Stats Section */}
-        <StatsPanel characterData={characterData} />
+        <StatsPanel characterData={modifiedCharacterData} />
       </div>
     </div>
   );

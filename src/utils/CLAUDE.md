@@ -10,6 +10,7 @@ Core logic for save file parsing, filtering, and display.
 | `dwarfFilter.js` | Item filtering engine | `analyzeUeSaveJson()` |
 | `equipmentParser.js` | Equipment extraction | `extractEquippedItems()`, `mapItemsToSlots()` |
 | `attributeDisplay.js` | Friendly stat names | `getDisplayName()`, `formatAttributeValue()` |
+| `statBuckets.js` | Stat override definitions | `STAT_TYPES`, `BUCKET_DEFINITIONS`, helpers |
 | `platform.js` | Browser detection | `getPlatformInfo()` |
 | `sound.js` | Audio notifications | `playMatchSound()` |
 
@@ -114,6 +115,36 @@ formatAttributeValue('AddedAttributeValue.Wisdom', 15);
 - Resistances and currencies
 - Critical chance/damage
 - Life steal variants
+
+## statBuckets.js - Stat Type Definitions
+
+Defines available stat types for the item editor dropdown.
+
+```js
+import { STAT_TYPES, getStatType } from './utils/statBuckets';
+```
+
+**STAT_TYPES:** Array of available stat types (18 stats across 4 categories):
+```js
+{ id: 'strength', name: 'Strength', category: 'attributes', defaultValue: 0 }
+{ id: 'critChance', name: 'Critical Chance', category: 'offense', isPercent: true }
+```
+
+**Categories:**
+- `attributes`: Strength, Dexterity, Wisdom, Vitality
+- `offense`: Physical/Magery Damage, Crit Chance/Damage, Attack Speed
+- `defense`: Armor, Health, Health Regen, Evasion, Block Chance
+- `resistances`: Fire, Cold, Lightning, Poison Resistance
+
+**Helper functions:**
+- `getStatType(id)` - Get stat definition by ID
+- `getStatTypesByCategory(category)` - Get all stats in a category
+
+**Adding a new stat type:**
+Add entry to `STAT_TYPES` array:
+```js
+{ id: 'newStat', name: 'New Stat', category: 'offense', defaultValue: 0, isPercent: false }
+```
 
 ## platform.js - Browser Detection
 

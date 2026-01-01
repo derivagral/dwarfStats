@@ -2,6 +2,77 @@
 
 Custom React hooks for reusable logic.
 
+## useDerivedStats
+
+Calculates derived character stats from equipped items.
+
+```js
+import { useDerivedStats } from './hooks/useDerivedStats';
+
+const { stats, categories, getStat, getCategory } = useDerivedStats(
+  characterData,      // Character data with equippedItems
+  customDefinitions   // Optional custom stat definitions array
+);
+```
+
+**Returns:**
+| Property | Type | Description |
+|----------|------|-------------|
+| `stats` | `Array` | All calculated stats |
+| `categories` | `Object` | Stats grouped by category |
+| `getStat` | `(id) => stat` | Get stat by ID |
+| `getCategory` | `(cat) => stats[]` | Get stats in category |
+
+**Stat object shape:**
+```js
+{
+  id: 'strength',
+  name: 'Strength',
+  category: 'attributes',
+  value: 25,
+  formattedValue: '25',
+  breakdown: [...],       // Source breakdown for tooltip
+  description: '...'
+}
+```
+
+## useItemOverrides
+
+Manages per-item stat modifications. Each equipped item can have stats added, removed, or modified.
+
+```js
+import { useItemOverrides } from './hooks/useItemOverrides';
+
+const {
+  overrides,           // Full state: { slotKey: { mods: [], removedIndices: [] } }
+  hasAnyOverrides,     // Boolean: any modifications exist?
+  getSlotOverrides,    // (slotKey) => slot override state
+  hasSlotOverrides,    // (slotKey) => boolean
+  applyOverridesToItem,// (slotKey, baseAttributes) => modified attributes
+  updateMod,           // (slotKey, modIndex, updates) => void
+  addMod,              // (slotKey, mod?) => void
+  removeMod,           // (slotKey, modIndex) => void
+  removeBaseStat,      // (slotKey, baseStatIndex) => void
+  restoreBaseStat,     // (slotKey, baseStatIndex) => void
+  clearSlot,           // (slotKey) => void
+  clearAll,            // () => void
+} = useItemOverrides({ onChange: (overrides) => {} });
+```
+
+**Slot override structure:**
+```js
+{
+  mods: [
+    { id: 'mod-123', name: 'Strength', value: 15, isNew: true }
+  ],
+  removedIndices: [0, 2]  // Indices of base stats to hide
+}
+```
+
+**Usage with CharacterPanel:**
+Item overrides are applied to equippedItems before passing to StatsPanel.
+Modified items include both remaining base stats and added mods.
+
 ## useFileProcessor
 
 Handles file reading and WASM conversion pipeline.

@@ -6,10 +6,10 @@ const categoryLabels = {
   attributes: 'Attributes',
   offense: 'Offense',
   defense: 'Defense',
-  resistances: 'Resistances',
+  elemental: 'Elemental'
 };
 
-const categoryOrder = ['attributes', 'offense', 'defense', 'resistances'];
+const categoryOrder = ['offense', 'elemental', 'defense', 'attributes'];
 
 /**
  * @param {Object} props

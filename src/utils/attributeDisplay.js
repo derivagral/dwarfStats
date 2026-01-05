@@ -27,6 +27,7 @@ const ATTRIBUTE_DISPLAY_MAP = {
   'Boss%': 'Boss Damage Bonus',
   // '.Damage%': 'Damage Bonus',
   // Weapon-specific damage types
+  // TODO missing the axe/2h stance? not sure what the label on it is
   'Magery.Damage': 'Magery Damage',
   'MageryDamage%': 'Magery Damage %',
   'Damage.Magery.CriticalDamage%': 'Magery Critical Damage %',

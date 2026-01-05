@@ -19,27 +19,58 @@ export const STAT_TYPES = [
   { id: 'strength', name: 'Strength', attributeName: 'Characteristics.Strength', category: 'attributes', defaultValue: 0 },
   { id: 'dexterity', name: 'Dexterity', attributeName: 'Characteristics.Dexterity', category: 'attributes', defaultValue: 0 },
   { id: 'wisdom', name: 'Wisdom', attributeName: 'Characteristics.Wisdom', category: 'attributes', defaultValue: 0 },
-  { id: 'vitality', name: 'Vitality', attributeName: 'Characteristics.Vitality', category: 'attributes', defaultValue: 0 },
+  { id: 'stamina', name: 'Stamina', attributeName: 'Characteristics.Stamina', category: 'attributes', defaultValue: 0 },
+  { id: 'luck', name: 'Luck', attributeName: 'Characteristics.Luck', category: 'attributes', defaultValue: 0 },
+  { id: 'agility', name: 'Agility', attributeName: 'Characteristics.Agility', category: 'attributes', defaultValue: 0 },
+  { id: 'wisdom', name: 'Wisdom', attributeName: 'Characteristics.Wisdom', category: 'attributes', defaultValue: 0 },
+  { id: 'endurance', name: 'Endurance', attributeName: 'Characteristics.Intelligence', category: 'attributes', defaultValue: 0 },
+
+  // Element
+  { id: 'fireDamage', name: 'Fire Damage', attributeName: 'FireDamage', category: 'element', defaultValue: 0 },
+  { id: 'arcaneDamage', name: 'Arcane Damage', attributeName: 'ArcaneDamage', category: 'element', defaultValue: 0 },
+  { id: 'lightningDamage', name: 'Lightning Damage', attributeName: 'LightningDamage', category: 'element', defaultValue: 0 },
 
   // Offense
-  { id: 'physicalDamage', name: 'Physical Damage', attributeName: 'PhysicalDamage', category: 'offense', defaultValue: 0 },
-  { id: 'mageryDamage', name: 'Magery Damage', attributeName: 'MageryDamage', category: 'offense', defaultValue: 0 },
+  { id: 'damage', name: 'Damage', attributeName: 'Damage', category: 'offense', defaultValue: 0 },
   { id: 'critChance', name: 'Critical Chance', attributeName: 'CriticalChance', category: 'offense', defaultValue: 0, isPercent: true },
   { id: 'critDamage', name: 'Critical Damage', attributeName: 'CriticalDamage%', category: 'offense', defaultValue: 0, isPercent: true },
   { id: 'attackSpeed', name: 'Attack Speed', attributeName: 'AttackSpeed', category: 'offense', defaultValue: 0, isPercent: true },
+  
+  // stance
+  { id: 'mageryDamage', name: 'Magery Damage', attributeName: 'MageryDamage', category: 'offense', defaultValue: 0 },
+  { id: 'mageryCritDamage', name: 'Magery Critical Damage', attributeName: 'MageryCritDamage', category: 'offense', defaultValue: 0 },
+  { id: 'mageryCritChance', name: 'Magery Critical Chance', attributeName: 'MageryCritChance', category: 'offense', defaultValue: 0 },
+  { id: 'maulDamage', name: 'Maul Damage', attributeName: 'MaulDamage', category: 'offense', defaultValue: 0 },
+  { id: 'maulCritDamage', name: 'Maul Critical Damage', attributeName: 'MaulCritDamage', category: 'offense', defaultValue: 0 },
+  { id: 'maulCritChance', name: 'Maul Critical Chance', attributeName: 'MaulCritChance', category: 'offense', defaultValue: 0 },
+  { id: 'archeryDamage', name: 'Archery Damage', attributeName: 'ArcheryDamage', category: 'offense', defaultValue: 0 },
+  { id: 'archeryCritDamage', name: 'Archery Critical Damage', attributeName: 'ArcheryCritDamage', category: 'offense', defaultValue: 0 },
+  { id: 'archeryCritChance', name: 'Archery Critical Chance', attributeName: 'ArcheryCritChance', category: 'offense', defaultValue: 0 },
+  { id: 'unarmedDamage', name: 'Unarmed Damage', attributeName: 'UnarmedDamage', category: 'offense', defaultValue: 0 },
+  { id: 'unarmedCritDamage', name: 'Unarmed Critical Damage', attributeName: 'UnarmedCritDamage', category: 'offense', defaultValue: 0 },
+  { id: 'unarmedCritChance', name: 'Unarmed Critical Chance', attributeName: 'UnarmedCritChance', category: 'offense', defaultValue: 0 },
+  { id: 'swordDamage', name: 'Sword Damage', attributeName: 'Damage.OneHanded', category: 'offense', defaultValue: 0 },
+  { id: 'swordCritDamage', name: 'Sword Critical Damage', attributeName: 'Damage.OneHandedCriticalDamage', category: 'offense', defaultValue: 0 },
+  { id: 'swordCritChance', name: 'Sword Critical Chance', attributeName: 'Damage.OneHandedCriticalChance', category: 'offense', defaultValue: 0 },
+  { id: 'spearDamage', name: 'Spear Damage', attributeName: 'Damage.PoleArmDamage', category: 'offense', defaultValue: 0 },
+  { id: 'spearCritDamage', name: 'Spear Critical Damage', attributeName: 'PoleArmCriticalDamage', category: 'offense', defaultValue: 0 },
+  { id: 'spearCritChance', name: 'Spear Critical Chance', attributeName: 'PoleArmCritcalChance', category: 'offense', defaultValue: 0 },
+  { id: 'scytheDamage', name: 'Magery Damage', attributeName: 'Damage.MageryDamage', category: 'offense', defaultValue: 0 },
+  { id: 'scytheCritDamage', name: 'Magery Critical Damage', attributeName: 'ScythesCritDamage', category: 'offense', defaultValue: 0 },
+  { id: 'scytheCritChance', name: 'Magery Critical Chance', attributeName: 'ScythesCritChance', category: 'offense', defaultValue: 0 },
+  { id: 'twohandDamage', name: 'Axes Damage', attributeName: 'Damage.TwoHandedDamage', category: 'offense', defaultValue: 0 },
+  { id: 'twohandCritDamage', name: 'Axes Critical Damage', attributeName: 'TwoHandedCritDamage', category: 'offense', defaultValue: 0 },
+  { id: 'twohandCritChance', name: 'Axes Critical Chance', attributeName: 'TwoHandedCriticalChance', category: 'offense', defaultValue: 0 },
 
   // Defense
   { id: 'armor', name: 'Armor', attributeName: 'Armor', category: 'defense', defaultValue: 0 },
   { id: 'health', name: 'Health', attributeName: 'MaxHealth', category: 'defense', defaultValue: 0 },
   { id: 'healthRegen', name: 'Health Regen', attributeName: 'HealthRegen', category: 'defense', defaultValue: 0 },
-  { id: 'evasion', name: 'Evasion', attributeName: 'Evasion', category: 'defense', defaultValue: 0, isPercent: true },
   { id: 'blockChance', name: 'Block Chance', attributeName: 'BlockChance', category: 'defense', defaultValue: 0, isPercent: true },
 
   // Resistances
-  { id: 'fireResist', name: 'Fire Resistance', attributeName: 'FireResist', category: 'resistances', defaultValue: 0, isPercent: true },
-  { id: 'coldResist', name: 'Cold Resistance', attributeName: 'ColdResist', category: 'resistances', defaultValue: 0, isPercent: true },
-  { id: 'lightningResist', name: 'Lightning Resistance', attributeName: 'LightningResist', category: 'resistances', defaultValue: 0, isPercent: true },
-  { id: 'poisonResist', name: 'Poison Resistance', attributeName: 'PoisonResist', category: 'resistances', defaultValue: 0, isPercent: true },
+  { id: 'damageReduction', name: 'Damage Reduction', attributeName: 'DamageReduction', category: 'resistances', defaultValue: 0, isPercent: true },
+  { id: 'armor', name: 'Armor', attributeName: 'Armor', category: 'resistances', defaultValue: 0, isPercent: true },
 ];
 
 // Get stat type by id
@@ -110,7 +141,7 @@ export const BUCKET_DEFINITIONS = {
     description: 'Enchantment slot bonuses',
     maxSlots: 2,
     allowedStats: null,
-    slotRestrictions: ['weapon', 'chest', 'head', 'hands', 'boots'],
+    slotRestrictions: ['head', 'pants', 'boots', 'neck', 'bracer', 'ring1', 'ring2', 'relic', 'weapon'],
     defaultSlots: [
       { statId: null, value: 0 },
     ],

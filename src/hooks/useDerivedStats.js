@@ -74,7 +74,17 @@ const defaultStatDefinitions = [
     category: 'attributes',
     sources: ['Characteristics\\.Strength', 'Strength$'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    description: 'Physical power affecting melee damage and carry capacity'
+    format: (v) => `+${v.toFixed(0)}`,
+    description: 'Strength'
+  },
+  {
+    id: 'strengthBonus',
+    name: 'Strength Bonus',
+    category: 'attributes',
+    sources: ['Characteristics\\.Strength%', 'Strength%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}%`,
+    description: 'Strength  Bonus'
   },
   {
     id: 'dexterity',
@@ -82,7 +92,17 @@ const defaultStatDefinitions = [
     category: 'attributes',
     sources: ['Characteristics\\.Dexterity', 'Dexterity$'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    description: 'Agility affecting attack speed and evasion'
+    format: (v) => `+${v.toFixed(0)}`,
+    description: 'Dexterity'
+  },
+  {
+    id: 'dexterityBonus',
+    name: 'Dexterity Bonus',
+    category: 'attributes',
+    sources: ['Characteristics\\.Dexterity%', 'Dexterity%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}%`,
+    description: 'Dexterity Bonus'
   },
   {
     id: 'wisdom',
@@ -90,26 +110,109 @@ const defaultStatDefinitions = [
     category: 'attributes',
     sources: ['Characteristics\\.Wisdom', 'Wisdom$'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    description: 'Mental acuity affecting spell power and mana'
+    format: (v) => `+${v.toFixed(0)}`,
+    description: 'Wisdom'
   },
   {
-    id: 'vitality',
-    name: 'Vitality',
+    id: 'wisdomBonus',
+    name: 'Wisdom Bonus',
     category: 'attributes',
-    sources: ['Characteristics\\.Vitality', 'Vitality$'],
+    sources: ['Characteristics\\.Wisdom%', 'Wisdom%'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    description: 'Constitution affecting health and resistances'
+    format: (v) => `+${v.toFixed(0)}%`,
+    description: 'Wisdom Bonus'
+  },
+  {
+    id: 'luck',
+    name: 'Luck',
+    category: 'attributes',
+    sources: ['Characteristics\\.Luck', 'Luck$'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}`,
+    description: 'Luck'
+  },
+  {
+    id: 'luckBonus',
+    name: 'Luck Bonus',
+    category: 'attributes',
+    sources: ['Characteristics\\.Luck%', 'Luck%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}%`,
+    description: 'Luck Bonus'
+  },
+  {
+    id: 'agility',
+    name: 'Agility',
+    category: 'attributes',
+    sources: ['Characteristics\\.Agility', 'Agility$'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}`,
+    description: 'Agility'
+  },
+  {
+    id: 'agilityBonus',
+    name: 'Agility Bonus',
+    category: 'attributes',
+    sources: ['Characteristics\\.Agility%', 'Agility%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}%`,
+    description: 'Agility Bonus'
+  },
+  {
+    id: 'endurance',
+    name: 'Endurance',
+    category: 'attributes',
+    sources: ['Characteristics\\.Endurance', 'Endurance$', 'Characteristics\\.Intelligence', 'Intelligence$'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}`,
+    description: 'Endurance'
+  },
+  {
+    id: 'enduranceBonus',
+    name: 'Endurance Bonus',
+    category: 'attributes',
+    sources: ['Characteristics\\.Endurance%', 'Endurance%', 'Characteristics\\.Intelligence%', 'Intelligence%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}%`,
+    description: 'Endurance Bonus'
+  },
+  {
+    id: 'stamina',
+    name: 'Stamina',
+    category: 'attributes',
+    sources: ['Characteristics\\.Stamina', 'Stamina$'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}`,
+    description: 'Stamina'
+  },
+  {
+    id: 'staminaBonus',
+    name: 'Stamina Bonus',
+    category: 'attributes',
+    sources: ['Characteristics\\.Stamina%', 'Stamina%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}%`,
+    description: 'Stamina Bonus'
   },
 
   // Offense Stats
   {
-    id: 'physicalDamage',
-    name: 'Physical Damage',
+    id: 'damage',
+    name: 'Damage',
     category: 'offense',
-    sources: ['PhysicalDamage', 'Physical.*Damage'],
+    sources: ['Damage$'],
     calculate: (sources) => sources.itemSum?.total || 0,
     format: (v) => `+${v.toFixed(0)}`,
-    description: 'Bonus physical damage from all sources'
+    description: 'Base damage'
+  },
+  {
+    id: 'damageBonus',
+    name: 'Damage Bonus',
+    category: 'offense',
+    sources: ['Damage%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}%`,
+    description: 'Damage Bonus'
   },
   {
     id: 'mageryDamage',
@@ -117,7 +220,7 @@ const defaultStatDefinitions = [
     category: 'offense',
     sources: ['MageryDamage', 'Magery.*Damage(?!%)'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    format: (v) => `+${v.toFixed(0)}`,
+    format: (v) => `+${v.toFixed(0)}%`,
     description: 'Bonus magical damage from all sources'
   },
   {
@@ -148,6 +251,7 @@ const defaultStatDefinitions = [
     description: 'Increased attack speed'
   },
 
+
   // Defense Stats
   {
     id: 'armor',
@@ -156,7 +260,16 @@ const defaultStatDefinitions = [
     sources: ['Armor$', '\\.Armor$'],
     calculate: (sources) => sources.itemSum?.total || 0,
     format: (v) => v.toFixed(0),
-    description: 'Physical damage reduction'
+    description: 'Armor'
+  },
+  {
+    id: 'armorBonus',
+    name: 'Armor Bonus',
+    category: 'defense',
+    sources: ['Armor%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `${v.toFixed(1)}%`,
+    description: 'Armor damage reduction bonus'
   },
   {
     id: 'health',
@@ -168,69 +281,70 @@ const defaultStatDefinitions = [
     description: 'Maximum health points'
   },
   {
+    id: 'healthBonus',
+    name: 'Health Bonus',
+    category: 'defense',
+    sources: ['Health%', '\\.Health%', 'Life%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `+${v.toFixed(0)}`,
+    description: 'Maximum health points'
+  },
+  {
     id: 'healthRegen',
     name: 'Health Regen',
     category: 'defense',
-    sources: ['HealthRegen', 'Health.*Regen'],
+    sources: ['HealthRegeneration'],
     calculate: (sources) => sources.itemSum?.total || 0,
     format: (v) => `+${v.toFixed(1)}/s`,
     description: 'Health regeneration per second'
   },
   {
-    id: 'evasion',
-    name: 'Evasion',
+    id: 'xpBonus',
+    name: 'XP Bonus',
     category: 'defense',
-    sources: ['Evasion', 'Dodge'],
+    sources: ['XPBonus$'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    format: (v) => `${(v * 100).toFixed(1)}%`,
-    description: 'Chance to evade attacks'
-  },
-  {
-    id: 'blockChance',
-    name: 'Block Chance',
-    category: 'defense',
-    sources: ['BlockChance', 'Block.*Chance'],
-    calculate: (sources) => sources.itemSum?.total || 0,
-    format: (v) => `${(v * 100).toFixed(1)}%`,
-    description: 'Chance to block attacks'
+    format: (v) => `+${v.toFixed(1)}%`,
+    description: 'XP Bonus'
   },
 
+  // Resist Stats
+  {
+    id: 'damageReduction',
+    name: 'Damage Reduction',
+    category: 'resistances',
+    sources: ['DamageReduction%'],
+    calculate: (sources) => sources.itemSum?.total || 0,
+    format: (v) => `${(v * 100).toFixed(0)}%`,
+    description: 'Resistance to damage (<= 50%)'
+  },
   // Elemental Stats
   {
-    id: 'fireResist',
-    name: 'Fire Resistance',
-    category: 'resistances',
-    sources: ['FireResist', 'Fire.*Resist'],
+    id: 'fireDamageBonus',
+    name: 'Fire Damage',
+    category: 'elemental',
+    sources: ['Fire%'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    format: (v) => `${(v * 100).toFixed(0)}%`,
-    description: 'Resistance to fire damage'
+    format: (v) => `${(v * 100).toFixed(1)}%`,
+    description: 'Fire Damage%'
   },
-  {
-    id: 'coldResist',
-    name: 'Cold Resistance',
-    category: 'resistances',
-    sources: ['ColdResist', 'Cold.*Resist', 'IceResist'],
+    {
+    id: 'arcaneDamageBonus',
+    name: 'Arcane Damage',
+    category: 'elemental',
+    sources: ['Arcane%'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    format: (v) => `${(v * 100).toFixed(0)}%`,
-    description: 'Resistance to cold damage'
+    format: (v) => `${(v * 100).toFixed(1)}%`,
+    description: 'Arcane Damage%'
   },
-  {
-    id: 'lightningResist',
-    name: 'Lightning Resistance',
-    category: 'resistances',
-    sources: ['LightningResist', 'Lightning.*Resist'],
+    {
+    id: 'lightningDamageBonus',
+    name: 'Lightning Damage',
+    category: 'elemental',
+    sources: ['Lightning%'],
     calculate: (sources) => sources.itemSum?.total || 0,
-    format: (v) => `${(v * 100).toFixed(0)}%`,
-    description: 'Resistance to lightning damage'
-  },
-  {
-    id: 'poisonResist',
-    name: 'Poison Resistance',
-    category: 'resistances',
-    sources: ['PoisonResist', 'Poison.*Resist'],
-    calculate: (sources) => sources.itemSum?.total || 0,
-    format: (v) => `${(v * 100).toFixed(0)}%`,
-    description: 'Resistance to poison damage'
+    format: (v) => `${(v * 100).toFixed(1)}%`,
+    description: 'Lightning Damage%'
   },
 ];
 

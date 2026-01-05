@@ -1,124 +1,13 @@
 // Attribute display mapping - transforms technical save data attribute names
 // into user-friendly display names for tooltips and UI
+//
+// Display mappings are now generated from the unified stat registry.
+// To add new display names, update src/utils/statRegistry.js
 
-// Map of attribute path patterns to display names
-// Patterns can be:
-// - Full paths: "FieryTotem.DamageMultiplier"
-// - Single segments: "Wisdom%"
-// - The matcher will try to match against the tail of the full path
-const ATTRIBUTE_DISPLAY_MAP = {
-  // Ability-specific attributes (multi-segment paths)
-  'Abilities.ChainLightning.DamageMultiplier': 'Chain Lightning Damage x',
-  'ChainLightning.DamageMultiplier': 'Chain Lightning Damage x',
-  'ChainLightningDamage': 'Chain Lightning Damage',
+import { DISPLAY_MAP, warnUnknownAttribute } from './statRegistry.js';
 
-  'Abilities.FieryTotem.DamageMultiplier': 'Fiery Totem Damage x',
-  'FieryTotem.DamageMultiplier': 'Fiery Totem Damage x',
-  'Abilities.FieryTotem.Modifier.DamageBonus': 'Fiery Totem Damage Bonus',
-  'FieryTotem.Modifier.DamageBonus': 'Fiery Totem Damage Bonus',
-  'FieryTotemDamage': 'Fiery Totem Damage',
-
-  'Abilities.DragonFlame.DamageMultiplier': 'Dragon Flame Damage x',
-  'DragonFlame.DamageMultiplier': 'Dragon Flame Damage',
-  'DragonFlame.DamageMulxtiplier': 'Dragon Flame Damage', // Handle typo in game data
-  'Abilities.DragonFlame.DamageMulxtiplier': 'Dragon Flame Damage x', // Handle typo in game data
-  'DragonFlameDamage': 'Dragon Flame Damage',
-
-  'Boss%': 'Boss Damage Bonus',
-  // '.Damage%': 'Damage Bonus',
-  // Weapon-specific damage types
-  // TODO missing the axe/2h stance? not sure what the label on it is
-  'Magery.Damage': 'Magery Damage',
-  'MageryDamage%': 'Magery Damage %',
-  'Damage.Magery.CriticalDamage%': 'Magery Critical Damage %',
-  'MageryCriticalDamage%': 'Magery Crit Damage %',
-  'MageryCriticalChance%': 'Magery Crit Chance %',
-
-  'Mauls.Damage': 'Mauls Damage',
-  'MaulsDamage%': 'Mauls Damage',
-  'PoleArm%': 'Mauls Damage',
-  'Damage.Mauls.CriticalDamage%': 'Mauls Critical Damage',
-  'MaulsCriticalDamage%': 'Mauls Crit Damage',
-  'MaulsCriticalChance%': 'Mauls Crit Chance',
-
-  'Archery.Damage': 'Archery Damage',
-  'ArcheryDamage%': 'Archery Damage',
-  'Damage.Archery.CriticalDamage%': 'Archery Critical Damage',
-  'ArcheryCriticalDamage%': 'Archery Crit Damage',
-  'ArcheryCriticalChance%': 'Archery Crit Chance',
-
-  'Unarmed.Damage': 'Unarmed Damage',
-  'UnarmedDamage%': 'Unarmed Damage',
-  'Damage.Unarmed.CriticalDamage%': 'Unarmed Critical Damage',
-  'UnarmedCriticalDamage%': 'Unarmed Crit Damage',
-  'UnarmedCriticalChance%': 'Unarmed Crit Chance',
-
-  'Sword.Damage': 'Sword Damage',
-  'SwordDamage%': 'Sword Damage',
-  'Damage.Sword.CriticalDamage%': 'Sword Critical Damage',
-  'SwordCriticalDamage%': 'Sword Crit Damage',
-  'SwordCriticalChance%': 'Sword Crit Chance',
-
-  'Spear.Damage': 'Spear Damage',
-  'SpearDamage%': 'Spear Damage',
-  'Damage.Spear.CriticalDamage%': 'Spear Critical Damage',
-  'SpearCriticalDamage%': 'Spear Crit Damage',
-  'SpearCriticalChance%': 'Spear Crit Chance',
-
-  'Scythes.Damage': 'Scythes Damage',
-  'ScythesDamage%': 'Scythes Damage',
-  'Damage.Scythes.CriticalDamage%': 'Scythes Critical Damage',
-  'ScythesCriticalDamage%': 'Scythes Crit Damage',
-  'ScythesCriticalChance%': 'Scythes Crit Chance',
-
-  // Generic critical stats
-  'CriticalDamage': 'Critical Damage',
-  'CriticalDamage%': 'Critical Damage',
-  'CriticalChance%': 'Critical Chance',
-
-  // Characteristics/Stats
-  'Characteristics.Strength': 'Strength',
-  'Characteristics.Strength%': 'Strength Bonus',
-  'Characteristics.Dexterity': 'Dexterity',
-  'Characteristics.Dexterity%': 'Dexterity Bonus',
-  'Characteristics.Wisdom': 'Wisdom',
-  'Characteristics.Wisdom%': 'Wisdom Bonus',
-  'Characteristics.Vitality': 'Vitality',
-  'Characteristics.Vitality%': 'Vitality Bonus',
-  'Strength': 'Strength',
-  'Strength%': 'Strength Bonus',
-  'Dexterity': 'Dexterity',
-  'Dexterity%': 'Dexterity Bonus',
-  'Wisdom': 'Wisdom',
-  'Wisdom%': 'Wisdom Bonus',
-  'Luck': 'Luck',
-  'Luck%': 'Luck Bonus',
-  'Agility': 'Agility',
-  'Agility%': 'Agility Bonus',
-  'Stamina': 'Stamina',
-  'Stamina%': 'Stamina Bonus',
-  'Endurance': 'Endurance',
-  'Endurance%': 'Endurance Bonus',
-  'Intelligence': 'Endurance',
-  'Intelligence%': 'Endurance Bonus',
-
-  // Defensive stats
-  'armor': 'Armor',
-  'Armor': 'Armor',
-  'Health': 'Health',
-  'Health%': 'Health Bonus',
-  'MaxHealth': 'Max Health',
-
-  'Abilities.EnemyDeath.DamageMultiplier': 'Enemy Death Damage x',
-  'EnemyDeath.DamageMultiplier': 'Enemy Death Damage x',
-  'EnemyDeathDamage': 'Enemy Death Damage',
-
-  // Other
-  'CraftingSpecks': 'Crafting Specks',
-  'Amount': 'Amount',
-  'Charges': 'Charges',
-  'ItemTier': 'Item Tier',
-};
+// Use the display map generated from the stat registry
+const ATTRIBUTE_DISPLAY_MAP = DISPLAY_MAP;
 
 // Pre-compute sorted patterns (longest first for better matching)
 const SORTED_PATTERNS = Object.keys(ATTRIBUTE_DISPLAY_MAP).sort((a, b) => b.length - a.length);
@@ -196,6 +85,9 @@ export function getDisplayName(attributeName) {
       return ATTRIBUTE_DISPLAY_MAP[pattern];
     }
   }
+
+  // Log unknown attributes in development mode
+  warnUnknownAttribute(attributeName);
 
   // Fallback: extract a reasonable name from the path
   return extractFallbackName(tail);

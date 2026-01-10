@@ -197,8 +197,31 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
-  // LAYER 2: PRIMARY DERIVED (monogram-style bonuses from total stats)
+  // LAYER 2: PRIMARY DERIVED (conversions from total stats)
   // ---------------------------------------------------------------------------
+
+  /**
+   * 1% of totalHealth applied as flat damage
+   * Common affix pattern: "Gain X% of Health as Damage"
+   */
+  damageFromHealth: {
+    id: 'damageFromHealth',
+    name: 'Damage from Health',
+    category: 'conversion',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['totalHealth'],
+    config: {
+      sourceStat: 'totalHealth',
+      percentage: 1,  // 1% of health as damage
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damageFromHealth.config;
+      const source = stats[config.sourceStat] || 0;
+      return Math.floor(source * (config.percentage / 100));
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat damage gained from percentage of total health',
+  },
 
   /**
    * Placeholder: Monogram gives "+X newCharacterValue per 100 totalStrength"
@@ -247,8 +270,28 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
-  // LAYER 3: SECONDARY DERIVED (chain from layer 2)
+  // LAYER 3: SECONDARY DERIVED (combinations and chains from layer 2)
   // ---------------------------------------------------------------------------
+
+  /**
+   * Final damage combining all flat damage sources
+   * totalDamage + damageFromHealth + other conversion sources
+   */
+  finalDamage: {
+    id: 'finalDamage',
+    name: 'Final Damage',
+    category: 'final',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['totalDamage', 'damageFromHealth'],
+    calculate: (stats) => {
+      const baseDamage = stats.totalDamage || 0;
+      const healthDamage = stats.damageFromHealth || 0;
+      // Add other damage sources here as they're implemented
+      return Math.floor(baseDamage + healthDamage);
+    },
+    format: v => v.toFixed(0),
+    description: 'Total damage from all sources combined',
+  },
 
   /**
    * Placeholder: "+X% elemental damage per monogramValue"

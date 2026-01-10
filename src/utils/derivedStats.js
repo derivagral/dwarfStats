@@ -1,20 +1,35 @@
 /**
  * Derived Stats Calculation Engine
  *
- * Handles chained stat calculations with dependency resolution.
+ * Handles chained stat calculations with dependency resolution using layers.
  * Stats are calculated in topological order based on their dependencies.
  *
- * Calculation Types:
- * - 'sum': Add base + bonus (e.g., totalStrength = strength + strengthBonus%)
- * - 'perStat': X amount per Y stat (e.g., +5 damage per 100 strength)
- * - 'multiply': Base * multiplier (e.g., armor * (1 + armorBonus))
- * - 'chain': Output of previous calculation feeds into next
- * - 'custom': Arbitrary calculation function
+ * Layer System:
+ * - Layer 0: Base stats (from items/character) - not defined here
+ * - Layer 1: Total stats (base + bonus%)
+ * - Layer 2: First-order derived (e.g., monogram values from total stats)
+ * - Layer 3: Second-order derived (e.g., elemental bonus from monogram value)
+ * - Layer 4+: Higher-order chains
  *
- * Example chains:
- * - totalAttribute -> potionsPerAttribute -> statPerPotion
- * - newCharacterValue per totalAttribute -> elementalDamage% per newCharacterValue
+ * Calculation Types:
+ * - 'totalStat': Base * (1 + bonus%) - standard total calculation
+ * - 'perStat': X amount per Y stat (e.g., +5 damage per 100 strength)
+ * - 'custom': Arbitrary calculation function
  */
+
+import { STAT_REGISTRY } from './statRegistry.js';
+
+// ============================================================================
+// LAYER DEFINITIONS
+// ============================================================================
+
+export const LAYERS = {
+  BASE: 0,           // Raw stats from items/character (computed by useDerivedStats)
+  TOTALS: 1,         // Base + bonus% calculations
+  PRIMARY_DERIVED: 2, // First derived values (e.g., monogram bonuses)
+  SECONDARY_DERIVED: 3, // Second-order derived
+  TERTIARY_DERIVED: 4,  // Third-order derived
+};
 
 // ============================================================================
 // DERIVED STAT DEFINITIONS
@@ -22,12 +37,13 @@
 
 export const DERIVED_STATS = {
   // ---------------------------------------------------------------------------
-  // TOTAL ATTRIBUTES (base + bonus%)
+  // LAYER 1: TOTAL ATTRIBUTES (base + bonus%)
   // ---------------------------------------------------------------------------
   totalStrength: {
     id: 'totalStrength',
     name: 'Total Strength',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['strength', 'strengthBonus'],
     calculate: (stats) => {
       const base = stats.strength || 0;
@@ -40,7 +56,8 @@ export const DERIVED_STATS = {
   totalDexterity: {
     id: 'totalDexterity',
     name: 'Total Dexterity',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['dexterity', 'dexterityBonus'],
     calculate: (stats) => {
       const base = stats.dexterity || 0;
@@ -53,7 +70,8 @@ export const DERIVED_STATS = {
   totalWisdom: {
     id: 'totalWisdom',
     name: 'Total Wisdom',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['wisdom', 'wisdomBonus'],
     calculate: (stats) => {
       const base = stats.wisdom || 0;
@@ -66,7 +84,8 @@ export const DERIVED_STATS = {
   totalVitality: {
     id: 'totalVitality',
     name: 'Total Vitality',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['vitality', 'vitalityBonus'],
     calculate: (stats) => {
       const base = stats.vitality || 0;
@@ -79,7 +98,8 @@ export const DERIVED_STATS = {
   totalEndurance: {
     id: 'totalEndurance',
     name: 'Total Endurance',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['endurance', 'enduranceBonus'],
     calculate: (stats) => {
       const base = stats.endurance || 0;
@@ -92,7 +112,8 @@ export const DERIVED_STATS = {
   totalAgility: {
     id: 'totalAgility',
     name: 'Total Agility',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['agility', 'agilityBonus'],
     calculate: (stats) => {
       const base = stats.agility || 0;
@@ -105,7 +126,8 @@ export const DERIVED_STATS = {
   totalLuck: {
     id: 'totalLuck',
     name: 'Total Luck',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['luck', 'luckBonus'],
     calculate: (stats) => {
       const base = stats.luck || 0;
@@ -118,7 +140,8 @@ export const DERIVED_STATS = {
   totalStamina: {
     id: 'totalStamina',
     name: 'Total Stamina',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['stamina', 'staminaBonus'],
     calculate: (stats) => {
       const base = stats.stamina || 0;
@@ -129,13 +152,12 @@ export const DERIVED_STATS = {
     description: 'Stamina after bonuses applied',
   },
 
-  // ---------------------------------------------------------------------------
-  // TOTAL DEFENSE
-  // ---------------------------------------------------------------------------
+  // Defense totals
   totalArmor: {
     id: 'totalArmor',
     name: 'Total Armor',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['armor', 'armorBonus'],
     calculate: (stats) => {
       const base = stats.armor || 0;
@@ -148,7 +170,8 @@ export const DERIVED_STATS = {
   totalHealth: {
     id: 'totalHealth',
     name: 'Total Health',
-    category: 'derived',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
     dependencies: ['health', 'healthBonus'],
     calculate: (stats) => {
       const base = stats.health || 0;
@@ -158,257 +181,333 @@ export const DERIVED_STATS = {
     format: v => v.toFixed(0),
     description: 'Health after bonuses applied',
   },
+  totalDamage: {
+    id: 'totalDamage',
+    name: 'Total Damage',
+    category: 'totals',
+    layer: LAYERS.TOTALS,
+    dependencies: ['damage', 'damageBonus'],
+    calculate: (stats) => {
+      const base = stats.damage || 0;
+      const bonus = stats.damageBonus || 0;
+      return Math.floor(base * (1 + bonus / 100));
+    },
+    format: v => v.toFixed(0),
+    description: 'Damage after bonuses applied',
+  },
 
   // ---------------------------------------------------------------------------
-  // CHAINED CALCULATIONS - PLACEHOLDERS
-  // These demonstrate the "X per Y" pattern for monograms and other modifiers
+  // LAYER 2: PRIMARY DERIVED (monogram-style bonuses from total stats)
   // ---------------------------------------------------------------------------
 
   /**
-   * Example: Monogram gives "+X newCharacterValue per 100 totalStrength"
-   * This is a placeholder - actual values would come from item affixes
+   * Placeholder: Monogram gives "+X newCharacterValue per 100 totalStrength"
+   * In practice, the ratio/baseValue would come from item affix data
    */
   monogramValueFromStrength: {
     id: 'monogramValueFromStrength',
-    name: 'Monogram Value (from STR)',
-    category: 'derived-chain',
+    name: 'Monogram Value (STR)',
+    category: 'monogram',
+    layer: LAYERS.PRIMARY_DERIVED,
     dependencies: ['totalStrength'],
-    // Placeholder: 1 value per 100 strength
-    perStatConfig: {
+    // Config can be overridden per-item/affix
+    config: {
       sourceStat: 'totalStrength',
-      ratio: 100,  // per 100 points
-      baseValue: 1, // gain 1 per ratio
+      ratio: 100,    // per 100 points of source
+      baseValue: 1,  // gain this much per ratio
     },
-    calculate: (stats, config) => {
-      const source = stats.totalStrength || 0;
-      const cfg = config?.perStatConfig || { ratio: 100, baseValue: 1 };
-      return Math.floor(source / cfg.ratio) * cfg.baseValue;
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.monogramValueFromStrength.config;
+      const source = stats[config.sourceStat] || 0;
+      return Math.floor(source / config.ratio) * config.baseValue;
     },
     format: v => v.toFixed(0),
-    description: 'Bonus value from monogram based on total strength',
+    description: 'Bonus value from monogram based on strength',
   },
 
   /**
-   * Example: "+X% elemental damage per monogramValue"
-   * Chain: totalStrength -> monogramValue -> elementalDamage%
+   * Placeholder: Potions per combined attributes
    */
-  chainedElementalBonus: {
-    id: 'chainedElementalBonus',
-    name: 'Chained Elemental Bonus',
-    category: 'derived-chain',
-    dependencies: ['monogramValueFromStrength'],
-    perStatConfig: {
-      sourceStat: 'monogramValueFromStrength',
-      ratio: 1,    // per 1 point
-      baseValue: 2, // gain 2% per point
-    },
-    calculate: (stats, config) => {
-      const source = stats.monogramValueFromStrength || 0;
-      const cfg = config?.perStatConfig || { ratio: 1, baseValue: 2 };
-      return Math.floor(source / cfg.ratio) * cfg.baseValue;
-    },
-    format: v => `+${v.toFixed(0)}%`,
-    description: 'Elemental damage bonus from chained monogram calculation',
-  },
-
-  /**
-   * Example: "+X health per chainedElementalBonus"
-   * Chain: totalStrength -> monogramValue -> elementalDamage% -> healthBonus
-   */
-  chainedHealthBonus: {
-    id: 'chainedHealthBonus',
-    name: 'Chained Health Bonus',
-    category: 'derived-chain',
-    dependencies: ['chainedElementalBonus'],
-    perStatConfig: {
-      sourceStat: 'chainedElementalBonus',
-      ratio: 5,    // per 5% elemental
-      baseValue: 10, // gain 10 health
-    },
-    calculate: (stats, config) => {
-      const source = stats.chainedElementalBonus || 0;
-      const cfg = config?.perStatConfig || { ratio: 5, baseValue: 10 };
-      return Math.floor(source / cfg.ratio) * cfg.baseValue;
-    },
-    format: v => `+${v.toFixed(0)}`,
-    description: 'Health bonus from chained elemental calculation',
-  },
-
-  // ---------------------------------------------------------------------------
-  // POTION CHAIN PLACEHOLDER
-  // totalAttribute -> potionsPerAttribute -> statPerPotion
-  // ---------------------------------------------------------------------------
-  potionCountFromAttributes: {
-    id: 'potionCountFromAttributes',
-    name: 'Potion Slots (from Attributes)',
-    category: 'derived-chain',
+  potionSlotsFromAttributes: {
+    id: 'potionSlotsFromAttributes',
+    name: 'Potion Slots (Attrs)',
+    category: 'utility-derived',
+    layer: LAYERS.PRIMARY_DERIVED,
     dependencies: ['totalStrength', 'totalVitality'],
-    calculate: (stats) => {
-      // Example: 1 potion per 200 combined str+vit
+    config: {
+      ratio: 200,  // per 200 combined str+vit
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.potionSlotsFromAttributes.config;
       const combined = (stats.totalStrength || 0) + (stats.totalVitality || 0);
-      return Math.floor(combined / 200);
+      return Math.floor(combined / config.ratio);
     },
     format: v => v.toFixed(0),
     description: 'Additional potion slots from attributes',
   },
 
+  // ---------------------------------------------------------------------------
+  // LAYER 3: SECONDARY DERIVED (chain from layer 2)
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Placeholder: "+X% elemental damage per monogramValue"
+   * Chain: totalStrength -> monogramValue -> elementalDamageBonus
+   */
+  chainedElementalBonus: {
+    id: 'chainedElementalBonus',
+    name: 'Elemental Bonus (Chain)',
+    category: 'chained',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['monogramValueFromStrength'],
+    config: {
+      sourceStat: 'monogramValueFromStrength',
+      ratio: 1,      // per 1 point
+      baseValue: 2,  // gain 2% per point
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.chainedElementalBonus.config;
+      const source = stats[config.sourceStat] || 0;
+      return Math.floor(source / config.ratio) * config.baseValue;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Elemental damage bonus from chained calculation',
+  },
+
+  /**
+   * Placeholder: Stat bonus per potion slot
+   */
   statBonusFromPotions: {
     id: 'statBonusFromPotions',
-    name: 'Stat Bonus (from Potions)',
-    category: 'derived-chain',
-    dependencies: ['potionCountFromAttributes'],
-    perStatConfig: {
-      sourceStat: 'potionCountFromAttributes',
+    name: 'Stat Bonus (Potions)',
+    category: 'chained',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['potionSlotsFromAttributes'],
+    config: {
+      sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
-      baseValue: 5, // +5 to all stats per potion slot
+      baseValue: 5,  // +5 to stats per potion slot
     },
-    calculate: (stats, config) => {
-      const source = stats.potionCountFromAttributes || 0;
-      const cfg = config?.perStatConfig || { ratio: 1, baseValue: 5 };
-      return Math.floor(source / cfg.ratio) * cfg.baseValue;
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.statBonusFromPotions.config;
+      const source = stats[config.sourceStat] || 0;
+      return Math.floor(source / config.ratio) * config.baseValue;
     },
     format: v => `+${v.toFixed(0)}`,
-    description: 'Bonus to all stats from potion slots',
+    description: 'Bonus to stats from potion slots',
+  },
+
+  // ---------------------------------------------------------------------------
+  // LAYER 4: TERTIARY DERIVED (chain from layer 3)
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Placeholder: "+X health per chainedElementalBonus"
+   * Chain: totalStrength -> monogramValue -> elementalBonus -> healthBonus
+   */
+  chainedHealthBonus: {
+    id: 'chainedHealthBonus',
+    name: 'Health Bonus (Chain)',
+    category: 'chained',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['chainedElementalBonus'],
+    config: {
+      sourceStat: 'chainedElementalBonus',
+      ratio: 5,       // per 5% elemental
+      baseValue: 10,  // gain 10 health
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.chainedHealthBonus.config;
+      const source = stats[config.sourceStat] || 0;
+      return Math.floor(source / config.ratio) * config.baseValue;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Health bonus from chained elemental calculation',
   },
 };
 
 // ============================================================================
-// DEPENDENCY GRAPH & CALCULATION ENGINE
+// CALCULATION ENGINE
 // ============================================================================
 
 /**
- * Build adjacency list for dependency graph
+ * Get stats grouped by layer for ordered calculation
  */
-function buildDependencyGraph(derivedStats, baseStatIds) {
-  const graph = new Map();
-  const allStats = new Set([...baseStatIds, ...Object.keys(derivedStats)]);
+export function getStatsByLayer() {
+  const byLayer = {};
 
-  // Initialize all nodes
-  for (const statId of allStats) {
-    graph.set(statId, []);
+  for (const [id, stat] of Object.entries(DERIVED_STATS)) {
+    const layer = stat.layer ?? LAYERS.TOTALS;
+    if (!byLayer[layer]) {
+      byLayer[layer] = [];
+    }
+    byLayer[layer].push({ id, ...stat });
   }
 
-  // Add edges (stat -> stats that depend on it)
-  for (const [statId, stat] of Object.entries(derivedStats)) {
+  return byLayer;
+}
+
+/**
+ * Get calculation order (layers sorted, then topological within layer)
+ */
+export function getCalculationOrder() {
+  const byLayer = getStatsByLayer();
+  const layers = Object.keys(byLayer).map(Number).sort((a, b) => a - b);
+
+  const order = [];
+  for (const layer of layers) {
+    // Within each layer, sort by dependencies (simple approach: deps first)
+    const layerStats = byLayer[layer] || [];
+    const sorted = topologicalSortWithinLayer(layerStats);
+    order.push(...sorted);
+  }
+
+  return order;
+}
+
+/**
+ * Simple topological sort within a layer
+ */
+function topologicalSortWithinLayer(stats) {
+  const statMap = new Map(stats.map(s => [s.id, s]));
+  const inDegree = new Map();
+  const graph = new Map();
+
+  // Initialize
+  for (const stat of stats) {
+    inDegree.set(stat.id, 0);
+    graph.set(stat.id, []);
+  }
+
+  // Build edges (only for deps within this layer)
+  for (const stat of stats) {
     for (const dep of stat.dependencies || []) {
-      if (graph.has(dep)) {
-        graph.get(dep).push(statId);
+      if (statMap.has(dep)) {
+        graph.get(dep).push(stat.id);
+        inDegree.set(stat.id, (inDegree.get(stat.id) || 0) + 1);
       }
     }
   }
 
-  return graph;
-}
-
-/**
- * Topological sort using Kahn's algorithm
- * Returns stats in calculation order (dependencies first)
- */
-function topologicalSort(derivedStats, baseStatIds) {
-  const inDegree = new Map();
-  const graph = buildDependencyGraph(derivedStats, baseStatIds);
-
-  // Calculate in-degrees
-  for (const statId of graph.keys()) {
-    inDegree.set(statId, 0);
-  }
-
-  for (const [statId, stat] of Object.entries(derivedStats)) {
-    for (const dep of stat.dependencies || []) {
-      const current = inDegree.get(statId) || 0;
-      inDegree.set(statId, current + 1);
-    }
-  }
-
-  // Start with nodes that have no dependencies (base stats)
+  // Kahn's algorithm
   const queue = [];
-  for (const [statId, degree] of inDegree.entries()) {
-    if (degree === 0) {
-      queue.push(statId);
-    }
+  for (const [id, degree] of inDegree.entries()) {
+    if (degree === 0) queue.push(id);
   }
 
   const sorted = [];
   while (queue.length > 0) {
     const current = queue.shift();
-    sorted.push(current);
+    sorted.push(statMap.get(current));
 
-    for (const dependent of graph.get(current) || []) {
-      const newDegree = inDegree.get(dependent) - 1;
-      inDegree.set(dependent, newDegree);
-      if (newDegree === 0) {
-        queue.push(dependent);
-      }
+    for (const next of graph.get(current) || []) {
+      const newDegree = inDegree.get(next) - 1;
+      inDegree.set(next, newDegree);
+      if (newDegree === 0) queue.push(next);
     }
   }
 
-  // Filter to only derived stats (in correct order)
-  return sorted.filter(id => derivedStats[id]);
+  // Add any remaining (shouldn't happen if no cycles)
+  for (const stat of stats) {
+    if (!sorted.find(s => s.id === stat.id)) {
+      sorted.push(stat);
+    }
+  }
+
+  return sorted;
 }
 
 /**
- * Calculate all derived stats in dependency order
- * @param {Object} baseStats - Map of statId -> value (from items, character, etc.)
- * @param {Object} overrides - Optional config overrides for perStatConfig
- * @returns {Object} Map of all stats including derived values
+ * Calculate all derived stats from base stats
+ *
+ * @param {Object} baseStats - Map of statId -> value (from items/character)
+ * @param {Object} configOverrides - Optional per-stat config overrides
+ * @returns {Object} All stats including derived values
  */
-export function calculateDerivedStats(baseStats, overrides = {}) {
+export function calculateDerivedStats(baseStats, configOverrides = {}) {
   const result = { ...baseStats };
-  const baseStatIds = Object.keys(baseStats);
+  const calculationOrder = getCalculationOrder();
 
-  // Get calculation order
-  const calculationOrder = topologicalSort(DERIVED_STATS, baseStatIds);
-
-  // Calculate each derived stat in order
-  for (const statId of calculationOrder) {
-    const stat = DERIVED_STATS[statId];
-    if (stat && stat.calculate) {
-      const config = overrides[statId] || stat;
-      result[statId] = stat.calculate(result, config);
-    }
+  for (const stat of calculationOrder) {
+    const config = configOverrides[stat.id] || stat.config;
+    result[stat.id] = stat.calculate(result, config);
   }
 
   return result;
 }
 
 /**
- * Get the dependency chain for a specific stat (for debugging/display)
+ * Calculate and return detailed stat objects (for UI display)
  */
-export function getDependencyChain(statId) {
-  const chain = [];
-  const visited = new Set();
+export function calculateDerivedStatsDetailed(baseStats, configOverrides = {}) {
+  const values = calculateDerivedStats(baseStats, configOverrides);
+  const calculationOrder = getCalculationOrder();
 
-  function traverse(id) {
-    if (visited.has(id)) return;
-    visited.add(id);
-
-    const stat = DERIVED_STATS[id];
-    if (stat?.dependencies) {
-      for (const dep of stat.dependencies) {
-        traverse(dep);
-      }
-    }
-    chain.push(id);
+  const detailed = [];
+  for (const stat of calculationOrder) {
+    detailed.push({
+      id: stat.id,
+      name: stat.name,
+      category: stat.category,
+      layer: stat.layer,
+      value: values[stat.id],
+      formattedValue: stat.format ? stat.format(values[stat.id]) : String(values[stat.id]),
+      dependencies: stat.dependencies || [],
+      description: stat.description,
+    });
   }
 
-  traverse(statId);
+  return {
+    values,
+    detailed,
+    byCategory: groupByCategory(detailed),
+    byLayer: groupByLayer(detailed),
+  };
+}
+
+function groupByCategory(stats) {
+  const grouped = {};
+  for (const stat of stats) {
+    if (!grouped[stat.category]) grouped[stat.category] = [];
+    grouped[stat.category].push(stat);
+  }
+  return grouped;
+}
+
+function groupByLayer(stats) {
+  const grouped = {};
+  for (const stat of stats) {
+    const layer = stat.layer ?? LAYERS.TOTALS;
+    if (!grouped[layer]) grouped[layer] = [];
+    grouped[layer].push(stat);
+  }
+  return grouped;
+}
+
+/**
+ * Get the full dependency chain for a stat (for debugging/tooltips)
+ */
+export function getDependencyChain(statId, visited = new Set()) {
+  if (visited.has(statId)) return [];
+  visited.add(statId);
+
+  const stat = DERIVED_STATS[statId];
+  if (!stat) return [statId]; // Base stat
+
+  const chain = [];
+  for (const dep of stat.dependencies || []) {
+    chain.push(...getDependencyChain(dep, visited));
+  }
+  chain.push(statId);
+
   return chain;
 }
 
 /**
- * Validate that there are no circular dependencies
+ * Get base stat IDs from the registry (for reference)
  */
-export function validateNoCycles() {
-  const baseStatIds = []; // Would come from STAT_REGISTRY
-  const sorted = topologicalSort(DERIVED_STATS, baseStatIds);
-  const derivedCount = Object.keys(DERIVED_STATS).length;
-
-  if (sorted.length !== derivedCount) {
-    const missing = Object.keys(DERIVED_STATS).filter(id => !sorted.includes(id));
-    throw new Error(`Circular dependency detected involving: ${missing.join(', ')}`);
-  }
-
-  return true;
+export function getBaseStatIds() {
+  return Object.keys(STAT_REGISTRY);
 }
 
 // ============================================================================
@@ -416,8 +515,12 @@ export function validateNoCycles() {
 // ============================================================================
 
 export default {
+  LAYERS,
   DERIVED_STATS,
   calculateDerivedStats,
+  calculateDerivedStatsDetailed,
+  getCalculationOrder,
+  getStatsByLayer,
   getDependencyChain,
-  validateNoCycles,
+  getBaseStatIds,
 };

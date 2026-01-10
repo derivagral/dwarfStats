@@ -1,5 +1,10 @@
 import { useMemo } from 'react';
 import { STAT_DEFINITIONS } from '../utils/statRegistry.js';
+import {
+  calculateDerivedStatsDetailed,
+  LAYERS,
+  DERIVED_STATS,
+} from '../utils/derivedStats.js';
 
 /**
  * Stat definition structure (provided by statRegistry.js):
@@ -73,20 +78,36 @@ const defaultStatDefinitions = STAT_DEFINITIONS;
  * Hook to derive stats from character data
  * @param {Object} characterData - The character data including equipped items
  * @param {Array} customDefinitions - Optional custom stat definitions to use instead of defaults
- * @returns {Object} - { stats, categories, getStat, getCategory }
+ * @param {Object} options - Additional options
+ * @param {boolean} options.includeDerived - Whether to calculate chained derived stats (default: true)
+ * @param {Object} options.derivedConfigOverrides - Per-stat config overrides for derived calculations
+ * @returns {Object} - { stats, categories, getStat, getCategory, derivedStats, allStats }
  */
-export function useDerivedStats(characterData, customDefinitions = null) {
+export function useDerivedStats(characterData, customDefinitions = null, options = {}) {
+  const {
+    includeDerived = true,
+    derivedConfigOverrides = {},
+  } = options;
   const definitions = customDefinitions || defaultStatDefinitions;
 
-  const derivedStats = useMemo(() => {
+  const result = useMemo(() => {
     if (!characterData) {
-      return { stats: [], categories: {}, byId: {} };
+      return {
+        stats: [],
+        categories: {},
+        byId: {},
+        derivedStats: { values: {}, detailed: [], byCategory: {}, byLayer: {} },
+        allStats: {},
+      };
     }
 
     const items = characterData.equippedItems || [];
     const saveData = characterData.raw || {};
 
-    const stats = definitions.map(def => {
+    // =========================================================================
+    // LAYER 0: Calculate base stats from items
+    // =========================================================================
+    const baseStats = definitions.map(def => {
       // Calculate sum from items (includes any modified item stats)
       const itemSum = sumFromItems(items, def.sources);
 
@@ -114,6 +135,7 @@ export function useDerivedStats(characterData, customDefinitions = null) {
         id: def.id,
         name: def.name,
         category: def.category,
+        layer: LAYERS.BASE,
         value: rawValue,
         formattedValue,
         breakdown: itemSum.breakdown,
@@ -124,7 +146,7 @@ export function useDerivedStats(characterData, customDefinitions = null) {
 
     // Group by category
     const categories = {};
-    for (const stat of stats) {
+    for (const stat of baseStats) {
       if (!categories[stat.category]) {
         categories[stat.category] = [];
       }
@@ -133,22 +155,70 @@ export function useDerivedStats(characterData, customDefinitions = null) {
 
     // Index by id
     const byId = {};
-    for (const stat of stats) {
+    for (const stat of baseStats) {
       byId[stat.id] = stat;
     }
 
-    return { stats, categories, byId };
-  }, [characterData, definitions]);
+    // =========================================================================
+    // LAYERS 1+: Calculate derived stats (totals, chained, etc.)
+    // =========================================================================
+    let derivedStatsResult = { values: {}, detailed: [], byCategory: {}, byLayer: {} };
 
-  const getStat = (id) => derivedStats.byId[id] || null;
-  const getCategory = (category) => derivedStats.categories[category] || [];
+    if (includeDerived) {
+      // Build base stats map for derived calculation
+      const baseStatsMap = {};
+      for (const stat of baseStats) {
+        baseStatsMap[stat.id] = stat.value;
+      }
+
+      // Calculate all derived stats
+      derivedStatsResult = calculateDerivedStatsDetailed(baseStatsMap, derivedConfigOverrides);
+
+      // Add derived stats to categories and byId
+      for (const stat of derivedStatsResult.detailed) {
+        if (!categories[stat.category]) {
+          categories[stat.category] = [];
+        }
+        categories[stat.category].push(stat);
+        byId[stat.id] = stat;
+      }
+    }
+
+    // Build combined all stats map
+    const allStats = { ...derivedStatsResult.values };
+    for (const stat of baseStats) {
+      allStats[stat.id] = stat.value;
+    }
+
+    return {
+      stats: baseStats,
+      categories,
+      byId,
+      derivedStats: derivedStatsResult,
+      allStats,
+    };
+  }, [characterData, definitions, includeDerived, derivedConfigOverrides]);
+
+  const getStat = (id) => result.byId[id] || null;
+  const getCategory = (category) => result.categories[category] || [];
+  const getStatValue = (id) => result.allStats[id] ?? null;
 
   return {
-    stats: derivedStats.stats,
-    categories: derivedStats.categories,
+    // Base stats (layer 0)
+    stats: result.stats,
+    // All categories (including derived)
+    categories: result.categories,
+    // Lookup helpers
     getStat,
-    getCategory
+    getCategory,
+    getStatValue,
+    // Derived stats details (layers 1+)
+    derivedStats: result.derivedStats,
+    // All stat values in one map
+    allStats: result.allStats,
   };
 }
 
+// Re-export for convenience
 export { defaultStatDefinitions, sumFromItems, getFromSave };
+export { LAYERS, DERIVED_STATS } from '../utils/derivedStats.js';

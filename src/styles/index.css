@@ -245,11 +245,33 @@ h1::before {
   margin-bottom: 0.75rem;
 }
 
+.item-header-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
 .item-name {
   font-weight: 600;
   font-size: 1rem;
   color: var(--text-primary);
   flex: 1;
+}
+
+.item-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.item-badge.equipped {
+  background: rgba(64, 178, 114, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(64, 178, 114, 0.35);
 }
 
 .item-type {
@@ -281,6 +303,28 @@ h1::before {
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.items-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.items-description {
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+.checkbox-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.checkbox-toggle input {
+  accent-color: var(--accent);
 }
 
 .score-value {

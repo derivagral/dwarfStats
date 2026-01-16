@@ -26,6 +26,8 @@ export default function StatsTab({ onLog, onStatusChange, saveData, onSaveDataCh
           filename: result.filename,
           raw: result.parsed,
           equippedItems: result.equippedItems || [],
+          items: result.items || [],
+          totalItems: result.totalItems || 0,
           timestamp: Date.now()
         });
 

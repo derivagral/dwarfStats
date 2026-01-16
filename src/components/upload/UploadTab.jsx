@@ -27,6 +27,8 @@ export function UploadTab({ onFileLoaded, onLog, onStatusChange }) {
         raw: result.parsed,
         json: result.json,
         equippedItems: result.equippedItems || [],
+        items: result.items || [],
+        totalItems: result.totalItems || 0,
         timestamp: Date.now()
       });
     } catch (e) {

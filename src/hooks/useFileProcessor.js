@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { convertSavToJson } from '../utils/wasm';
 import { extractEquippedItems, logEquipmentCompressed } from '../utils/equipmentParser';
+import { analyzeUeSaveJson } from '../utils/dwarfFilter';
 
 export function useFileProcessor() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -36,7 +37,13 @@ export function useFileProcessor() {
         logEquipmentCompressed(equippedItems);
       }
 
-      return { json, parsed, filename: file.name, equippedItems };
+      const { hits: items, totalItems } = analyzeUeSaveJson(parsed, {
+        includeWeapons: true,
+        showClose: false,
+        minHits: 0,
+      });
+
+      return { json, parsed, filename: file.name, equippedItems, items, totalItems };
     } catch (e) {
       setError(e.message || 'Conversion failed');
       throw e;

@@ -327,6 +327,151 @@ h1::before {
   accent-color: var(--accent);
 }
 
+.items-filter-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.items-filter-input input {
+  min-width: 260px;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.items-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.items-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.items-list-row:hover {
+  border-color: var(--accent);
+}
+
+.items-list-row.selected {
+  border-color: var(--accent);
+  background: rgba(74, 158, 255, 0.12);
+}
+
+.items-list-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.items-list-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.items-list-type {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.items-editor-panel {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  padding: 1rem;
+  height: fit-content;
+  position: sticky;
+  top: 1rem;
+}
+
+.items-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.items-editor-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.items-editor-action {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+}
+
+.items-editor-action:disabled {
+  opacity: 0.6;
+}
+
+.items-editor-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.items-editor-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.items-editor-type {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.items-editor-section-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.items-editor-attributes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.items-editor-note,
+.items-editor-empty,
+.items-editor-empty-state {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
 .score-value {
   font-size: 1.2rem;
   font-weight: 700;

@@ -129,11 +129,12 @@ export function ItemDetailTooltip({
           {itemData.attributes.map((attr, i) => {
             const displayName = getDisplayName(attr.name);
             const displayValue = formatAttributeValue(attr.value, attr.name);
+            const hasValue = attr.value !== null && attr.value !== undefined && attr.value !== '';
 
             return (
               <div key={i} className="tooltip-attribute">
                 <span className="attr-name">{displayName}</span>
-                <span className="attr-value">{displayValue}</span>
+                {hasValue && <span className="attr-value">{displayValue}</span>}
               </div>
             );
           })}

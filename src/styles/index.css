@@ -274,6 +274,13 @@ h1::before {
   border: 1px solid rgba(64, 178, 114, 0.35);
 }
 
+.item-badge.modified {
+  background: rgba(255, 193, 7, 0.15);
+  color: var(--warning);
+  border: 1px solid rgba(255, 193, 7, 0.35);
+  font-size: 0.8rem;
+}
+
 .item-type {
   font-size: 0.75rem;
   padding: 0.2rem 0.5rem;
@@ -418,6 +425,14 @@ h1::before {
 .items-list-row.selected {
   border-color: var(--accent);
   background: rgba(74, 158, 255, 0.12);
+}
+
+.items-list-row.has-overrides {
+  border-color: var(--warning);
+}
+
+.items-list-row.has-overrides.selected {
+  border-color: var(--accent);
 }
 
 .items-list-info {

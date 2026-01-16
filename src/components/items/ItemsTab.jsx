@@ -21,6 +21,23 @@ const SLOT_LABELS = {
   unknown: 'Equipped'
 };
 
+const SLOT_OPTIONS = [
+  { key: 'weapon', label: 'Weapon' },
+  { key: 'head', label: 'Head' },
+  { key: 'chest', label: 'Chest' },
+  { key: 'hands', label: 'Hands' },
+  { key: 'pants', label: 'Pants' },
+  { key: 'boots', label: 'Boots' },
+  { key: 'neck', label: 'Neck' },
+  { key: 'bracer', label: 'Bracer' },
+  { key: 'ring', label: 'Ring' },
+  { key: 'relic', label: 'Relic' },
+  { key: 'fossil', label: 'Fossil' },
+  { key: 'dragon', label: 'Dragon' },
+  { key: 'offhand', label: 'Offhand' },
+  { key: 'unknown', label: 'Unknown' },
+];
+
 function parseFilterString(filterStr) {
   if (!filterStr || filterStr.trim() === '') return [];
   return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
@@ -34,7 +51,7 @@ export function ItemsTab({ saveData, onLog }) {
   const [selectedItemKey, setSelectedItemKey] = useState(null);
   const [selectedItemKeys, setSelectedItemKeys] = useState(new Set());
   const [singleSelectMode, setSingleSelectMode] = useState(true);
-  const [selectedItemTypes, setSelectedItemTypes] = useState(new Set());
+  const [selectedSlots, setSelectedSlots] = useState(new Set());
 
   const equippedLookup = useMemo(() => {
     const lookup = new Map();
@@ -44,6 +61,18 @@ export function ItemsTab({ saveData, onLog }) {
       if (!item?.itemRow) continue;
       const label = SLOT_LABELS[item.slot] || item.slot || SLOT_LABELS.unknown;
       lookup.set(item.itemRow, label);
+    }
+
+    return lookup;
+  }, [saveData]);
+
+  const equippedSlotLookup = useMemo(() => {
+    const lookup = new Map();
+    if (!saveData?.equippedItems) return lookup;
+
+    for (const item of saveData.equippedItems) {
+      if (!item?.itemRow) continue;
+      lookup.set(item.itemRow, item.slot || 'unknown');
     }
 
     return lookup;
@@ -87,30 +116,23 @@ export function ItemsTab({ saveData, onLog }) {
     });
   }, [items, showEquippedOnly, equippedLookup, filterPatterns]);
 
-  const itemTypes = useMemo(() => {
-    const types = new Set();
-    for (const item of items) {
-      if (item?.type) {
-        types.add(item.type);
-      }
-    }
-    return Array.from(types).sort((a, b) => a.localeCompare(b));
-  }, [items]);
-
-  const typeFilteredItems = useMemo(() => {
-    if (selectedItemTypes.size === 0) return filteredItems;
-    return filteredItems.filter(item => selectedItemTypes.has(item.type));
-  }, [filteredItems, selectedItemTypes]);
+  const slotFilteredItems = useMemo(() => {
+    if (selectedSlots.size === 0) return filteredItems;
+    return filteredItems.filter(item => {
+      const slotKey = equippedSlotLookup.get(item.item?.item_row) || 'unknown';
+      return selectedSlots.has(slotKey);
+    });
+  }, [filteredItems, selectedSlots, equippedSlotLookup]);
 
   const equippedCount = useMemo(() => {
-    return typeFilteredItems.reduce((count, item) => count + (equippedLookup.has(item.item?.item_row) ? 1 : 0), 0);
-  }, [typeFilteredItems, equippedLookup]);
+    return slotFilteredItems.reduce((count, item) => count + (equippedLookup.has(item.item?.item_row) ? 1 : 0), 0);
+  }, [slotFilteredItems, equippedLookup]);
 
   useEffect(() => {
     if (!selectedItemKeys.size) return;
 
     const filteredKeys = new Set();
-    typeFilteredItems.forEach((item, index) => {
+    slotFilteredItems.forEach((item, index) => {
       filteredKeys.add(`${item.item?.item_row || item.name}-${index}`);
     });
 
@@ -129,7 +151,7 @@ export function ItemsTab({ saveData, onLog }) {
         setSelectedItem(null);
       }
     }
-  }, [typeFilteredItems, selectedItemKey, selectedItemKeys]);
+  }, [slotFilteredItems, selectedItemKey, selectedItemKeys]);
 
   const handleFilterChange = useCallback((value) => {
     setFilterValue(value);
@@ -206,35 +228,35 @@ export function ItemsTab({ saveData, onLog }) {
             />
           </label>
         </div>
-        <div className="control-row items-type-row">
-          <span className="items-type-label">Item Types:</span>
+        <div className="control-row items-slot-row">
+          <span className="items-slot-label">Slots:</span>
           <button
             type="button"
-            className="items-type-clear"
-            onClick={() => setSelectedItemTypes(new Set())}
-            disabled={selectedItemTypes.size === 0}
+            className="items-slot-clear"
+            onClick={() => setSelectedSlots(new Set())}
+            disabled={selectedSlots.size === 0}
           >
             All
           </button>
-          <div className="items-type-options">
-            {itemTypes.map(type => (
-              <label key={type} className="items-type-option">
+          <div className="items-slot-options">
+            {SLOT_OPTIONS.map(({ key, label }) => (
+              <label key={key} className="items-slot-option">
                 <input
                   type="checkbox"
-                  checked={selectedItemTypes.has(type)}
+                  checked={selectedSlots.has(key)}
                   onChange={(event) => {
-                    setSelectedItemTypes(prev => {
+                    setSelectedSlots(prev => {
                       const next = new Set(prev);
                       if (event.target.checked) {
-                        next.add(type);
+                        next.add(key);
                       } else {
-                        next.delete(type);
+                        next.delete(key);
                       }
                       return next;
                     });
                   }}
                 />
-                <span>{type}</span>
+                <span>{label}</span>
               </label>
             ))}
           </div>
@@ -244,19 +266,19 @@ export function ItemsTab({ saveData, onLog }) {
       <div className="filter-display">
         <strong>Active Filters:</strong> {filterPatterns.length > 0 ? filterPatterns.join(', ') : 'None'}
         <div style={{ marginTop: '0.5rem', fontSize: '0.9em', color: 'var(--text-secondary)' }}>
-          {typeFilteredItems.length} of {totalItems} items shown | {equippedCount} equipped highlighted
+          {slotFilteredItems.length} of {totalItems} items shown | {equippedCount} equipped highlighted
         </div>
       </div>
 
       <div className="items-layout">
         <div className="items-list">
-          {typeFilteredItems.length === 0 ? (
+          {slotFilteredItems.length === 0 ? (
             <div className="empty-state">
               <div className="empty-state-icon">📦</div>
               <div>No items match the current filters.</div>
             </div>
           ) : (
-            typeFilteredItems.map((item, index) => {
+            slotFilteredItems.map((item, index) => {
               const itemKey = `${item.item?.item_row || item.name}-${index}`;
               const equippedLabel = equippedLookup.get(item.item?.item_row);
               return (

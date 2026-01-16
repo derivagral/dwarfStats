@@ -32,6 +32,9 @@ export function ItemsTab({ saveData, onLog }) {
   const [showEquippedOnly, setShowEquippedOnly] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemKey, setSelectedItemKey] = useState(null);
+  const [selectedItemKeys, setSelectedItemKeys] = useState(new Set());
+  const [singleSelectMode, setSingleSelectMode] = useState(true);
+  const [selectedItemTypes, setSelectedItemTypes] = useState(new Set());
 
   const equippedLookup = useMemo(() => {
     const lookup = new Map();
@@ -84,21 +87,49 @@ export function ItemsTab({ saveData, onLog }) {
     });
   }, [items, showEquippedOnly, equippedLookup, filterPatterns]);
 
+  const itemTypes = useMemo(() => {
+    const types = new Set();
+    for (const item of items) {
+      if (item?.type) {
+        types.add(item.type);
+      }
+    }
+    return Array.from(types).sort((a, b) => a.localeCompare(b));
+  }, [items]);
+
+  const typeFilteredItems = useMemo(() => {
+    if (selectedItemTypes.size === 0) return filteredItems;
+    return filteredItems.filter(item => selectedItemTypes.has(item.type));
+  }, [filteredItems, selectedItemTypes]);
+
   const equippedCount = useMemo(() => {
-    return filteredItems.reduce((count, item) => count + (equippedLookup.has(item.item?.item_row) ? 1 : 0), 0);
-  }, [filteredItems, equippedLookup]);
+    return typeFilteredItems.reduce((count, item) => count + (equippedLookup.has(item.item?.item_row) ? 1 : 0), 0);
+  }, [typeFilteredItems, equippedLookup]);
 
   useEffect(() => {
-    if (!selectedItemKey) return;
-    const exists = filteredItems.some((item, index) => {
-      const itemKey = `${item.item?.item_row || item.name}-${index}`;
-      return itemKey === selectedItemKey;
+    if (!selectedItemKeys.size) return;
+
+    const filteredKeys = new Set();
+    typeFilteredItems.forEach((item, index) => {
+      filteredKeys.add(`${item.item?.item_row || item.name}-${index}`);
     });
-    if (!exists) {
-      setSelectedItem(null);
-      setSelectedItemKey(null);
+
+    const nextSelectedKeys = new Set(
+      Array.from(selectedItemKeys).filter(key => filteredKeys.has(key))
+    );
+
+    if (nextSelectedKeys.size !== selectedItemKeys.size) {
+      setSelectedItemKeys(nextSelectedKeys);
     }
-  }, [filteredItems, selectedItemKey]);
+
+    if (selectedItemKey && !filteredKeys.has(selectedItemKey)) {
+      const [nextKey] = nextSelectedKeys;
+      setSelectedItemKey(nextKey || null);
+      if (!nextKey) {
+        setSelectedItem(null);
+      }
+    }
+  }, [typeFilteredItems, selectedItemKey, selectedItemKeys]);
 
   const handleFilterChange = useCallback((value) => {
     setFilterValue(value);
@@ -151,6 +182,20 @@ export function ItemsTab({ saveData, onLog }) {
             />
             Show Equipped Only
           </label>
+          <label className="checkbox-toggle">
+            <input
+              type="checkbox"
+              checked={singleSelectMode}
+              onChange={(event) => {
+                const isSingle = event.target.checked;
+                setSingleSelectMode(isSingle);
+                if (isSingle && selectedItemKey) {
+                  setSelectedItemKeys(new Set([selectedItemKey]));
+                }
+              }}
+            />
+            Single-select
+          </label>
           <label className="items-filter-input">
             <span>Filter:</span>
             <input
@@ -161,24 +206,57 @@ export function ItemsTab({ saveData, onLog }) {
             />
           </label>
         </div>
+        <div className="control-row items-type-row">
+          <span className="items-type-label">Item Types:</span>
+          <button
+            type="button"
+            className="items-type-clear"
+            onClick={() => setSelectedItemTypes(new Set())}
+            disabled={selectedItemTypes.size === 0}
+          >
+            All
+          </button>
+          <div className="items-type-options">
+            {itemTypes.map(type => (
+              <label key={type} className="items-type-option">
+                <input
+                  type="checkbox"
+                  checked={selectedItemTypes.has(type)}
+                  onChange={(event) => {
+                    setSelectedItemTypes(prev => {
+                      const next = new Set(prev);
+                      if (event.target.checked) {
+                        next.add(type);
+                      } else {
+                        next.delete(type);
+                      }
+                      return next;
+                    });
+                  }}
+                />
+                <span>{type}</span>
+              </label>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="filter-display">
         <strong>Active Filters:</strong> {filterPatterns.length > 0 ? filterPatterns.join(', ') : 'None'}
         <div style={{ marginTop: '0.5rem', fontSize: '0.9em', color: 'var(--text-secondary)' }}>
-          {filteredItems.length} of {totalItems} items shown | {equippedCount} equipped highlighted
+          {typeFilteredItems.length} of {totalItems} items shown | {equippedCount} equipped highlighted
         </div>
       </div>
 
       <div className="items-layout">
         <div className="items-list">
-          {filteredItems.length === 0 ? (
+          {typeFilteredItems.length === 0 ? (
             <div className="empty-state">
               <div className="empty-state-icon">📦</div>
               <div>No items match the current filters.</div>
             </div>
           ) : (
-            filteredItems.map((item, index) => {
+            typeFilteredItems.map((item, index) => {
               const itemKey = `${item.item?.item_row || item.name}-${index}`;
               const equippedLabel = equippedLookup.get(item.item?.item_row);
               return (
@@ -186,10 +264,22 @@ export function ItemsTab({ saveData, onLog }) {
                   key={itemKey}
                   item={item}
                   equippedLabel={equippedLabel}
-                  isSelected={selectedItemKey === itemKey}
+                  isSelected={selectedItemKeys.has(itemKey)}
                   onSelect={() => {
                     setSelectedItem(item);
                     setSelectedItemKey(itemKey);
+                    setSelectedItemKeys(prev => {
+                      if (singleSelectMode) {
+                        return new Set([itemKey]);
+                      }
+                      const next = new Set(prev);
+                      if (next.has(itemKey)) {
+                        next.delete(itemKey);
+                      } else {
+                        next.add(itemKey);
+                      }
+                      return next;
+                    });
                   }}
                 />
               );

@@ -344,6 +344,47 @@ h1::before {
   color: var(--text-primary);
 }
 
+.items-type-row {
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.items-type-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.items-type-clear {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+}
+
+.items-type-clear:disabled {
+  opacity: 0.5;
+}
+
+.items-type-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+}
+
+.items-type-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.items-type-option input {
+  accent-color: var(--accent);
+}
+
 .items-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;

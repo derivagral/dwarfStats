@@ -151,6 +151,42 @@ const extractGeneratedAttributes = (node) => {
   return attrs;
 };
 
+// Extract GeneratedAttributes with values for tooltip display
+const extractGeneratedAttributesWithValues = (node) => {
+  const attrs = [];
+  if (!node || typeof node !== "object") return attrs;
+
+  for (const [k, v] of Object.entries(node)) {
+    if (k.startsWith(GENATTR_PREFIX)) {
+      const array = v?.Array?.Struct?.value || v?.Array?.value || [];
+
+      if (Array.isArray(array)) {
+        for (const item of array) {
+          const struct = item?.Struct || item;
+          let attrName = null;
+          let attrValue = null;
+
+          for (const [key, val] of Object.entries(struct)) {
+            if (key.includes("GameplayTag")) {
+              const tag = extractTagFromGameplayTag(val);
+              if (tag) attrName = tag;
+            }
+            if (key.includes("Value")) {
+              attrValue = val?.Float ?? val?.Int ?? val;
+            }
+          }
+
+          if (attrName) {
+            attrs.push({ name: attrName, value: attrValue });
+          }
+        }
+      }
+    }
+  }
+
+  return attrs;
+};
+
 // Extract pool attributes from pool structure
 const extractPoolAttributes = (poolData) => {
   const attrs = [];
@@ -218,6 +254,7 @@ function processItemStruct(itemStruct) {
   const itemType = extractItemType(itemRow);
   const generatedName = findGeneratedName(itemStruct);
   const genAttrs = extractGeneratedAttributes(itemStruct);
+  const genAttrsWithValues = extractGeneratedAttributesWithValues(itemStruct);
   const affixPools = extractAffixPools(itemStruct);
   
   // Initialize pools
@@ -241,7 +278,28 @@ function processItemStruct(itemStruct) {
   
   // Remove duplicates
   const uniq = (arr) => Array.from(new Set(arr));
+  const uniqByKey = (arr, keyFn) => {
+    const seen = new Set();
+    return arr.filter((item) => {
+      const key = keyFn(item);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  };
   
+  const poolAttributes = uniq([
+    ...pools.Pool1,
+    ...pools.Pool2,
+    ...pools.Pool3,
+    ...pools.Inherent
+  ]);
+
+  const poolAttributesWithValues = poolAttributes.map(name => ({
+    name,
+    value: null,
+  }));
+
   return {
     item_row: itemRow,
     item_type: itemType,
@@ -253,11 +311,13 @@ function processItemStruct(itemStruct) {
     inherent_attributes: uniq(pools.Inherent),
     all_attributes: uniq([
       ...genAttrs,
-      ...pools.Pool1,
-      ...pools.Pool2,
-      ...pools.Pool3,
-      ...pools.Inherent
-    ])
+      ...poolAttributes
+    ]),
+    generated_attributes_with_values: uniqByKey(genAttrsWithValues, attr => `${attr.name}:${attr.value ?? ''}`),
+    all_attributes_with_values: uniqByKey([
+      ...genAttrsWithValues,
+      ...poolAttributesWithValues
+    ], attr => `${attr.name}:${attr.value ?? ''}`)
   };
 }
 

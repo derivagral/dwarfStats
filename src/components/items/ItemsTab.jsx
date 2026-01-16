@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { ItemDetailTooltip } from '../character/ItemDetailTooltip';
 import { analyzeUeSaveJson } from '../../utils/dwarfFilter';
 
@@ -31,6 +31,7 @@ export function ItemsTab({ saveData, onLog }) {
   const [filterPatterns, setFilterPatterns] = useState(parseFilterString(DEFAULT_FILTERS));
   const [showEquippedOnly, setShowEquippedOnly] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItemKey, setSelectedItemKey] = useState(null);
 
   const equippedLookup = useMemo(() => {
     const lookup = new Map();
@@ -87,6 +88,18 @@ export function ItemsTab({ saveData, onLog }) {
     return filteredItems.reduce((count, item) => count + (equippedLookup.has(item.item?.item_row) ? 1 : 0), 0);
   }, [filteredItems, equippedLookup]);
 
+  useEffect(() => {
+    if (!selectedItemKey) return;
+    const exists = filteredItems.some((item, index) => {
+      const itemKey = `${item.item?.item_row || item.name}-${index}`;
+      return itemKey === selectedItemKey;
+    });
+    if (!exists) {
+      setSelectedItem(null);
+      setSelectedItemKey(null);
+    }
+  }, [filteredItems, selectedItemKey]);
+
   const handleFilterChange = useCallback((value) => {
     setFilterValue(value);
     const patterns = parseFilterString(value);
@@ -97,7 +110,11 @@ export function ItemsTab({ saveData, onLog }) {
   }, [onLog]);
 
   const itemAttributes = useMemo(() => {
-    if (!selectedItem?.item?.all_attributes) return [];
+    if (!selectedItem?.item) return [];
+    if (selectedItem.item.all_attributes_with_values?.length) {
+      return selectedItem.item.all_attributes_with_values;
+    }
+    if (!selectedItem.item.all_attributes) return [];
     return selectedItem.item.all_attributes.map(attribute => ({
       name: attribute,
       value: null,
@@ -162,14 +179,18 @@ export function ItemsTab({ saveData, onLog }) {
             </div>
           ) : (
             filteredItems.map((item, index) => {
+              const itemKey = `${item.item?.item_row || item.name}-${index}`;
               const equippedLabel = equippedLookup.get(item.item?.item_row);
               return (
                 <ItemListRow
-                  key={`${item.item?.item_row || item.name}-${index}`}
+                  key={itemKey}
                   item={item}
                   equippedLabel={equippedLabel}
-                  isSelected={selectedItem?.item?.item_row === item.item?.item_row}
-                  onSelect={() => setSelectedItem(item)}
+                  isSelected={selectedItemKey === itemKey}
+                  onSelect={() => {
+                    setSelectedItem(item);
+                    setSelectedItemKey(itemKey);
+                  }}
                 />
               );
             })
@@ -205,7 +226,12 @@ export function ItemsTab({ saveData, onLog }) {
                 ) : (
                   <ul className="items-editor-attributes">
                     {itemAttributes.map((attr, attrIndex) => (
-                      <li key={`${attr.name}-${attrIndex}`}>{attr.name}</li>
+                      <li key={`${attr.name}-${attrIndex}`}>
+                        {attr.name}
+                        {attr.value !== null && attr.value !== undefined && attr.value !== ''
+                          ? `: ${attr.value}`
+                          : ''}
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -233,15 +259,22 @@ function ItemListRow({ item, equippedLabel, isSelected, onSelect }) {
   const hoverStateRef = useRef({ row: false, tooltip: false });
   const showTooltip = (isSlotHovered || isTooltipHovered) && !isSelected;
 
-  const tooltipItem = useMemo(() => ({
-    name: item.name,
-    itemType: item.type,
-    itemRow: item.item?.item_row,
-    attributes: (item.item?.all_attributes || []).map(attribute => ({
-      name: attribute,
-      value: null,
-    })),
-  }), [item]);
+  const tooltipItem = useMemo(() => {
+    const attributesWithValues = item.item?.all_attributes_with_values;
+    const attributes = attributesWithValues?.length
+      ? attributesWithValues
+      : (item.item?.all_attributes || []).map(attribute => ({
+        name: attribute,
+        value: null,
+      }));
+
+    return {
+      name: item.name,
+      itemType: item.type,
+      itemRow: item.item?.item_row,
+      attributes,
+    };
+  }, [item]);
 
   return (
     <div

@@ -9,7 +9,8 @@ components/
 ├── common/      # Shared UI components
 ├── upload/      # Upload tab - file input
 ├── character/   # Character tab - equipment display
-└── filter/      # Filter tab - attribute search
+├── filter/      # Filter tab - attribute search
+└── items/       # Items tab - browsable item list
 ```
 
 ## Common Components (`common/`)
@@ -100,6 +101,30 @@ Attribute search with scoring system.
 - Supports regex with `*` as wildcard
 - Comma-separated list
 - Case-insensitive matching
+
+## Items Tab (`items/`)
+
+Browsable item list with filtering and stat editing.
+
+| Component | Purpose |
+|-----------|---------|
+| `ItemsTab` | Main container, filtering, item list |
+| `ItemListRow` | Item row with tooltip |
+
+**Features:**
+- All items from save file
+- Equipped items tagged with slot
+- Regex-based attribute filtering
+- Slot type filtering
+- Inline stat editing via ItemEditor
+
+**Item Model:**
+Items now include a clean `model` property with:
+- Full metadata (rarity, tier, specks, upgradeCount)
+- Structured affix pools (inherent, pool1-3)
+- Base stats with values
+
+See `src/models/Item.js` for the complete model definition.
 
 ## Adding a New Tab
 

@@ -27,8 +27,10 @@ src/
 │   ├── common/          # Reusable UI (TabNavigation, Button, DropZone)
 │   ├── upload/          # File upload tab
 │   ├── character/       # Equipment/inventory display tab
-│   └── filter/          # Attribute search/filtering tab
+│   ├── filter/          # Attribute search/filtering tab
+│   └── items/           # Items browsing tab
 ├── hooks/               # Custom React hooks
+├── models/              # Clean data models (Item, transformers)
 ├── utils/               # Core logic (parsing, filtering, WASM)
 ├── styles/              # CSS with theme variables
 ├── App.jsx              # Main app, tab routing, state
@@ -44,6 +46,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Adding a new tab | `src/App.jsx` (TABS array), existing tab components |
 | File upload/processing | `src/hooks/useFileProcessor.js`, `src/utils/wasm.js` |
 | Item filtering logic | `src/utils/dwarfFilter.js` |
+| Item data model | `src/models/Item.js`, `src/models/itemTransformer.js` |
 | Equipment slot mapping | `src/utils/equipmentParser.js` |
 | Attribute display names | `src/utils/attributeDisplay.js` |
 | Styling/theming | `src/styles/index.css` |
@@ -55,9 +58,10 @@ Tabs defined in `App.jsx` TABS array:
 { id: 'upload', label: 'Upload', icon: '📁' }
 { id: 'character', label: 'Character', icon: '🧙' }
 { id: 'filter', label: 'Filter', icon: '🔍' }
+{ id: 'items', label: 'Items', icon: '🎒' }
 ```
 
-**To add a 4th tab:**
+**To add a new tab:**
 1. Create folder `src/components/newtab/` with `NewTab.jsx` and `index.js`
 2. Add entry to TABS array in `App.jsx`
 3. Add render condition in `App.jsx` return block

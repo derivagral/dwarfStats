@@ -42,7 +42,7 @@ function InherentPool({ attributes }) {
   );
 }
 
-export function ItemCard({ item, type, filterPatterns }) {
+export function ItemCard({ item, type, filterPatterns, equippedLabel = '', showScores = true }) {
   const scoreClass = (val) => val >= 2 ? 'good' : val === 1 ? 'partial' : 'zero';
 
   const pool1Attrs = item.item?.pool1_attributes || [];
@@ -56,23 +56,30 @@ export function ItemCard({ item, type, filterPatterns }) {
     <div className={`item-card ${type}`}>
       <div className="item-header">
         <div className="item-name">{item.name}</div>
-        <div className="item-type">{item.type}</div>
+        <div className="item-header-meta">
+          {equippedLabel && (
+            <span className="item-badge equipped">Equipped: {equippedLabel}</span>
+          )}
+          <div className="item-type">{item.type}</div>
+        </div>
       </div>
 
-      <div className="item-scores">
-        <div className="score-badge">
-          <div className="score-label">Pool 1</div>
-          <div className={`score-value ${scoreClass(item.s1)}`}>{item.s1}</div>
+      {showScores && (
+        <div className="item-scores">
+          <div className="score-badge">
+            <div className="score-label">Pool 1</div>
+            <div className={`score-value ${scoreClass(item.s1)}`}>{item.s1}</div>
+          </div>
+          <div className="score-badge">
+            <div className="score-label">Pool 2</div>
+            <div className={`score-value ${scoreClass(item.s2)}`}>{item.s2}</div>
+          </div>
+          <div className="score-badge">
+            <div className="score-label">Pool 3</div>
+            <div className={`score-value ${scoreClass(item.s3)}`}>{item.s3}</div>
+          </div>
         </div>
-        <div className="score-badge">
-          <div className="score-label">Pool 2</div>
-          <div className={`score-value ${scoreClass(item.s2)}`}>{item.s2}</div>
-        </div>
-        <div className="score-badge">
-          <div className="score-label">Pool 3</div>
-          <div className={`score-value ${scoreClass(item.s3)}`}>{item.s3}</div>
-        </div>
-      </div>
+      )}
 
       {hasAttributes && (
         <div className="item-attributes">

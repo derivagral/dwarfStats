@@ -3,6 +3,7 @@ import { StatusBar, TabNavigation, LogPanel } from './components/common';
 import { UploadTab } from './components/upload';
 import { CharacterTab } from './components/character';
 import { FilterTab } from './components/filter';
+import { ItemsTab } from './components/items';
 import { StatsTab } from './components/stats';
 import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
@@ -11,6 +12,7 @@ import { useLogger } from './hooks/useLogger';
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
   { id: 'character', label: 'Character', icon: '🧙' },
+  { id: 'items', label: 'Items', icon: '🎒' },
   { id: 'filter', label: 'Filter', icon: '🔍' },
   { id: 'stats', label: 'Stats', icon: '📊' },
 ];
@@ -66,7 +68,7 @@ export default function App() {
   }, [log]);
 
   // Determine which tabs are disabled
-  const disabledTabs = saveData ? [] : ['character', 'filter'];
+  const disabledTabs = saveData ? [] : ['character', 'items', 'filter'];
 
   return (
     <div className="app">
@@ -83,6 +85,9 @@ export default function App() {
           )}
           {activeTab === 'character' && saveData && (
             <CharacterTab saveData={saveData} onClearSave={handleClearSave} onLog={log} onStatusChange={handleStatusChange} />
+          )}
+          {activeTab === 'items' && saveData && (
+            <ItemsTab saveData={saveData} onLog={log} />
           )}
           {activeTab === 'filter' && saveData && (
             <FilterTab initialSaveData={saveData} onLog={log} onStatusChange={handleStatusChange} />

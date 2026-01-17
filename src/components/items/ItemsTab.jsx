@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { ItemDetailTooltip } from '../character/ItemDetailTooltip';
+import { ItemEditor } from '../character/ItemEditor';
 import { analyzeUeSaveJson } from '../../utils/dwarfFilter';
+import { useItemOverrides } from '../../hooks/useItemOverrides';
 
 const DEFAULT_FILTERS = '';
 
@@ -52,6 +54,20 @@ export function ItemsTab({ saveData, onLog }) {
   const [selectedItemKeys, setSelectedItemKeys] = useState(new Set());
   const [singleSelectMode, setSingleSelectMode] = useState(true);
   const [selectedSlots, setSelectedSlots] = useState(new Set());
+
+  // Item overrides for editing
+  const {
+    overrides,
+    hasSlotOverrides,
+    getSlotOverrides,
+    applyOverridesToItem,
+    updateMod,
+    addMod,
+    removeMod,
+    removeBaseStat,
+    restoreBaseStat,
+    clearSlot,
+  } = useItemOverrides();
 
   const equippedLookup = useMemo(() => {
     const lookup = new Map();
@@ -162,17 +178,46 @@ export function ItemsTab({ saveData, onLog }) {
     }
   }, [onLog]);
 
+  // Build item attributes for display, applying any overrides
   const itemAttributes = useMemo(() => {
     if (!selectedItem?.item) return [];
+    let baseAttributes;
     if (selectedItem.item.all_attributes_with_values?.length) {
-      return selectedItem.item.all_attributes_with_values;
+      baseAttributes = selectedItem.item.all_attributes_with_values;
+    } else if (selectedItem.item.all_attributes) {
+      baseAttributes = selectedItem.item.all_attributes.map(attribute => ({
+        name: attribute,
+        value: null,
+      }));
+    } else {
+      baseAttributes = [];
     }
-    if (!selectedItem.item.all_attributes) return [];
-    return selectedItem.item.all_attributes.map(attribute => ({
-      name: attribute,
-      value: null,
-    }));
+    // Apply overrides if we have a selected item key
+    if (selectedItemKey && hasSlotOverrides(selectedItemKey)) {
+      return applyOverridesToItem(selectedItemKey, baseAttributes);
+    }
+    return baseAttributes;
+  }, [selectedItem, selectedItemKey, hasSlotOverrides, applyOverridesToItem]);
+
+  // Build item object for ItemEditor (matches character tab format)
+  const editorItem = useMemo(() => {
+    if (!selectedItem) return null;
+    return {
+      name: selectedItem.name,
+      itemType: selectedItem.type,
+      itemRow: selectedItem.item?.item_row,
+      attributes: selectedItem.item?.all_attributes_with_values?.length
+        ? selectedItem.item.all_attributes_with_values
+        : (selectedItem.item?.all_attributes || []).map(attr => ({ name: attr, value: null })),
+    };
   }, [selectedItem]);
+
+  // Handle closing the editor
+  const handleCloseEditor = useCallback(() => {
+    setSelectedItem(null);
+    setSelectedItemKey(null);
+    setSelectedItemKeys(new Set());
+  }, []);
 
   if (!saveData) {
     return (
@@ -287,6 +332,7 @@ export function ItemsTab({ saveData, onLog }) {
                   item={item}
                   equippedLabel={equippedLabel}
                   isSelected={selectedItemKeys.has(itemKey)}
+                  hasOverrides={hasSlotOverrides(itemKey)}
                   onSelect={() => {
                     setSelectedItem(item);
                     setSelectedItemKey(itemKey);
@@ -310,51 +356,26 @@ export function ItemsTab({ saveData, onLog }) {
         </div>
 
         <div className="items-editor-panel">
-          <div className="items-editor-header">
-            <h3>Item Editor</h3>
-            <div className="items-editor-actions">
-              <button type="button" className="items-editor-action" disabled>
-                New
-              </button>
-              <button type="button" className="items-editor-action" disabled>
-                Edit
-              </button>
-              <button type="button" className="items-editor-action" disabled>
-                Copy
-              </button>
-            </div>
-          </div>
-
-          {selectedItem ? (
-            <div className="items-editor-body">
-              <div className="items-editor-title">
-                <span className="items-editor-name">{selectedItem.name}</span>
-                <span className="items-editor-type">{selectedItem.type}</span>
-              </div>
-              <div className="items-editor-section">
-                <div className="items-editor-section-title">Attributes</div>
-                {itemAttributes.length === 0 ? (
-                  <div className="items-editor-empty">No attributes parsed yet.</div>
-                ) : (
-                  <ul className="items-editor-attributes">
-                    {itemAttributes.map((attr, attrIndex) => (
-                      <li key={`${attr.name}-${attrIndex}`}>
-                        {attr.name}
-                        {attr.value !== null && attr.value !== undefined && attr.value !== ''
-                          ? `: ${attr.value}`
-                          : ''}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-              <div className="items-editor-note">
-                Editing tools will be wired up to the shared item workflow.
-              </div>
-            </div>
+          {selectedItem && editorItem ? (
+            <ItemEditor
+              item={editorItem}
+              slotKey={selectedItemKey}
+              slotOverrides={getSlotOverrides(selectedItemKey)}
+              onUpdateMod={(modIndex, updates) => updateMod(selectedItemKey, modIndex, updates)}
+              onAddMod={(mod) => addMod(selectedItemKey, mod)}
+              onRemoveMod={(modIndex) => removeMod(selectedItemKey, modIndex)}
+              onRemoveBaseStat={(index) => removeBaseStat(selectedItemKey, index)}
+              onRestoreBaseStat={(index) => restoreBaseStat(selectedItemKey, index)}
+              onClearSlot={() => clearSlot(selectedItemKey)}
+              onClose={handleCloseEditor}
+            />
           ) : (
             <div className="items-editor-empty-state">
-              Select an item to view details and future editing tools.
+              <div className="empty-state-icon">✎</div>
+              <div>Select an item to view and edit stats.</div>
+              <div className="empty-state-hint">
+                Use the editor to add, modify, or remove stat values for theorycrafting.
+              </div>
             </div>
           )}
         </div>
@@ -363,7 +384,7 @@ export function ItemsTab({ saveData, onLog }) {
   );
 }
 
-function ItemListRow({ item, equippedLabel, isSelected, onSelect }) {
+function ItemListRow({ item, equippedLabel, isSelected, hasOverrides, onSelect }) {
   const [isSlotHovered, setIsSlotHovered] = useState(false);
   const [isTooltipHovered, setIsTooltipHovered] = useState(false);
   const rowRef = useRef(null);
@@ -391,7 +412,7 @@ function ItemListRow({ item, equippedLabel, isSelected, onSelect }) {
   return (
     <div
       ref={rowRef}
-      className={`items-list-row${isSelected ? ' selected' : ''}`}
+      className={`items-list-row${isSelected ? ' selected' : ''}${hasOverrides ? ' has-overrides' : ''}`}
       onClick={onSelect}
       onMouseEnter={() => {
         if (closeTimeoutRef.current) {
@@ -414,6 +435,7 @@ function ItemListRow({ item, equippedLabel, isSelected, onSelect }) {
         <div className="items-list-name">{item.name}</div>
         <div className="items-list-type">{item.type}</div>
       </div>
+      {hasOverrides && <span className="item-badge modified" title="Has modifications">✎</span>}
       {equippedLabel && <span className="item-badge equipped">Equipped: {equippedLabel}</span>}
 
       <ItemDetailTooltip

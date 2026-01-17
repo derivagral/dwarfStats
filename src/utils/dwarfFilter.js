@@ -187,39 +187,77 @@ const extractGeneratedAttributesWithValues = (node) => {
   return attrs;
 };
 
-// Extract pool attributes from pool structure
+// Extract pool attributes from pool structure (names only, for backwards compat)
 const extractPoolAttributes = (poolData) => {
   const attrs = [];
   if (!poolData || typeof poolData !== "object") return attrs;
-  
+
   // Navigate to the array of attributes
-  const array = poolData?.Array?.Struct?.value || 
-                poolData?.Array?.value || 
+  const array = poolData?.Array?.Struct?.value ||
+                poolData?.Array?.value ||
                 poolData?.value || [];
-  
+
   if (Array.isArray(array)) {
     for (const item of array) {
       const struct = item?.Struct || item;
-      
+
       // Look for DataTable row references
-      const rowName = struct?.RowName_0?.Name || 
+      const rowName = struct?.RowName_0?.Name ||
                      struct?.RowName?.Name ||
                      struct?.RowName_0?.tag?.data?.Other;
-      
+
       if (rowName) {
         attrs.push(rowName);
       }
     }
   }
-  
+
   return attrs;
 };
 
-// Extract affix pools from AffixesPool structure
+// Extract pool attributes with values (for tooltip display)
+const extractPoolAttributesWithValues = (poolData) => {
+  const attrs = [];
+  if (!poolData || typeof poolData !== "object") return attrs;
+
+  // Navigate to the array of attributes
+  const array = poolData?.Array?.Struct?.value ||
+                poolData?.Array?.value ||
+                poolData?.value || [];
+
+  if (Array.isArray(array)) {
+    for (const item of array) {
+      const struct = item?.Struct || item;
+      let attrName = null;
+      let attrValue = null;
+
+      // Look for DataTable row references (name)
+      attrName = struct?.RowName_0?.Name ||
+                 struct?.RowName?.Name ||
+                 struct?.RowName_0?.tag?.data?.Other;
+
+      // Look for value in various possible locations
+      for (const [key, val] of Object.entries(struct)) {
+        if (key.includes("Value") || key.includes("Magnitude") || key.includes("Amount")) {
+          attrValue = val?.Float ?? val?.Int ?? val;
+          if (typeof attrValue === 'number') break;
+        }
+      }
+
+      if (attrName) {
+        attrs.push({ name: attrName, value: attrValue });
+      }
+    }
+  }
+
+  return attrs;
+};
+
+// Extract affix pools from AffixesPool structure (names only)
 const extractAffixPools = (node) => {
   const pools = {};
   if (!node || typeof node !== "object") return pools;
-  
+
   for (const [k, v] of Object.entries(node)) {
     if (k.startsWith(AFFIXES_PREFIX)) {
       // Navigate through tag.data.Struct or Struct.Struct
@@ -232,12 +270,45 @@ const extractAffixPools = (node) => {
       } else if (v?.Struct) {
         poolStruct = v.Struct;
       }
-      
+
       // Process each pool
       for (const [poolKey, poolVal] of Object.entries(poolStruct)) {
         const poolName = keyPrefix(poolKey);
         if (POOL_PREFIXES.includes(poolName)) {
           const attrs = extractPoolAttributes(poolVal);
+          if (attrs.length > 0) {
+            pools[poolName] = attrs;
+          }
+        }
+      }
+    }
+  }
+  return pools;
+};
+
+// Extract affix pools with values from AffixesPool structure
+const extractAffixPoolsWithValues = (node) => {
+  const pools = {};
+  if (!node || typeof node !== "object") return pools;
+
+  for (const [k, v] of Object.entries(node)) {
+    if (k.startsWith(AFFIXES_PREFIX)) {
+      // Navigate through tag.data.Struct or Struct.Struct
+      let poolStruct = v;
+      if (v?.tag?.data?.Struct) {
+        poolStruct = v;
+      }
+      if (v?.Struct?.Struct) {
+        poolStruct = v.Struct.Struct;
+      } else if (v?.Struct) {
+        poolStruct = v.Struct;
+      }
+
+      // Process each pool
+      for (const [poolKey, poolVal] of Object.entries(poolStruct)) {
+        const poolName = keyPrefix(poolKey);
+        if (POOL_PREFIXES.includes(poolName)) {
+          const attrs = extractPoolAttributesWithValues(poolVal);
           if (attrs.length > 0) {
             pools[poolName] = attrs;
           }
@@ -256,15 +327,24 @@ function processItemStruct(itemStruct) {
   const genAttrs = extractGeneratedAttributes(itemStruct);
   const genAttrsWithValues = extractGeneratedAttributesWithValues(itemStruct);
   const affixPools = extractAffixPools(itemStruct);
-  
-  // Initialize pools
+  const affixPoolsWithValues = extractAffixPoolsWithValues(itemStruct);
+
+  // Initialize pools (names only for backwards compat)
   const pools = {
     Pool1: affixPools.Pool1 || [],
     Pool2: affixPools.Pool2 || [],
     Pool3: affixPools.Pool3 || [],
     Inherent: affixPools.Inherent || []
   };
-  
+
+  // Initialize pools with values
+  const poolsWithValues = {
+    Pool1: affixPoolsWithValues.Pool1 || [],
+    Pool2: affixPoolsWithValues.Pool2 || [],
+    Pool3: affixPoolsWithValues.Pool3 || [],
+    Inherent: affixPoolsWithValues.Inherent || []
+  };
+
   // Also check for direct pool attributes in the structure
   for (const [k, v] of Object.entries(itemStruct)) {
     const poolName = keyPrefix(k);
@@ -273,9 +353,13 @@ function processItemStruct(itemStruct) {
       if (attrs.length > 0) {
         pools[poolName] = [...pools[poolName], ...attrs];
       }
+      const attrsWithValues = extractPoolAttributesWithValues(v);
+      if (attrsWithValues.length > 0) {
+        poolsWithValues[poolName] = [...poolsWithValues[poolName], ...attrsWithValues];
+      }
     }
   }
-  
+
   // Remove duplicates
   const uniq = (arr) => Array.from(new Set(arr));
   const uniqByKey = (arr, keyFn) => {
@@ -287,7 +371,7 @@ function processItemStruct(itemStruct) {
       return true;
     });
   };
-  
+
   const poolAttributes = uniq([
     ...pools.Pool1,
     ...pools.Pool2,
@@ -295,10 +379,12 @@ function processItemStruct(itemStruct) {
     ...pools.Inherent
   ]);
 
-  const poolAttributesWithValues = poolAttributes.map(name => ({
-    name,
-    value: null,
-  }));
+  const poolAttributesWithValues = [
+    ...poolsWithValues.Pool1,
+    ...poolsWithValues.Pool2,
+    ...poolsWithValues.Pool3,
+    ...poolsWithValues.Inherent
+  ];
 
   return {
     item_row: itemRow,

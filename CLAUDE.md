@@ -47,6 +47,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | File upload/processing | `src/hooks/useFileProcessor.js`, `src/utils/wasm.js` |
 | Item filtering logic | `src/utils/dwarfFilter.js` |
 | Item data model | `src/models/Item.js`, `src/models/itemTransformer.js` |
+| Monogram/modifier registry | `src/utils/monogramRegistry.js` |
 | Equipment slot mapping | `src/utils/equipmentParser.js` |
 | Attribute display names | `src/utils/attributeDisplay.js` |
 | Styling/theming | `src/styles/index.css` |

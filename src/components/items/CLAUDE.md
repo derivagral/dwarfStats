@@ -61,10 +61,10 @@ Items are transformed into a clean model (see `src/models/Item.js`):
   stackCount: number,
   charges: number,
 
-  // Stats
+  // Stats (regular attributes, excludes monograms)
   baseStats: [{stat, value, rawTag}],
 
-  // Affix pools
+  // Affix pools (craftable affix slots)
   affixPools: {
     inherent: [{rowName, dataTable}],
     pool1: [{rowName, dataTable}],
@@ -72,10 +72,32 @@ Items are transformed into a clean model (see `src/models/Item.js`):
     pool3: [{rowName, dataTable}],
   },
 
+  // Monograms (Codex modifiers, up to 4 per item)
+  monograms: [{id, value, rawTag}],
+
   upgradeCount: number, // Gamble/anvil upgrades
-  monograms: [],        // Reserved for future
 }
 ```
+
+## Monograms
+
+Monograms are special modifiers craftable at the Codex. They are identified by the `EasyRPG.Items.Modifiers.` prefix in save data.
+
+**Registry:** `src/utils/monogramRegistry.js`
+
+```javascript
+import { getMonogramName, getMonogramsForSlot } from '../utils/monogramRegistry';
+
+// Get display name for a monogram
+getMonogramName('Bloodlust.Base'); // "Bloodlust"
+
+// Get available monograms for a slot
+getMonogramsForSlot('head'); // [{id, name, category, description}, ...]
+```
+
+**Slot-specific monograms:**
+- head, amulet, bracer, boots, pants, relic each have their own pool
+- Use `SLOT_MONOGRAMS` to check what's available per slot
 
 ## Props
 

@@ -122,7 +122,12 @@ Browsable item list with filtering and stat editing.
 Items now include a clean `model` property with:
 - Full metadata (rarity, tier, specks, upgradeCount)
 - Structured affix pools (inherent, pool1-3)
-- Base stats with values
+- Base stats with values (excludes monograms)
+- Monograms array with id, value, rawTag
+
+**Monograms:**
+Codex-craftable modifiers identified by `EasyRPG.Items.Modifiers.` prefix.
+Registry at `src/utils/monogramRegistry.js` provides display names and slot mappings.
 
 See `src/models/Item.js` for the complete model definition.
 

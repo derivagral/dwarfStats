@@ -70,6 +70,15 @@ export const RARITY_CLASSES = {
  */
 
 /**
+ * A monogram (modifier) entry on an item
+ * Monograms are special crafted modifiers from the Codex
+ * @typedef {Object} MonogramEntry
+ * @property {string} id - Monogram ID (e.g., "Bloodlust.Base", "DamageCircle.Hp%.Highest")
+ * @property {number|null} value - Numeric value (usually 1 for boolean effects)
+ * @property {string} [rawTag] - Full gameplay tag path for reference
+ */
+
+/**
  * Clean Item model - the primary data structure for items in DwarfStats
  *
  * @typedef {Object} Item
@@ -87,11 +96,11 @@ export const RARITY_CLASSES = {
  * @property {number} stackCount - Stack quantity (Amount)
  * @property {number} charges - Charges remaining (if applicable)
  *
- * @property {StatEntry[]} baseStats - Base stats from GeneratedAttributes
+ * @property {StatEntry[]} baseStats - Base stats from GeneratedAttributes (excluding monograms)
  * @property {AffixPools} affixPools - Affix pools with potential rolls
+ * @property {MonogramEntry[]} monograms - Monograms (modifiers) on this item
  *
  * @property {number} upgradeCount - Gamble/anvil upgrade count
- * @property {AffixReference[]} monograms - Monogram slots (up to 4, future use)
  */
 
 /**
@@ -200,4 +209,32 @@ export function getTotalAffixCount(item) {
     item.affixPools.pool2.length +
     item.affixPools.pool3.length
   );
+}
+
+/**
+ * Checks if an item has any monograms
+ * @param {Item} item - The item to check
+ * @returns {boolean}
+ */
+export function hasMonograms(item) {
+  return item.monograms && item.monograms.length > 0;
+}
+
+/**
+ * Gets monogram count for an item
+ * @param {Item} item - The item to count monograms for
+ * @returns {number}
+ */
+export function getMonogramCount(item) {
+  return item.monograms ? item.monograms.length : 0;
+}
+
+/**
+ * Gets all monogram IDs from an item
+ * @param {Item} item - The item to extract monograms from
+ * @returns {string[]} Array of monogram IDs
+ */
+export function getMonogramIds(item) {
+  if (!item.monograms) return [];
+  return item.monograms.map(m => m.id);
 }

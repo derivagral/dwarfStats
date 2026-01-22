@@ -19,6 +19,9 @@ export {
   getAllStatNames,
   hasAffixes,
   getTotalAffixCount,
+  hasMonograms,
+  getMonogramCount,
+  getMonogramIds,
 } from './Item.js';
 
 // Item transformation functions

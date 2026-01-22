@@ -13,6 +13,9 @@ import { createEmptyItem, Rarity } from './Item.js';
 const ITEMS_TABLE_SNIPPET = 'DT_Items.DT_Items';
 const POOL_PREFIXES = ['Pool1', 'Pool2', 'Pool3', 'Inherent'];
 
+// Monogram detection prefix
+const MONOGRAM_TAG_PREFIX = 'EasyRPG.Items.Modifiers.';
+
 // Field name prefixes in the raw structure
 const FIELD_PREFIXES = {
   ITEM_HANDLE: 'ItemHandle',
@@ -209,16 +212,41 @@ function extractTagFromGameplayTag(obj) {
 }
 
 /**
- * Extract base stats from GeneratedAttributes array
- * @param {Object} node - Item structure
- * @returns {Array<{stat: string, value: number|null, rawTag: string}>}
+ * Check if a tag is a monogram (modifier) rather than a regular stat
+ * @param {string} rawTag - Full tag path
+ * @returns {boolean}
  */
-function extractBaseStats(node) {
+function isMonogramTag(rawTag) {
+  return rawTag && rawTag.startsWith(MONOGRAM_TAG_PREFIX);
+}
+
+/**
+ * Parse monogram ID from full tag, normalizing %6 suffix variations
+ * @param {string} rawTag - Full monogram tag
+ * @returns {string} Normalized monogram ID
+ */
+function parseMonogramId(rawTag) {
+  if (!rawTag) return '';
+  let id = rawTag.replace(MONOGRAM_TAG_PREFIX, '');
+  // Normalize %6 suffix to % (save file quirk)
+  id = id.replace(/%6/g, '%');
+  return id;
+}
+
+/**
+ * Extract base stats and monograms from GeneratedAttributes array
+ * Monograms are identified by "EasyRPG.Items.Modifiers." prefix
+ * @param {Object} node - Item structure
+ * @returns {{stats: Array, monograms: Array}}
+ */
+function extractStatsAndMonograms(node) {
   const stats = [];
-  if (!node || typeof node !== 'object') return stats;
+  const monograms = [];
+
+  if (!node || typeof node !== 'object') return { stats, monograms };
 
   const field = findFieldByPrefix(node, FIELD_PREFIXES.GENERATED_ATTRIBUTES);
-  if (!field) return stats;
+  if (!field) return { stats, monograms };
 
   const array = field?.Array?.Struct?.value || field?.Array?.value || [];
 
@@ -238,16 +266,26 @@ function extractBaseStats(node) {
       }
 
       if (tagInfo) {
-        stats.push({
-          stat: tagInfo.stat,
-          value: value,
-          rawTag: tagInfo.rawTag,
-        });
+        if (isMonogramTag(tagInfo.rawTag)) {
+          // This is a monogram
+          monograms.push({
+            id: parseMonogramId(tagInfo.rawTag),
+            value: value,
+            rawTag: tagInfo.rawTag,
+          });
+        } else {
+          // Regular stat
+          stats.push({
+            stat: tagInfo.stat,
+            value: value,
+            rawTag: tagInfo.rawTag,
+          });
+        }
       }
     }
   }
 
-  return stats;
+  return { stats, monograms };
 }
 
 /**
@@ -383,12 +421,14 @@ export function transformItem(rawStruct, index = 0) {
   const upgradeField = findFieldByPrefix(rawStruct, FIELD_PREFIXES.GAMBLE_UPGRADE);
   item.upgradeCount = extractInt(upgradeField);
 
-  // Stats and affixes
-  item.baseStats = extractBaseStats(rawStruct);
-  item.affixPools = extractAffixPools(rawStruct);
+  // Extract stats and monograms from GeneratedAttributes
+  // Monograms have "EasyRPG.Items.Modifiers." prefix
+  const { stats, monograms } = extractStatsAndMonograms(rawStruct);
+  item.baseStats = stats;
+  item.monograms = monograms;
 
-  // Monograms - not currently in save data, placeholder for future
-  item.monograms = [];
+  // Extract affix pools
+  item.affixPools = extractAffixPools(rawStruct);
 
   return item;
 }

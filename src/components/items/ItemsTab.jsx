@@ -126,6 +126,10 @@ export function ItemsTab({ saveData, onLog }) {
     };
 
     return items.filter(item => {
+      // Filter out invalid/empty items (no name or "None")
+      const name = item.name || item.item?.generated_name;
+      if (!name || name === 'None' || name === '(unknown)') return false;
+
       if (!matchesFilter(item)) return false;
       if (!showEquippedOnly) return true;
       return equippedLookup.has(item.item?.item_row);
@@ -179,19 +183,23 @@ export function ItemsTab({ saveData, onLog }) {
   }, [onLog]);
 
   // Build item attributes for display, applying any overrides
+  // Uses model.baseStats which excludes affix pools and monograms
   const itemAttributes = useMemo(() => {
     if (!selectedItem?.item) return [];
+
+    const model = selectedItem.item.model;
     let baseAttributes;
-    if (selectedItem.item.all_attributes_with_values?.length) {
-      baseAttributes = selectedItem.item.all_attributes_with_values;
-    } else if (selectedItem.item.all_attributes) {
-      baseAttributes = selectedItem.item.all_attributes.map(attribute => ({
-        name: attribute,
-        value: null,
+    if (model?.baseStats?.length) {
+      baseAttributes = model.baseStats.map(s => ({
+        name: s.rawTag || s.stat,
+        value: s.value,
       }));
+    } else if (selectedItem.item.generated_attributes_with_values?.length) {
+      baseAttributes = selectedItem.item.generated_attributes_with_values;
     } else {
       baseAttributes = [];
     }
+
     // Apply overrides if we have a selected item key
     if (selectedItemKey && hasSlotOverrides(selectedItemKey)) {
       return applyOverridesToItem(selectedItemKey, baseAttributes);
@@ -200,15 +208,31 @@ export function ItemsTab({ saveData, onLog }) {
   }, [selectedItem, selectedItemKey, hasSlotOverrides, applyOverridesToItem]);
 
   // Build item object for ItemEditor (matches character tab format)
+  // Uses model.baseStats which excludes affix pools and monograms
   const editorItem = useMemo(() => {
     if (!selectedItem) return null;
+
+    // Prefer the clean model's baseStats (excludes affix pools and monograms)
+    const model = selectedItem.item?.model;
+    let attributes;
+    if (model?.baseStats?.length) {
+      // Convert model.baseStats format to editor format
+      attributes = model.baseStats.map(s => ({
+        name: s.rawTag || s.stat,
+        value: s.value,
+      }));
+    } else if (selectedItem.item?.generated_attributes_with_values?.length) {
+      // Fallback to generated attributes only (not all_attributes which includes pools)
+      attributes = selectedItem.item.generated_attributes_with_values;
+    } else {
+      attributes = [];
+    }
+
     return {
       name: selectedItem.name,
       itemType: selectedItem.type,
       itemRow: selectedItem.item?.item_row,
-      attributes: selectedItem.item?.all_attributes_with_values?.length
-        ? selectedItem.item.all_attributes_with_values
-        : (selectedItem.item?.all_attributes || []).map(attr => ({ name: attr, value: null })),
+      attributes,
     };
   }, [selectedItem]);
 
@@ -393,13 +417,19 @@ function ItemListRow({ item, equippedLabel, isSelected, hasOverrides, onSelect }
   const showTooltip = (isSlotHovered || isTooltipHovered) && !isSelected;
 
   const tooltipItem = useMemo(() => {
-    const attributesWithValues = item.item?.all_attributes_with_values;
-    const attributes = attributesWithValues?.length
-      ? attributesWithValues
-      : (item.item?.all_attributes || []).map(attribute => ({
-        name: attribute,
-        value: null,
+    // Prefer clean model's baseStats (excludes affix pools and monograms)
+    const model = item.item?.model;
+    let attributes;
+    if (model?.baseStats?.length) {
+      attributes = model.baseStats.map(s => ({
+        name: s.rawTag || s.stat,
+        value: s.value,
       }));
+    } else if (item.item?.generated_attributes_with_values?.length) {
+      attributes = item.item.generated_attributes_with_values;
+    } else {
+      attributes = [];
+    }
 
     return {
       name: item.name,

@@ -2,6 +2,847 @@
   {
     "save_game_type": "/Game/EasySurvivalRPG/Blueprints/Game/GameSaves/BP_GameSave_Session.BP_GameSave_Session_C",
     "properties": {
+            "LearnedWeaponModifiers_0": {
+        "tag": {
+          "data": {
+            "Array": {
+              "Struct": {
+                "struct_type": {
+                  "Struct": null
+                },
+                "id": "00000000-0000-0000-0000-000000000000"
+              }
+            }
+          }
+        },
+        "Array": {
+          "Struct": {
+            "type_": "StructProperty",
+            "struct_type": {
+              "Struct": "GameplayTag"
+            },
+            "id": "00000000-0000-0000-0000-000000000000",
+            "value": [
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.Modifier.BuffStack"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.Overload"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.BonusDamage"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.Modifier.FireSpikeTicks"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FerocityOfWolves.Modifier.Bats"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.Radius"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FireBeam.Modifier.ExpandedBeam"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.Vortex.Modifier.Tornados"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.Vortex.Modifier.MiniTornados"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.CarnageOfFire.Modifier.LavaSpike"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.Modifier.Ticks"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.FireWall"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.BloodDragons.Modifier.BonusSizeDamage"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.DragonFlame.Modifier.AdditionalFlame"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.Modifier.AdditionalCasts"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.ExplodeOnOverlap"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.Modifier.AftermathExplosion"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.Modifier.AdditionalMages"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.StarBlades.Modifier.KunamiDaggers"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.Vortex.Modifier.StackBuff"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.GrowLarger"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FireAtom.Modifier.Explode"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.DamageBonus"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FerocityOfWolves.Modifier.AdditionalWolves"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.TentacleExplosion"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.Darts"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.StaticCharge.Modifier.ExplodeChargeBuff"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.CarnageOfFire.Modifier.Scortch"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.Spark.Modifier.PlasmaSphere"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.EnemyDeath.Modifier.LifetimeBuff"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneTotem.Modifier.ArcaneExplosion"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.SpinningBlade.Modifier.Shurikans"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FireBeam.Modifier.AdditionalBeam"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.Ticks"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.DragonFlame.Modifier.BonusRadius"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.Modifier.LavaRainTicks"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.AdditionalBeam"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.CarnageOfFire.Modifier.Radius"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.AdditionalStrike"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.StarBlades.Modifier.DamageBonusFirst"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneOrb.Modifier.ChaosOrb"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.BloodDragons.Modifier.SpawnOnHit"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FireAtom.Modifier.ChargeLonger"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.AdditionalJumps"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.ElectricMeteors"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.BloodDragons.Modifier.ExplosionChance"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.Lifetime"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.DragonFlame.Modifier.BonusTickTime"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.SpinningBlade.Modifier.ElementalDamage"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.BruningDragonsRadius"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.Modifier.Cloud"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneTotem.Modifier.AdditionalFlames"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.Modifier.Damage"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.StackBuff"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.StaticCharge.Modifier.Radius"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.LargerRadius"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.TimedExplosions"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.FireVortex"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.Spark.Modifier.Split"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneTotem.Modifier.ExtraTotem"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.EnemyDeath.Modifier.VesselBuff"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.SpinningBlade.Modifier.DamageBonus"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.EnemyDeath.Modifier.ArcaneSpikeTicks"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FireAtom.Modifier.MiniOrbs"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.FerocityOfWolves.Modifier.BearsDamageBonus"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.Flowers"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.ChemicalExplosion"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
       "Learned Head Modifiers Codex Recipes_0": {
         "tag": {
           "data": {

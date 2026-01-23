@@ -75,18 +75,6 @@ export function ItemEditor({
   const monogramSlot = getMonogramSlot(item.itemType, item.itemRow);
   const availableMonograms = monogramSlot ? getMonogramsForSlot(monogramSlot) : [];
 
-  // Get all current monogram IDs (base + added)
-  const currentMonogramIds = useMemo(() => {
-    const ids = new Set(currentMonograms.map(m => m.id));
-    addedMonograms.forEach(m => ids.add(m.id));
-    return ids;
-  }, [currentMonograms, addedMonograms]);
-
-  // Filter out already-selected monograms from the dropdown
-  const selectableMonograms = useMemo(() => {
-    return availableMonograms.filter(m => !currentMonogramIds.has(m.id));
-  }, [availableMonograms, currentMonogramIds]);
-
   const hasChanges = mods.length > 0 || removedIndices.length > 0 || addedMonograms.length > 0;
 
   // Handle adding a new stat - store statId, not name
@@ -222,7 +210,7 @@ export function ItemEditor({
             </div>
 
             {/* Add monogram selector */}
-            {selectableMonograms.length > 0 && onAddMonogram && (
+            {availableMonograms.length > 0 && onAddMonogram && (
               <div className="item-editor-add-row">
                 <select
                   className="stat-row-select monogram-select"
@@ -230,7 +218,7 @@ export function ItemEditor({
                   onChange={(e) => setSelectedMonogram(e.target.value)}
                 >
                   <option value="">Select monogram...</option>
-                  {selectableMonograms.map(mono => (
+                  {availableMonograms.map(mono => (
                     <option key={mono.id} value={mono.id}>
                       {mono.name}
                     </option>

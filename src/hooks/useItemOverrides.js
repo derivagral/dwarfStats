@@ -127,16 +127,11 @@ export function useItemOverrides(options = {}) {
     });
   }, [onChange]);
 
-  // Add a monogram to an item
+  // Add a monogram to an item (duplicates allowed)
   const addMonogram = useCallback((slotKey, monogram) => {
     setOverrides(prev => {
       const slotData = prev[slotKey] || { mods: [], removedIndices: [], monograms: [] };
       const monograms = slotData.monograms || [];
-
-      // Don't add duplicates
-      if (monograms.some(m => m.id === monogram.id)) {
-        return prev;
-      }
 
       const newOverrides = {
         ...prev,

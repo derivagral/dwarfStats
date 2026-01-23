@@ -18,7 +18,7 @@ function getMonogramSlot(itemType, itemRow) {
   const typeStr = (itemType || itemRow || '').toLowerCase();
 
   // Check for slot keywords
-  if (typeStr.includes('head') || typeStr.includes('helm') || typeStr.includes('hat')) return 'head';
+  if (typeStr.includes('head') || typeStr.includes('helm') || typeStr.includes('hat') || typeStr.includes('casque')) return 'head';
   if (typeStr.includes('amulet') || typeStr.includes('neck')) return 'amulet';
   if (typeStr.includes('bracer') || typeStr.includes('wrist')) return 'bracer';
   if (typeStr.includes('boots') || typeStr.includes('feet')) return 'boots';

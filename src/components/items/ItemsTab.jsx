@@ -48,7 +48,7 @@ function parseFilterString(filterStr) {
 export function ItemsTab({ saveData, onLog }) {
   const [filterValue, setFilterValue] = useState(DEFAULT_FILTERS);
   const [filterPatterns, setFilterPatterns] = useState(parseFilterString(DEFAULT_FILTERS));
-  const [showEquippedOnly, setShowEquippedOnly] = useState(false);
+  const [showEquippedOnly, setShowEquippedOnly] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemKey, setSelectedItemKey] = useState(null);
   const [selectedItemKeys, setSelectedItemKeys] = useState(new Set());

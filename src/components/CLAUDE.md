@@ -77,6 +77,7 @@ Equipment inventory display with item-level stat editing.
 Click any equipped item to open the ItemEditor panel below the equipment grid.
 - View and remove base stats from the item
 - Add custom stats with type selector and value input
+- Add/remove monograms (for applicable slots: head, amulet, bracer, boots, pants, relic)
 - Changes immediately reflect in the StatsPanel on the right
 - Edit icon (✎) shows on slots with modifications
 

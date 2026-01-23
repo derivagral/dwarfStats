@@ -66,6 +66,8 @@ export function ItemsTab({ saveData, onLog }) {
     removeMod,
     removeBaseStat,
     restoreBaseStat,
+    addMonogram,
+    removeMonogram,
     clearSlot,
   } = useItemOverrides();
 
@@ -390,8 +392,11 @@ export function ItemsTab({ saveData, onLog }) {
               onRemoveMod={(modIndex) => removeMod(selectedItemKey, modIndex)}
               onRemoveBaseStat={(index) => removeBaseStat(selectedItemKey, index)}
               onRestoreBaseStat={(index) => restoreBaseStat(selectedItemKey, index)}
+              onAddMonogram={(mono) => addMonogram(selectedItemKey, mono)}
+              onRemoveMonogram={(index) => removeMonogram(selectedItemKey, index)}
               onClearSlot={() => clearSlot(selectedItemKey)}
               onClose={handleCloseEditor}
+              currentMonograms={selectedItem.item?.model?.monograms || []}
             />
           ) : (
             <div className="items-editor-empty-state">

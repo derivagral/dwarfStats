@@ -1526,6 +1526,55 @@ h1::before {
   color: var(--error);
 }
 
+/* Monogram Section */
+.item-editor-section-hint {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
+
+.monogram-row {
+  align-items: center;
+}
+
+.monogram-id {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.monogram-id.added {
+  color: var(--success);
+}
+
+.monogram-select {
+  flex: 1;
+  min-width: 120px;
+}
+
+.item-editor-add-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.item-editor-add-row select {
+  flex: 1;
+}
+
+.item-editor-add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Stat Input */
 .stat-input {
   display: flex;

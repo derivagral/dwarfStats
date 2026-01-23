@@ -123,7 +123,10 @@ getMonogramsForSlot('head'); // [{id, name, category, description}, ...]
 
 ## Hooks Used
 
-- `useItemOverrides` - Manages stat modifications for theorycrafting
+- `useItemOverrides` - Manages stat and monogram modifications for theorycrafting
+  - `addMod`, `removeMod`, `updateMod` - Stat modifications
+  - `addMonogram`, `removeMonogram` - Monogram modifications
+  - `removeBaseStat`, `restoreBaseStat` - Base stat toggling
 
 ## Slot Types
 

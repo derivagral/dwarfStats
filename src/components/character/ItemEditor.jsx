@@ -3,6 +3,12 @@ import { StatInput } from './StatInput';
 import { getDisplayName } from '../../utils/attributeDisplay';
 import { STAT_TYPES, getStatType } from '../../utils/statBuckets';
 import { getMonogramsForSlot, getMonogramName, SLOT_MONOGRAMS } from '../../utils/monogramRegistry';
+import {
+  getAllSkills,
+  getSkillModifiers,
+  getSkillModifierName,
+  getSkillDisplayName,
+} from '../../utils/skillModifierRegistry';
 
 /**
  * Map item type/row to monogram slot
@@ -23,6 +29,26 @@ function getMonogramSlot(itemType, itemRow) {
 }
 
 /**
+ * Check if an item is a weapon (can have skill modifiers)
+ */
+function isWeaponSlot(itemType, itemRow) {
+  const typeStr = (itemType || itemRow || '').toLowerCase();
+
+  // Check for weapon keywords
+  if (typeStr.includes('weapon')) return true;
+  if (typeStr.includes('staff')) return true;
+  if (typeStr.includes('sword')) return true;
+  if (typeStr.includes('axe')) return true;
+  if (typeStr.includes('mace')) return true;
+  if (typeStr.includes('dagger')) return true;
+  if (typeStr.includes('wand')) return true;
+  if (typeStr.includes('bow')) return true;
+  if (typeStr.includes('crossbow')) return true;
+
+  return false;
+}
+
+/**
  * Panel for editing an individual item's stats
  *
  * @param {Object} props
@@ -36,9 +62,12 @@ function getMonogramSlot(itemType, itemRow) {
  * @param {Function} props.onRestoreBaseStat - Restore a removed base stat
  * @param {Function} props.onAddMonogram - Add a monogram to the item
  * @param {Function} props.onRemoveMonogram - Remove a monogram from the item
+ * @param {Function} props.onAddSkillModifier - Add a skill modifier to a weapon
+ * @param {Function} props.onRemoveSkillModifier - Remove a skill modifier from a weapon
  * @param {Function} props.onClearSlot - Clear all overrides for this slot
  * @param {Function} props.onClose - Close the editor
  * @param {Array} props.currentMonograms - Current monograms on the item (from model)
+ * @param {Array} props.currentSkillModifiers - Current skill modifiers on the weapon (from model)
  */
 export function ItemEditor({
   item,
@@ -51,9 +80,12 @@ export function ItemEditor({
   onRestoreBaseStat,
   onAddMonogram,
   onRemoveMonogram,
+  onAddSkillModifier,
+  onRemoveSkillModifier,
   onClearSlot,
   onClose,
   currentMonograms = [],
+  currentSkillModifiers = [],
 }) {
   const editorRef = useRef(null);
 
@@ -65,17 +97,24 @@ export function ItemEditor({
   }, [slotKey]);
 
   const [selectedMonogram, setSelectedMonogram] = useState('');
+  const [selectedSkill, setSelectedSkill] = useState('');
+  const [selectedSkillModifier, setSelectedSkillModifier] = useState('');
 
   if (!item) return null;
 
   const baseAttributes = item.attributes || [];
-  const { mods = [], removedIndices = [], monograms: addedMonograms = [] } = slotOverrides;
+  const { mods = [], removedIndices = [], monograms: addedMonograms = [], skillModifiers: addedSkillModifiers = [] } = slotOverrides;
 
   // Determine monogram slot for this item
   const monogramSlot = getMonogramSlot(item.itemType, item.itemRow);
   const availableMonograms = monogramSlot ? getMonogramsForSlot(monogramSlot) : [];
 
-  const hasChanges = mods.length > 0 || removedIndices.length > 0 || addedMonograms.length > 0;
+  // Check if item is a weapon (can have skill modifiers)
+  const isWeapon = isWeaponSlot(item.itemType, item.itemRow);
+  const allSkills = isWeapon ? getAllSkills() : [];
+  const availableSkillModifiers = selectedSkill ? getSkillModifiers(selectedSkill) : [];
+
+  const hasChanges = mods.length > 0 || removedIndices.length > 0 || addedMonograms.length > 0 || addedSkillModifiers.length > 0;
 
   // Handle adding a new stat - store statId, not name
   const handleAddStat = useCallback(() => {
@@ -89,6 +128,14 @@ export function ItemEditor({
       setSelectedMonogram('');
     }
   }, [selectedMonogram, onAddMonogram]);
+
+  // Handle adding a skill modifier
+  const handleAddSkillModifier = useCallback(() => {
+    if (selectedSkillModifier && onAddSkillModifier) {
+      onAddSkillModifier({ id: selectedSkillModifier, skillId: selectedSkill, value: 1 });
+      setSelectedSkillModifier('');
+    }
+  }, [selectedSkillModifier, selectedSkill, onAddSkillModifier]);
 
   return (
     <div className="item-editor" ref={editorRef}>
@@ -229,6 +276,87 @@ export function ItemEditor({
                   className="item-editor-add-btn"
                   onClick={handleAddMonogram}
                   disabled={!selectedMonogram}
+                >
+                  + Add
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Skill Modifiers section - only show for weapons */}
+        {isWeapon && (
+          <div className="item-editor-section">
+            <div className="item-editor-section-title">
+              Skill Modifiers
+              <span className="item-editor-section-hint">(weapon)</span>
+            </div>
+
+            {/* Current skill modifiers from item */}
+            <div className="item-editor-stats">
+              {currentSkillModifiers.map((mod, index) => (
+                <div key={`base-${mod.id}-${index}`} className="item-editor-stat-row base-stat skill-modifier-row">
+                  <span className="stat-row-name">{getSkillModifierName(mod.id)}</span>
+                </div>
+              ))}
+
+              {/* Added skill modifiers */}
+              {addedSkillModifiers.map((mod, index) => (
+                <div key={`added-${mod.id}-${index}`} className="item-editor-stat-row mod-stat skill-modifier-row">
+                  <span className="stat-row-name">{getSkillModifierName(mod.id)}</span>
+                  <span className="stat-row-value skill-id added">{mod.skillId}</span>
+                  <button
+                    type="button"
+                    className="stat-row-remove"
+                    onClick={() => onRemoveSkillModifier?.(index)}
+                    title="Remove skill modifier"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+
+              {currentSkillModifiers.length === 0 && addedSkillModifiers.length === 0 && (
+                <div className="item-editor-empty">No skill modifiers</div>
+              )}
+            </div>
+
+            {/* Add skill modifier selector */}
+            {allSkills.length > 0 && onAddSkillModifier && (
+              <div className="item-editor-add-row skill-modifier-add">
+                <select
+                  className="stat-row-select skill-select"
+                  value={selectedSkill}
+                  onChange={(e) => {
+                    setSelectedSkill(e.target.value);
+                    setSelectedSkillModifier('');
+                  }}
+                >
+                  <option value="">Filter by skill...</option>
+                  {allSkills.map(skill => (
+                    <option key={skill.id} value={skill.id}>
+                      {skill.name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="stat-row-select modifier-select"
+                  value={selectedSkillModifier}
+                  onChange={(e) => setSelectedSkillModifier(e.target.value)}
+                  disabled={!selectedSkill}
+                >
+                  <option value="">Select modifier...</option>
+                  {availableSkillModifiers.map(mod => (
+                    <option key={mod.id} value={mod.id}>
+                      {mod.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="item-editor-add-btn"
+                  onClick={handleAddSkillModifier}
+                  disabled={!selectedSkillModifier}
                 >
                   + Add
                 </button>

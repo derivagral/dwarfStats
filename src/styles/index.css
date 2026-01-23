@@ -1557,6 +1557,39 @@ h1::before {
   min-width: 120px;
 }
 
+/* Skill modifier rows (weapons) */
+.skill-modifier-row {
+  align-items: center;
+}
+
+.skill-id {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+  margin-left: auto;
+  padding: 0.125rem 0.25rem;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+}
+
+.skill-id.added {
+  color: var(--success);
+}
+
+.skill-modifier-add {
+  flex-wrap: wrap;
+}
+
+.skill-select {
+  flex: 1;
+  min-width: 100px;
+}
+
+.modifier-select {
+  flex: 1.5;
+  min-width: 140px;
+}
+
 .item-editor-add-row {
   display: flex;
   align-items: center;

@@ -15,12 +15,12 @@ import { getStatType } from '../utils/statBuckets';
 export function useItemOverrides(options = {}) {
   const { initialOverrides, onChange } = options;
 
-  // State: { slotKey: { mods: [{ id, name, value, isNew }], removedIndices: [] } }
+  // State: { slotKey: { mods: [...], removedIndices: [], monograms: [...], skillModifiers: [...] } }
   const [overrides, setOverrides] = useState(() => initialOverrides || {});
 
   // Get overrides for a specific slot
   const getSlotOverrides = useCallback((slotKey) => {
-    return overrides[slotKey] || { mods: [], removedIndices: [] };
+    return overrides[slotKey] || { mods: [], removedIndices: [], monograms: [], skillModifiers: [] };
   }, [overrides]);
 
   // Update a stat modification for an item
@@ -109,7 +109,7 @@ export function useItemOverrides(options = {}) {
   // Restore a removed base stat
   const restoreBaseStat = useCallback((slotKey, baseStatIndex) => {
     setOverrides(prev => {
-      const slotData = prev[slotKey] || { mods: [], removedIndices: [] };
+      const slotData = prev[slotKey] || { mods: [], removedIndices: [], monograms: [], skillModifiers: [] };
       const removedIndices = slotData.removedIndices.filter(i => i !== baseStatIndex);
 
       const newOverrides = {
@@ -118,7 +118,91 @@ export function useItemOverrides(options = {}) {
       };
 
       // Clean up if no overrides left
-      if (slotData.mods.length === 0 && removedIndices.length === 0) {
+      const monograms = slotData.monograms || [];
+      const skillMods = slotData.skillModifiers || [];
+      if (slotData.mods.length === 0 && removedIndices.length === 0 && monograms.length === 0 && skillMods.length === 0) {
+        delete newOverrides[slotKey];
+      }
+
+      onChange?.(newOverrides);
+      return newOverrides;
+    });
+  }, [onChange]);
+
+  // Add a monogram to an item (duplicates allowed)
+  const addMonogram = useCallback((slotKey, monogram) => {
+    setOverrides(prev => {
+      const slotData = prev[slotKey] || { mods: [], removedIndices: [], monograms: [] };
+      const monograms = slotData.monograms || [];
+
+      const newOverrides = {
+        ...prev,
+        [slotKey]: {
+          ...slotData,
+          monograms: [...monograms, monogram],
+        },
+      };
+
+      onChange?.(newOverrides);
+      return newOverrides;
+    });
+  }, [onChange]);
+
+  // Remove a monogram from an item
+  const removeMonogram = useCallback((slotKey, monogramIndex) => {
+    setOverrides(prev => {
+      const slotData = prev[slotKey] || { mods: [], removedIndices: [], monograms: [], skillModifiers: [] };
+      const monograms = (slotData.monograms || []).filter((_, i) => i !== monogramIndex);
+
+      const newOverrides = {
+        ...prev,
+        [slotKey]: { ...slotData, monograms },
+      };
+
+      // Clean up if no overrides left
+      const skillMods = slotData.skillModifiers || [];
+      if (slotData.mods.length === 0 && slotData.removedIndices.length === 0 && monograms.length === 0 && skillMods.length === 0) {
+        delete newOverrides[slotKey];
+      }
+
+      onChange?.(newOverrides);
+      return newOverrides;
+    });
+  }, [onChange]);
+
+  // Add a skill modifier to an item (for weapons, duplicates allowed)
+  const addSkillModifier = useCallback((slotKey, skillModifier) => {
+    setOverrides(prev => {
+      const slotData = prev[slotKey] || { mods: [], removedIndices: [], monograms: [], skillModifiers: [] };
+      const skillModifiers = slotData.skillModifiers || [];
+
+      const newOverrides = {
+        ...prev,
+        [slotKey]: {
+          ...slotData,
+          skillModifiers: [...skillModifiers, skillModifier],
+        },
+      };
+
+      onChange?.(newOverrides);
+      return newOverrides;
+    });
+  }, [onChange]);
+
+  // Remove a skill modifier from an item
+  const removeSkillModifier = useCallback((slotKey, modifierIndex) => {
+    setOverrides(prev => {
+      const slotData = prev[slotKey] || { mods: [], removedIndices: [], monograms: [], skillModifiers: [] };
+      const skillModifiers = (slotData.skillModifiers || []).filter((_, i) => i !== modifierIndex);
+
+      const newOverrides = {
+        ...prev,
+        [slotKey]: { ...slotData, skillModifiers },
+      };
+
+      // Clean up if no overrides left
+      const monograms = slotData.monograms || [];
+      if (slotData.mods.length === 0 && slotData.removedIndices.length === 0 && monograms.length === 0 && skillModifiers.length === 0) {
         delete newOverrides[slotKey];
       }
 
@@ -147,7 +231,10 @@ export function useItemOverrides(options = {}) {
   const hasSlotOverrides = useCallback((slotKey) => {
     const slotData = overrides[slotKey];
     if (!slotData) return false;
-    return slotData.mods.length > 0 || slotData.removedIndices.length > 0;
+    return slotData.mods.length > 0 ||
+           slotData.removedIndices.length > 0 ||
+           (slotData.monograms || []).length > 0 ||
+           (slotData.skillModifiers || []).length > 0;
   }, [overrides]);
 
   // Check if any overrides exist
@@ -199,6 +286,10 @@ export function useItemOverrides(options = {}) {
     removeMod,
     removeBaseStat,
     restoreBaseStat,
+    addMonogram,
+    removeMonogram,
+    addSkillModifier,
+    removeSkillModifier,
     clearSlot,
     clearAll,
   };

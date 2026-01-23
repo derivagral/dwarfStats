@@ -1,6 +1,8 @@
 // UE 5.x inventory parser/scorer (browser, read-only)
 // Fixed version with proper UE5 JSON structure handling
 
+import { transformItem } from '../models/itemTransformer.js';
+
 export const DEFAULT_SLOT1 = [
   /Fiery.*Totem.*Damage/i, /Wisdom/i, /MageryCriticalDamage/i, /MageryCriticalChance/i,
   /\bLifeSteal\b/i, /LifeStealAmount/i, /\bCriticalChance%/i
@@ -320,7 +322,8 @@ const extractAffixPoolsWithValues = (node) => {
 };
 
 // Process a complete item structure
-function processItemStruct(itemStruct) {
+// Returns both legacy format (for backwards compat) and clean Item model
+function processItemStruct(itemStruct, index = 0) {
   const itemRow = extractItemRow(itemStruct);
   const itemType = extractItemType(itemRow);
   const generatedName = findGeneratedName(itemStruct);
@@ -328,6 +331,9 @@ function processItemStruct(itemStruct) {
   const genAttrsWithValues = extractGeneratedAttributesWithValues(itemStruct);
   const affixPools = extractAffixPools(itemStruct);
   const affixPoolsWithValues = extractAffixPoolsWithValues(itemStruct);
+
+  // Transform to clean Item model
+  const model = transformItem(itemStruct, index);
 
   // Initialize pools (names only for backwards compat)
   const pools = {
@@ -387,6 +393,7 @@ function processItemStruct(itemStruct) {
   ];
 
   return {
+    // Legacy format (backwards compat)
     item_row: itemRow,
     item_type: itemType,
     generated_name: generatedName,
@@ -403,7 +410,9 @@ function processItemStruct(itemStruct) {
     all_attributes_with_values: uniqByKey([
       ...genAttrsWithValues,
       ...poolAttributesWithValues
-    ], attr => `${attr.name}:${attr.value ?? ''}`)
+    ], attr => `${attr.name}:${attr.value ?? ''}`),
+    // Clean Item model with full metadata
+    model: model,
   };
 }
 
@@ -527,7 +536,7 @@ export function analyzeUeSaveJson(jsonText, options = {}) {
   // Process each item
   for (let i = 0; i < itemStructs.length; i++) {
     const itemStruct = itemStructs[i];
-    const item = processItemStruct(itemStruct);
+    const item = processItemStruct(itemStruct, i);
     
     // Filter out weapons if requested
     if (!includeWeapons && isWeaponType(item.item_type)) {
@@ -558,9 +567,19 @@ export function analyzeUeSaveJson(jsonText, options = {}) {
     }
   }
   
-  return { 
-    hits: results, 
+  return {
+    hits: results,
     close: close,
     totalItems: itemStructs.length
   };
 }
+
+// Re-export Item model types for convenience
+export {
+  Rarity,
+  RARITY_NAMES,
+  getRarityName,
+  getRarityClass,
+} from '../models/Item.js';
+
+export { transformAllItems } from '../models/itemTransformer.js';

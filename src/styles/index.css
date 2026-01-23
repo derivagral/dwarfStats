@@ -1526,6 +1526,88 @@ h1::before {
   color: var(--error);
 }
 
+/* Monogram Section */
+.item-editor-section-hint {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
+
+.monogram-row {
+  align-items: center;
+}
+
+.monogram-id {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.monogram-id.added {
+  color: var(--success);
+}
+
+.monogram-select {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Skill modifier rows (weapons) */
+.skill-modifier-row {
+  align-items: center;
+}
+
+.skill-id {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+  margin-left: auto;
+  padding: 0.125rem 0.25rem;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+}
+
+.skill-id.added {
+  color: var(--success);
+}
+
+.skill-modifier-add {
+  flex-wrap: wrap;
+}
+
+.skill-select {
+  flex: 1;
+  min-width: 100px;
+}
+
+.modifier-select {
+  flex: 1.5;
+  min-width: 140px;
+}
+
+.item-editor-add-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.item-editor-add-row select {
+  flex: 1;
+}
+
+.item-editor-add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Stat Input */
 .stat-input {
   display: flex;

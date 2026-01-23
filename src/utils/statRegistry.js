@@ -396,7 +396,7 @@ export const STAT_REGISTRY = {
 
   maulDamage: {
     id: 'maulDamage',
-    name: 'Mauls Damage',
+    name: 'Maul Damage',
     category: 'stance',
     patterns: [
       'MaulsDamage%',
@@ -407,11 +407,11 @@ export const STAT_REGISTRY = {
     canonical: 'MaulsDamage%',
     isPercent: false,
     format: v => `+${v.toFixed(0)}%`,
-    description: 'Mauls damage bonus',
+    description: 'Maul damage bonus',
   },
   maulCritDamage: {
     id: 'maulCritDamage',
-    name: 'Mauls Critical Damage',
+    name: 'Maul Critical Damage',
     category: 'stance',
     patterns: [
       'MaulsCriticalDamage%',
@@ -421,11 +421,11 @@ export const STAT_REGISTRY = {
     canonical: 'MaulsCriticalDamage%',
     isPercent: true,
     format: v => `+${(v * 100).toFixed(0)}%`,
-    description: 'Mauls critical damage bonus',
+    description: 'Maul critical damage bonus',
   },
   maulCritChance: {
     id: 'maulCritChance',
-    name: 'Mauls Critical Chance',
+    name: 'Maul Critical Chance',
     category: 'stance',
     patterns: [
       'MaulsCriticalChance%',
@@ -434,7 +434,7 @@ export const STAT_REGISTRY = {
     canonical: 'MaulsCriticalChance%',
     isPercent: true,
     format: v => `${(v * 100).toFixed(1)}%`,
-    description: 'Mauls critical chance bonus',
+    description: 'Maul critical chance bonus',
   },
 
   archeryDamage: {

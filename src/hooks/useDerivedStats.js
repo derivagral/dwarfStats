@@ -19,21 +19,28 @@ export function useDerivedStats(options = {}) {
   const { equippedItems = [], itemOverrides = {}, characterStats = {} } = options;
 
   // Aggregate base stats from all equipped items
+  // Supports both formats:
+  //   - New model format: item.model.baseStats (from itemTransformer)
+  //   - Old format: item.attributes (from equipmentParser)
   const aggregatedBaseStats = useMemo(() => {
     const stats = { ...characterStats };
 
     for (const item of equippedItems) {
-      if (!item?.model?.baseStats) continue;
+      // Get base stats from either format
+      const baseStats = item?.model?.baseStats || item?.attributes;
+      if (!baseStats || !Array.isArray(baseStats)) continue;
 
       const slotKey = item.slotKey || item.slot || '';
       const overrides = itemOverrides[slotKey] || {};
       const removedIndices = overrides.removedIndices || [];
 
       // Add base stats from this item (excluding removed ones)
-      item.model.baseStats.forEach((stat, index) => {
+      baseStats.forEach((stat, index) => {
         if (removedIndices.includes(index)) return;
 
-        const statId = resolveStatId(stat.rawTag || stat.stat);
+        // Handle both formats: { stat, rawTag, value } or { name, value }
+        const rawTag = stat.rawTag || stat.stat || stat.name;
+        const statId = resolveStatId(rawTag);
         if (statId) {
           stats[statId] = (stats[statId] || 0) + (stat.value || 0);
         }
@@ -51,13 +58,17 @@ export function useDerivedStats(options = {}) {
   }, [equippedItems, itemOverrides, characterStats]);
 
   // Collect all applied monograms for config overrides
+  // Supports both formats:
+  //   - New model format: item.model.monograms
+  //   - Old format: monograms need to be parsed from attributes (not yet implemented)
   const appliedMonograms = useMemo(() => {
     const monograms = [];
 
     for (const item of equippedItems) {
       // Monograms from item model
-      if (item?.model?.monograms) {
-        for (const mono of item.model.monograms) {
+      const itemMonograms = item?.model?.monograms || item?.monograms;
+      if (itemMonograms && Array.isArray(itemMonograms)) {
+        for (const mono of itemMonograms) {
           monograms.push({
             id: mono.id,
             value: mono.value,
@@ -138,7 +149,69 @@ export function useDerivedStats(options = {}) {
     };
   }, [calculatedStats]);
 
+  // Build categories for StatsPanel display
+  const categories = useMemo(() => {
+    const { values, detailed } = calculatedStats;
+
+    // Map internal categories to display categories
+    const categoryMapping = {
+      totals: 'attributes',
+      conversion: 'offense',
+      monogram: 'offense',
+      chained: 'offense',
+      final: 'offense',
+      'utility-derived': 'defense',
+    };
+
+    const result = {
+      attributes: [],
+      offense: [],
+      defense: [],
+      elemental: [],
+    };
+
+    for (const stat of detailed) {
+      const displayCategory = categoryMapping[stat.category] || 'attributes';
+      if (result[displayCategory]) {
+        result[displayCategory].push({
+          id: stat.id,
+          name: stat.name,
+          value: stat.value,
+          formattedValue: stat.formattedValue,
+          description: stat.description,
+          layer: stat.layer,
+        });
+      }
+    }
+
+    // Also add any raw base stats that weren't calculated
+    for (const [statId, value] of Object.entries(aggregatedBaseStats)) {
+      // Skip if already in detailed
+      if (detailed.some(d => d.id === statId)) continue;
+
+      const statDef = STAT_REGISTRY[statId];
+      if (statDef) {
+        const displayCategory = statDef.category === 'stance' ? 'offense' :
+                               statDef.category === 'defense' ? 'defense' :
+                               statDef.category === 'elemental' ? 'elemental' : 'attributes';
+        result[displayCategory].push({
+          id: statId,
+          name: statDef.name,
+          value: value,
+          formattedValue: statDef.format ? statDef.format(value) : String(value),
+          description: statDef.description,
+          layer: LAYERS.BASE,
+        });
+      }
+    }
+
+    return result;
+  }, [calculatedStats, aggregatedBaseStats]);
+
   return {
+    // For StatsPanel compatibility
+    categories,
+
     // Raw aggregated stats (before calculation)
     baseStats: aggregatedBaseStats,
 

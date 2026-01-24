@@ -1,154 +1,297 @@
 import { useMemo } from 'react';
-import { STAT_DEFINITIONS } from '../utils/statRegistry.js';
+import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LAYERS } from '../utils/derivedStats.js';
+import { getStatType } from '../utils/statBuckets.js';
+import { STAT_REGISTRY } from '../utils/statRegistry.js';
 
 /**
- * Stat definition structure (provided by statRegistry.js):
- * {
- *   id: string,           // Unique identifier
- *   name: string,         // Display name
- *   category: string,     // Category grouping (e.g., 'offense', 'defense', 'attributes')
- *   calculate: (sources) => number,  // Calculation function
- *   format: (value) => string,       // Optional formatter
- *   sources: string[],    // Attribute patterns to sum/use
- *   description: string,  // Tooltip description
- * }
+ * Hook for calculating derived stats from equipped items
+ *
+ * Aggregates base stats from all equipped items, applies overrides,
+ * and calculates derived/chained stats using the calculation engine.
+ *
+ * @param {Object} options
+ * @param {Array} options.equippedItems - Array of equipped item objects with model data
+ * @param {Object} options.itemOverrides - Per-slot stat overrides from useItemOverrides
+ * @param {Object} options.characterStats - Base character stats (level, class bonuses, etc.)
+ * @returns {Object} Aggregated and calculated stats
  */
+export function useDerivedStats(options = {}) {
+  const { equippedItems = [], itemOverrides = {}, characterStats = {} } = options;
 
-// Helper to sum attribute values matching patterns from all items
-function sumFromItems(items, patterns) {
-  if (!items || !patterns || patterns.length === 0) return { total: 0, breakdown: [] };
+  // Aggregate base stats from all equipped items
+  const aggregatedBaseStats = useMemo(() => {
+    const stats = { ...characterStats };
 
-  const breakdown = [];
-  let total = 0;
+    for (const item of equippedItems) {
+      if (!item?.model?.baseStats) continue;
 
-  const regexPatterns = patterns.map(p =>
-    typeof p === 'string' ? new RegExp(p, 'i') : p
-  );
+      const slotKey = item.slotKey || item.slot || '';
+      const overrides = itemOverrides[slotKey] || {};
+      const removedIndices = overrides.removedIndices || [];
 
-  for (const item of items) {
-    if (!item?.attributes) continue;
+      // Add base stats from this item (excluding removed ones)
+      item.model.baseStats.forEach((stat, index) => {
+        if (removedIndices.includes(index)) return;
 
-    for (const attr of item.attributes) {
-      for (const pattern of regexPatterns) {
-        if (pattern.test(attr.name)) {
-          const value = typeof attr.value === 'number' ? attr.value : parseFloat(attr.value) || 0;
-          total += value;
-          breakdown.push({
-            source: item.name || item.itemRow || 'Unknown Item',
-            slot: item.slot || 'unknown',
-            attribute: attr.name,
-            value: value
+        const statId = resolveStatId(stat.rawTag || stat.stat);
+        if (statId) {
+          stats[statId] = (stats[statId] || 0) + (stat.value || 0);
+        }
+      });
+
+      // Add override mods
+      for (const mod of overrides.mods || []) {
+        if (mod.statId && mod.value !== undefined) {
+          stats[mod.statId] = (stats[mod.statId] || 0) + mod.value;
+        }
+      }
+    }
+
+    return stats;
+  }, [equippedItems, itemOverrides, characterStats]);
+
+  // Collect all applied monograms for config overrides
+  const appliedMonograms = useMemo(() => {
+    const monograms = [];
+
+    for (const item of equippedItems) {
+      // Monograms from item model
+      if (item?.model?.monograms) {
+        for (const mono of item.model.monograms) {
+          monograms.push({
+            id: mono.id,
+            value: mono.value,
+            source: 'item',
+            itemSlot: item.slot,
           });
-          break; // Only match once per attribute
-        }
-      }
-    }
-  }
-
-  return { total, breakdown };
-}
-
-// Helper to get a single value from save data by path
-function getFromSave(saveData, path) {
-  if (!saveData || !path) return { value: 0, found: false };
-
-  const parts = path.split('.');
-  let current = saveData;
-
-  for (const part of parts) {
-    if (current === null || current === undefined) {
-      return { value: 0, found: false };
-    }
-    current = current[part];
-  }
-
-  const value = typeof current === 'number' ? current : parseFloat(current) || 0;
-  return { value, found: current !== undefined };
-}
-
-// Use stat definitions from the unified registry
-const defaultStatDefinitions = STAT_DEFINITIONS;
-
-/**
- * Hook to derive stats from character data
- * @param {Object} characterData - The character data including equipped items
- * @param {Array} customDefinitions - Optional custom stat definitions to use instead of defaults
- * @returns {Object} - { stats, categories, getStat, getCategory }
- */
-export function useDerivedStats(characterData, customDefinitions = null) {
-  const definitions = customDefinitions || defaultStatDefinitions;
-
-  const derivedStats = useMemo(() => {
-    if (!characterData) {
-      return { stats: [], categories: {}, byId: {} };
-    }
-
-    const items = characterData.equippedItems || [];
-    const saveData = characterData.raw || {};
-
-    const stats = definitions.map(def => {
-      // Calculate sum from items (includes any modified item stats)
-      const itemSum = sumFromItems(items, def.sources);
-
-      // Get any direct save data values
-      const saveValues = {};
-      if (def.savePaths) {
-        for (const [key, path] of Object.entries(def.savePaths)) {
-          saveValues[key] = getFromSave(saveData, path);
         }
       }
 
-      // Build sources object for calculation
-      const sources = {
-        itemSum,
-        saveValues,
-        items,
-        saveData
-      };
-
-      // Calculate final value
-      const rawValue = def.calculate(sources);
-      const formattedValue = def.format ? def.format(rawValue) : rawValue.toString();
-
-      return {
-        id: def.id,
-        name: def.name,
-        category: def.category,
-        value: rawValue,
-        formattedValue,
-        breakdown: itemSum.breakdown,
-        description: def.description,
-        sources: def.sources
-      };
-    });
-
-    // Group by category
-    const categories = {};
-    for (const stat of stats) {
-      if (!categories[stat.category]) {
-        categories[stat.category] = [];
+      // Added monograms from overrides
+      const slotKey = item?.slotKey || item?.slot || '';
+      const overrides = itemOverrides[slotKey] || {};
+      for (const mono of overrides.monograms || []) {
+        monograms.push({
+          id: mono.id,
+          value: mono.value || 1,
+          source: 'override',
+          itemSlot: item?.slot,
+        });
       }
-      categories[stat.category].push(stat);
     }
 
-    // Index by id
-    const byId = {};
-    for (const stat of stats) {
-      byId[stat.id] = stat;
+    return monograms;
+  }, [equippedItems, itemOverrides]);
+
+  // Build config overrides from applied monograms
+  // This maps monogram effects to calculation engine configs
+  const configOverrides = useMemo(() => {
+    const overrides = {};
+
+    // For each applied monogram, check if it has calculation effects
+    for (const mono of appliedMonograms) {
+      const config = MONOGRAM_CALC_CONFIGS[mono.id];
+      if (config) {
+        // Apply the monogram's calculation config
+        if (config.derivedStatId && config.config) {
+          overrides[config.derivedStatId] = {
+            ...DERIVED_STATS[config.derivedStatId]?.config,
+            ...config.config,
+          };
+        }
+      }
     }
 
-    return { stats, categories, byId };
-  }, [characterData, definitions]);
+    return overrides;
+  }, [appliedMonograms]);
 
-  const getStat = (id) => derivedStats.byId[id] || null;
-  const getCategory = (category) => derivedStats.categories[category] || [];
+  // Calculate all derived stats
+  const calculatedStats = useMemo(() => {
+    return calculateDerivedStatsDetailed(aggregatedBaseStats, configOverrides);
+  }, [aggregatedBaseStats, configOverrides]);
+
+  // Get summary stats for display
+  const summary = useMemo(() => {
+    const { values } = calculatedStats;
+    return {
+      // Primary attributes
+      strength: values.totalStrength || values.strength || 0,
+      dexterity: values.totalDexterity || values.dexterity || 0,
+      wisdom: values.totalWisdom || values.wisdom || 0,
+      vitality: values.totalVitality || values.vitality || 0,
+      endurance: values.totalEndurance || values.endurance || 0,
+      agility: values.totalAgility || values.agility || 0,
+      luck: values.totalLuck || values.luck || 0,
+      stamina: values.totalStamina || values.stamina || 0,
+
+      // Combat stats
+      damage: values.finalDamage || values.totalDamage || values.damage || 0,
+      armor: values.totalArmor || values.armor || 0,
+      health: values.totalHealth || values.health || 0,
+      critChance: values.critChance || 0,
+      critDamage: values.critDamage || 0,
+
+      // Monogram-derived
+      monogramBonuses: Object.entries(values)
+        .filter(([key]) => key.startsWith('monogram') || key.startsWith('chained'))
+        .map(([key, value]) => ({ id: key, value })),
+    };
+  }, [calculatedStats]);
 
   return {
-    stats: derivedStats.stats,
-    categories: derivedStats.categories,
-    getStat,
-    getCategory
+    // Raw aggregated stats (before calculation)
+    baseStats: aggregatedBaseStats,
+
+    // All calculated values
+    values: calculatedStats.values,
+
+    // Detailed stat objects for UI
+    detailed: calculatedStats.detailed,
+
+    // Stats grouped by category
+    byCategory: calculatedStats.byCategory,
+
+    // Stats grouped by layer
+    byLayer: calculatedStats.byLayer,
+
+    // Summary for quick display
+    summary,
+
+    // Applied monograms list
+    appliedMonograms,
+
+    // Config overrides applied
+    configOverrides,
   };
 }
 
-export { defaultStatDefinitions, sumFromItems, getFromSave };
+/**
+ * Resolve a raw tag or stat name to a statId
+ * @param {string} rawTag - Raw attribute tag or stat name
+ * @returns {string|null} Normalized stat ID
+ */
+function resolveStatId(rawTag) {
+  if (!rawTag) return null;
+
+  // Try direct lookup first
+  const statType = getStatType(rawTag);
+  if (statType) return statType.id;
+
+  // Extract last segment and try again
+  const parts = rawTag.split('.');
+  const lastPart = parts[parts.length - 1];
+
+  // Normalize common patterns
+  const normalized = lastPart
+    .replace(/%6?$/, '')  // Remove %6 or % suffix
+    .replace(/Bonus$/, 'Bonus')
+    .toLowerCase();
+
+  // Check against known stat patterns
+  for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
+    if (stat.patterns?.some(p => p.toLowerCase().includes(normalized))) {
+      return id;
+    }
+  }
+
+  // Fallback: use the last part as-is (camelCase)
+  return lastPart.charAt(0).toLowerCase() + lastPart.slice(1);
+}
+
+// ============================================================================
+// MONOGRAM CALCULATION CONFIGS
+// ============================================================================
+
+/**
+ * Maps monogram IDs to their calculation engine configs
+ *
+ * When a monogram is applied, these configs override the default
+ * calculation parameters in DERIVED_STATS.
+ *
+ * TODO: Populate with actual monogram effects from game data
+ */
+export const MONOGRAM_CALC_CONFIGS = {
+  // Example: DamageForStat.Highest gives +X damage per Y of highest stat
+  'DamageForStat.Highest': {
+    derivedStatId: 'monogramValueFromStrength', // Placeholder - needs proper derived stat
+    config: {
+      sourceStat: 'totalStrength', // Would be dynamic based on highest
+      ratio: 100,
+      baseValue: 5,
+    },
+  },
+
+  // Example: Health%ForHighest gives % health based on highest stat
+  'Health%ForHighest': {
+    derivedStatId: 'chainedHealthBonus',
+    config: {
+      sourceStat: 'totalVitality',
+      ratio: 50,
+      baseValue: 1,
+    },
+  },
+
+  // Bloodlust chain
+  'Bloodlust.Base': {
+    // Enables bloodlust stacking mechanics
+    derivedStatId: null, // No direct stat, enables other bloodlust effects
+  },
+  'Bloodlust.Damage%PerStack': {
+    derivedStatId: 'monogramValueFromStrength',
+    config: {
+      sourceStat: 'bloodlustStacks', // Would need stack tracking
+      ratio: 1,
+      baseValue: 2, // 2% damage per stack
+    },
+  },
+
+  // Colossus chain
+  'Colossus.Base': {
+    derivedStatId: null, // Enables colossus mechanics
+  },
+  'Colossus.DamageReduction': {
+    // During colossus, gain DR
+    derivedStatId: null, // Conditional effect
+  },
+
+  // Damage Circle chain
+  'DamageCircle.Base': {
+    derivedStatId: null, // Enables damage circle
+  },
+  'DamageCircle.DamageForStats.Highest': {
+    derivedStatId: 'damageFromHealth', // Reusing as placeholder
+    config: {
+      sourceStat: 'totalHealth',
+      percentage: 1,
+    },
+  },
+
+  // Elemental crit bonuses
+  'ElementForCritChance.Fire': {
+    derivedStatId: null, // Would add crit from fire damage
+  },
+  'ElementForCritChance.Lightning': {
+    derivedStatId: null,
+  },
+  'ElementForCritChance.Arcane': {
+    derivedStatId: null,
+  },
+
+  // Potion bonuses
+  'PotionSlotForStat.Highest': {
+    derivedStatId: 'potionSlotsFromAttributes',
+    config: {
+      ratio: 200,
+    },
+  },
+  'Damage%ForPotions': {
+    derivedStatId: 'statBonusFromPotions',
+    config: {
+      sourceStat: 'potionSlotsFromAttributes',
+      ratio: 1,
+      baseValue: 3, // 3% damage per potion slot
+    },
+  },
+};
+
+export default useDerivedStats;

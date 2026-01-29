@@ -441,11 +441,15 @@ function ItemListRow({ item, equippedLabel, isSelected, hasOverrides, onSelect }
       attributes = [];
     }
 
+    // Include monograms from the model
+    const monograms = model?.monograms || [];
+
     return {
       name: item.name,
       itemType: item.type,
       itemRow: item.item?.item_row,
       attributes,
+      monograms,
     };
   }, [item]);
 

@@ -101,15 +101,26 @@ export function useDerivedStats(options = {}) {
 
     // For each applied monogram, check if it has calculation effects
     for (const mono of appliedMonograms) {
-      const config = MONOGRAM_CALC_CONFIGS[mono.id];
-      if (config) {
-        // Apply the monogram's calculation config
-        if (config.derivedStatId && config.config) {
-          overrides[config.derivedStatId] = {
-            ...DERIVED_STATS[config.derivedStatId]?.config,
-            ...config.config,
-          };
+      const monoConfig = MONOGRAM_CALC_CONFIGS[mono.id];
+      if (!monoConfig) continue;
+
+      // Handle new 'effects' array format (multiple derived stats per monogram)
+      if (monoConfig.effects) {
+        for (const effect of monoConfig.effects) {
+          if (effect.derivedStatId && effect.config) {
+            overrides[effect.derivedStatId] = {
+              ...DERIVED_STATS[effect.derivedStatId]?.config,
+              ...effect.config,
+            };
+          }
         }
+      }
+      // Handle legacy single-stat format
+      else if (monoConfig.derivedStatId && monoConfig.config) {
+        overrides[monoConfig.derivedStatId] = {
+          ...DERIVED_STATS[monoConfig.derivedStatId]?.config,
+          ...monoConfig.config,
+        };
       }
     }
 
@@ -281,20 +292,143 @@ function resolveStatId(rawTag) {
  * When a monogram is applied, these configs override the default
  * calculation parameters in DERIVED_STATS.
  *
- * TODO: Populate with actual monogram effects from game data
+ * Structure:
+ * - derivedStatId: Which derived stat this monogram affects
+ * - config: Override values for that stat's calculation
+ * - Multi-stat monograms can have multiple entries via 'effects' array
  */
 export const MONOGRAM_CALC_CONFIGS = {
-  // Example: DamageForStat.Highest gives +X damage per Y of highest stat
-  'DamageForStat.Highest': {
-    derivedStatId: 'monogramValueFromStrength', // Placeholder - needs proper derived stat
+  // ===========================================================================
+  // PHASING (Helmet Monogram - 50 stacks)
+  // Effects: 1% damage, 0.5% boss damage per stack
+  // ===========================================================================
+  'Phasing.TranceEffectsPotency.Highest': {
+    // This is the main Phasing monogram that enables stacks
+    effects: [
+      { derivedStatId: 'phasingStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
+    ],
+  },
+  'AllowPhasing': {
+    // Also enables phasing stacks
+    effects: [
+      { derivedStatId: 'phasingStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // BLOODLUST (Helmet Monogram - 100 stacks)
+  // Effects: 5% crit damage, 3% attack speed, 1% movement speed per stack
+  // ===========================================================================
+  'Bloodlust.Base': {
+    effects: [
+      { derivedStatId: 'bloodlustStacks', config: { enabled: true, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+  // Additional bloodlust modifiers can enhance the base effect
+  'Bloodlust.Damage%PerStack': {
+    // Adds damage per stack on top of base bloodlust effects
+    derivedStatId: 'monogramValueFromStrength',
     config: {
-      sourceStat: 'totalStrength', // Would be dynamic based on highest
+      sourceStat: 'bloodlustStacks',
+      ratio: 1,
+      baseValue: 2, // Extra 2% damage per stack
+    },
+  },
+
+  // ===========================================================================
+  // DARK ESSENCE (Amulet Monogram - 500 stacks)
+  // At 500 stacks: Essence = highestStat * 1.25
+  // ===========================================================================
+  'DarkEssence': {
+    effects: [
+      { derivedStatId: 'darkEssenceStacks', config: { enabled: true, maxStacks: 500, currentStacks: 500 } },
+    ],
+  },
+
+  // ===========================================================================
+  // LIFE BUFF (Amulet Monogram for Bloodlust chain - 100 stacks)
+  // Effects: 1% life bonus per stack
+  // ===========================================================================
+  'Bloodlust.DrawLife': {
+    effects: [
+      { derivedStatId: 'lifeBuffStacks', config: { enabled: true, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+  'Bloodlust.MoreLife.Highest': {
+    effects: [
+      { derivedStatId: 'lifeBuffStacks', config: { enabled: true, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+
+  // ===========================================================================
+  // ESSENCE → CRIT CHAIN
+  // Missing monogram: 1% crit per 20 essence
+  // ===========================================================================
+  'BonusCritDamage%ForEssence': {
+    // This might be the one - crit bonus from essence
+    effects: [
+      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20 } },
+    ],
+  },
+  'GainCritChanceForHighest': {
+    // Alternative crit chance source
+    effects: [
+      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20 } },
+    ],
+  },
+
+  // ===========================================================================
+  // ELEMENT FOR CRIT CHANCE (Helmet Monogram)
+  // 3% fire/arcane/lightning per 1% crit over 100%
+  // ===========================================================================
+  'ElementForCritChance.Fire': {
+    effects: [
+      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'fire', critThreshold: 100, elementPerCrit: 3 } },
+    ],
+  },
+  'ElementForCritChance.Lightning': {
+    effects: [
+      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'lightning', critThreshold: 100, elementPerCrit: 3 } },
+    ],
+  },
+  'ElementForCritChance.Arcane': {
+    effects: [
+      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'arcane', critThreshold: 100, elementPerCrit: 3 } },
+    ],
+  },
+
+  // ===========================================================================
+  // LIFE FROM ELEMENT (Ring Monogram - placeholder)
+  // 2% life per 30% of a particular element
+  // ===========================================================================
+  // Ring monograms not yet in registry - placeholder
+  'LifePerElement.Fire': {
+    effects: [
+      { derivedStatId: 'lifeFromElement', config: { enabled: true, elementPer: 30, lifeBonus: 2 } },
+    ],
+  },
+
+  // ===========================================================================
+  // GAIN DAMAGE FOR HP LOSE ARMOR (Bracer Monogram)
+  // 1% of total life as flat damage
+  // ===========================================================================
+  'GainDamageForHPLoseArmor': {
+    effects: [
+      { derivedStatId: 'damageFromLife', config: { enabled: true, lifePercent: 1 } },
+    ],
+  },
+
+  // ===========================================================================
+  // OTHER EXISTING MONOGRAM CONFIGS
+  // ===========================================================================
+  'DamageForStat.Highest': {
+    derivedStatId: 'monogramValueFromStrength',
+    config: {
+      sourceStat: 'highestAttribute',
       ratio: 100,
       baseValue: 5,
     },
   },
-
-  // Example: Health%ForHighest gives % health based on highest stat
   'Health%ForHighest': {
     derivedStatId: 'chainedHealthBonus',
     config: {
@@ -303,54 +437,22 @@ export const MONOGRAM_CALC_CONFIGS = {
       baseValue: 1,
     },
   },
-
-  // Bloodlust chain
-  'Bloodlust.Base': {
-    // Enables bloodlust stacking mechanics
-    derivedStatId: null, // No direct stat, enables other bloodlust effects
-  },
-  'Bloodlust.Damage%PerStack': {
-    derivedStatId: 'monogramValueFromStrength',
-    config: {
-      sourceStat: 'bloodlustStacks', // Would need stack tracking
-      ratio: 1,
-      baseValue: 2, // 2% damage per stack
-    },
-  },
-
-  // Colossus chain
   'Colossus.Base': {
-    derivedStatId: null, // Enables colossus mechanics
+    derivedStatId: null,
   },
   'Colossus.DamageReduction': {
-    // During colossus, gain DR
-    derivedStatId: null, // Conditional effect
+    derivedStatId: null,
   },
-
-  // Damage Circle chain
   'DamageCircle.Base': {
-    derivedStatId: null, // Enables damage circle
+    derivedStatId: null,
   },
   'DamageCircle.DamageForStats.Highest': {
-    derivedStatId: 'damageFromHealth', // Reusing as placeholder
+    derivedStatId: 'damageFromHealth',
     config: {
       sourceStat: 'totalHealth',
       percentage: 1,
     },
   },
-
-  // Elemental crit bonuses
-  'ElementForCritChance.Fire': {
-    derivedStatId: null, // Would add crit from fire damage
-  },
-  'ElementForCritChance.Lightning': {
-    derivedStatId: null,
-  },
-  'ElementForCritChance.Arcane': {
-    derivedStatId: null,
-  },
-
-  // Potion bonuses
   'PotionSlotForStat.Highest': {
     derivedStatId: 'potionSlotsFromAttributes',
     config: {
@@ -362,7 +464,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     config: {
       sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
-      baseValue: 3, // 3% damage per potion slot
+      baseValue: 3,
     },
   },
 };

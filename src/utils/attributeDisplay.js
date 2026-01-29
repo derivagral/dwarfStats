@@ -44,13 +44,18 @@ function extractAttributeTail(fullName) {
     'EasyRPG.Attributes.',
   ];
 
+  let result = fullName;
   for (const prefix of prefixesToStrip) {
-    if (fullName.startsWith(prefix)) {
-      return fullName.substring(prefix.length);
+    if (result.startsWith(prefix)) {
+      result = result.substring(prefix.length);
+      break;
     }
   }
 
-  return fullName;
+  // Normalize %6 suffix to % (save file quirk)
+  result = result.replace(/%6/g, '%');
+
+  return result;
 }
 
 // Transform an attribute name for display

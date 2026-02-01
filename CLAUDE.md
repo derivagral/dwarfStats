@@ -48,6 +48,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Item filtering logic | `src/utils/dwarfFilter.js` |
 | Item data model | `src/models/Item.js`, `src/models/itemTransformer.js` |
 | Monogram/modifier registry | `src/utils/monogramRegistry.js` |
+| Derived stats calculations | `src/utils/derivedStats.js`, `src/hooks/useDerivedStats.js` |
 | Equipment slot mapping | `src/utils/equipmentParser.js` |
 | Attribute display names | `src/utils/attributeDisplay.js` |
 | Styling/theming | `src/styles/index.css` |
@@ -127,6 +128,53 @@ Edit `src/components/filter/FilterTab.jsx` - modify `DEFAULT_FILTERS` constant.
 
 ### Modifying tooltip behavior
 Edit `src/components/character/ItemDetailTooltip.jsx` - handles edge detection and positioning.
+
+## Derived Stats Calculation Engine
+
+Layer-based calculation system in `src/utils/derivedStats.js`:
+
+```
+Layer 0: BASE         - Raw stats from items (computed by useDerivedStats)
+Layer 1: TOTALS       - Base + bonus% calculations (totalStrength, totalHealth, etc.)
+Layer 2: PRIMARY      - First derived values (monogram buffs, stack effects)
+Layer 3: SECONDARY    - Chained calculations (essence → crit, element from crit)
+Layer 4: TERTIARY     - Final chains (life from element, damage from life)
+```
+
+### Adding a new derived stat
+1. Add definition to `DERIVED_STATS` in `src/utils/derivedStats.js`
+2. Specify `layer`, `dependencies`, `calculate()`, and `format()`
+3. If triggered by monogram, add entry to `MONOGRAM_CALC_CONFIGS` in `src/hooks/useDerivedStats.js`
+
+### Monogram calculation configs
+Located in `src/hooks/useDerivedStats.js` - `MONOGRAM_CALC_CONFIGS`:
+
+```javascript
+'MonogramId': {
+  effects: [
+    { derivedStatId: 'statName', config: { enabled: true, ...overrides } },
+  ],
+}
+```
+
+Key monogram chains:
+- **Phasing** (helmet, 50 stacks): +1% damage, +0.5% boss damage per stack
+- **Bloodlust** (helmet, 100 stacks): +5% crit damage, +3% AS, +1% MS per stack
+- **Dark Essence** (amulet, 500 stacks): Essence = highestStat × 1.25
+- **Life Buff** (amulet, 100 stacks): +1% life per stack
+- **ElementForCritChance** (helmet): +3% element per 1% crit over 100%
+- **ElementalToHp%.Fire** (ring): +2% life per 30% fire damage
+- **GainDamageForHPLoseArmor** (bracer): +1% life as flat damage
+
+### Slot monogram pools
+Defined in `SLOT_MONOGRAMS` in `src/utils/monogramRegistry.js`:
+- head, amulet, bracer, boots, pants, relic, ring
+
+## Test Fixtures
+
+Located in `test/fixtures/`:
+- `monograms_data.json` - Sample monogram data from save files
+- `learned_ring_monograms.json` - Ring modifier data (LearnedRingModifiers_0)
 
 ## Deployment
 

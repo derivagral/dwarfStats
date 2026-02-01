@@ -398,11 +398,10 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
 
   // ===========================================================================
-  // LIFE FROM ELEMENT (Ring Monogram - placeholder)
+  // LIFE FROM ELEMENT (Ring Monogram)
   // 2% life per 30% of a particular element
   // ===========================================================================
-  // Ring monograms not yet in registry - placeholder
-  'LifePerElement.Fire': {
+  'ElementalToHp%.Fire': {
     effects: [
       { derivedStatId: 'lifeFromElement', config: { enabled: true, elementPer: 30, lifeBonus: 2 } },
     ],
@@ -415,6 +414,34 @@ export const MONOGRAM_CALC_CONFIGS = {
   'GainDamageForHPLoseArmor': {
     effects: [
       { derivedStatId: 'damageFromLife', config: { enabled: true, lifePercent: 1 } },
+    ],
+  },
+
+  // ===========================================================================
+  // RING MONOGRAMS
+  // ===========================================================================
+  'BonusDamage%ForEssence': {
+    // Damage bonus based on essence
+    effects: [
+      // TODO: Add derived stat for damage% from essence
+    ],
+  },
+  'MaxHp%ForStat.Highest': {
+    // HP% bonus based on highest stat
+    effects: [
+      // TODO: Add derived stat for hp% from highest
+    ],
+  },
+  'DamageReduction%ForStat.Highest': {
+    // Damage reduction based on highest stat
+    effects: [
+      // TODO: Add derived stat for DR from highest
+    ],
+  },
+  'Colossus.ElementalBonusForHighestStat.Arcane': {
+    // Arcane damage bonus from highest stat during Colossus
+    effects: [
+      // TODO: Add derived stat for elemental from highest (conditional on Colossus)
     ],
   },
 

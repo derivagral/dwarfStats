@@ -1,0 +1,236 @@
+{"root": 
+  {
+    "save_game_type": "/Game/EasySurvivalRPG/Blueprints/Game/GameSaves/BP_GameSave_Session.BP_GameSave_Session_C",
+    "properties": {
+          "LearnedRingModifiers_0": {
+        "tag": {
+          "data": {
+            "Array": {
+              "Struct": {
+                "struct_type": {
+                  "Struct": null
+                },
+                "id": "00000000-0000-0000-0000-000000000000"
+              }
+            }
+          }
+        },
+        "Array": {
+          "Struct": {
+            "type_": "StructProperty",
+            "struct_type": {
+              "Struct": "GameplayTag"
+            },
+            "id": "00000000-0000-0000-0000-000000000000",
+            "value": [
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.DamageForStat.Highest"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.GainStatIfNoOffHand.Luck"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Highest"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.ExtraStrength"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.ExtraStamina"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.Colossus.LifeSteal"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Highest"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.BonusDamage%ForEssence"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.ExtraArmor"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Highest"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Highest"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.SecondaryBuild.DoubleChargedDamage"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.ExtraWisdom"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.DamageReduction"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.ElementalToHp%.Fire"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.ExtraEndurance"
+                  }
+                }
+              },
+              {
+                "Struct": {
+                  "TagName_0": {
+                    "tag": {
+                      "data": {
+                        "Other": "NameProperty"
+                      }
+                    },
+                    "Name": "EasyRPG.Items.Modifiers.Colossus.ElementalBonusForHighestStat.Arcane"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+    }
+  }
+}

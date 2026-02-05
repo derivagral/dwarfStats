@@ -69,7 +69,20 @@ export function InventorySlot({
 
       {!empty && item && (
         <ItemDetailTooltip
-          item={{ item }}
+          item={{
+            item: {
+              // Map Item model to tooltip format
+              name: item.displayName,
+              itemType: item.type,
+              itemRow: item.rowName,
+              // Convert baseStats to attributes format for tooltip
+              attributes: (item.baseStats || []).map(s => ({
+                name: s.rawTag || s.stat,
+                value: s.value,
+              })),
+              monograms: item.monograms || [],
+            }
+          }}
           visible={showTooltip}
           slotRef={slotRef}
           onMouseEnter={() => {

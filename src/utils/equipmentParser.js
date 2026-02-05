@@ -1,7 +1,7 @@
 // Equipment parser - extracts and processes equipped items from save data
-// Similar to dwarfFilter.js but specifically for EquipmentItems and HotbarItems
+// Outputs items in the unified Item model format from models/Item.js
 
-import { getDisplayName, formatAttributeValue } from './attributeDisplay.js';
+import { transformItem } from '../models/itemTransformer.js';
 
 const EQUIPMENT_ITEMS_PATTERN = /EquipmentItems_\d+_[A-F0-9]+_0/i;
 const HOTBAR_ITEMS_PATTERN = /HotbarItems_\d+_[A-F0-9]+_0/i;
@@ -11,6 +11,7 @@ const SLOT_MAPPING = {
   // Head
   helmet: 'head',
   head: 'head',
+  casque: 'head',
 
   // Chest
   chest: 'chest',
@@ -71,87 +72,6 @@ const SLOT_MAPPING = {
   waistband: 'offhand',
 };
 
-// Extract item row name from ItemHandle structure
-function extractItemRow(itemStruct) {
-  if (!itemStruct || typeof itemStruct !== "object") return null;
-
-  for (const [k, v] of Object.entries(itemStruct)) {
-    if (k.includes("ItemHandle")) {
-      const rowName = v?.Struct?.Struct?.RowName_0?.Name ||
-                     v?.Struct?.Struct?.RowName?.Name;
-      if (rowName) return rowName;
-    }
-  }
-  return null;
-}
-
-// Extract generated name
-function findGeneratedName(node) {
-  if (!node || typeof node !== "object") return null;
-
-  for (const [k, v] of Object.entries(node)) {
-    if (k.startsWith("GeneratedName")) {
-      if (typeof v === "string") return v;
-      if (v?.Str) return v.Str;
-    }
-  }
-  return null;
-}
-
-// Extract tag name from GameplayTag
-function extractTagFromGameplayTag(obj) {
-  if (!obj || typeof obj !== "object") return null;
-
-  const struct = obj?.Struct;
-  if (struct && typeof struct === "object") {
-    const innerStruct = struct.Struct || struct;
-    for (const [k, v] of Object.entries(innerStruct)) {
-      if (k.startsWith("TagName")) {
-        const name = v?.Name;
-        if (name) {
-          const parts = name.split(".");
-          return parts[parts.length - 1];
-        }
-      }
-    }
-  }
-  return null;
-}
-
-// Extract generated attributes with values
-function extractGeneratedAttributes(node) {
-  const attrs = [];
-  if (!node || typeof node !== "object") return attrs;
-
-  for (const [k, v] of Object.entries(node)) {
-    if (k.startsWith("GeneratedAttributes")) {
-      const array = v?.Array?.Struct?.value || v?.Array?.value || [];
-
-      if (Array.isArray(array)) {
-        for (const item of array) {
-          const struct = item?.Struct || item;
-          let attrName = null;
-          let attrValue = null;
-
-          for (const [key, val] of Object.entries(struct)) {
-            if (key.includes("GameplayTag")) {
-              attrName = extractTagFromGameplayTag(val);
-            }
-            if (key.includes("Value")) {
-              attrValue = val?.Float || val?.Int || val;
-            }
-          }
-
-          if (attrName) {
-            attrs.push({ name: attrName, value: attrValue });
-          }
-        }
-      }
-    }
-  }
-  return attrs;
-}
-
 // Determine slot from item row name
 function determineSlot(itemRow) {
   if (!itemRow) return 'unknown';
@@ -182,43 +102,42 @@ function determineSlot(itemRow) {
   return 'offhand'; // Default to offhand if unknown
 }
 
-// Extract item type from row name
-function extractItemType(itemRow) {
-  if (!itemRow || typeof itemRow !== "string") return "Unknown";
+/**
+ * Process a single equipped item using the unified Item model transformer
+ * Adds slot information based on item row name
+ * @param {Object} itemStruct - Raw item structure from save
+ * @param {number} index - Index for ID generation
+ * @returns {import('../models/Item.js').Item & {slot: string}}
+ */
+function processEquippedItem(itemStruct, index) {
+  // Use the transformer to get full Item model
+  const item = transformItem(itemStruct, index);
 
-  const parts = itemRow.split("_");
-  if (parts.length >= 2) {
-    return `${parts[0]} ${parts[1]}`;
-  }
-  return parts[0] || "Unknown";
-}
-
-// Process a single equipped item
-function processEquippedItem(itemStruct) {
-  const itemRow = extractItemRow(itemStruct);
-  const itemType = extractItemType(itemRow);
-  const generatedName = findGeneratedName(itemStruct);
-  const attributes = extractGeneratedAttributes(itemStruct);
-  const slot = determineSlot(itemRow);
+  // Add slot based on row name
+  const slot = determineSlot(item.rowName);
 
   return {
-    itemRow,
-    itemType,
-    name: generatedName || itemRow || "Unknown",
+    ...item,
     slot,
-    attributes,
-    rawData: itemStruct // Keep for detailed inspection
   };
 }
 
-// Extract all equipped items from save data
-// Note: Equipment can come from two sources:
-// 1. EquipmentItems_* - armor, accessories, relics, etc.
-// 2. HotbarItems_* - weapons (modern game stores weapons here)
+/**
+ * Extract all equipped items from save data
+ * Returns items in unified Item model format with slot information
+ *
+ * Note: Equipment can come from two sources:
+ * 1. EquipmentItems_* - armor, accessories, relics, etc.
+ * 2. HotbarItems_* - weapons (modern game stores weapons here)
+ *
+ * @param {Object} saveData - Parsed save data JSON
+ * @returns {Array<import('../models/Item.js').Item & {slot: string}>}
+ */
 export function extractEquippedItems(saveData) {
   if (!saveData || typeof saveData !== "object") return [];
 
   const equippedItems = [];
+  let itemIndex = 0;
 
   // Traverse the save data to find EquipmentItems and HotbarItems arrays
   function traverse(node, path = []) {
@@ -232,7 +151,7 @@ export function extractEquippedItems(saveData) {
         if (Array.isArray(array)) {
           for (const wrapper of array) {
             if (wrapper?.Struct) {
-              const item = processEquippedItem(wrapper.Struct);
+              const item = processEquippedItem(wrapper.Struct, itemIndex++);
               equippedItems.push(item);
             }
           }
@@ -252,7 +171,11 @@ export function extractEquippedItems(saveData) {
   return equippedItems;
 }
 
-// Map equipped items to slots (handling multiple rings/offhands)
+/**
+ * Map equipped items to slots (handling multiple rings/offhands)
+ * @param {Array} equippedItems - Array of equipped items with slot property
+ * @returns {Object} Slot map with items
+ */
 export function mapItemsToSlots(equippedItems) {
   const slots = {
     head: null,
@@ -308,21 +231,28 @@ export function mapItemsToSlots(equippedItems) {
   return slots;
 }
 
-// Create compressed log output for console
+/**
+ * Create compressed log output for console
+ * Updated to use Item model format
+ * @param {Array} equippedItems - Array of equipped items in Item model format
+ */
 export function logEquipmentCompressed(equippedItems) {
   console.group('🎒 Equipped Items (Compressed)');
 
   for (const item of equippedItems) {
-    const topAttrs = item.attributes.slice(0, 3);
-    const attrSummary = topAttrs.map(a => {
-      const displayName = getDisplayName(a.name);
-      const displayValue = formatAttributeValue(a.value, a.name);
-      return `${displayName}: ${displayValue}`;
+    const topStats = (item.baseStats || []).slice(0, 3);
+    const statSummary = topStats.map(s => {
+      const name = s.stat || s.rawTag?.split('.').pop() || 'Unknown';
+      const value = s.value != null ? s.value : '?';
+      return `${name}: ${value}`;
     }).join(', ');
 
-    console.log(`[${item.slot.toUpperCase()}] ${item.name}`);
-    console.log(`  Type: ${item.itemType} | Row: ${item.itemRow}`);
-    console.log(`  Attrs: ${attrSummary} (${item.attributes.length} total)`);
+    console.log(`[${(item.slot || 'unknown').toUpperCase()}] ${item.displayName}`);
+    console.log(`  Type: ${item.type} | Row: ${item.rowName}`);
+    console.log(`  Stats: ${statSummary} (${(item.baseStats || []).length} total)`);
+    if (item.monograms?.length) {
+      console.log(`  Monograms: ${item.monograms.map(m => m.id).join(', ')}`);
+    }
   }
 
   console.groupEnd();

@@ -102,15 +102,22 @@ export function ItemEditor({
 
   if (!item) return null;
 
-  const baseAttributes = item.attributes || [];
+  // Support both Item model format and legacy format
+  const baseAttributes = item.baseStats
+    ? item.baseStats.map(s => ({ name: s.rawTag || s.stat, value: s.value }))
+    : (item.attributes || []);
+  const itemType = item.type || item.itemType || '';
+  const itemRow = item.rowName || item.itemRow || '';
+  const itemName = item.displayName || item.name || 'Unknown';
+
   const { mods = [], removedIndices = [], monograms: addedMonograms = [], skillModifiers: addedSkillModifiers = [] } = slotOverrides;
 
   // Determine monogram slot for this item
-  const monogramSlot = getMonogramSlot(item.itemType, item.itemRow);
+  const monogramSlot = getMonogramSlot(itemType, itemRow);
   const availableMonograms = monogramSlot ? getMonogramsForSlot(monogramSlot) : [];
 
   // Check if item is a weapon (can have skill modifiers)
-  const isWeapon = isWeaponSlot(item.itemType, item.itemRow);
+  const isWeapon = isWeaponSlot(itemType, itemRow);
   const allSkills = isWeapon ? getAllSkills() : [];
   const availableSkillModifiers = selectedSkill ? getSkillModifiers(selectedSkill) : [];
 
@@ -141,8 +148,8 @@ export function ItemEditor({
     <div className="item-editor" ref={editorRef}>
       <div className="item-editor-header">
         <div className="item-editor-title">
-          <span className="item-editor-name">{item.name}</span>
-          <span className="item-editor-type">{item.itemType}</span>
+          <span className="item-editor-name">{itemName}</span>
+          <span className="item-editor-type">{itemType}</span>
         </div>
         <div className="item-editor-actions">
           {hasChanges && (

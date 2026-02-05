@@ -19,6 +19,8 @@ export function CharacterPanel({ characterData }) {
     removeMod,
     removeBaseStat,
     restoreBaseStat,
+    addMonogram,
+    removeMonogram,
     clearSlot,
   } = useItemOverrides();
 
@@ -31,12 +33,24 @@ export function CharacterPanel({ characterData }) {
   const slotMap = mapItemsToSlots(equippedItems);
 
   // Build modified slot map with overrides applied (for tooltips)
+  // Items now use Item model format: baseStats instead of attributes
   const modifiedSlotMap = useMemo(() => {
     const result = {};
     for (const [slotKey, item] of Object.entries(slotMap)) {
       if (item && hasSlotOverrides(slotKey)) {
-        const modifiedAttributes = applyOverridesToItem(slotKey, item.attributes);
-        result[slotKey] = { ...item, attributes: modifiedAttributes };
+        // Convert baseStats to the format applyOverridesToItem expects
+        const attrs = (item.baseStats || []).map(s => ({
+          name: s.rawTag || s.stat,
+          value: s.value,
+        }));
+        const modifiedAttrs = applyOverridesToItem(slotKey, attrs);
+        // Convert back to baseStats format
+        const modifiedBaseStats = modifiedAttrs.map(a => ({
+          stat: a.name?.split('.').pop() || a.name,
+          value: a.value,
+          rawTag: a.name,
+        }));
+        result[slotKey] = { ...item, baseStats: modifiedBaseStats };
       } else {
         result[slotKey] = item;
       }
@@ -62,11 +76,11 @@ export function CharacterPanel({ characterData }) {
     setSelectedItem(null);
   }, []);
 
-  // Helper to determine offhand label from item
+  // Helper to determine offhand label from item (uses Item model: rowName)
   const getOffhandLabel = (item) => {
-    if (!item || !item.itemRow) return 'Offhand';
+    if (!item || !item.rowName) return 'Offhand';
 
-    const lowerRow = item.itemRow.toLowerCase();
+    const lowerRow = item.rowName.toLowerCase();
     if (lowerRow.includes('belt')) return 'Belt';
     if (lowerRow.includes('goblet')) return 'Goblet';
     if (lowerRow.includes('horn')) return 'Horn';
@@ -76,14 +90,15 @@ export function CharacterPanel({ characterData }) {
   };
 
   // Helper to create slot data (uses modified items for tooltip display)
+  // Item model uses: displayName, type, rowName, baseStats, monograms
   const createSlot = (label, slotKey, isDynamic = false) => {
     const item = modifiedSlotMap[slotKey];
     const finalLabel = isDynamic && item ? getOffhandLabel(item) : label;
     return {
       slotKey,
       label: finalLabel,
-      name: item ? item.name : 'Empty',
-      type: item ? item.itemType : '',
+      name: item ? item.displayName : 'Empty',
+      type: item ? item.type : '',
       empty: !item,
       item: item || null
     };
@@ -122,13 +137,25 @@ export function CharacterPanel({ characterData }) {
   ];
 
   // Build modified items for stats calculation
+  // Item model uses baseStats, not attributes
   const modifiedItems = useMemo(() => {
     return equippedItems.map(item => {
       const slotKey = item.slot;
       if (!slotKey || !hasSlotOverrides(slotKey)) return item;
 
-      const modifiedAttributes = applyOverridesToItem(slotKey, item.attributes);
-      return { ...item, attributes: modifiedAttributes };
+      // Convert baseStats to attrs format for override application
+      const attrs = (item.baseStats || []).map(s => ({
+        name: s.rawTag || s.stat,
+        value: s.value,
+      }));
+      const modifiedAttrs = applyOverridesToItem(slotKey, attrs);
+      // Convert back to baseStats format
+      const modifiedBaseStats = modifiedAttrs.map(a => ({
+        stat: a.name?.split('.').pop() || a.name,
+        value: a.value,
+        rawTag: a.name,
+      }));
+      return { ...item, baseStats: modifiedBaseStats };
     });
   }, [equippedItems, overrides, hasSlotOverrides, applyOverridesToItem]);
 
@@ -205,8 +232,11 @@ export function CharacterPanel({ characterData }) {
               onRemoveMod={(modIndex) => removeMod(selectedSlot, modIndex)}
               onRemoveBaseStat={(index) => removeBaseStat(selectedSlot, index)}
               onRestoreBaseStat={(index) => restoreBaseStat(selectedSlot, index)}
+              onAddMonogram={(mono) => addMonogram(selectedSlot, mono)}
+              onRemoveMonogram={(index) => removeMonogram(selectedSlot, index)}
               onClearSlot={() => clearSlot(selectedSlot)}
               onClose={handleCloseEditor}
+              currentMonograms={slotMap[selectedSlot]?.monograms || []}
             />
           )}
         </div>

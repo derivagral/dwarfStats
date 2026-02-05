@@ -103,7 +103,12 @@ export default function App() {
             <ItemsTab saveData={saveData} itemStore={itemStore} onLog={log} />
           )}
           {activeTab === 'filter' && saveData && (
-            <FilterTab initialSaveData={saveData} onLog={log} onStatusChange={handleStatusChange} />
+            <FilterTab
+              initialSaveData={saveData}
+              itemStore={itemStore}
+              onLog={log}
+              onStatusChange={handleStatusChange}
+            />
           )}
           {activeTab === 'stats' && (
             <StatsTab

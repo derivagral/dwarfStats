@@ -17,7 +17,63 @@ function parseFilterString(filterStr) {
   return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
 }
 
-export function FilterTab({ initialSaveData, onLog, onStatusChange }) {
+/**
+ * Score items from inventory against filter patterns
+ * Used when filtering itemStore.inventory (already processed items)
+ * @param {Array} items - Items from itemStore.inventory
+ * @param {Array} patterns - Filter patterns as strings
+ * @param {Object} options - Filtering options
+ * @returns {{ hits: Array, close: Array, totalItems: number }}
+ */
+function filterInventoryItems(items, patterns, options = {}) {
+  const { closeMinTotal = 2, minHits = 1 } = options;
+
+  // Compile patterns to regex
+  const regexList = patterns.map(p => {
+    if (p instanceof RegExp) return p;
+    return new RegExp(p.replace(/\*/g, '.*'), 'i');
+  });
+
+  const countHits = (attrs) => {
+    if (!Array.isArray(attrs) || !regexList.length) return 0;
+    let hits = 0;
+    for (const attr of attrs) {
+      for (const regex of regexList) {
+        if (regex.test(attr)) {
+          hits++;
+          break;
+        }
+      }
+    }
+    return hits;
+  };
+
+  const hits = [];
+  const close = [];
+
+  for (const item of items) {
+    const pool1 = item.item?.pool1_attributes || [];
+    const pool2 = item.item?.pool2_attributes || [];
+    const pool3 = item.item?.pool3_attributes || [];
+
+    const s1 = countHits(pool1);
+    const s2 = countHits(pool2);
+    const s3 = countHits(pool3);
+    const total = s1 + s2 + s3;
+
+    const scored = { ...item, s1, s2, s3, total };
+
+    if (s1 >= minHits && s2 >= minHits && s3 >= minHits) {
+      hits.push(scored);
+    } else if (total >= closeMinTotal) {
+      close.push(scored);
+    }
+  }
+
+  return { hits, close, totalItems: items.length };
+}
+
+export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange }) {
   const [results, setResults] = useState(new Map());
   const [filterValue, setFilterValue] = useState(DEFAULT_FILTERS);
   const [filterPatterns, setFilterPatterns] = useState(parseFilterString(DEFAULT_FILTERS));
@@ -73,24 +129,43 @@ export function FilterTab({ initialSaveData, onLog, onStatusChange }) {
 
   // Process initial save data when tab is first accessed
   useEffect(() => {
-    if (initialSaveData && !initialProcessed) {
+    if (!initialProcessed && (itemStore?.hasItems || initialSaveData)) {
       setInitialProcessed(true);
-      // Use the already-parsed JSON data from the initial save
-      const filterOptions = {
-        slot1: filterPatterns,
-        slot2: filterPatterns,
-        slot3: filterPatterns,
-        includeWeapons: true,
-        showClose: true,
-        closeMinTotal: 2,
-        debug: false,
-      };
 
-      const { hits, close, totalItems } = analyzeUeSaveJson(initialSaveData.json, filterOptions);
+      const filename = itemStore?.metadata?.filename || initialSaveData?.filename || 'unknown.sav';
+      let hits, close, totalItems;
+
+      // Prefer itemStore.inventory (already processed, avoids re-parsing)
+      if (itemStore?.inventory?.length) {
+        const result = filterInventoryItems(itemStore.inventory, filterPatterns, {
+          closeMinTotal: 2,
+          minHits: 1,
+        });
+        hits = result.hits;
+        close = result.close;
+        totalItems = result.totalItems;
+      } else if (initialSaveData?.json) {
+        // Fallback to raw JSON analysis
+        const filterOptions = {
+          slot1: filterPatterns,
+          slot2: filterPatterns,
+          slot3: filterPatterns,
+          includeWeapons: true,
+          showClose: true,
+          closeMinTotal: 2,
+          debug: false,
+        };
+        const result = analyzeUeSaveJson(initialSaveData.json, filterOptions);
+        hits = result.hits;
+        close = result.close;
+        totalItems = result.totalItems;
+      } else {
+        return; // No data to process
+      }
 
       setResults(prev => {
         const next = new Map(prev);
-        next.set(initialSaveData.filename, {
+        next.set(filename, {
           hits,
           close,
           totalItems,
@@ -100,17 +175,17 @@ export function FilterTab({ initialSaveData, onLog, onStatusChange }) {
         return next;
       });
 
-      if (initialSaveData.file) {
+      if (initialSaveData?.file) {
         setLastFiles([initialSaveData.file]);
       }
 
-      onLog(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${initialSaveData.filename}`);
+      onLog(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename}`);
 
       if (hits.length > 0) {
         playNotificationSound();
       }
     }
-  }, [initialSaveData, initialProcessed, filterPatterns, onLog]);
+  }, [initialSaveData, itemStore, initialProcessed, filterPatterns, onLog]);
 
   const handleFileDrop = useCallback(async (files) => {
     setLastFiles(files);

@@ -8,6 +8,7 @@ import { StatsTab } from './components/stats';
 import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
+import { useItemStore } from './hooks/useItemStore';
 
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
@@ -26,6 +27,9 @@ export default function App() {
   const [wasmReady, setWasmReady] = useState(false);
   const [saveData, setSaveData] = useState(null);
   const { logs, log } = useLogger();
+
+  // Central item store - all UI reads from here, not from raw saveData
+  const itemStore = useItemStore();
 
   // Initialize WASM and detect platform
   useEffect(() => {
@@ -57,18 +61,21 @@ export default function App() {
 
   const handleFileLoaded = useCallback((data) => {
     setSaveData(data);
+    // Load items into central store from parsed save data
+    itemStore.loadFromSave(data.parsed || data.raw, data.filename);
     setActiveTab('character');
     log(`🎮 Save loaded: ${data.filename}`);
-  }, [log]);
+  }, [log, itemStore]);
 
   const handleClearSave = useCallback(() => {
     setSaveData(null);
+    itemStore.clear();
     setActiveTab('upload');
     log('🗑️ Save data cleared');
-  }, [log]);
+  }, [log, itemStore]);
 
   // Determine which tabs are disabled
-  const disabledTabs = saveData ? [] : ['character', 'items', 'filter'];
+  const disabledTabs = itemStore.hasItems ? [] : ['character', 'items', 'filter'];
 
   return (
     <div className="app">
@@ -84,10 +91,16 @@ export default function App() {
             <UploadTab onFileLoaded={handleFileLoaded} onLog={log} onStatusChange={handleStatusChange} />
           )}
           {activeTab === 'character' && saveData && (
-            <CharacterTab saveData={saveData} onClearSave={handleClearSave} onLog={log} onStatusChange={handleStatusChange} />
+            <CharacterTab
+              saveData={saveData}
+              itemStore={itemStore}
+              onClearSave={handleClearSave}
+              onLog={log}
+              onStatusChange={handleStatusChange}
+            />
           )}
           {activeTab === 'items' && saveData && (
-            <ItemsTab saveData={saveData} onLog={log} />
+            <ItemsTab saveData={saveData} itemStore={itemStore} onLog={log} />
           )}
           {activeTab === 'filter' && saveData && (
             <FilterTab initialSaveData={saveData} onLog={log} onStatusChange={handleStatusChange} />

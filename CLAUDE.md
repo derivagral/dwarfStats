@@ -47,6 +47,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | File upload/processing | `src/hooks/useFileProcessor.js`, `src/utils/wasm.js` |
 | Item filtering logic | `src/utils/dwarfFilter.js` |
 | Item data model | `src/models/Item.js`, `src/models/itemTransformer.js` |
+| Central item store | `src/hooks/useItemStore.js` |
 | Monogram/modifier registry | `src/utils/monogramRegistry.js` |
 | Derived stats calculations | `src/utils/derivedStats.js`, `src/hooks/useDerivedStats.js` |
 | Equipment slot mapping | `src/utils/equipmentParser.js` |
@@ -74,14 +75,19 @@ Tabs defined in `App.jsx` TABS array:
 ```
 App.jsx (state holder)
 ├── activeTab       → Current tab ID
-├── saveData        → Parsed .sav JSON (null until loaded)
+├── saveData        → Parsed .sav JSON (backward compatibility)
+├── itemStore       → Central item store (useItemStore hook)
+│   ├── equipped[]        → Item model format
+│   ├── inventory[]       → All items from save
+│   ├── equippedSlotMap   → Items by slot key
+│   └── metadata          → Filename, load time
 ├── status/statusType → UI feedback messages
 ├── logs            → Debug log buffer
 └── wasmReady       → WASM initialization flag
 
 Tab callbacks:
-- onFileLoaded(data) → Sets saveData, switches to Character tab
-- onClearSave()      → Clears saveData, returns to Upload tab
+- onFileLoaded(data) → Sets saveData, loads itemStore, switches to Character tab
+- onClearSave()      → Clears saveData and itemStore, returns to Upload tab
 - onLog(msg)         → Adds to log buffer
 - onStatusChange(msg, type) → Updates status bar
 ```
@@ -92,8 +98,59 @@ Tab callbacks:
 2. **Validate** → Check `.sav` extension
 3. **Convert** → WASM `to_json()` converts bytes to JSON
 4. **Parse** → `JSON.parse()` result
-5. **Extract** → `extractEquippedItems()` pulls equipment
-6. **Display** → Character tab shows slots, Filter tab searches
+5. **Transform** → `extractEquippedItems()` uses `transformItem()` to create unified Item models
+6. **Display** → All UI reads from Item model, not raw save data
+
+## Unified Item Model
+
+All items use the same data model defined in `src/models/Item.js`:
+
+```javascript
+{
+  id: string,           // Unique identifier
+  displayName: string,  // Human-readable name
+  type: string,         // Item type (Armor, Weapon, etc.)
+  rowName: string,      // Original row name from save
+  baseStats: [          // Array of stat objects
+    { stat: string, value: number, rawTag: string }
+  ],
+  monograms: [          // Applied monogram modifiers
+    { id: string, value: number }
+  ],
+  slot: string,         // Equipment slot (added by equipmentParser)
+}
+```
+
+### Data Flow Architecture
+
+```
+Save File (.sav)
+    │
+    ▼
+WASM Parser (to_json)
+    │
+    ▼
+extractEquippedItems() ──► transformItem() ──► Item[]
+    │
+    ▼
+CharacterPanel / ItemsTab (reads Item model)
+    │
+    ▼
+useDerivedStats (aggregates baseStats, applies overrides)
+    │
+    ▼
+Calculation Engine (layer-based stat calculation)
+    │
+    ▼
+StatsPanel (displays final values)
+```
+
+### Key Principle
+The save file is an "import shortcut" - all UI components work from the internal Item model, never from raw save data. This enables:
+- Consistent tooltip rendering across Character and Items tabs
+- Item comparison features
+- What-if stat calculations
+- Override/modification tracking
 
 ## Platform-Specific Features
 

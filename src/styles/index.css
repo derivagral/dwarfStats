@@ -1718,3 +1718,204 @@ h1::before {
     min-width: unset;
   }
 }
+
+/* ============================================================================
+   AFFIX SELECTOR
+   ============================================================================ */
+
+.affix-selector {
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.affix-selector-header {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.affix-search {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.affix-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.affix-quick-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.affix-quick-btn {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.affix-quick-btn:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.affix-selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  background: var(--bg-primary);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.affix-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-radius: 3px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.affix-tag:hover {
+  opacity: 0.8;
+}
+
+.affix-categories {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.affix-category {
+  background: var(--bg-primary);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.affix-category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+
+.affix-category-header:hover {
+  background: var(--bg-secondary);
+}
+
+.affix-category-toggle {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.affix-category-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.affix-category-count {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-left: auto;
+}
+
+.affix-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem 0.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.affix-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.25rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.15s ease;
+}
+
+.affix-item:hover {
+  background: var(--bg-secondary);
+}
+
+.affix-item input[type="checkbox"] {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.affix-name {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+/* Config mode toggle */
+.config-mode-toggle {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.mode-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mode-btn:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.mode-btn:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.mode-btn.active {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.mode-btn:hover:not(.active) {
+  background: var(--bg-secondary);
+}
+
+.config-preview {
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: var(--bg-primary);
+  border-radius: 4px;
+  border: 1px dashed var(--border-color);
+}

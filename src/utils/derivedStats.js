@@ -619,6 +619,33 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
+  // BLOODLUST LIFE (Ring Monogram - Bloodlust.MoreLife.Highest)
+  // 0.1% life bonus per life stack per 50 of highest attribute
+  // At 100 stacks: 10% life per 50 highest attribute
+  // ---------------------------------------------------------------------------
+  bloodlustLifeBonus: {
+    id: 'bloodlustLifeBonus',
+    name: 'Bloodlust Life%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['lifeBuffStacks', 'highestAttribute'],
+    config: {
+      enabled: false,
+      lifePerStackPer50: 0.1, // 0.1% life per stack per 50 of highest attribute
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.bloodlustLifeBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = stats.lifeBuffStacks || 0;
+      const highest = stats.highestAttribute || 0;
+      // Formula: stacks * lifePerStackPer50 * (highest / 50)
+      return stacks * config.lifePerStackPer50 * (highest / 50);
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from Bloodlust stacks scaling with highest attribute',
+  },
+
+  // ---------------------------------------------------------------------------
   // ESSENCE → CRIT CHAIN
   // Crit chance per essence: 1% crit per 20 essence
   // ---------------------------------------------------------------------------

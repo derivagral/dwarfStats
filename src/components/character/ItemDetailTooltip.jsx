@@ -2,7 +2,7 @@ import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getDisplayName, formatAttributeValue } from '../../utils/attributeDisplay';
 import { getMonogramName, isKnownMonogram, MONOGRAM_REGISTRY } from '../../utils/monogramRegistry';
-import { MONOGRAM_CALC_CONFIGS } from '../../hooks/useDerivedStats';
+import { MONOGRAM_CALC_CONFIGS, getMonogramEffectSummary as getConfigEffectSummary } from '../../utils/monogramConfigs';
 
 /**
  * Get a short summary of a monogram's calculation effects
@@ -10,6 +10,11 @@ import { MONOGRAM_CALC_CONFIGS } from '../../hooks/useDerivedStats';
 function getMonogramEffectSummary(monoId) {
   const config = MONOGRAM_CALC_CONFIGS[monoId];
   if (!config) return null;
+
+  // Use displayName and description from config if available
+  if (config.description) {
+    return config.description;
+  }
 
   // Handle effects array format
   if (config.effects?.length) {
@@ -37,6 +42,7 @@ function getEffectSummary(statId, config) {
     bloodlustStacks: '100 stacks → +500% crit dmg, +300% AS',
     darkEssenceStacks: '500 stacks → Essence',
     lifeBuffStacks: '100 stacks → +100% life',
+    bloodlustLifeBonus: '0.1% life/stack per 50 attr',
     critChanceFromEssence: '+1% crit per 20 essence',
     elementFromCritChance: `+3% ${config?.elementType || 'element'} per 1% crit>100`,
     lifeFromElement: '+2% life per 30% element',

@@ -45,10 +45,12 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Tab navigation/routing | `src/App.jsx`, `src/components/common/TabNavigation.jsx` |
 | Adding a new tab | `src/App.jsx` (TABS array), existing tab components |
 | File upload/processing | `src/hooks/useFileProcessor.js`, `src/utils/wasm.js` |
-| Item filtering logic | `src/utils/dwarfFilter.js` |
+| Item filtering logic | `src/utils/dwarfFilter.js`, `src/utils/itemFilter.js` |
+| Affix list for filters | `src/utils/affixList.js` |
 | Item data model | `src/models/Item.js`, `src/models/itemTransformer.js` |
 | Central item store | `src/hooks/useItemStore.js` |
 | Monogram/modifier registry | `src/utils/monogramRegistry.js` |
+| Monogram calculation configs | `src/utils/monogramConfigs.js` |
 | Derived stats calculations | `src/utils/derivedStats.js`, `src/hooks/useDerivedStats.js` |
 | Equipment slot mapping | `src/utils/equipmentParser.js` |
 | Attribute display names | `src/utils/attributeDisplay.js` |

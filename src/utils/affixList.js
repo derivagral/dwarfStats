@@ -132,6 +132,9 @@ export function affixIdsToPatterns(affixIds) {
  * Convert selected affixes to a filter string (comma-separated patterns)
  * Compatible with existing FilterTab pattern input
  *
+ * Uses the most specific pattern from the stat registry to avoid
+ * over-matching (e.g., "Fire Damage" shouldn't match "FireAtomDamage").
+ *
  * @param {string[]} affixIds - Array of affix IDs
  * @returns {string} Comma-separated pattern string
  */
@@ -142,9 +145,25 @@ export function affixIdsToFilterString(affixIds) {
     const stat = STAT_REGISTRY[affixId];
     if (!stat) continue;
 
-    // Use a broad pattern that matches the stat name
-    // e.g., "Wisdom" matches "Characteristics.Wisdom" and "Wisdom"
-    patterns.push(stat.name.replace(/\s+/g, '.*'));
+    // Use registry patterns which are more specific than display names
+    // Prefer patterns with dots (e.g., "Damage.Element.Fire") as they're most specific
+    // Fall back to canonical form or first pattern with word boundary
+    if (stat.patterns && stat.patterns.length > 0) {
+      // Find the most specific pattern (one with dots, or longest)
+      const dottedPattern = stat.patterns.find(p => p.includes('.'));
+      if (dottedPattern) {
+        // Escape dots for regex and use as-is (dots make it specific)
+        patterns.push(dottedPattern.replace(/\./g, '\\.'));
+      } else {
+        // No dotted pattern - use word boundary to prevent partial matches
+        // e.g., "FireDamage" should not match "FireAtomDamage"
+        const basePattern = stat.canonical || stat.patterns[0];
+        patterns.push(`\\b${basePattern}\\b`);
+      }
+    } else {
+      // Fallback: use name with word boundaries
+      patterns.push(`\\b${stat.name.replace(/\s+/g, '.*')}\\b`);
+    }
   }
 
   return patterns.join(', ');

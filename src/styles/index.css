@@ -1165,6 +1165,9 @@ h1::before {
 }
 
 .stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 0.75rem;
   margin-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
@@ -1174,6 +1177,22 @@ h1::before {
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.hide-zero-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.hide-zero-toggle input {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
 }
 
 .stats-content {
@@ -1232,6 +1251,50 @@ h1::before {
 .stat-line.no-value .stat-value {
   color: var(--text-secondary);
   opacity: 0.6;
+}
+
+/* Totals section consolidated display */
+.totals-category .category-header {
+  color: var(--success, #22c55e);
+}
+
+.totals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.25rem 0.75rem;
+}
+
+.stat-line.total-stat {
+  padding: 0.3rem 0.4rem;
+}
+
+.stat-line.total-stat .stat-name {
+  font-weight: 500;
+}
+
+.stat-line.total-stat .stat-value-group {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.stat-line.total-stat .stat-value {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.stat-line.total-stat .stat-breakdown {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: normal;
+}
+
+.stat-line.total-stat.zero-value {
+  opacity: 0.5;
+}
+
+.stat-line.total-stat.zero-value .stat-value {
+  color: var(--text-secondary);
 }
 
 .stats-footer {

@@ -168,24 +168,70 @@ export function useDerivedStats(options = {}) {
   const categories = useMemo(() => {
     const { values, detailed } = calculatedStats;
 
-    // Map internal categories to display categories
+    // Define totals stats we want to consolidate
+    const totalStatsConfig = [
+      // Primary attributes
+      { id: 'totalStrength', baseId: 'strength', label: 'Strength' },
+      { id: 'totalDexterity', baseId: 'dexterity', label: 'Dexterity' },
+      { id: 'totalWisdom', baseId: 'wisdom', label: 'Wisdom' },
+      { id: 'totalVitality', baseId: 'vitality', label: 'Vitality' },
+      { id: 'totalEndurance', baseId: 'endurance', label: 'Endurance' },
+      { id: 'totalAgility', baseId: 'agility', label: 'Agility' },
+      { id: 'totalLuck', baseId: 'luck', label: 'Luck' },
+      { id: 'totalStamina', baseId: 'stamina', label: 'Stamina' },
+      // Combat totals
+      { id: 'totalHealth', baseId: 'health', label: 'Health' },
+      { id: 'totalArmor', baseId: 'armor', label: 'Armor' },
+      { id: 'totalDamage', baseId: 'damage', label: 'Damage' },
+    ];
+
+    // Build consolidated totals array
+    const totals = [];
+    for (const cfg of totalStatsConfig) {
+      const total = values[cfg.id] || 0;
+      const base = aggregatedBaseStats[cfg.baseId] || 0;
+      const bonus = total - base;
+
+      totals.push({
+        id: cfg.id,
+        name: cfg.label,
+        value: total,
+        base: base,
+        bonus: bonus,
+        formattedValue: total.toFixed(0),
+        // Show breakdown if there's a bonus
+        breakdown: bonus !== 0 ? `${base} + ${bonus > 0 ? '+' : ''}${bonus.toFixed(0)}` : null,
+        description: `Total ${cfg.label} from all sources`,
+      });
+    }
+
+    // Map internal categories to display categories (excluding totals - handled separately)
     const categoryMapping = {
-      totals: 'attributes',
       conversion: 'offense',
       monogram: 'offense',
       chained: 'offense',
       final: 'offense',
+      'monogram-buff': 'offense',
+      'monogram-chain': 'offense',
       'utility-derived': 'defense',
+      utility: 'defense',
     };
 
     const result = {
+      totals: totals,
       attributes: [],
       offense: [],
       defense: [],
       elemental: [],
     };
 
+    // Skip totals category stats (we built them manually above)
+    const skipIds = new Set(totalStatsConfig.map(c => c.id));
+
     for (const stat of detailed) {
+      // Skip totals - already handled
+      if (stat.category === 'totals' || skipIds.has(stat.id)) continue;
+
       const displayCategory = categoryMapping[stat.category] || 'attributes';
       if (result[displayCategory]) {
         result[displayCategory].push({
@@ -201,8 +247,9 @@ export function useDerivedStats(options = {}) {
 
     // Also add any raw base stats that weren't calculated
     for (const [statId, value] of Object.entries(aggregatedBaseStats)) {
-      // Skip if already in detailed
+      // Skip if already in detailed or is a base for totals
       if (detailed.some(d => d.id === statId)) continue;
+      if (totalStatsConfig.some(c => c.baseId === statId)) continue;
 
       const statDef = STAT_REGISTRY[statId];
       if (statDef) {

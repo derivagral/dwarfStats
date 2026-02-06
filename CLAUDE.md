@@ -227,6 +227,27 @@ Key monogram chains:
 Defined in `SLOT_MONOGRAMS` in `src/utils/monogramRegistry.js`:
 - head, amulet, bracer, boots, pants, relic, ring
 
+## Testing
+
+Run tests with vitest:
+```bash
+npm test           # Watch mode
+npm run test:run   # Single run
+npm run test:coverage  # With coverage report
+```
+
+### Test Structure
+- `test/derivedStats.test.js` - Calculation engine tests
+- `test/itemFilter.test.js` - Item filtering/scoring tests
+- `test/itemTransformer.test.js` - Save file parsing tests
+
+### Key Testable Modules
+| Module | Pure Functions | Notes |
+|--------|----------------|-------|
+| `derivedStats.js` | `calculateDerivedStats()`, `getCalculationOrder()` | Layer-based calculations |
+| `itemFilter.js` | `filterInventoryItems()`, `scoreItemPools()` | Pattern matching |
+| `itemTransformer.js` | `transformItem()`, `transformAllItems()` | Save file parsing |
+
 ## Test Fixtures
 
 Located in `test/fixtures/`:

@@ -6,6 +6,7 @@ import { useFileProcessor } from '../../hooks/useFileProcessor';
 import { hasDirPicker } from '../../utils/platform';
 import { playNotificationSound } from '../../utils/sound';
 import { analyzeUeSaveJson } from '../../utils/dwarfFilter';
+import { filterInventoryItems } from '../../utils/itemFilter';
 
 const DEFAULT_FILTERS = [
   "Fiery*Totem*Damage", "Wisdom", "MageryCriticalDamage", "MageryCriticalChance",
@@ -15,62 +16,6 @@ const DEFAULT_FILTERS = [
 function parseFilterString(filterStr) {
   if (!filterStr || filterStr.trim() === '') return [];
   return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
-}
-
-/**
- * Score items from inventory against filter patterns
- * Used when filtering itemStore.inventory (already processed items)
- * @param {Array} items - Items from itemStore.inventory
- * @param {Array} patterns - Filter patterns as strings
- * @param {Object} options - Filtering options
- * @returns {{ hits: Array, close: Array, totalItems: number }}
- */
-function filterInventoryItems(items, patterns, options = {}) {
-  const { closeMinTotal = 2, minHits = 1 } = options;
-
-  // Compile patterns to regex
-  const regexList = patterns.map(p => {
-    if (p instanceof RegExp) return p;
-    return new RegExp(p.replace(/\*/g, '.*'), 'i');
-  });
-
-  const countHits = (attrs) => {
-    if (!Array.isArray(attrs) || !regexList.length) return 0;
-    let hits = 0;
-    for (const attr of attrs) {
-      for (const regex of regexList) {
-        if (regex.test(attr)) {
-          hits++;
-          break;
-        }
-      }
-    }
-    return hits;
-  };
-
-  const hits = [];
-  const close = [];
-
-  for (const item of items) {
-    const pool1 = item.item?.pool1_attributes || [];
-    const pool2 = item.item?.pool2_attributes || [];
-    const pool3 = item.item?.pool3_attributes || [];
-
-    const s1 = countHits(pool1);
-    const s2 = countHits(pool2);
-    const s3 = countHits(pool3);
-    const total = s1 + s2 + s3;
-
-    const scored = { ...item, s1, s2, s3, total };
-
-    if (s1 >= minHits && s2 >= minHits && s3 >= minHits) {
-      hits.push(scored);
-    } else if (total >= closeMinTotal) {
-      close.push(scored);
-    }
-  }
-
-  return { hits, close, totalItems: items.length };
 }
 
 export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange }) {

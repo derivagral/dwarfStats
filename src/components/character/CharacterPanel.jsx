@@ -1,27 +1,14 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { InventorySlot } from './InventorySlot';
 import { StatsPanel } from './StatsPanel';
-import { ItemEditor } from './ItemEditor';
 import { mapItemsToSlots } from '../../utils/equipmentParser';
 import { useItemOverrides } from '../../hooks/useItemOverrides';
 
 export function CharacterPanel({ characterData }) {
-  const [selectedSlot, setSelectedSlot] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
-
   const {
     overrides,
     hasSlotOverrides,
-    getSlotOverrides,
     applyOverridesToItem,
-    updateMod,
-    addMod,
-    removeMod,
-    removeBaseStat,
-    restoreBaseStat,
-    addMonogram,
-    removeMonogram,
-    clearSlot,
   } = useItemOverrides();
 
   if (!characterData) return null;
@@ -57,24 +44,6 @@ export function CharacterPanel({ characterData }) {
     }
     return result;
   }, [slotMap, overrides, hasSlotOverrides, applyOverridesToItem]);
-
-  // Handle item selection
-  const handleSelectItem = useCallback((slotKey, item) => {
-    if (selectedSlot === slotKey) {
-      // Clicking selected item deselects it
-      setSelectedSlot(null);
-      setSelectedItem(null);
-    } else {
-      setSelectedSlot(slotKey);
-      setSelectedItem(item);
-    }
-  }, [selectedSlot]);
-
-  // Handle closing editor
-  const handleCloseEditor = useCallback(() => {
-    setSelectedSlot(null);
-    setSelectedItem(null);
-  }, []);
 
   // Helper to determine offhand label from item (uses Item model: rowName)
   const getOffhandLabel = (item) => {
@@ -165,7 +134,7 @@ export function CharacterPanel({ characterData }) {
     equippedItems: modifiedItems,
   }), [characterData, modifiedItems]);
 
-  // Render slot helper
+  // Render slot helper - click now freezes tooltip instead of opening editor
   const renderSlot = (slot) => (
     <InventorySlot
       key={slot.slotKey}
@@ -175,9 +144,7 @@ export function CharacterPanel({ characterData }) {
       type={slot.type}
       empty={slot.empty}
       item={slot.item}
-      isSelected={selectedSlot === slot.slotKey}
       hasOverrides={hasSlotOverrides(slot.slotKey)}
-      onSelect={handleSelectItem}
     />
   );
 
@@ -220,25 +187,6 @@ export function CharacterPanel({ characterData }) {
               {offhandSlots.map(renderSlot)}
             </div>
           </div>
-
-          {/* Item Editor Panel - use original item for base stats */}
-          {selectedSlot && slotMap[selectedSlot] && (
-            <ItemEditor
-              item={slotMap[selectedSlot]}
-              slotKey={selectedSlot}
-              slotOverrides={getSlotOverrides(selectedSlot)}
-              onUpdateMod={(modIndex, updates) => updateMod(selectedSlot, modIndex, updates)}
-              onAddMod={(mod) => addMod(selectedSlot, mod)}
-              onRemoveMod={(modIndex) => removeMod(selectedSlot, modIndex)}
-              onRemoveBaseStat={(index) => removeBaseStat(selectedSlot, index)}
-              onRestoreBaseStat={(index) => restoreBaseStat(selectedSlot, index)}
-              onAddMonogram={(mono) => addMonogram(selectedSlot, mono)}
-              onRemoveMonogram={(index) => removeMonogram(selectedSlot, index)}
-              onClearSlot={() => clearSlot(selectedSlot)}
-              onClose={handleCloseEditor}
-              currentMonograms={slotMap[selectedSlot]?.monograms || []}
-            />
-          )}
         </div>
 
         {/* Stats Section */}

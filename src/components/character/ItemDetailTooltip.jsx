@@ -55,9 +55,11 @@ function getEffectSummary(statId, config) {
 export function ItemDetailTooltip({
   item,
   visible,
+  frozen = false,
   slotRef,
   onMouseEnter,
   onMouseLeave,
+  onClose,
 }) {
   const tooltipRef = useRef(null);
   const [position, setPosition] = useState({ top: -9999, left: -9999 });
@@ -154,7 +156,7 @@ export function ItemDetailTooltip({
   return createPortal(
     <div
       ref={tooltipRef}
-      className="item-tooltip"
+      className={`item-tooltip${frozen ? ' frozen' : ''}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onWheel={(event) => {
@@ -171,6 +173,18 @@ export function ItemDetailTooltip({
       <div className="tooltip-header">
         <div className="tooltip-name">{itemData.name}</div>
         <div className="tooltip-type">{itemData.itemType}</div>
+        {frozen && onClose && (
+          <button
+            className="tooltip-close"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+            title="Close (or click item again)"
+          >
+            ×
+          </button>
+        )}
       </div>
 
       {itemData.attributes && itemData.attributes.length > 0 && (

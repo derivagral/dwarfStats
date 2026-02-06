@@ -1,0 +1,1679 @@
+{
+  "equipped": [
+    {
+      "rowName": "Armor_Epic_Plate_Helmet_End_Game_1H_GM4",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 197.5757
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 0.9424164
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandedCritcalChance%",
+          "value": 0.31600076
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.59086144
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 29.369286
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.5992696
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.30724937
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ElementForCritChance.Lightning",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnContainer",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Epic_Plate_Chest_End_Game_Mace_Mauls_GM3",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3885.5781
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.FireAtom.DamageMultiplier",
+          "value": 0.7936004
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 431.24167
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 3.090933
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.53785485
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.2497653
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.9916162
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 5.8986154
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 22.64325
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.89019567
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.2553584
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 49.620964
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeStealChance%",
+          "value": 0.9556074
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 6.41906
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 3.0219316
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 134.2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.6121137
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Epic_Plate_Pants_End_Game_Mace_Mauls_GM5",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 375.7642
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.46075335
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 1.8102461
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.89646596
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 42.39853
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 46.049606
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.46069816
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.45504656
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnAnotherElite",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnAnotherElite",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.SpawnPotionWhenNotFullHp",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Epic_Plate_Gloves_End_Game_Mace_Mauls_GM3",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 157.98009
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.BurningShield.DamageMultiplier",
+          "value": 0.75626326
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 24.302124
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.4751692
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.48908514
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.2410292
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.24229263
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Epic_Plate_Boots_End_Game_Mace_Mauls_GM5",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 380.3919
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.StarBlades.DamageMultiplier",
+          "value": 1.2410553
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.41596785
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 1.7695552
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.8897952
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 82.80664
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.8312417
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.BonusCritDamage%ForEssence",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnContainer",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnAnotherElite",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Shield_Relic_End_Game_5_Epic_MM_GM4",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 172.5793
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.28939983
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.58874893
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.5831519
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 29.524538
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.29008418
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.SharedInfusedBeetles",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Ring_Generic_Base_Epic_End_Game_5_GM4",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 224.62302
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.EnemyDeath.DamageMultiplier",
+          "value": 0.88336974
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.28709212
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.59944946
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.58464336
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 27.996006
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.2879646
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ElementalToHp%.Lightning",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ExtraWisdom",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Ring_Generic_Base_Epic_End_Game_4_GM4",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 206.3
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.29249927
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.5880129
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.6055955
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 29.52735
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.29997644
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ElementalToHp%.Lightning",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.DamageForStat.Highest",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Generic_Base_Epic_End_Game_2_GM4",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132.12123
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.StaticCharge.DamageMultiplier",
+          "value": 0.8126805
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalChance%",
+          "value": 0.27390686
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.52861184
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.5210942
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 25.37293
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.27328777
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnContainer",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnAnotherElite",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_7_Snow_Alligator_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 78
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.018628517
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.14300513
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.35735875
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnContainer",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Equipment_Dwarven_Heart",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 10616.28
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 10.673227
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 218.8476
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 109.38219
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 217.9633
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.57719994
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 10737.061
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 16.758303
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 9.3736
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 4.6
+        }
+      ]
+    },
+    {
+      "rowName": "LightningGoblet",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.ProcChance",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 0.46523866
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.BonusDamage",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "HornLightning",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.ProcChance",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 0.46016586
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "TrinketLightning",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.ProcChance",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 0.47655675
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Equipment_Pet_Lightning",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.GlobalLoot",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.Fire.ToLightning",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.CollectContainer",
+          "value": 45
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.Damage%ForInventorySlots",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ExplodeCore.Lightning.ProcChance",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.LightningStrike.ProcChance",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.LightningCircleAura.ProcChance",
+          "value": 0.2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.CollectContainer.Upgrade",
+          "value": -40
+        }
+      ]
+    },
+    {
+      "rowName": "BeltLightning",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.ProcChance",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 0.4662116
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.BonusDamage",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "hotbar": [
+    {
+      "rowName": "Weapon_Maul_GM5",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 326.779
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 1.1208712
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 38.50033
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.7593581
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.76687765
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.37064114
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.37707323
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "inventory": [
+    {
+      "rowName": "RepairKitBasic_DamageReduction_Large",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.0001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Armor",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.0001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Damage",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.0001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Strength",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 0.01
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Agility",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.00001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Stamina",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.0001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Strength_Large",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 0.1
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Agility_Large",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.0001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Damage_Large",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Armor_Large",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Stamina_Large",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.001
+        }
+      ]
+    },
+    {
+      "rowName": "RepairKitBasic_Damage_MaxHealth",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 0.01
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_2_Wolf_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 261.4355
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.65
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 1.2411197
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Highest",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_7_Snow_Damage",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.PoisonCloud.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 26.2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.StarBlades.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.Health%ForHighest",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_7_Snow_Damage",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.CarnageOfFire.DamageMultiplier",
+          "value": 0.6985657
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.67
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.StaticCharge.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.DarkEssence",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Thunderbringer_Plate_Helmet",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.075
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.DamageMultiplier",
+          "value": 0.6673983
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.AllowPhasing",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Underworld_Plate_Helmet",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalChance%",
+          "value": 0.136
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.RangedParagon.MaxHp",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Generic_Base_Zone_10_Mire",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.272
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.136
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ExtraLifeSteal",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Underworld_Plate_Helmet",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.PoisonCloud.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.28
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.0335
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.AllowPhasing",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_3_Black_Bear_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 241.33904
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ArcaneTotem.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.074
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.GainDamageForHPLoseArmor",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_2_Wolf_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.DragonFlame.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.074
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.LargeStonesInContainers",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Generic_Base_End_Game_2",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 1.3369325
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.FieryTotem.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalChance%",
+          "value": 0.26685086
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.HighestStatForDamage",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Regeneration_Base_Zone_9_Firelands",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.DamageMultiplier",
+          "value": 0.76614434
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.67
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.FerocityOfWolves.DamageMultiplier",
+          "value": 0.6695174
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.DoubleEnergyMoreDamage",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Thunderbringer_Plate_Boots",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ArcaneTotem.DamageMultiplier",
+          "value": 0.7655095
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.57210934
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.67
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.PotionBonus.MovementSpeed%",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_4_Desert_Tiger_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.194
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.272
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.FireAtom.DamageMultiplier",
+          "value": 0.66723025
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.Shroud.MaxStacksBonus",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Thunderbringer_Plate_Boots",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal",
+          "value": 20.5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.075
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.GainCritChanceForHighest",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Shield_Relic_End_Game_2",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.LightningPlasma.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.272
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 1.2068208
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.FellowshipChargeAllGlyphs",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_3_Black_Bear_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.67
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 27
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.Vortex.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.DoubleAttackSpeed",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Shield_Relic_End_Game_2",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 272.29477
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.0688785
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.075
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.PainAmplifier",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Shield_Relic_End_Game_1",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.67
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.EnemyDeath.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.PoisonCloud.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.DamageCircle.BossDamageBuff",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Regeneration_Base_Zone_9_Firelands",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.075
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 629.14813
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.CooldownReduceOnEliteKill",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_4_Desert_Tiger_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.28
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.67
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.14
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnContainer",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Thunderbringer_Plate_Helmet",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 242.4148
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.BloodDragons.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.136
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChanceForSnails",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Generic_Base_End_Game_2",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalChance%",
+          "value": 0.138
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 26.6
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.FerocityOfWolves.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.EliteBuffs.Energy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Generic_Base_Zone_10_Mire",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.28
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 27
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 27
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.DoubleEnergyMoreDamage",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Shield_Relic_End_Game_1",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.FireBeam.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.StaticCharge.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.57310325
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.Damage%ForPotions",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_7_Snow_Alligator_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 26.6
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.138
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.DoubleAttackSpeed",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Regeneration_Base_Zone_9_Firelands",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.BloodDragons.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.67
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.Vortex.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.DarkEssence",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Thunderbringer_Plate_Boots",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.074
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.PoisonCloud.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.LightningPlasma.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.PotionBonus.MaxEnergy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Generic_Base_Zone_10_Mire",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 26.2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.Spark.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.CarnageOfFire.DamageMultiplier",
+          "value": 0.7587431
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.DamageBonusAnd51Damage",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Shield_Relic_End_Game_1",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.Spark.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 27
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 27
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.FellowshipChargeAllGlyphs",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_9_Firelands_Bat_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.DragonFlame.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.272
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 130
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.PulseExplosion_Lightning",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_7_Snow_Alligator_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.27675882
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.DamageMultiplier",
+          "value": 0.355
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.CritChanceForEnergyRegen",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_2_Wolf_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.LightningPlasma.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 26.2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.DragonFlame.DamageMultiplier",
+          "value": 0.345
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.GainDamageForHPLoseArmor",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Thunderbringer_Plate_Boots",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.30136788
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.StaticCharge.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 1.2484186
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.Veil.OnLose",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Mythic_Plate_Boots",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.StaticCharge.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.276
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.Damage%ForInventorySlots",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Regeneration_Base_Zone_9_Firelands",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 136
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 27
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.075
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage_Near",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Jewlery_Amulet_Generic_Base_End_Game_2",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 132
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.65
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeStealChance%",
+          "value": 0.066
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.65
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage_Near",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Armor_Bracers_Zone_3_Black_Bear_Bracers",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.Abilities.FireBeam.DamageMultiplier",
+          "value": 0.35
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+          "value": 0.074
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.PulseExplosion_Lightning",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "rowName": "Shield_Relic_End_Game_1",
+      "attributes": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 134
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.66
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.67
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.DoubleFellowshipXp",
+          "value": 1
+        }
+      ]
+    }
+  ]
+}

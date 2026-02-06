@@ -255,6 +255,8 @@ npm run test:coverage  # With coverage report
 Located in `test/fixtures/`:
 - `monograms_data.json` - Sample monogram data from save files
 - `learned_ring_monograms.json` - Ring modifier data (LearnedRingModifiers_0)
+- `dr-full-inventory.json` - Complete parsed save file (~7.8MB) with full character data
+- `dr-extracted-items.json` - Focused fixture with 16 equipped, 1 hotbar, 50 inventory items
 
 ## Deployment
 

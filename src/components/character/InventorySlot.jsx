@@ -14,36 +14,43 @@ export function InventorySlot({
 }) {
   const [isSlotHovered, setIsSlotHovered] = useState(false);
   const [isTooltipHovered, setIsTooltipHovered] = useState(false);
+  const [isFrozen, setIsFrozen] = useState(false);
   const slotRef = useRef(null);
   const closeTimeoutRef = useRef(null);
   const hoverStateRef = useRef({ slot: false, tooltip: false });
-  const showTooltip = (isSlotHovered || isTooltipHovered) && !isSelected;
 
-  // Reset hover states when selection changes to prevent stale tooltip
+  // Show tooltip when hovering OR frozen
+  const showTooltip = (isSlotHovered || isTooltipHovered || isFrozen) && !empty && item;
+
+  // Close frozen tooltip when clicking outside
   useEffect(() => {
-    if (isSelected) {
-      // Clear hover states when becoming selected
-      hoverStateRef.current = { slot: false, tooltip: false };
-      setIsSlotHovered(false);
-      setIsTooltipHovered(false);
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-        closeTimeoutRef.current = null;
-      }
-    }
-  }, [isSelected]);
+    if (!isFrozen) return;
 
+    const handleClickOutside = (e) => {
+      if (slotRef.current && !slotRef.current.contains(e.target)) {
+        // Check if click is on the tooltip itself (which is in a portal)
+        const tooltip = document.querySelector('.item-tooltip');
+        if (tooltip && tooltip.contains(e.target)) return;
+        setIsFrozen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isFrozen]);
+
+  // Handle click - toggle frozen tooltip
   const handleClick = useCallback((e) => {
-    if (!empty && item && onSelect) {
+    if (!empty && item) {
       e.stopPropagation();
-      onSelect(slotKey, item);
+      setIsFrozen(prev => !prev);
     }
-  }, [empty, item, slotKey, onSelect]);
+  }, [empty, item]);
 
   return (
     <div
       ref={slotRef}
-      className={`inventory-slot${empty ? ' empty' : ''}${isSelected ? ' selected' : ''}${hasOverrides ? ' has-overrides' : ''}`}
+      className={`inventory-slot${empty ? ' empty' : ''}${isFrozen ? ' frozen' : ''}${hasOverrides ? ' has-overrides' : ''}`}
       onClick={handleClick}
       onMouseEnter={() => {
         if (closeTimeoutRef.current) {
@@ -69,10 +76,25 @@ export function InventorySlot({
 
       {!empty && item && (
         <ItemDetailTooltip
-          item={{ item }}
+          item={{
+            item: {
+              // Map Item model to tooltip format
+              name: item.displayName,
+              itemType: item.type,
+              itemRow: item.rowName,
+              // Convert baseStats to attributes format for tooltip
+              attributes: (item.baseStats || []).map(s => ({
+                name: s.rawTag || s.stat,
+                value: s.value,
+              })),
+              monograms: item.monograms || [],
+            }
+          }}
           visible={showTooltip}
+          frozen={isFrozen}
           slotRef={slotRef}
           onMouseEnter={() => {
+            if (isFrozen) return; // Don't change hover state when frozen
             if (closeTimeoutRef.current) {
               clearTimeout(closeTimeoutRef.current);
               closeTimeoutRef.current = null;
@@ -81,6 +103,7 @@ export function InventorySlot({
             setIsTooltipHovered(true);
           }}
           onMouseLeave={() => {
+            if (isFrozen) return; // Don't change hover state when frozen
             hoverStateRef.current.tooltip = false;
             closeTimeoutRef.current = setTimeout(() => {
               if (!hoverStateRef.current.slot) {
@@ -88,6 +111,7 @@ export function InventorySlot({
               }
             }, 250);
           }}
+          onClose={() => setIsFrozen(false)}
         />
       )}
     </div>

@@ -2,13 +2,17 @@ import React from 'react';
 import { Button } from '../common';
 import { CharacterPanel } from './CharacterPanel';
 
-export function CharacterTab({ saveData, onClearSave, onLog }) {
-  // Convert saveData to characterData format expected by CharacterPanel
-  const characterData = saveData ? {
+export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
+  // Build characterData from itemStore (central source of truth)
+  // Falls back to saveData for backward compatibility
+  const characterData = itemStore?.hasItems ? {
+    filename: itemStore.metadata.filename || saveData?.filename,
+    equippedItems: itemStore.equipped,
+    timestamp: itemStore.metadata.loadedAt,
+  } : saveData ? {
     filename: saveData.filename,
-    raw: saveData.raw,
     equippedItems: saveData.equippedItems || [],
-    timestamp: saveData.timestamp
+    timestamp: saveData.timestamp,
   } : null;
 
   return (

@@ -367,6 +367,391 @@ export const DERIVED_STATS = {
     format: v => `+${v.toFixed(0)}`,
     description: 'Health bonus from chained elemental calculation',
   },
+
+  // ===========================================================================
+  // MONOGRAM BUFF STACKS - Enabled when specific monograms are applied
+  // ===========================================================================
+
+  /**
+   * Helper: Highest primary attribute value
+   * Used by many monograms that scale with "highest stat"
+   */
+  highestAttribute: {
+    id: 'highestAttribute',
+    name: 'Highest Attribute',
+    category: 'utility',
+    layer: LAYERS.TOTALS,
+    dependencies: ['totalStrength', 'totalDexterity', 'totalWisdom', 'totalVitality', 'totalEndurance', 'totalAgility', 'totalLuck', 'totalStamina'],
+    calculate: (stats) => {
+      return Math.max(
+        stats.totalStrength || 0,
+        stats.totalDexterity || 0,
+        stats.totalWisdom || 0,
+        stats.totalVitality || 0,
+        stats.totalEndurance || 0,
+        stats.totalAgility || 0,
+        stats.totalLuck || 0,
+        stats.totalStamina || 0
+      );
+    },
+    format: v => v.toFixed(0),
+    description: 'The highest primary attribute value',
+  },
+
+  // ---------------------------------------------------------------------------
+  // PHASING BUFF (Helmet Monogram - 50 stacks max)
+  // Effects: 1% damage, 0.5% boss damage per stack
+  // ---------------------------------------------------------------------------
+  phasingStacks: {
+    id: 'phasingStacks',
+    name: 'Phasing Stacks',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,  // Set to true when Phasing monogram is applied
+      maxStacks: 50,
+      currentStacks: 50, // Default to max for theorycraft
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.phasingStacks.config;
+      if (!config.enabled) return 0;
+      return Math.min(config.currentStacks, config.maxStacks);
+    },
+    format: v => v.toFixed(0),
+    description: 'Current Phasing buff stacks (max 50)',
+  },
+  phasingDamageBonus: {
+    id: 'phasingDamageBonus',
+    name: 'Phasing Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['phasingStacks'],
+    config: {
+      damagePerStack: 1, // 1% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.phasingDamageBonus.config;
+      const stacks = stats.phasingStacks || 0;
+      return stacks * config.damagePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage bonus from Phasing stacks (1% per stack)',
+  },
+  phasingBossDamageBonus: {
+    id: 'phasingBossDamageBonus',
+    name: 'Phasing Boss Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['phasingStacks'],
+    config: {
+      bossDamagePerStack: 0.5, // 0.5% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.phasingBossDamageBonus.config;
+      const stacks = stats.phasingStacks || 0;
+      return stacks * config.bossDamagePerStack;
+    },
+    format: v => `+${v.toFixed(1)}%`,
+    description: 'Boss damage bonus from Phasing stacks (0.5% per stack)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // BLOODLUST BUFF (Helmet Monogram - 100 stacks max)
+  // Effects: 5% crit damage, 3% attack speed, 1% movement speed per stack
+  // ---------------------------------------------------------------------------
+  bloodlustStacks: {
+    id: 'bloodlustStacks',
+    name: 'Bloodlust Stacks',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      maxStacks: 100,
+      currentStacks: 100, // Default to max for theorycraft
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.bloodlustStacks.config;
+      if (!config.enabled) return 0;
+      return Math.min(config.currentStacks, config.maxStacks);
+    },
+    format: v => v.toFixed(0),
+    description: 'Current Bloodlust buff stacks (max 100)',
+  },
+  bloodlustCritDamageBonus: {
+    id: 'bloodlustCritDamageBonus',
+    name: 'Bloodlust Crit Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['bloodlustStacks'],
+    config: {
+      critDamagePerStack: 5, // 5% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.bloodlustCritDamageBonus.config;
+      const stacks = stats.bloodlustStacks || 0;
+      return stacks * config.critDamagePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Critical damage bonus from Bloodlust stacks (5% per stack)',
+  },
+  bloodlustAttackSpeedBonus: {
+    id: 'bloodlustAttackSpeedBonus',
+    name: 'Bloodlust Attack Speed%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['bloodlustStacks'],
+    config: {
+      attackSpeedPerStack: 3, // 3% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.bloodlustAttackSpeedBonus.config;
+      const stacks = stats.bloodlustStacks || 0;
+      return stacks * config.attackSpeedPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Attack speed bonus from Bloodlust stacks (3% per stack)',
+  },
+  bloodlustMoveSpeedBonus: {
+    id: 'bloodlustMoveSpeedBonus',
+    name: 'Bloodlust Move Speed%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['bloodlustStacks'],
+    config: {
+      moveSpeedPerStack: 1, // 1% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.bloodlustMoveSpeedBonus.config;
+      const stacks = stats.bloodlustStacks || 0;
+      return stacks * config.moveSpeedPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Movement speed bonus from Bloodlust stacks (1% per stack)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DARK ESSENCE BUFF (Amulet Monogram - 500 stacks max)
+  // At 500 stacks: Essence = highestStat * 1.25
+  // ---------------------------------------------------------------------------
+  darkEssenceStacks: {
+    id: 'darkEssenceStacks',
+    name: 'Dark Essence Stacks',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      maxStacks: 500,
+      currentStacks: 500, // Default to max for theorycraft
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.darkEssenceStacks.config;
+      if (!config.enabled) return 0;
+      return Math.min(config.currentStacks, config.maxStacks);
+    },
+    format: v => v.toFixed(0),
+    description: 'Current Dark Essence buff stacks (max 500)',
+  },
+  essence: {
+    id: 'essence',
+    name: 'Essence',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['darkEssenceStacks', 'highestAttribute'],
+    config: {
+      multiplier: 1.25, // highestStat * 1.25 at max stacks
+      thresholdStacks: 500, // Need this many stacks for full effect
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.essence.config;
+      const stacks = stats.darkEssenceStacks || 0;
+      if (stacks < config.thresholdStacks) {
+        // Partial effect? Or none until max? Let's do proportional
+        return Math.floor((stacks / config.thresholdStacks) * (stats.highestAttribute || 0) * config.multiplier);
+      }
+      return Math.floor((stats.highestAttribute || 0) * config.multiplier);
+    },
+    format: v => v.toFixed(0),
+    description: 'Essence value from Dark Essence (highestStat × 1.25 at 500 stacks)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // LIFE BUFF (Amulet Monogram for Bloodlust chain - 100 stacks max)
+  // Effects: 1% life bonus per stack
+  // ---------------------------------------------------------------------------
+  lifeBuffStacks: {
+    id: 'lifeBuffStacks',
+    name: 'Life Buff Stacks',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      maxStacks: 100,
+      currentStacks: 100, // Default to max
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lifeBuffStacks.config;
+      if (!config.enabled) return 0;
+      return Math.min(config.currentStacks, config.maxStacks);
+    },
+    format: v => v.toFixed(0),
+    description: 'Life buff stacks from amulet monogram (max 100)',
+  },
+  lifeBuffBonus: {
+    id: 'lifeBuffBonus',
+    name: 'Life Buff Bonus%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['lifeBuffStacks'],
+    config: {
+      lifePerStack: 1, // 1% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lifeBuffBonus.config;
+      const stacks = stats.lifeBuffStacks || 0;
+      return stacks * config.lifePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from Life buff stacks (1% per stack)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // BLOODLUST LIFE (Ring Monogram - Bloodlust.MoreLife.Highest)
+  // 0.1% life bonus per life stack per 50 of highest attribute
+  // At 100 stacks: 10% life per 50 highest attribute
+  // ---------------------------------------------------------------------------
+  bloodlustLifeBonus: {
+    id: 'bloodlustLifeBonus',
+    name: 'Bloodlust Life%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['lifeBuffStacks', 'highestAttribute'],
+    config: {
+      enabled: false,
+      lifePerStackPer50: 0.1, // 0.1% life per stack per 50 of highest attribute
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.bloodlustLifeBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = stats.lifeBuffStacks || 0;
+      const highest = stats.highestAttribute || 0;
+      // Formula: stacks * lifePerStackPer50 * (highest / 50)
+      return stacks * config.lifePerStackPer50 * (highest / 50);
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from Bloodlust stacks scaling with highest attribute',
+  },
+
+  // ---------------------------------------------------------------------------
+  // ESSENCE → CRIT CHAIN
+  // Crit chance per essence: 1% crit per 20 essence
+  // ---------------------------------------------------------------------------
+  critChanceFromEssence: {
+    id: 'critChanceFromEssence',
+    name: 'Crit Chance (Essence)',
+    category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['essence'],
+    config: {
+      enabled: false, // Enabled by monogram
+      essencePerCrit: 20, // 20 essence = 1% crit
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.critChanceFromEssence.config;
+      if (!config.enabled) return 0;
+      const essence = stats.essence || 0;
+      return Math.floor(essence / config.essencePerCrit);
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Critical chance from Essence (1% per 20 essence)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // ELEMENT FOR CRIT CHANCE (Helmet Monogram)
+  // 3% fire/arcane/lightning per 1% crit over 100%
+  // ---------------------------------------------------------------------------
+  elementFromCritChance: {
+    id: 'elementFromCritChance',
+    name: 'Element% (Crit)',
+    category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['critChanceFromEssence'],
+    config: {
+      enabled: false,
+      elementType: 'fire', // fire, arcane, or lightning
+      critThreshold: 100, // Only counts crit over this %
+      elementPerCrit: 3, // 3% element per 1% crit over threshold
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.elementFromCritChance.config;
+      if (!config.enabled) return 0;
+      // Total crit = base crit + crit from essence + other sources
+      const baseCrit = stats.critChance || 0;
+      const essenceCrit = stats.critChanceFromEssence || 0;
+      const totalCrit = baseCrit + essenceCrit;
+      const excessCrit = Math.max(0, totalCrit - config.critThreshold);
+      return excessCrit * config.elementPerCrit;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Elemental damage from crit over 100% (3% per 1% crit)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // LIFE FROM ELEMENT (Ring Monogram - placeholder)
+  // 2% life per 30% of a particular element
+  // ---------------------------------------------------------------------------
+  lifeFromElement: {
+    id: 'lifeFromElement',
+    name: 'Life% (Element)',
+    category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['elementFromCritChance'],
+    config: {
+      enabled: false,
+      elementPer: 30, // 30% element = this bonus
+      lifeBonus: 2, // 2% life per threshold
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lifeFromElement.config;
+      if (!config.enabled) return 0;
+      const element = stats.elementFromCritChance || 0;
+      return Math.floor(element / config.elementPer) * config.lifeBonus;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from elemental damage (2% per 30% element)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // GAIN DAMAGE FOR HP LOSE ARMOR (Bracer Monogram)
+  // 1% of total life added as Flat Damage
+  // ---------------------------------------------------------------------------
+  damageFromLife: {
+    id: 'damageFromLife',
+    name: 'Damage (Life)',
+    category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['totalHealth', 'lifeBuffBonus', 'lifeFromElement'],
+    config: {
+      enabled: false,
+      lifePercent: 1, // 1% of total life
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damageFromLife.config;
+      if (!config.enabled) return 0;
+      // Calculate total life with all bonuses
+      const baseHealth = stats.totalHealth || 0;
+      const lifeBuffPct = stats.lifeBuffBonus || 0;
+      const lifeFromElemPct = stats.lifeFromElement || 0;
+      const totalLifeBonus = lifeBuffPct + lifeFromElemPct;
+      const totalLife = Math.floor(baseHealth * (1 + totalLifeBonus / 100));
+      return Math.floor(totalLife * (config.lifePercent / 100));
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat damage from total life (1% of life)',
+  },
 };
 
 // ============================================================================

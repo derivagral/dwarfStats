@@ -2,6 +2,10 @@ import { useMemo } from 'react';
 import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LAYERS } from '../utils/derivedStats.js';
 import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY } from '../utils/statRegistry.js';
+import { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
+
+// Re-export for backward compatibility
+export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
 
 /**
  * Hook for calculating derived stats from equipped items
@@ -101,15 +105,26 @@ export function useDerivedStats(options = {}) {
 
     // For each applied monogram, check if it has calculation effects
     for (const mono of appliedMonograms) {
-      const config = MONOGRAM_CALC_CONFIGS[mono.id];
-      if (config) {
-        // Apply the monogram's calculation config
-        if (config.derivedStatId && config.config) {
-          overrides[config.derivedStatId] = {
-            ...DERIVED_STATS[config.derivedStatId]?.config,
-            ...config.config,
-          };
+      const monoConfig = MONOGRAM_CALC_CONFIGS[mono.id];
+      if (!monoConfig) continue;
+
+      // Handle new 'effects' array format (multiple derived stats per monogram)
+      if (monoConfig.effects) {
+        for (const effect of monoConfig.effects) {
+          if (effect.derivedStatId && effect.config) {
+            overrides[effect.derivedStatId] = {
+              ...DERIVED_STATS[effect.derivedStatId]?.config,
+              ...effect.config,
+            };
+          }
         }
+      }
+      // Handle legacy single-stat format
+      else if (monoConfig.derivedStatId && monoConfig.config) {
+        overrides[monoConfig.derivedStatId] = {
+          ...DERIVED_STATS[monoConfig.derivedStatId]?.config,
+          ...monoConfig.config,
+        };
       }
     }
 
@@ -270,101 +285,5 @@ function resolveStatId(rawTag) {
   // Fallback: use the last part as-is (camelCase)
   return lastPart.charAt(0).toLowerCase() + lastPart.slice(1);
 }
-
-// ============================================================================
-// MONOGRAM CALCULATION CONFIGS
-// ============================================================================
-
-/**
- * Maps monogram IDs to their calculation engine configs
- *
- * When a monogram is applied, these configs override the default
- * calculation parameters in DERIVED_STATS.
- *
- * TODO: Populate with actual monogram effects from game data
- */
-export const MONOGRAM_CALC_CONFIGS = {
-  // Example: DamageForStat.Highest gives +X damage per Y of highest stat
-  'DamageForStat.Highest': {
-    derivedStatId: 'monogramValueFromStrength', // Placeholder - needs proper derived stat
-    config: {
-      sourceStat: 'totalStrength', // Would be dynamic based on highest
-      ratio: 100,
-      baseValue: 5,
-    },
-  },
-
-  // Example: Health%ForHighest gives % health based on highest stat
-  'Health%ForHighest': {
-    derivedStatId: 'chainedHealthBonus',
-    config: {
-      sourceStat: 'totalVitality',
-      ratio: 50,
-      baseValue: 1,
-    },
-  },
-
-  // Bloodlust chain
-  'Bloodlust.Base': {
-    // Enables bloodlust stacking mechanics
-    derivedStatId: null, // No direct stat, enables other bloodlust effects
-  },
-  'Bloodlust.Damage%PerStack': {
-    derivedStatId: 'monogramValueFromStrength',
-    config: {
-      sourceStat: 'bloodlustStacks', // Would need stack tracking
-      ratio: 1,
-      baseValue: 2, // 2% damage per stack
-    },
-  },
-
-  // Colossus chain
-  'Colossus.Base': {
-    derivedStatId: null, // Enables colossus mechanics
-  },
-  'Colossus.DamageReduction': {
-    // During colossus, gain DR
-    derivedStatId: null, // Conditional effect
-  },
-
-  // Damage Circle chain
-  'DamageCircle.Base': {
-    derivedStatId: null, // Enables damage circle
-  },
-  'DamageCircle.DamageForStats.Highest': {
-    derivedStatId: 'damageFromHealth', // Reusing as placeholder
-    config: {
-      sourceStat: 'totalHealth',
-      percentage: 1,
-    },
-  },
-
-  // Elemental crit bonuses
-  'ElementForCritChance.Fire': {
-    derivedStatId: null, // Would add crit from fire damage
-  },
-  'ElementForCritChance.Lightning': {
-    derivedStatId: null,
-  },
-  'ElementForCritChance.Arcane': {
-    derivedStatId: null,
-  },
-
-  // Potion bonuses
-  'PotionSlotForStat.Highest': {
-    derivedStatId: 'potionSlotsFromAttributes',
-    config: {
-      ratio: 200,
-    },
-  },
-  'Damage%ForPotions': {
-    derivedStatId: 'statBonusFromPotions',
-    config: {
-      sourceStat: 'potionSlotsFromAttributes',
-      ratio: 1,
-      baseValue: 3, // 3% damage per potion slot
-    },
-  },
-};
 
 export default useDerivedStats;

@@ -6,6 +6,7 @@ import { useFileProcessor } from '../../hooks/useFileProcessor';
 import { hasDirPicker } from '../../utils/platform';
 import { playNotificationSound } from '../../utils/sound';
 import { analyzeUeSaveJson } from '../../utils/dwarfFilter';
+import { filterInventoryItems } from '../../utils/itemFilter';
 
 const DEFAULT_FILTERS = [
   "Fiery*Totem*Damage", "Wisdom", "MageryCriticalDamage", "MageryCriticalChance",
@@ -17,7 +18,7 @@ function parseFilterString(filterStr) {
   return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
 }
 
-export function FilterTab({ initialSaveData, onLog, onStatusChange }) {
+export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange }) {
   const [results, setResults] = useState(new Map());
   const [filterValue, setFilterValue] = useState(DEFAULT_FILTERS);
   const [filterPatterns, setFilterPatterns] = useState(parseFilterString(DEFAULT_FILTERS));
@@ -73,24 +74,43 @@ export function FilterTab({ initialSaveData, onLog, onStatusChange }) {
 
   // Process initial save data when tab is first accessed
   useEffect(() => {
-    if (initialSaveData && !initialProcessed) {
+    if (!initialProcessed && (itemStore?.hasItems || initialSaveData)) {
       setInitialProcessed(true);
-      // Use the already-parsed JSON data from the initial save
-      const filterOptions = {
-        slot1: filterPatterns,
-        slot2: filterPatterns,
-        slot3: filterPatterns,
-        includeWeapons: true,
-        showClose: true,
-        closeMinTotal: 2,
-        debug: false,
-      };
 
-      const { hits, close, totalItems } = analyzeUeSaveJson(initialSaveData.json, filterOptions);
+      const filename = itemStore?.metadata?.filename || initialSaveData?.filename || 'unknown.sav';
+      let hits, close, totalItems;
+
+      // Prefer itemStore.inventory (already processed, avoids re-parsing)
+      if (itemStore?.inventory?.length) {
+        const result = filterInventoryItems(itemStore.inventory, filterPatterns, {
+          closeMinTotal: 2,
+          minHits: 1,
+        });
+        hits = result.hits;
+        close = result.close;
+        totalItems = result.totalItems;
+      } else if (initialSaveData?.json) {
+        // Fallback to raw JSON analysis
+        const filterOptions = {
+          slot1: filterPatterns,
+          slot2: filterPatterns,
+          slot3: filterPatterns,
+          includeWeapons: true,
+          showClose: true,
+          closeMinTotal: 2,
+          debug: false,
+        };
+        const result = analyzeUeSaveJson(initialSaveData.json, filterOptions);
+        hits = result.hits;
+        close = result.close;
+        totalItems = result.totalItems;
+      } else {
+        return; // No data to process
+      }
 
       setResults(prev => {
         const next = new Map(prev);
-        next.set(initialSaveData.filename, {
+        next.set(filename, {
           hits,
           close,
           totalItems,
@@ -100,17 +120,17 @@ export function FilterTab({ initialSaveData, onLog, onStatusChange }) {
         return next;
       });
 
-      if (initialSaveData.file) {
+      if (initialSaveData?.file) {
         setLastFiles([initialSaveData.file]);
       }
 
-      onLog(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${initialSaveData.filename}`);
+      onLog(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename}`);
 
       if (hits.length > 0) {
         playNotificationSound();
       }
     }
-  }, [initialSaveData, initialProcessed, filterPatterns, onLog]);
+  }, [initialSaveData, itemStore, initialProcessed, filterPatterns, onLog]);
 
   const handleFileDrop = useCallback(async (files) => {
     setLastFiles(files);

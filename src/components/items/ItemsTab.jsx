@@ -45,7 +45,7 @@ function parseFilterString(filterStr) {
   return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
 }
 
-export function ItemsTab({ saveData, onLog }) {
+export function ItemsTab({ saveData, itemStore, onLog }) {
   const [filterValue, setFilterValue] = useState(DEFAULT_FILTERS);
   const [filterPatterns, setFilterPatterns] = useState(parseFilterString(DEFAULT_FILTERS));
   const [showEquippedOnly, setShowEquippedOnly] = useState(true);
@@ -75,30 +75,45 @@ export function ItemsTab({ saveData, onLog }) {
 
   const equippedLookup = useMemo(() => {
     const lookup = new Map();
-    if (!saveData?.equippedItems) return lookup;
+    // Prefer itemStore.equipped (Item model format: rowName)
+    const equippedItems = itemStore?.equipped || saveData?.equippedItems || [];
 
-    for (const item of saveData.equippedItems) {
-      if (!item?.itemRow) continue;
+    for (const item of equippedItems) {
+      // Item model uses rowName, old format uses itemRow
+      const rowName = item?.rowName || item?.itemRow;
+      if (!rowName) continue;
       const label = SLOT_LABELS[item.slot] || item.slot || SLOT_LABELS.unknown;
-      lookup.set(item.itemRow, label);
+      lookup.set(rowName, label);
     }
 
     return lookup;
-  }, [saveData]);
+  }, [itemStore?.equipped, saveData?.equippedItems]);
 
   const equippedSlotLookup = useMemo(() => {
     const lookup = new Map();
-    if (!saveData?.equippedItems) return lookup;
+    // Prefer itemStore.equipped (Item model format: rowName)
+    const equippedItems = itemStore?.equipped || saveData?.equippedItems || [];
 
-    for (const item of saveData.equippedItems) {
-      if (!item?.itemRow) continue;
-      lookup.set(item.itemRow, item.slot || 'unknown');
+    for (const item of equippedItems) {
+      // Item model uses rowName, old format uses itemRow
+      const rowName = item?.rowName || item?.itemRow;
+      if (!rowName) continue;
+      lookup.set(rowName, item.slot || 'unknown');
     }
 
     return lookup;
-  }, [saveData]);
+  }, [itemStore?.equipped, saveData?.equippedItems]);
 
   const { items, totalItems } = useMemo(() => {
+    // Prefer itemStore inventory (already processed)
+    if (itemStore?.inventory?.length) {
+      return {
+        items: itemStore.inventory,
+        totalItems: itemStore.totalInventoryCount || itemStore.inventory.length,
+      };
+    }
+
+    // Fallback to saveData
     if (!saveData?.raw && !saveData?.json) {
       return { items: [], totalItems: 0 };
     }
@@ -118,7 +133,7 @@ export function ItemsTab({ saveData, onLog }) {
     });
 
     return { items: hits, totalItems: total };
-  }, [saveData]);
+  }, [itemStore?.inventory, itemStore?.totalInventoryCount, saveData]);
 
   const filteredItems = useMemo(() => {
     const regexList = filterPatterns.map(pattern => new RegExp(pattern.replace(/\*/g, '.*'), 'i'));
@@ -247,7 +262,7 @@ export function ItemsTab({ saveData, onLog }) {
     setSelectedItemKeys(new Set());
   }, []);
 
-  if (!saveData) {
+  if (!itemStore?.hasItems && !saveData) {
     return (
       <div className="tab-content active">
         <div className="empty-state">
@@ -441,11 +456,15 @@ function ItemListRow({ item, equippedLabel, isSelected, hasOverrides, onSelect }
       attributes = [];
     }
 
+    // Include monograms from the model
+    const monograms = model?.monograms || [];
+
     return {
       name: item.name,
       itemType: item.type,
       itemRow: item.item?.item_row,
       attributes,
+      monograms,
     };
   }, [item]);
 

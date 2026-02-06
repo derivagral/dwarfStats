@@ -928,6 +928,14 @@ export const SLOT_MONOGRAMS = {
     'Bloodlust.Armor%', 'FellowshipRuptureBossBuff', 'PainAmplifier',
     'ChanceToSpawnElectricHound', 'Colossus.DamageReduction',
   ],
+  ring: [
+    'DamageForStat.Highest', 'GainStatIfNoOffHand.Luck', 'DamageReduction%ForStat.Highest',
+    'ExtraStrength', 'ExtraStamina', 'Colossus.LifeSteal', 'MaxHp%ForStat.Highest',
+    'BonusDamage%ForEssence', 'ExtraArmor', 'DamageCircle.DamageForStats.Highest',
+    'Bloodlust.MoreLife.Highest', 'SecondaryBuild.DoubleChargedDamage', 'ExtraWisdom',
+    'DamageReduction', 'ElementalToHp%.Fire', 'ExtraEndurance',
+    'Colossus.ElementalBonusForHighestStat.Arcane',
+  ],
 };
 
 // ============================================================================

@@ -1,96 +1,21 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StatLine } from './StatLine';
-import { StatTooltip } from './StatTooltip';
 import { useDerivedStats } from '../../hooks/useDerivedStats';
 
 const categoryLabels = {
-  totals: 'Totals',
   attributes: 'Attributes',
   offense: 'Offense',
   stance: 'Stance/Weapon',
   defense: 'Defense',
   elemental: 'Elemental',
+  monograms: 'Monograms',
   abilities: 'Abilities',
   utility: 'Utility',
   unmapped: 'Unmapped (Debug)',
 };
 
-const categoryOrder = ['totals', 'offense', 'stance', 'elemental', 'defense', 'attributes', 'abilities', 'utility', 'unmapped'];
-
-/**
- * Render a consolidated total stat with optional breakdown and hover tooltip
- */
-function TotalStatLine({ stat, hideZero = false }) {
-  const lineRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const hoverStateRef = useRef(false);
-  const closeTimeoutRef = useRef(null);
-
-  const handleMouseEnter = useCallback(() => {
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
-    hoverStateRef.current = true;
-    setIsHovered(true);
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    hoverStateRef.current = false;
-    closeTimeoutRef.current = setTimeout(() => {
-      if (!hoverStateRef.current) {
-        setIsHovered(false);
-      }
-    }, 150);
-  }, []);
-
-  const handleTooltipMouseEnter = useCallback(() => {
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
-    hoverStateRef.current = true;
-  }, []);
-
-  const handleTooltipMouseLeave = useCallback(() => {
-    hoverStateRef.current = false;
-    closeTimeoutRef.current = setTimeout(() => {
-      if (!hoverStateRef.current) {
-        setIsHovered(false);
-      }
-    }, 150);
-  }, []);
-
-  if (hideZero && stat.value === 0) return null;
-
-  const isZero = stat.value === 0;
-
-  return (
-    <>
-      <div
-        ref={lineRef}
-        className={`stat-line total-stat ${isZero ? 'zero-value' : ''}`}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <span className="stat-name">{stat.name}</span>
-        <span className="stat-value-group">
-          <span className="stat-value">{stat.formattedValue}</span>
-          {stat.breakdown && (
-            <span className="stat-breakdown">({stat.breakdown})</span>
-          )}
-        </span>
-      </div>
-      <StatTooltip
-        stat={stat}
-        visible={isHovered}
-        anchorRef={lineRef}
-        onMouseEnter={handleTooltipMouseEnter}
-        onMouseLeave={handleTooltipMouseLeave}
-      />
-    </>
-  );
-}
+// Attributes first, then combat stats, then monograms at the end
+const categoryOrder = ['attributes', 'offense', 'stance', 'elemental', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
 
 /**
  * @param {Object} props
@@ -114,11 +39,6 @@ export function StatsPanel({ characterData }) {
     );
   }
 
-  // Filter totals if hideZero is enabled
-  const visibleTotals = hideZero
-    ? (categories.totals || []).filter(s => s.value !== 0)
-    : (categories.totals || []);
-
   return (
     <div className="stats-panel">
       <div className="stats-header">
@@ -134,22 +54,7 @@ export function StatsPanel({ characterData }) {
       </div>
 
       <div className="stats-content">
-        {/* Totals section with consolidated display */}
-        {visibleTotals.length > 0 && (
-          <div className="stats-category totals-category">
-            <div className="category-header">
-              {categoryLabels.totals}
-            </div>
-            <div className="category-stats totals-grid">
-              {visibleTotals.map(stat => (
-                <TotalStatLine key={stat.id} stat={stat} hideZero={hideZero} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Other categories */}
-        {categoryOrder.slice(1).map(categoryKey => {
+        {categoryOrder.map(categoryKey => {
           let stats = categories[categoryKey];
           if (!stats || stats.length === 0) return null;
 

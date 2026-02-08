@@ -203,78 +203,71 @@ export function useDerivedStats(options = {}) {
   const categories = useMemo(() => {
     const { values, detailed } = calculatedStats;
 
-    // Define totals stats we want to consolidate
-    const totalStatsConfig = [
-      // Primary attributes
-      { id: 'totalStrength', baseId: 'strength', label: 'Strength' },
-      { id: 'totalDexterity', baseId: 'dexterity', label: 'Dexterity' },
-      { id: 'totalWisdom', baseId: 'wisdom', label: 'Wisdom' },
-      { id: 'totalVitality', baseId: 'vitality', label: 'Vitality' },
-      { id: 'totalEndurance', baseId: 'endurance', label: 'Endurance' },
-      { id: 'totalAgility', baseId: 'agility', label: 'Agility' },
-      { id: 'totalLuck', baseId: 'luck', label: 'Luck' },
-      { id: 'totalStamina', baseId: 'stamina', label: 'Stamina' },
-      // Combat totals
-      { id: 'totalHealth', baseId: 'health', label: 'Health' },
-      { id: 'totalArmor', baseId: 'armor', label: 'Armor' },
-      { id: 'totalDamage', baseId: 'damage', label: 'Damage' },
-    ];
+    // Primary attribute IDs that should go in "attributes" category
+    const primaryAttributeIds = new Set([
+      'strength', 'dexterity', 'wisdom', 'vitality',
+      'endurance', 'agility', 'luck', 'stamina',
+      'health', 'armor', 'damage',
+      // Also include their bonus variants
+      'strengthBonus', 'dexterityBonus', 'wisdomBonus', 'vitalityBonus',
+      'enduranceBonus', 'agilityBonus', 'luckBonus', 'staminaBonus',
+      'healthBonus', 'armorBonus', 'damageBonus',
+    ]);
 
-    // Build consolidated totals array
-    const totals = [];
-    for (const cfg of totalStatsConfig) {
-      const total = values[cfg.id] || 0;
-      const base = aggregatedBaseStats[cfg.baseId] || 0;
-      const bonus = total - base;
-      const sources = aggregatedWithSources[cfg.baseId]?.sources || [];
+    // Monogram-derived stat IDs - these go in the monograms section
+    const monogramStatIds = new Set([
+      'phasingStacks', 'phasingDamageBonus', 'phasingBossDamageBonus',
+      'bloodlustStacks', 'bloodlustCritDamageBonus', 'bloodlustAttackSpeedBonus', 'bloodlustMoveSpeedBonus',
+      'darkEssenceStacks', 'essence', 'critChanceFromEssence',
+      'lifeBuffStacks', 'lifeBuffBonus',
+      'elementForCritChance', 'elementalToHpFire', 'elementalToHpLightning',
+      'damageFromHealth', 'finalDamage',
+      'highestAttribute', // intermediate calculation
+    ]);
 
-      totals.push({
-        id: cfg.id,
-        name: cfg.label,
-        value: total,
-        base: base,
-        bonus: bonus,
-        formattedValue: total.toFixed(0),
-        // Show breakdown if there's a bonus
-        breakdown: bonus !== 0 ? `${base} + ${bonus > 0 ? '+' : ''}${bonus.toFixed(0)}` : null,
-        description: `Total ${cfg.label} from all sources`,
-        sources: sources,
-      });
-    }
-
-    // Map internal categories to display categories (excluding totals - handled separately)
+    // Map internal categories to display categories
     const categoryMapping = {
       conversion: 'offense',
-      monogram: 'offense',
-      chained: 'offense',
       final: 'offense',
-      'monogram-buff': 'offense',
-      'monogram-chain': 'offense',
       'utility-derived': 'defense',
-      utility: 'defense',
     };
 
     const result = {
-      totals: totals,
       attributes: [],
       offense: [],
       stance: [],
       defense: [],
       elemental: [],
+      monograms: [],
       abilities: [],
       utility: [],
       unmapped: [],
     };
 
-    // Skip totals category stats (we built them manually above)
-    const skipIds = new Set(totalStatsConfig.map(c => c.id));
     const processedIds = new Set();
 
+    // Process calculated/derived stats first
     for (const stat of detailed) {
-      // Skip totals - already handled
-      if (stat.category === 'totals' || skipIds.has(stat.id)) continue;
+      // Skip totals category (handled via base stats)
+      if (stat.category === 'totals') continue;
+      // Skip total* stats (we use base stats directly)
+      if (stat.id.startsWith('total')) continue;
 
       processedIds.add(stat.id);
+
+      // Route monogram stats to monograms section
+      if (monogramStatIds.has(stat.id) || stat.category === 'monogram' || stat.category === 'monogram-buff' || stat.category === 'monogram-chain' || stat.category === 'chained') {
+        result.monograms.push({
+          id: stat.id,
+          name: stat.name,
+          value: stat.value,
+          formattedValue: stat.formattedValue,
+          description: stat.description,
+          layer: stat.layer,
+        });
+        continue;
+      }
+
       const displayCategory = categoryMapping[stat.category] || stat.category || 'attributes';
       if (result[displayCategory]) {
         result[displayCategory].push({
@@ -290,9 +283,8 @@ export function useDerivedStats(options = {}) {
 
     // Add ALL aggregated base stats with source tracking
     for (const [statId, data] of Object.entries(aggregatedWithSources)) {
-      // Skip if already processed or is a base for totals
+      // Skip if already processed
       if (processedIds.has(statId)) continue;
-      if (totalStatsConfig.some(c => c.baseId === statId)) continue;
 
       const statDef = STAT_REGISTRY[statId];
       if (statDef) {
@@ -325,7 +317,7 @@ export function useDerivedStats(options = {}) {
 
     // Sort each category by value descending for easier reading
     for (const key of Object.keys(result)) {
-      if (Array.isArray(result[key]) && key !== 'totals') {
+      if (Array.isArray(result[key])) {
         result[key].sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
       }
     }

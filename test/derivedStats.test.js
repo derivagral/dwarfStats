@@ -8,6 +8,8 @@ import {
   getStatsByLayer,
   getDependencyChain,
 } from '../src/utils/derivedStats.js';
+import { extractEquippedItems } from '../src/utils/equipmentParser.js';
+import fixtureData from './fixtures/dr-full-inventory.json';
 
 describe('derivedStats', () => {
   describe('LAYERS', () => {
@@ -225,6 +227,58 @@ describe('derivedStats', () => {
     it('should return single-item array for base stats', () => {
       const chain = getDependencyChain('strength');
       expect(chain).toEqual(['strength']);
+    });
+  });
+
+  describe('Item model integration', () => {
+    it('should extract items from fixture with baseStats', () => {
+      // Fixture structure is { header, root, extra } - extractEquippedItems expects the whole object
+      const items = extractEquippedItems(fixtureData);
+
+      expect(items.length).toBeGreaterThan(0);
+
+      // Verify items have the expected Item model format
+      const firstItem = items[0];
+      expect(firstItem).toHaveProperty('rowName');
+      expect(firstItem).toHaveProperty('displayName');
+      expect(firstItem).toHaveProperty('baseStats');
+      expect(firstItem).toHaveProperty('slot');
+      expect(Array.isArray(firstItem.baseStats)).toBe(true);
+    });
+
+    it('should have baseStats with stat/value/rawTag format', () => {
+      const items = extractEquippedItems(fixtureData);
+
+      // Find an item with stats
+      const itemWithStats = items.find(i => i.baseStats && i.baseStats.length > 0);
+      expect(itemWithStats).toBeDefined();
+
+      const stat = itemWithStats.baseStats[0];
+      expect(stat).toHaveProperty('stat');
+      expect(stat).toHaveProperty('value');
+      expect(typeof stat.value).toBe('number');
+    });
+
+    it('should correctly aggregate stats from Item model format', () => {
+      const items = extractEquippedItems(fixtureData);
+
+      // Mock simple aggregation similar to useDerivedStats
+      const stats = {};
+      for (const item of items) {
+        if (!item.baseStats) continue;
+        for (const stat of item.baseStats) {
+          const key = stat.stat || stat.rawTag?.split('.').pop();
+          if (key && stat.value) {
+            stats[key] = (stats[key] || 0) + stat.value;
+          }
+        }
+      }
+
+      // Should have aggregated some stats
+      expect(Object.keys(stats).length).toBeGreaterThan(0);
+
+      // Log for debugging
+      console.log('Aggregated stats sample:', Object.entries(stats).slice(0, 5));
     });
   });
 });

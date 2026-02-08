@@ -36,12 +36,15 @@ export function useDerivedStats(options = {}) {
     }
 
     for (const item of equippedItems) {
-      // Get base stats from either format
-      const baseStats = item?.model?.baseStats || item?.attributes;
+      // Get base stats from any of the supported formats:
+      //   - item.baseStats (direct from Item model via extractEquippedItems)
+      //   - item.model.baseStats (nested model format)
+      //   - item.attributes (legacy format)
+      const baseStats = item?.baseStats || item?.model?.baseStats || item?.attributes;
       if (!baseStats || !Array.isArray(baseStats)) continue;
 
       const slotKey = item.slotKey || item.slot || '';
-      const itemName = item?.model?.displayName || item?.name || slotKey;
+      const itemName = item?.displayName || item?.model?.displayName || item?.name || slotKey;
       const overrides = itemOverrides[slotKey] || {};
       const removedIndices = overrides.removedIndices || [];
 
@@ -95,14 +98,14 @@ export function useDerivedStats(options = {}) {
 
   // Collect all applied monograms for config overrides
   // Supports both formats:
-  //   - New model format: item.model.monograms
-  //   - Old format: monograms need to be parsed from attributes (not yet implemented)
+  //   - item.monograms (direct from Item model)
+  //   - item.model.monograms (nested model format)
   const appliedMonograms = useMemo(() => {
     const monograms = [];
 
     for (const item of equippedItems) {
-      // Monograms from item model
-      const itemMonograms = item?.model?.monograms || item?.monograms;
+      // Monograms from item (direct or nested model)
+      const itemMonograms = item?.monograms || item?.model?.monograms;
       if (itemMonograms && Array.isArray(itemMonograms)) {
         for (const mono of itemMonograms) {
           monograms.push({

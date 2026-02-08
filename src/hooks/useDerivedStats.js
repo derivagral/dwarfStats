@@ -22,12 +22,18 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
 export function useDerivedStats(options = {}) {
   const { equippedItems = [], itemOverrides = {}, characterStats = {} } = options;
 
-  // Aggregate base stats from all equipped items
-  // Supports both formats:
-  //   - New model format: item.model.baseStats (from itemTransformer)
-  //   - Old format: item.attributes (from equipmentParser)
-  const aggregatedBaseStats = useMemo(() => {
-    const stats = { ...characterStats };
+  // Aggregate base stats from all equipped items WITH source tracking
+  // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
+  const aggregatedWithSources = useMemo(() => {
+    const stats = {};
+
+    // Initialize with character stats (if any)
+    for (const [statId, value] of Object.entries(characterStats)) {
+      stats[statId] = {
+        total: value,
+        sources: [{ itemName: 'Character', slot: 'base', value }],
+      };
+    }
 
     for (const item of equippedItems) {
       // Get base stats from either format
@@ -35,6 +41,7 @@ export function useDerivedStats(options = {}) {
       if (!baseStats || !Array.isArray(baseStats)) continue;
 
       const slotKey = item.slotKey || item.slot || '';
+      const itemName = item?.model?.displayName || item?.name || slotKey;
       const overrides = itemOverrides[slotKey] || {};
       const removedIndices = overrides.removedIndices || [];
 
@@ -45,21 +52,46 @@ export function useDerivedStats(options = {}) {
         // Handle both formats: { stat, rawTag, value } or { name, value }
         const rawTag = stat.rawTag || stat.stat || stat.name;
         const statId = resolveStatId(rawTag);
-        if (statId) {
-          stats[statId] = (stats[statId] || 0) + (stat.value || 0);
+        if (statId && stat.value) {
+          if (!stats[statId]) {
+            stats[statId] = { total: 0, sources: [] };
+          }
+          stats[statId].total += stat.value;
+          stats[statId].sources.push({
+            itemName,
+            slot: slotKey,
+            value: stat.value,
+          });
         }
       });
 
       // Add override mods
       for (const mod of overrides.mods || []) {
         if (mod.statId && mod.value !== undefined) {
-          stats[mod.statId] = (stats[mod.statId] || 0) + mod.value;
+          if (!stats[mod.statId]) {
+            stats[mod.statId] = { total: 0, sources: [] };
+          }
+          stats[mod.statId].total += mod.value;
+          stats[mod.statId].sources.push({
+            itemName: `${itemName} (override)`,
+            slot: slotKey,
+            value: mod.value,
+          });
         }
       }
     }
 
     return stats;
   }, [equippedItems, itemOverrides, characterStats]);
+
+  // Flatten to simple { [statId]: total } for backward compatibility
+  const aggregatedBaseStats = useMemo(() => {
+    const flat = {};
+    for (const [statId, data] of Object.entries(aggregatedWithSources)) {
+      flat[statId] = data.total;
+    }
+    return flat;
+  }, [aggregatedWithSources]);
 
   // Collect all applied monograms for config overrides
   // Supports both formats:
@@ -191,6 +223,7 @@ export function useDerivedStats(options = {}) {
       const total = values[cfg.id] || 0;
       const base = aggregatedBaseStats[cfg.baseId] || 0;
       const bonus = total - base;
+      const sources = aggregatedWithSources[cfg.baseId]?.sources || [];
 
       totals.push({
         id: cfg.id,
@@ -202,6 +235,7 @@ export function useDerivedStats(options = {}) {
         // Show breakdown if there's a bonus
         breakdown: bonus !== 0 ? `${base} + ${bonus > 0 ? '+' : ''}${bonus.toFixed(0)}` : null,
         description: `Total ${cfg.label} from all sources`,
+        sources: sources,
       });
     }
 
@@ -251,8 +285,8 @@ export function useDerivedStats(options = {}) {
       }
     }
 
-    // Add ALL aggregated base stats, not just unknown ones
-    for (const [statId, value] of Object.entries(aggregatedBaseStats)) {
+    // Add ALL aggregated base stats with source tracking
+    for (const [statId, data] of Object.entries(aggregatedWithSources)) {
       // Skip if already processed or is a base for totals
       if (processedIds.has(statId)) continue;
       if (totalStatsConfig.some(c => c.baseId === statId)) continue;
@@ -265,9 +299,10 @@ export function useDerivedStats(options = {}) {
           result[displayCategory].push({
             id: statId,
             name: statDef.name,
-            value: value,
-            formattedValue: statDef.format ? statDef.format(value) : String(value),
+            value: data.total,
+            formattedValue: statDef.format ? statDef.format(data.total) : String(data.total),
             description: statDef.description,
+            sources: data.sources,
             layer: LAYERS.BASE,
           });
         }
@@ -276,9 +311,10 @@ export function useDerivedStats(options = {}) {
         result.unmapped.push({
           id: statId,
           name: statId, // Use raw ID as name
-          value: value,
-          formattedValue: String(value.toFixed?.(2) ?? value),
+          value: data.total,
+          formattedValue: String(data.total.toFixed?.(2) ?? data.total),
           description: `Unmapped stat: ${statId}`,
+          sources: data.sources,
           layer: LAYERS.BASE,
         });
       }
@@ -292,7 +328,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return result;
-  }, [calculatedStats, aggregatedBaseStats]);
+  }, [calculatedStats, aggregatedWithSources]);
 
   return {
     // For StatsPanel compatibility

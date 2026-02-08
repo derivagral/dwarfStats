@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { StatLine } from './StatLine';
+import { StatTooltip } from './StatTooltip';
 import { useDerivedStats } from '../../hooks/useDerivedStats';
 
 const categoryLabels = {
@@ -17,23 +18,77 @@ const categoryLabels = {
 const categoryOrder = ['totals', 'offense', 'stance', 'elemental', 'defense', 'attributes', 'abilities', 'utility', 'unmapped'];
 
 /**
- * Render a consolidated total stat with optional breakdown
+ * Render a consolidated total stat with optional breakdown and hover tooltip
  */
 function TotalStatLine({ stat, hideZero = false }) {
+  const lineRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const hoverStateRef = useRef(false);
+  const closeTimeoutRef = useRef(null);
+
+  const handleMouseEnter = useCallback(() => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    hoverStateRef.current = true;
+    setIsHovered(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    hoverStateRef.current = false;
+    closeTimeoutRef.current = setTimeout(() => {
+      if (!hoverStateRef.current) {
+        setIsHovered(false);
+      }
+    }, 150);
+  }, []);
+
+  const handleTooltipMouseEnter = useCallback(() => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    hoverStateRef.current = true;
+  }, []);
+
+  const handleTooltipMouseLeave = useCallback(() => {
+    hoverStateRef.current = false;
+    closeTimeoutRef.current = setTimeout(() => {
+      if (!hoverStateRef.current) {
+        setIsHovered(false);
+      }
+    }, 150);
+  }, []);
+
   if (hideZero && stat.value === 0) return null;
 
   const isZero = stat.value === 0;
 
   return (
-    <div className={`stat-line total-stat ${isZero ? 'zero-value' : ''}`}>
-      <span className="stat-name">{stat.name}</span>
-      <span className="stat-value-group">
-        <span className="stat-value">{stat.formattedValue}</span>
-        {stat.breakdown && (
-          <span className="stat-breakdown">({stat.breakdown})</span>
-        )}
-      </span>
-    </div>
+    <>
+      <div
+        ref={lineRef}
+        className={`stat-line total-stat ${isZero ? 'zero-value' : ''}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <span className="stat-name">{stat.name}</span>
+        <span className="stat-value-group">
+          <span className="stat-value">{stat.formattedValue}</span>
+          {stat.breakdown && (
+            <span className="stat-breakdown">({stat.breakdown})</span>
+          )}
+        </span>
+      </div>
+      <StatTooltip
+        stat={stat}
+        visible={isHovered}
+        anchorRef={lineRef}
+        onMouseEnter={handleTooltipMouseEnter}
+        onMouseLeave={handleTooltipMouseLeave}
+      />
+    </>
   );
 }
 

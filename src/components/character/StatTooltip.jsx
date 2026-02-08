@@ -80,7 +80,18 @@ export function StatTooltip({
   if (!visible || !stat) return null;
   if (typeof document === 'undefined') return null;
 
-  const hasBreakdown = stat.breakdown && stat.breakdown.length > 0;
+  const hasSources = stat.sources && stat.sources.length > 0;
+
+  // Format value for display in sources
+  const formatSourceValue = (value) => {
+    if (value === 0) return '0';
+    const sign = value >= 0 ? '+' : '';
+    // For very small decimals or percentages, show more precision
+    if (Math.abs(value) < 1 && value !== 0) {
+      return `${sign}${(value * 100).toFixed(1)}%`;
+    }
+    return `${sign}${value.toFixed(1)}`;
+  };
 
   return createPortal(
     <div
@@ -107,30 +118,23 @@ export function StatTooltip({
         </div>
       )}
 
-      {hasBreakdown && (
+      {hasSources && (
         <div className="stat-tooltip-breakdown">
           <div className="stat-tooltip-section-title">Sources</div>
-          {stat.breakdown.map((source, i) => (
+          {stat.sources.map((source, i) => (
             <div key={i} className="stat-tooltip-source">
-              <span className="source-item">{source.source}</span>
-              <span className="source-value">+{source.value.toFixed(1)}</span>
+              <span className="source-item">{source.itemName}</span>
+              <span className="source-value">{formatSourceValue(source.value)}</span>
             </div>
           ))}
         </div>
       )}
 
-      {!hasBreakdown && (
+      {!hasSources && (
         <div className="stat-tooltip-empty">
-          No item bonuses found
+          No item sources found
         </div>
       )}
-
-      {/* Placeholder for future calculation details */}
-      <div className="stat-tooltip-footer">
-        <div className="stat-tooltip-note">
-          Calculation details coming soon
-        </div>
-      </div>
     </div>,
     document.body
   );

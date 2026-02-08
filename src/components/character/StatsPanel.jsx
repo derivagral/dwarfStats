@@ -4,13 +4,17 @@ import { useDerivedStats } from '../../hooks/useDerivedStats';
 
 const categoryLabels = {
   totals: 'Totals',
-  attributes: 'Other Attributes',
+  attributes: 'Attributes',
   offense: 'Offense',
+  stance: 'Stance/Weapon',
   defense: 'Defense',
-  elemental: 'Elemental'
+  elemental: 'Elemental',
+  abilities: 'Abilities',
+  utility: 'Utility',
+  unmapped: 'Unmapped (Debug)',
 };
 
-const categoryOrder = ['totals', 'offense', 'elemental', 'defense', 'attributes'];
+const categoryOrder = ['totals', 'offense', 'stance', 'elemental', 'defense', 'attributes', 'abilities', 'utility', 'unmapped'];
 
 /**
  * Render a consolidated total stat with optional breakdown

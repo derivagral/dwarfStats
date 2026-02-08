@@ -221,18 +221,24 @@ export function useDerivedStats(options = {}) {
       totals: totals,
       attributes: [],
       offense: [],
+      stance: [],
       defense: [],
       elemental: [],
+      abilities: [],
+      utility: [],
+      unmapped: [],
     };
 
     // Skip totals category stats (we built them manually above)
     const skipIds = new Set(totalStatsConfig.map(c => c.id));
+    const processedIds = new Set();
 
     for (const stat of detailed) {
       // Skip totals - already handled
       if (stat.category === 'totals' || skipIds.has(stat.id)) continue;
 
-      const displayCategory = categoryMapping[stat.category] || 'attributes';
+      processedIds.add(stat.id);
+      const displayCategory = categoryMapping[stat.category] || stat.category || 'attributes';
       if (result[displayCategory]) {
         result[displayCategory].push({
           id: stat.id,
@@ -245,25 +251,43 @@ export function useDerivedStats(options = {}) {
       }
     }
 
-    // Also add any raw base stats that weren't calculated
+    // Add ALL aggregated base stats, not just unknown ones
     for (const [statId, value] of Object.entries(aggregatedBaseStats)) {
-      // Skip if already in detailed or is a base for totals
-      if (detailed.some(d => d.id === statId)) continue;
+      // Skip if already processed or is a base for totals
+      if (processedIds.has(statId)) continue;
       if (totalStatsConfig.some(c => c.baseId === statId)) continue;
 
       const statDef = STAT_REGISTRY[statId];
       if (statDef) {
-        const displayCategory = statDef.category === 'stance' ? 'offense' :
-                               statDef.category === 'defense' ? 'defense' :
-                               statDef.category === 'elemental' ? 'elemental' : 'attributes';
-        result[displayCategory].push({
+        // Use the stat's own category
+        const displayCategory = statDef.category || 'attributes';
+        if (result[displayCategory]) {
+          result[displayCategory].push({
+            id: statId,
+            name: statDef.name,
+            value: value,
+            formattedValue: statDef.format ? statDef.format(value) : String(value),
+            description: statDef.description,
+            layer: LAYERS.BASE,
+          });
+        }
+      } else {
+        // Unmapped stat - add to unmapped category for debugging
+        result.unmapped.push({
           id: statId,
-          name: statDef.name,
+          name: statId, // Use raw ID as name
           value: value,
-          formattedValue: statDef.format ? statDef.format(value) : String(value),
-          description: statDef.description,
+          formattedValue: String(value.toFixed?.(2) ?? value),
+          description: `Unmapped stat: ${statId}`,
           layer: LAYERS.BASE,
         });
+      }
+    }
+
+    // Sort each category by value descending for easier reading
+    for (const key of Object.keys(result)) {
+      if (Array.isArray(result[key]) && key !== 'totals') {
+        result[key].sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
       }
     }
 
@@ -328,6 +352,9 @@ function resolveStatId(rawTag) {
       return id;
     }
   }
+
+  // Log unmapped stats for debugging
+  console.warn(`[useDerivedStats] Unmapped stat pattern: "${rawTag}" (normalized: "${normalized}")`);
 
   // Fallback: use the last part as-is (camelCase)
   return lastPart.charAt(0).toLowerCase() + lastPart.slice(1);

@@ -22,19 +22,29 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
 export function useDerivedStats(options = {}) {
   const { equippedItems = [], itemOverrides = {}, characterStats = {} } = options;
 
-  // Aggregate base stats from all equipped items
-  // Supports both formats:
-  //   - New model format: item.model.baseStats (from itemTransformer)
-  //   - Old format: item.attributes (from equipmentParser)
-  const aggregatedBaseStats = useMemo(() => {
-    const stats = { ...characterStats };
+  // Aggregate base stats from all equipped items WITH source tracking
+  // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
+  const aggregatedWithSources = useMemo(() => {
+    const stats = {};
+
+    // Initialize with character stats (if any)
+    for (const [statId, value] of Object.entries(characterStats)) {
+      stats[statId] = {
+        total: value,
+        sources: [{ itemName: 'Character', slot: 'base', value }],
+      };
+    }
 
     for (const item of equippedItems) {
-      // Get base stats from either format
-      const baseStats = item?.model?.baseStats || item?.attributes;
+      // Get base stats from any of the supported formats:
+      //   - item.baseStats (direct from Item model via extractEquippedItems)
+      //   - item.model.baseStats (nested model format)
+      //   - item.attributes (legacy format)
+      const baseStats = item?.baseStats || item?.model?.baseStats || item?.attributes;
       if (!baseStats || !Array.isArray(baseStats)) continue;
 
       const slotKey = item.slotKey || item.slot || '';
+      const itemName = item?.displayName || item?.model?.displayName || item?.name || slotKey;
       const overrides = itemOverrides[slotKey] || {};
       const removedIndices = overrides.removedIndices || [];
 
@@ -45,15 +55,31 @@ export function useDerivedStats(options = {}) {
         // Handle both formats: { stat, rawTag, value } or { name, value }
         const rawTag = stat.rawTag || stat.stat || stat.name;
         const statId = resolveStatId(rawTag);
-        if (statId) {
-          stats[statId] = (stats[statId] || 0) + (stat.value || 0);
+        if (statId && stat.value) {
+          if (!stats[statId]) {
+            stats[statId] = { total: 0, sources: [] };
+          }
+          stats[statId].total += stat.value;
+          stats[statId].sources.push({
+            itemName,
+            slot: slotKey,
+            value: stat.value,
+          });
         }
       });
 
       // Add override mods
       for (const mod of overrides.mods || []) {
         if (mod.statId && mod.value !== undefined) {
-          stats[mod.statId] = (stats[mod.statId] || 0) + mod.value;
+          if (!stats[mod.statId]) {
+            stats[mod.statId] = { total: 0, sources: [] };
+          }
+          stats[mod.statId].total += mod.value;
+          stats[mod.statId].sources.push({
+            itemName: `${itemName} (override)`,
+            slot: slotKey,
+            value: mod.value,
+          });
         }
       }
     }
@@ -61,16 +87,25 @@ export function useDerivedStats(options = {}) {
     return stats;
   }, [equippedItems, itemOverrides, characterStats]);
 
+  // Flatten to simple { [statId]: total } for backward compatibility
+  const aggregatedBaseStats = useMemo(() => {
+    const flat = {};
+    for (const [statId, data] of Object.entries(aggregatedWithSources)) {
+      flat[statId] = data.total;
+    }
+    return flat;
+  }, [aggregatedWithSources]);
+
   // Collect all applied monograms for config overrides
   // Supports both formats:
-  //   - New model format: item.model.monograms
-  //   - Old format: monograms need to be parsed from attributes (not yet implemented)
+  //   - item.monograms (direct from Item model)
+  //   - item.model.monograms (nested model format)
   const appliedMonograms = useMemo(() => {
     const monograms = [];
 
     for (const item of equippedItems) {
-      // Monograms from item model
-      const itemMonograms = item?.model?.monograms || item?.monograms;
+      // Monograms from item (direct or nested model)
+      const itemMonograms = item?.monograms || item?.model?.monograms;
       if (itemMonograms && Array.isArray(itemMonograms)) {
         for (const mono of itemMonograms) {
           monograms.push({
@@ -168,12 +203,31 @@ export function useDerivedStats(options = {}) {
   const categories = useMemo(() => {
     const { values, detailed } = calculatedStats;
 
+    // Primary attribute IDs that should go in "attributes" category
+    const primaryAttributeIds = new Set([
+      'strength', 'dexterity', 'wisdom', 'vitality',
+      'endurance', 'agility', 'luck', 'stamina',
+      'health', 'armor', 'damage',
+      // Also include their bonus variants
+      'strengthBonus', 'dexterityBonus', 'wisdomBonus', 'vitalityBonus',
+      'enduranceBonus', 'agilityBonus', 'luckBonus', 'staminaBonus',
+      'healthBonus', 'armorBonus', 'damageBonus',
+    ]);
+
+    // Monogram-derived stat IDs - these go in the monograms section
+    const monogramStatIds = new Set([
+      'phasingStacks', 'phasingDamageBonus', 'phasingBossDamageBonus',
+      'bloodlustStacks', 'bloodlustCritDamageBonus', 'bloodlustAttackSpeedBonus', 'bloodlustMoveSpeedBonus',
+      'darkEssenceStacks', 'essence', 'critChanceFromEssence',
+      'lifeBuffStacks', 'lifeBuffBonus',
+      'elementForCritChance', 'elementalToHpFire', 'elementalToHpLightning',
+      'damageFromHealth', 'finalDamage',
+      'highestAttribute', // intermediate calculation
+    ]);
+
     // Map internal categories to display categories
     const categoryMapping = {
-      totals: 'attributes',
       conversion: 'offense',
-      monogram: 'offense',
-      chained: 'offense',
       final: 'offense',
       'utility-derived': 'defense',
     };
@@ -181,12 +235,40 @@ export function useDerivedStats(options = {}) {
     const result = {
       attributes: [],
       offense: [],
+      stance: [],
       defense: [],
       elemental: [],
+      monograms: [],
+      abilities: [],
+      utility: [],
+      unmapped: [],
     };
 
+    const processedIds = new Set();
+
+    // Process calculated/derived stats first
     for (const stat of detailed) {
-      const displayCategory = categoryMapping[stat.category] || 'attributes';
+      // Skip totals category (handled via base stats)
+      if (stat.category === 'totals') continue;
+      // Skip total* stats (we use base stats directly)
+      if (stat.id.startsWith('total')) continue;
+
+      processedIds.add(stat.id);
+
+      // Route monogram stats to monograms section
+      if (monogramStatIds.has(stat.id) || stat.category === 'monogram' || stat.category === 'monogram-buff' || stat.category === 'monogram-chain' || stat.category === 'chained') {
+        result.monograms.push({
+          id: stat.id,
+          name: stat.name,
+          value: stat.value,
+          formattedValue: stat.formattedValue,
+          description: stat.description,
+          layer: stat.layer,
+        });
+        continue;
+      }
+
+      const displayCategory = categoryMapping[stat.category] || stat.category || 'attributes';
       if (result[displayCategory]) {
         result[displayCategory].push({
           id: stat.id,
@@ -199,29 +281,49 @@ export function useDerivedStats(options = {}) {
       }
     }
 
-    // Also add any raw base stats that weren't calculated
-    for (const [statId, value] of Object.entries(aggregatedBaseStats)) {
-      // Skip if already in detailed
-      if (detailed.some(d => d.id === statId)) continue;
+    // Add ALL aggregated base stats with source tracking
+    for (const [statId, data] of Object.entries(aggregatedWithSources)) {
+      // Skip if already processed
+      if (processedIds.has(statId)) continue;
 
       const statDef = STAT_REGISTRY[statId];
       if (statDef) {
-        const displayCategory = statDef.category === 'stance' ? 'offense' :
-                               statDef.category === 'defense' ? 'defense' :
-                               statDef.category === 'elemental' ? 'elemental' : 'attributes';
-        result[displayCategory].push({
+        // Use the stat's own category
+        const displayCategory = statDef.category || 'attributes';
+        if (result[displayCategory]) {
+          result[displayCategory].push({
+            id: statId,
+            name: statDef.name,
+            value: data.total,
+            formattedValue: statDef.format ? statDef.format(data.total) : String(data.total),
+            description: statDef.description,
+            sources: data.sources,
+            layer: LAYERS.BASE,
+          });
+        }
+      } else {
+        // Unmapped stat - add to unmapped category for debugging
+        result.unmapped.push({
           id: statId,
-          name: statDef.name,
-          value: value,
-          formattedValue: statDef.format ? statDef.format(value) : String(value),
-          description: statDef.description,
+          name: statId, // Use raw ID as name
+          value: data.total,
+          formattedValue: String(data.total.toFixed?.(2) ?? data.total),
+          description: `Unmapped stat: ${statId}`,
+          sources: data.sources,
           layer: LAYERS.BASE,
         });
       }
     }
 
+    // Sort each category by value descending for easier reading
+    for (const key of Object.keys(result)) {
+      if (Array.isArray(result[key])) {
+        result[key].sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
+      }
+    }
+
     return result;
-  }, [calculatedStats, aggregatedBaseStats]);
+  }, [calculatedStats, aggregatedWithSources]);
 
   return {
     // For StatsPanel compatibility
@@ -281,6 +383,9 @@ function resolveStatId(rawTag) {
       return id;
     }
   }
+
+  // Log unmapped stats for debugging
+  console.warn(`[useDerivedStats] Unmapped stat pattern: "${rawTag}" (normalized: "${normalized}")`);
 
   // Fallback: use the last part as-is (camelCase)
   return lastPart.charAt(0).toLowerCase() + lastPart.slice(1);

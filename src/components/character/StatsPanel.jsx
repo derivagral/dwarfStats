@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { StatLine } from './StatLine';
 import { useDerivedStats } from '../../hooks/useDerivedStats';
 
 const categoryLabels = {
   attributes: 'Attributes',
   offense: 'Offense',
+  stance: 'Stance/Weapon',
   defense: 'Defense',
-  elemental: 'Elemental'
+  elemental: 'Elemental',
+  monograms: 'Monograms',
+  abilities: 'Abilities',
+  utility: 'Utility',
+  unmapped: 'Unmapped (Debug)',
 };
 
-const categoryOrder = ['offense', 'elemental', 'defense', 'attributes'];
+// Attributes first, then combat stats, then monograms at the end
+const categoryOrder = ['attributes', 'offense', 'stance', 'elemental', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
 
 /**
  * @param {Object} props
@@ -17,6 +23,11 @@ const categoryOrder = ['offense', 'elemental', 'defense', 'attributes'];
  */
 export function StatsPanel({ characterData }) {
   const { categories } = useDerivedStats(characterData);
+  const [hideZero, setHideZero] = useState(false);
+
+  const toggleHideZero = useCallback(() => {
+    setHideZero(prev => !prev);
+  }, []);
 
   if (!characterData) {
     return (
@@ -32,12 +43,26 @@ export function StatsPanel({ characterData }) {
     <div className="stats-panel">
       <div className="stats-header">
         <span className="stats-title">Character Stats</span>
+        <label className="hide-zero-toggle">
+          <input
+            type="checkbox"
+            checked={hideZero}
+            onChange={toggleHideZero}
+          />
+          <span>Hide zero</span>
+        </label>
       </div>
 
       <div className="stats-content">
         {categoryOrder.map(categoryKey => {
-          const stats = categories[categoryKey];
+          let stats = categories[categoryKey];
           if (!stats || stats.length === 0) return null;
+
+          // Filter zeros if enabled
+          if (hideZero) {
+            stats = stats.filter(s => s.value !== 0);
+            if (stats.length === 0) return null;
+          }
 
           return (
             <div key={categoryKey} className="stats-category">

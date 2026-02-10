@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { ItemDetailTooltip } from '../character/ItemDetailTooltip';
 import { ItemEditor } from '../character/ItemEditor';
-import { analyzeUeSaveJson } from '../../utils/dwarfFilter';
+import { transformAllItems } from '../../models/itemTransformer';
 import { useItemOverrides } from '../../hooks/useItemOverrides';
 
 const DEFAULT_FILTERS = '';
@@ -75,37 +75,31 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
 
   const equippedLookup = useMemo(() => {
     const lookup = new Map();
-    // Prefer itemStore.equipped (Item model format: rowName)
-    const equippedItems = itemStore?.equipped || saveData?.equippedItems || [];
+    const equippedItems = itemStore?.equipped || [];
 
     for (const item of equippedItems) {
-      // Item model uses rowName, old format uses itemRow
-      const rowName = item?.rowName || item?.itemRow;
-      if (!rowName) continue;
+      if (!item?.rowName) continue;
       const label = SLOT_LABELS[item.slot] || item.slot || SLOT_LABELS.unknown;
-      lookup.set(rowName, label);
+      lookup.set(item.rowName, label);
     }
 
     return lookup;
-  }, [itemStore?.equipped, saveData?.equippedItems]);
+  }, [itemStore?.equipped]);
 
   const equippedSlotLookup = useMemo(() => {
     const lookup = new Map();
-    // Prefer itemStore.equipped (Item model format: rowName)
-    const equippedItems = itemStore?.equipped || saveData?.equippedItems || [];
+    const equippedItems = itemStore?.equipped || [];
 
     for (const item of equippedItems) {
-      // Item model uses rowName, old format uses itemRow
-      const rowName = item?.rowName || item?.itemRow;
-      if (!rowName) continue;
-      lookup.set(rowName, item.slot || 'unknown');
+      if (!item?.rowName) continue;
+      lookup.set(item.rowName, item.slot || 'unknown');
     }
 
     return lookup;
-  }, [itemStore?.equipped, saveData?.equippedItems]);
+  }, [itemStore?.equipped]);
 
   const { items, totalItems } = useMemo(() => {
-    // Prefer itemStore inventory (already processed)
+    // Prefer itemStore inventory (already processed Item models)
     if (itemStore?.inventory?.length) {
       return {
         items: itemStore.inventory,
@@ -113,26 +107,13 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
       };
     }
 
-    // Fallback to saveData
+    // Fallback to saveData — transform to Item models
     if (!saveData?.raw && !saveData?.json) {
       return { items: [], totalItems: 0 };
     }
 
-    if (saveData?.items?.length) {
-      return {
-        items: saveData.items,
-        totalItems: saveData.totalItems || saveData.items.length,
-      };
-    }
-
-    const { hits, totalItems: total } = analyzeUeSaveJson(saveData.raw || saveData.json, {
-      includeWeapons: true,
-      showClose: false,
-      minHits: 0,
-      debug: false,
-    });
-
-    return { items: hits, totalItems: total };
+    const { items: transformed, totalCount } = transformAllItems(saveData.raw || saveData.json);
+    return { items: transformed, totalItems: totalCount };
   }, [itemStore?.inventory, itemStore?.totalInventoryCount, saveData]);
 
   const filteredItems = useMemo(() => {
@@ -140,31 +121,41 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
 
     const matchesFilter = (item) => {
       if (regexList.length === 0) return true;
-      const attributes = item.item?.all_attributes || [];
-      return attributes.some(attr => regexList.some(regex => regex.test(attr)));
+      // Collect all searchable attribute names from the Item model
+      const names = [];
+      for (const s of (item.baseStats || [])) {
+        if (s.stat) names.push(s.stat);
+        if (s.rawTag) names.push(s.rawTag);
+      }
+      for (const pool of [item.affixPools?.pool1, item.affixPools?.pool2, item.affixPools?.pool3, item.affixPools?.inherent]) {
+        for (const a of (pool || [])) {
+          if (a.rowName) names.push(a.rowName);
+        }
+      }
+      return names.some(attr => regexList.some(regex => regex.test(attr)));
     };
 
     return items.filter(item => {
-      // Filter out invalid/empty items (no name or "None")
-      const name = item.name || item.item?.generated_name;
+      // Filter out invalid/empty items
+      const name = item.displayName || item.rowName;
       if (!name || name === 'None' || name === '(unknown)') return false;
 
       if (!matchesFilter(item)) return false;
       if (!showEquippedOnly) return true;
-      return equippedLookup.has(item.item?.item_row);
+      return equippedLookup.has(item.rowName);
     });
   }, [items, showEquippedOnly, equippedLookup, filterPatterns]);
 
   const slotFilteredItems = useMemo(() => {
     if (selectedSlots.size === 0) return filteredItems;
     return filteredItems.filter(item => {
-      const slotKey = equippedSlotLookup.get(item.item?.item_row) || 'unknown';
+      const slotKey = equippedSlotLookup.get(item.rowName) || 'unknown';
       return selectedSlots.has(slotKey);
     });
   }, [filteredItems, selectedSlots, equippedSlotLookup]);
 
   const equippedCount = useMemo(() => {
-    return slotFilteredItems.reduce((count, item) => count + (equippedLookup.has(item.item?.item_row) ? 1 : 0), 0);
+    return slotFilteredItems.reduce((count, item) => count + (equippedLookup.has(item.rowName) ? 1 : 0), 0);
   }, [slotFilteredItems, equippedLookup]);
 
   useEffect(() => {
@@ -172,7 +163,7 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
 
     const filteredKeys = new Set();
     slotFilteredItems.forEach((item, index) => {
-      filteredKeys.add(`${item.item?.item_row || item.name}-${index}`);
+      filteredKeys.add(`${item.rowName || item.displayName}-${index}`);
     });
 
     const nextSelectedKeys = new Set(
@@ -202,22 +193,13 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
   }, [onLog]);
 
   // Build item attributes for display, applying any overrides
-  // Uses model.baseStats which excludes affix pools and monograms
   const itemAttributes = useMemo(() => {
-    if (!selectedItem?.item) return [];
+    if (!selectedItem) return [];
 
-    const model = selectedItem.item.model;
-    let baseAttributes;
-    if (model?.baseStats?.length) {
-      baseAttributes = model.baseStats.map(s => ({
-        name: s.rawTag || s.stat,
-        value: s.value,
-      }));
-    } else if (selectedItem.item.generated_attributes_with_values?.length) {
-      baseAttributes = selectedItem.item.generated_attributes_with_values;
-    } else {
-      baseAttributes = [];
-    }
+    const baseAttributes = (selectedItem.baseStats || []).map(s => ({
+      name: s.rawTag || s.stat,
+      value: s.value,
+    }));
 
     // Apply overrides if we have a selected item key
     if (selectedItemKey && hasSlotOverrides(selectedItemKey)) {
@@ -227,30 +209,18 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
   }, [selectedItem, selectedItemKey, hasSlotOverrides, applyOverridesToItem]);
 
   // Build item object for ItemEditor (matches character tab format)
-  // Uses model.baseStats which excludes affix pools and monograms
   const editorItem = useMemo(() => {
     if (!selectedItem) return null;
 
-    // Prefer the clean model's baseStats (excludes affix pools and monograms)
-    const model = selectedItem.item?.model;
-    let attributes;
-    if (model?.baseStats?.length) {
-      // Convert model.baseStats format to editor format
-      attributes = model.baseStats.map(s => ({
-        name: s.rawTag || s.stat,
-        value: s.value,
-      }));
-    } else if (selectedItem.item?.generated_attributes_with_values?.length) {
-      // Fallback to generated attributes only (not all_attributes which includes pools)
-      attributes = selectedItem.item.generated_attributes_with_values;
-    } else {
-      attributes = [];
-    }
+    const attributes = (selectedItem.baseStats || []).map(s => ({
+      name: s.rawTag || s.stat,
+      value: s.value,
+    }));
 
     return {
-      name: selectedItem.name,
+      name: selectedItem.displayName,
       itemType: selectedItem.type,
-      itemRow: selectedItem.item?.item_row,
+      itemRow: selectedItem.rowName,
       attributes,
     };
   }, [selectedItem]);
@@ -367,8 +337,8 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
             </div>
           ) : (
             slotFilteredItems.map((item, index) => {
-              const itemKey = `${item.item?.item_row || item.name}-${index}`;
-              const equippedLabel = equippedLookup.get(item.item?.item_row);
+              const itemKey = `${item.rowName || item.displayName}-${index}`;
+              const equippedLabel = equippedLookup.get(item.rowName);
               return (
                 <ItemListRow
                   key={itemKey}
@@ -415,8 +385,8 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
               onRemoveSkillModifier={(index) => removeSkillModifier(selectedItemKey, index)}
               onClearSlot={() => clearSlot(selectedItemKey)}
               onClose={handleCloseEditor}
-              currentMonograms={selectedItem.item?.model?.monograms || []}
-              currentSkillModifiers={selectedItem.item?.model?.skillModifiers || []}
+              currentMonograms={selectedItem?.monograms || []}
+              currentSkillModifiers={selectedItem?.skillModifiers || []}
             />
           ) : (
             <div className="items-editor-empty-state">
@@ -442,29 +412,17 @@ function ItemListRow({ item, equippedLabel, isSelected, hasOverrides, onSelect }
   const showTooltip = (isSlotHovered || isTooltipHovered) && !isSelected;
 
   const tooltipItem = useMemo(() => {
-    // Prefer clean model's baseStats (excludes affix pools and monograms)
-    const model = item.item?.model;
-    let attributes;
-    if (model?.baseStats?.length) {
-      attributes = model.baseStats.map(s => ({
-        name: s.rawTag || s.stat,
-        value: s.value,
-      }));
-    } else if (item.item?.generated_attributes_with_values?.length) {
-      attributes = item.item.generated_attributes_with_values;
-    } else {
-      attributes = [];
-    }
-
-    // Include monograms from the model
-    const monograms = model?.monograms || [];
+    const attributes = (item.baseStats || []).map(s => ({
+      name: s.rawTag || s.stat,
+      value: s.value,
+    }));
 
     return {
-      name: item.name,
+      name: item.displayName,
       itemType: item.type,
-      itemRow: item.item?.item_row,
+      itemRow: item.rowName,
       attributes,
-      monograms,
+      monograms: item.monograms || [],
     };
   }, [item]);
 
@@ -491,7 +449,7 @@ function ItemListRow({ item, equippedLabel, isSelected, hasOverrides, onSelect }
       }}
     >
       <div className="items-list-info">
-        <div className="items-list-name">{item.name}</div>
+        <div className="items-list-name">{item.displayName}</div>
         <div className="items-list-type">{item.type}</div>
       </div>
       {hasOverrides && <span className="item-badge modified" title="Has modifications">✎</span>}

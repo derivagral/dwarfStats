@@ -47,8 +47,8 @@ export const DERIVED_STATS = {
     dependencies: ['strength', 'strengthBonus'],
     calculate: (stats) => {
       const base = stats.strength || 0;
-      const bonus = stats.strengthBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      const bonus = stats.strengthBonus || 0; // decimal: 0.50 = 50%
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Strength after bonuses applied',
@@ -62,7 +62,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.dexterity || 0;
       const bonus = stats.dexterityBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Dexterity after bonuses applied',
@@ -76,7 +76,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.wisdom || 0;
       const bonus = stats.wisdomBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Wisdom after bonuses applied',
@@ -90,7 +90,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.vitality || 0;
       const bonus = stats.vitalityBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Vitality after bonuses applied',
@@ -104,7 +104,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.endurance || 0;
       const bonus = stats.enduranceBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Endurance after bonuses applied',
@@ -118,7 +118,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.agility || 0;
       const bonus = stats.agilityBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Agility after bonuses applied',
@@ -131,8 +131,8 @@ export const DERIVED_STATS = {
     dependencies: ['luck', 'luckBonus'],
     calculate: (stats) => {
       const base = stats.luck || 0;
-      const bonus = stats.luckBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      const bonus = stats.luckBonus || 0; // decimal: 1.64 = 164%
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Luck after bonuses applied',
@@ -146,7 +146,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.stamina || 0;
       const bonus = stats.staminaBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Stamina after bonuses applied',
@@ -162,7 +162,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.armor || 0;
       const bonus = stats.armorBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Armor after bonuses applied',
@@ -176,7 +176,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.health || 0;
       const bonus = stats.healthBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Health after bonuses applied',
@@ -190,7 +190,7 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.damage || 0;
       const bonus = stats.damageBonus || 0;
-      return Math.floor(base * (1 + bonus / 100));
+      return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
     description: 'Damage after bonuses applied',

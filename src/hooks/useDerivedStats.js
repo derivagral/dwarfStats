@@ -133,15 +133,34 @@ export function useDerivedStats(options = {}) {
     return monograms;
   }, [equippedItems, itemOverrides]);
 
+  // Count how many instances of each monogram ID are applied
+  const monogramInstanceCounts = useMemo(() => {
+    const counts = {};
+    for (const mono of appliedMonograms) {
+      counts[mono.id] = (counts[mono.id] || 0) + 1;
+    }
+    return counts;
+  }, [appliedMonograms]);
+
   // Build config overrides from applied monograms
-  // This maps monogram effects to calculation engine configs
+  // This maps monogram effects to calculation engine configs.
+  // When the same monogram appears multiple times (e.g., 2x Bloodlust.Base
+  // across helmet + amulet), instanceCount is set so calculations can
+  // optionally scale with it.
   const configOverrides = useMemo(() => {
     const overrides = {};
+    const seen = new Set();
 
-    // For each applied monogram, check if it has calculation effects
     for (const mono of appliedMonograms) {
+      // Skip duplicate processing of same ID — config is identical,
+      // just set instanceCount once
+      if (seen.has(mono.id)) continue;
+      seen.add(mono.id);
+
       const monoConfig = MONOGRAM_CALC_CONFIGS[mono.id];
       if (!monoConfig) continue;
+
+      const instanceCount = monogramInstanceCounts[mono.id] || 1;
 
       // Handle new 'effects' array format (multiple derived stats per monogram)
       if (monoConfig.effects) {
@@ -150,6 +169,7 @@ export function useDerivedStats(options = {}) {
             overrides[effect.derivedStatId] = {
               ...DERIVED_STATS[effect.derivedStatId]?.config,
               ...effect.config,
+              instanceCount,
             };
           }
         }
@@ -159,12 +179,13 @@ export function useDerivedStats(options = {}) {
         overrides[monoConfig.derivedStatId] = {
           ...DERIVED_STATS[monoConfig.derivedStatId]?.config,
           ...monoConfig.config,
+          instanceCount,
         };
       }
     }
 
     return overrides;
-  }, [appliedMonograms]);
+  }, [appliedMonograms, monogramInstanceCounts]);
 
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {

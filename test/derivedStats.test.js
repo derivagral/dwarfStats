@@ -69,12 +69,12 @@ describe('derivedStats', () => {
     it('should calculate total stats with bonus percentages', () => {
       const baseStats = {
         strength: 100,
-        strengthBonus: 50, // +50%
+        strengthBonus: 0.50, // 0.50 = +50% (save file stores as decimal)
       };
 
       const result = calculateDerivedStats(baseStats);
 
-      expect(result.totalStrength).toBe(150); // 100 * 1.5
+      expect(result.totalStrength).toBe(150); // 100 * (1 + 0.50) = 150
     });
 
     it('should calculate highestAttribute correctly', () => {
@@ -96,6 +96,29 @@ describe('derivedStats', () => {
       const result = calculateDerivedStats(baseStats);
 
       expect(result.highestAttribute).toBe(200); // dexterity is highest
+    });
+
+    it('should calculate totalLuck with bonus correctly', () => {
+      const baseStats = {
+        luck: 80,
+        luckBonus: 0.50, // 0.50 = +50% (save file stores as decimal)
+      };
+
+      const result = calculateDerivedStats(baseStats);
+
+      // 80 * (1 + 0.50) = 80 * 1.5 = 120
+      expect(result.totalLuck).toBe(120);
+    });
+
+    it('should calculate totalLuck without bonus', () => {
+      const baseStats = {
+        luck: 100,
+        luckBonus: 0,
+      };
+
+      const result = calculateDerivedStats(baseStats);
+
+      expect(result.totalLuck).toBe(100);
     });
 
     it('should handle missing base stats gracefully', () => {
@@ -198,7 +221,7 @@ describe('derivedStats', () => {
 
   describe('calculateDerivedStatsDetailed', () => {
     it('should return formatted stat details', () => {
-      const baseStats = { strength: 100, strengthBonus: 25 };
+      const baseStats = { strength: 100, strengthBonus: 0.25 };
       const result = calculateDerivedStatsDetailed(baseStats);
 
       expect(result.values.totalStrength).toBe(125);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemCard } from './ItemCard';
 
-export function ResultsSection({ title, icon, filename, items, totalItems, timestamp, filterPatterns, type }) {
+export function ResultsSection({ title, icon, filename, items, totalItems, timestamp, filterModel, type }) {
   const timeStr = new Date(timestamp).toLocaleTimeString();
 
   return (
@@ -15,7 +15,7 @@ export function ResultsSection({ title, icon, filename, items, totalItems, times
       </div>
       <div className="item-grid">
         {items.map((item, i) => (
-          <ItemCard key={i} item={item} type={type} filterPatterns={filterPatterns} />
+          <ItemCard key={i} item={item} type={type} filterModel={filterModel} />
         ))}
       </div>
     </div>

@@ -1,93 +1,117 @@
 import { describe, it, expect } from 'vitest';
 import {
-  compilePatterns,
-  countHits,
+  buildAffixMatchers,
+  scorePool,
   scoreItemPools,
-  filterInventoryItems,
-  itemMatchesAnyPattern,
+  scoreMonograms,
+  filterByModel,
 } from '../src/utils/itemFilter.js';
+import { createFilterModel } from '../src/models/FilterModel.js';
+
+// Helper: create an Item model with affix pools and monograms
+function createItem(displayName, pools = {}, monograms = []) {
+  return {
+    id: `test-${displayName}`,
+    rowName: displayName,
+    displayName,
+    type: 'Armor Helmet',
+    rarity: 0,
+    tier: 1,
+    specks: 0,
+    isLocked: false,
+    isGenerated: false,
+    stackCount: 1,
+    charges: 0,
+    baseStats: [],
+    affixPools: {
+      inherent: [],
+      pool1: (pools.pool1 || []).map(rn => ({ rowName: rn, dataTable: '' })),
+      pool2: (pools.pool2 || []).map(rn => ({ rowName: rn, dataTable: '' })),
+      pool3: (pools.pool3 || []).map(rn => ({ rowName: rn, dataTable: '' })),
+    },
+    upgradeCount: 0,
+    monograms: monograms.map(id => ({ id, value: 1, rawTag: `EasyRPG.Items.Modifiers.${id}` })),
+  };
+}
 
 describe('itemFilter', () => {
-  describe('compilePatterns', () => {
-    it('should pass through RegExp objects unchanged', () => {
-      const regex = /test/i;
-      const result = compilePatterns([regex]);
-      expect(result[0]).toBe(regex);
+  describe('buildAffixMatchers', () => {
+    it('should build matchers from stat registry affix IDs', () => {
+      const matchers = buildAffixMatchers([{ affixId: 'strength' }]);
+      expect(matchers.length).toBe(1);
+      expect(matchers[0].affixId).toBe('strength');
+      expect(matchers[0].patterns.length).toBeGreaterThan(0);
     });
 
-    it('should convert wildcard strings to regex', () => {
-      const result = compilePatterns(['Fiery*Damage']);
-      expect(result[0].test('FieryTotemDamage')).toBe(true);
-      expect(result[0].test('FieryBoltDamage')).toBe(true);
-      expect(result[0].test('ColdDamage')).toBe(false);
+    it('should return empty patterns for unknown affix IDs', () => {
+      const matchers = buildAffixMatchers([{ affixId: 'nonexistent_affix_xyz' }]);
+      expect(matchers[0].patterns).toEqual([]);
     });
 
-    it('should be case insensitive', () => {
-      const result = compilePatterns(['wisdom']);
-      expect(result[0].test('Wisdom')).toBe(true);
-      expect(result[0].test('WISDOM')).toBe(true);
-      expect(result[0].test('wisdom')).toBe(true);
-    });
-
-    it('should handle multiple patterns', () => {
-      const result = compilePatterns(['Strength', 'Vitality', 'Critical*']);
-      expect(result.length).toBe(3);
+    it('should handle multiple affixes', () => {
+      const matchers = buildAffixMatchers([
+        { affixId: 'strength' },
+        { affixId: 'critChance' },
+      ]);
+      expect(matchers.length).toBe(2);
     });
   });
 
-  describe('countHits', () => {
-    it('should count matching attributes', () => {
-      const attrs = ['Strength', 'Vitality', 'CriticalChance', 'Armor'];
-      const patterns = compilePatterns(['Strength', 'Critical*']);
+  describe('scorePool', () => {
+    it('should count matching affixes in a pool', () => {
+      const matchers = buildAffixMatchers([
+        { affixId: 'strength' },
+        { affixId: 'vitality' },
+      ]);
+      // Pool contains rowNames that should match stat patterns
+      const poolAffixes = [
+        { rowName: 'Characteristics.Strength', dataTable: '' },
+        { rowName: 'CriticalChance', dataTable: '' },
+      ];
 
-      const hits = countHits(attrs, patterns);
-      expect(hits).toBe(2); // Strength and CriticalChance
+      const result = scorePool(poolAffixes, matchers);
+      expect(result.count).toBe(1); // Only Strength matches
+      expect(result.matchedAffixIds).toContain('strength');
     });
 
-    it('should count each attribute only once', () => {
-      const attrs = ['CriticalChance'];
-      const patterns = compilePatterns(['Crit*', 'Critical*', '*Chance']);
-
-      const hits = countHits(attrs, patterns);
-      expect(hits).toBe(1); // Only count once even though multiple patterns match
+    it('should return 0 for empty pool', () => {
+      const matchers = buildAffixMatchers([{ affixId: 'strength' }]);
+      const result = scorePool([], matchers);
+      expect(result.count).toBe(0);
+      expect(result.matchedAffixIds).toEqual([]);
     });
 
-    it('should return 0 for empty arrays', () => {
-      expect(countHits([], compilePatterns(['test']))).toBe(0);
-      expect(countHits(['test'], [])).toBe(0);
-    });
-
-    it('should return 0 for non-array input', () => {
-      expect(countHits(null, compilePatterns(['test']))).toBe(0);
-      expect(countHits(undefined, compilePatterns(['test']))).toBe(0);
+    it('should return 0 for empty matchers', () => {
+      const poolAffixes = [{ rowName: 'Strength', dataTable: '' }];
+      const result = scorePool(poolAffixes, []);
+      expect(result.count).toBe(0);
     });
   });
 
   describe('scoreItemPools', () => {
     it('should score each pool separately', () => {
-      const item = {
-        item: {
-          pool1_attributes: ['Strength', 'Vitality'],
-          pool2_attributes: ['CriticalChance'],
-          pool3_attributes: ['Armor', 'Health'],
-        },
-      };
-      const patterns = compilePatterns(['Strength', 'Critical*', 'Health']);
+      const matchers = buildAffixMatchers([
+        { affixId: 'strength' },
+      ]);
 
-      const scores = scoreItemPools(item, patterns);
+      const item = createItem('TestItem', {
+        pool1: ['Strength'],
+        pool2: ['CriticalChance'],
+        pool3: ['Strength'],
+      });
 
-      expect(scores.s1).toBe(1); // Strength
-      expect(scores.s2).toBe(1); // CriticalChance
-      expect(scores.s3).toBe(1); // Health
-      expect(scores.total).toBe(3);
+      const scores = scoreItemPools(item, matchers);
+      expect(scores.s1).toBe(1);
+      expect(scores.s2).toBe(0);
+      expect(scores.s3).toBe(1);
+      expect(scores.total).toBe(2);
     });
 
-    it('should handle missing pool attributes', () => {
-      const item = { item: {} };
-      const patterns = compilePatterns(['test']);
+    it('should handle items with no pools', () => {
+      const matchers = buildAffixMatchers([{ affixId: 'strength' }]);
+      const item = createItem('EmptyItem');
 
-      const scores = scoreItemPools(item, patterns);
-
+      const scores = scoreItemPools(item, matchers);
       expect(scores.s1).toBe(0);
       expect(scores.s2).toBe(0);
       expect(scores.s3).toBe(0);
@@ -95,98 +119,188 @@ describe('itemFilter', () => {
     });
   });
 
-  describe('filterInventoryItems', () => {
-    const createItem = (name, pool1 = [], pool2 = [], pool3 = []) => ({
-      name,
-      item: {
-        pool1_attributes: pool1,
-        pool2_attributes: pool2,
-        pool3_attributes: pool3,
-      },
-    });
-
-    it('should classify items as hits when all pools have minHits', () => {
-      const items = [
-        createItem('Item1', ['Strength'], ['Vitality'], ['Armor']),
-        createItem('Item2', ['Strength'], [], ['Armor']), // Missing pool2
-      ];
-      const patterns = ['Strength', 'Vitality', 'Armor'];
-
-      const result = filterInventoryItems(items, patterns, { minHits: 1 });
-
-      expect(result.hits.length).toBe(1);
-      expect(result.hits[0].name).toBe('Item1');
-    });
-
-    it('should classify items as close when total >= closeMinTotal but not full match', () => {
-      const items = [
-        createItem('PartialMatch', ['Strength', 'Vitality'], [], []),
-      ];
-      const patterns = ['Strength', 'Vitality'];
-
-      const result = filterInventoryItems(items, patterns, {
-        minHits: 1,
-        closeMinTotal: 2,
-      });
-
-      expect(result.hits.length).toBe(0);
-      expect(result.close.length).toBe(1);
-      expect(result.close[0].name).toBe('PartialMatch');
-    });
-
-    it('should return totalItems count', () => {
-      const items = [
-        createItem('Item1', [], [], []),
-        createItem('Item2', [], [], []),
-        createItem('Item3', [], [], []),
+  describe('scoreMonograms', () => {
+    it('should identify matched monograms', () => {
+      const item = createItem('MonoItem', {}, ['Bloodlust.Base', 'AllowPhasing']);
+      const criteria = [
+        { monogramId: 'Bloodlust.Base' },
+        { monogramId: 'Veil' },
       ];
 
-      const result = filterInventoryItems(items, ['test']);
-
-      expect(result.totalItems).toBe(3);
+      const result = scoreMonograms(item, criteria);
+      expect(result.matched).toEqual(['Bloodlust.Base']);
+      expect(result.missing).toEqual(['Veil']);
     });
 
-    it('should add scores to matched items', () => {
-      const items = [
-        createItem('Item1', ['A', 'B'], ['C'], ['D', 'E']),
-      ];
-      const patterns = ['A', 'C', 'D'];
+    it('should return empty when no criteria', () => {
+      const item = createItem('MonoItem', {}, ['Bloodlust.Base']);
+      const result = scoreMonograms(item, []);
+      expect(result.matched).toEqual([]);
+      expect(result.missing).toEqual([]);
+    });
 
-      const result = filterInventoryItems(items, patterns, { minHits: 1 });
-
-      expect(result.hits[0].s1).toBe(1);
-      expect(result.hits[0].s2).toBe(1);
-      expect(result.hits[0].s3).toBe(1);
-      expect(result.hits[0].total).toBe(3);
+    it('should return all missing when item has no monograms', () => {
+      const item = createItem('NoMonoItem');
+      const criteria = [{ monogramId: 'Bloodlust.Base' }];
+      const result = scoreMonograms(item, criteria);
+      expect(result.matched).toEqual([]);
+      expect(result.missing).toEqual(['Bloodlust.Base']);
     });
   });
 
-  describe('itemMatchesAnyPattern', () => {
-    it('should return true when any attribute matches', () => {
-      const item = {
-        item: {
-          all_attributes: ['Strength', 'Vitality', 'Armor'],
-        },
+  describe('filterByModel', () => {
+    it('should classify items as hits when all pools have min hits', () => {
+      const model = {
+        ...createFilterModel('Test'),
+        affixes: [{ affixId: 'strength' }],
+        monograms: [],
       };
-      const patterns = compilePatterns(['Wisdom', 'Vitality']);
 
-      expect(itemMatchesAnyPattern(item, patterns)).toBe(true);
+      const items = [
+        createItem('AllPools', {
+          pool1: ['Strength'],
+          pool2: ['Strength'],
+          pool3: ['Strength'],
+        }),
+        createItem('TwoPools', {
+          pool1: ['Strength'],
+          pool2: [],
+          pool3: ['Strength'],
+        }),
+      ];
+
+      const result = filterByModel(items, model);
+      expect(result.hits.length).toBe(1);
+      expect(result.hits[0].displayName).toBe('AllPools');
     });
 
-    it('should return false when no attributes match', () => {
-      const item = {
-        item: {
-          all_attributes: ['Strength', 'Armor'],
-        },
+    it('should classify items as close (near miss) when total >= closeMinTotal', () => {
+      const model = {
+        ...createFilterModel('Test'),
+        affixes: [{ affixId: 'strength' }],
+        monograms: [],
+        options: { minHitsPerPool: 1, closeMinTotal: 2, includeWeapons: true },
       };
-      const patterns = compilePatterns(['Wisdom', 'Vitality']);
 
-      expect(itemMatchesAnyPattern(item, patterns)).toBe(false);
+      const items = [
+        createItem('TwoPools', {
+          pool1: ['Strength'],
+          pool2: [],
+          pool3: ['Strength'],
+        }),
+      ];
+
+      const result = filterByModel(items, model);
+      expect(result.hits.length).toBe(0);
+      expect(result.close.length).toBe(1);
+      expect(result.close[0].displayName).toBe('TwoPools');
     });
 
-    it('should return true when pattern list is empty', () => {
-      const item = { item: { all_attributes: ['Strength'] } };
-      expect(itemMatchesAnyPattern(item, [])).toBe(true);
+    it('should classify as hit when only monograms are specified', () => {
+      const model = {
+        ...createFilterModel('MonoOnly'),
+        affixes: [],
+        monograms: [{ monogramId: 'Bloodlust.Base' }],
+      };
+
+      const items = [
+        createItem('HasBloodlust', {}, ['Bloodlust.Base']),
+        createItem('NoBloodlust', {}, ['AllowPhasing']),
+      ];
+
+      const result = filterByModel(items, model);
+      expect(result.hits.length).toBe(1);
+      expect(result.hits[0].displayName).toBe('HasBloodlust');
+      // NoBloodlust has pools pass (no affix criteria) but mono missing
+      expect(result.close.length).toBe(1);
+      expect(result.close[0].monoMissing).toEqual(['Bloodlust.Base']);
+    });
+
+    it('should combine affix and monogram criteria', () => {
+      const model = {
+        ...createFilterModel('Combined'),
+        affixes: [{ affixId: 'strength' }],
+        monograms: [{ monogramId: 'Bloodlust.Base' }],
+      };
+
+      const items = [
+        createItem('Both', {
+          pool1: ['Strength'],
+          pool2: ['Strength'],
+          pool3: ['Strength'],
+        }, ['Bloodlust.Base']),
+        createItem('AffixOnly', {
+          pool1: ['Strength'],
+          pool2: ['Strength'],
+          pool3: ['Strength'],
+        }),
+      ];
+
+      const result = filterByModel(items, model);
+      expect(result.hits.length).toBe(1);
+      expect(result.hits[0].displayName).toBe('Both');
+      // AffixOnly passes pools but missing monogram → close
+      expect(result.close.length).toBe(1);
+      expect(result.close[0].displayName).toBe('AffixOnly');
+    });
+
+    it('should return totalItems count', () => {
+      const model = createFilterModel('Empty');
+      const items = [
+        createItem('A'),
+        createItem('B'),
+        createItem('C'),
+      ];
+
+      const result = filterByModel(items, model);
+      expect(result.totalItems).toBe(3);
+    });
+
+    it('should exclude weapons when includeWeapons is false', () => {
+      const model = {
+        ...createFilterModel('NoWeapons'),
+        affixes: [],
+        monograms: [],
+        options: { minHitsPerPool: 1, closeMinTotal: 2, includeWeapons: false },
+      };
+
+      const items = [
+        {
+          ...createItem('Sword'),
+          type: 'Weapon Sword',
+        },
+        createItem('Helmet'),
+      ];
+
+      const result = filterByModel(items, model);
+      // With no criteria, all pass as hits (pools pass vacuously)
+      expect(result.hits.length).toBe(1);
+      expect(result.hits[0].displayName).toBe('Helmet');
+    });
+
+    it('should add pool match details to scored items', () => {
+      const model = {
+        ...createFilterModel('Details'),
+        affixes: [{ affixId: 'strength' }],
+        monograms: [{ monogramId: 'Bloodlust.Base' }],
+      };
+
+      const items = [
+        createItem('Detailed', {
+          pool1: ['Strength'],
+          pool2: ['Strength'],
+          pool3: ['Strength'],
+        }, ['Bloodlust.Base']),
+      ];
+
+      const result = filterByModel(items, model);
+      const hit = result.hits[0];
+      expect(hit.s1).toBe(1);
+      expect(hit.s2).toBe(1);
+      expect(hit.s3).toBe(1);
+      expect(hit.poolMatches).toBeDefined();
+      expect(hit.monoMatched).toEqual(['Bloodlust.Base']);
+      expect(hit.monoMissing).toEqual([]);
     });
   });
 });

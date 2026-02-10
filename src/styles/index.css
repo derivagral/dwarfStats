@@ -614,6 +614,26 @@ h1::before {
   font-style: italic;
 }
 
+.attribute-pill.mono {
+  background: rgba(160, 120, 220, 0.15);
+  color: #b088e0;
+  border: 1px solid rgba(160, 120, 220, 0.25);
+}
+
+.attribute-pill.mono.match {
+  background: rgba(42, 167, 69, 0.2);
+  color: var(--success);
+  border: 1px solid rgba(42, 167, 69, 0.3);
+  font-weight: 600;
+}
+
+.attribute-pill.mono.missing {
+  background: rgba(220, 80, 80, 0.15);
+  color: #dc5050;
+  border: 1px solid rgba(220, 80, 80, 0.25);
+  font-style: italic;
+}
+
 .log-panel::-webkit-scrollbar {
   width: 8px;
 }
@@ -1902,6 +1922,46 @@ h1::before {
 
 .affix-tag:hover {
   opacity: 0.8;
+}
+
+.affix-tag--mono {
+  background: var(--text-secondary);
+}
+
+/* Section tabs (Affixes / Monograms toggle) */
+.affix-section-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0.5rem;
+}
+
+.affix-section-tab {
+  flex: 1;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.affix-section-tab:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.affix-section-tab:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.affix-section-tab.active {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.affix-section-tab:hover:not(.active) {
+  background: var(--bg-secondary);
 }
 
 .affix-categories {

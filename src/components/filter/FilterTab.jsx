@@ -5,23 +5,13 @@ import { ResultsSection, EmptyResultsSection } from './ResultsSection';
 import { useFileProcessor } from '../../hooks/useFileProcessor';
 import { hasDirPicker } from '../../utils/platform';
 import { playNotificationSound } from '../../utils/sound';
-import { analyzeUeSaveJson } from '../../utils/dwarfFilter';
-import { filterInventoryItems } from '../../utils/itemFilter';
-
-const DEFAULT_FILTERS = [
-  "Fiery*Totem*Damage", "Wisdom", "MageryCriticalDamage", "MageryCriticalChance",
-  "\\bLifeSteal\\b", "LifeStealAmount", "\\bCriticalChance"
-].join(", ");
-
-function parseFilterString(filterStr) {
-  if (!filterStr || filterStr.trim() === '') return [];
-  return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
-}
+import { filterByModel } from '../../utils/itemFilter';
+import { transformAllItems } from '../../models/itemTransformer';
+import { createFilterModel } from '../../models/FilterModel';
 
 export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange }) {
   const [results, setResults] = useState(new Map());
-  const [filterValue, setFilterValue] = useState(DEFAULT_FILTERS);
-  const [filterPatterns, setFilterPatterns] = useState(parseFilterString(DEFAULT_FILTERS));
+  const [filterModel, setFilterModel] = useState(() => createFilterModel('Default'));
   const [configVisible, setConfigVisible] = useState(false);
   const [lastFiles, setLastFiles] = useState([]);
   const [dirHandle, setDirHandle] = useState(null);
@@ -31,23 +21,25 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
 
-  const processFiles = useCallback(async (files, patterns = filterPatterns) => {
+  /**
+   * Run filtering against an array of Item models
+   */
+  const runFilter = useCallback((items, model) => {
+    return filterByModel(items, model);
+  }, []);
+
+  /**
+   * Process .sav files: parse via WASM, transform to Item models, then filter.
+   */
+  const processFiles = useCallback(async (files, model = filterModel) => {
     for (const file of files) {
       try {
-        onLog(`📄 Converting: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`);
+        onLog(`Converting: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`);
         const result = await processFile(file);
 
-        const filterOptions = {
-          slot1: patterns,
-          slot2: patterns,
-          slot3: patterns,
-          includeWeapons: true,
-          showClose: true,
-          closeMinTotal: 2,
-          debug: false,
-        };
-
-        const { hits, close, totalItems } = analyzeUeSaveJson(result.json, filterOptions);
+        // Transform raw JSON into Item models
+        const { items } = transformAllItems(result.json);
+        const { hits, close, totalItems } = runFilter(items, model);
 
         setResults(prev => {
           const next = new Map(prev);
@@ -56,21 +48,21 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
             close,
             totalItems,
             timestamp: Date.now(),
-            filters: [...patterns]
+            filterModel: model,
           });
           return next;
         });
 
-        onLog(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
+        onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
 
         if (hits.length > 0) {
           playNotificationSound();
         }
       } catch (e) {
-        onLog(`❌ ${e.message}`);
+        onLog(`Error: ${e.message}`);
       }
     }
-  }, [filterPatterns, processFile, onLog]);
+  }, [filterModel, processFile, onLog, runFilter]);
 
   // Process initial save data when tab is first accessed
   useEffect(() => {
@@ -78,35 +70,19 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
       setInitialProcessed(true);
 
       const filename = itemStore?.metadata?.filename || initialSaveData?.filename || 'unknown.sav';
-      let hits, close, totalItems;
 
-      // Prefer itemStore.inventory (already processed, avoids re-parsing)
+      // Prefer itemStore.inventory (already Item models)
+      let items;
       if (itemStore?.inventory?.length) {
-        const result = filterInventoryItems(itemStore.inventory, filterPatterns, {
-          closeMinTotal: 2,
-          minHits: 1,
-        });
-        hits = result.hits;
-        close = result.close;
-        totalItems = result.totalItems;
+        items = itemStore.inventory;
       } else if (initialSaveData?.json) {
-        // Fallback to raw JSON analysis
-        const filterOptions = {
-          slot1: filterPatterns,
-          slot2: filterPatterns,
-          slot3: filterPatterns,
-          includeWeapons: true,
-          showClose: true,
-          closeMinTotal: 2,
-          debug: false,
-        };
-        const result = analyzeUeSaveJson(initialSaveData.json, filterOptions);
-        hits = result.hits;
-        close = result.close;
-        totalItems = result.totalItems;
+        const result = transformAllItems(initialSaveData.json);
+        items = result.items;
       } else {
-        return; // No data to process
+        return;
       }
+
+      const { hits, close, totalItems } = runFilter(items, filterModel);
 
       setResults(prev => {
         const next = new Map(prev);
@@ -115,7 +91,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
           close,
           totalItems,
           timestamp: Date.now(),
-          filters: [...filterPatterns]
+          filterModel,
         });
         return next;
       });
@@ -124,13 +100,13 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
         setLastFiles([initialSaveData.file]);
       }
 
-      onLog(`✅ Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename}`);
+      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename}`);
 
       if (hits.length > 0) {
         playNotificationSound();
       }
     }
-  }, [initialSaveData, itemStore, initialProcessed, filterPatterns, onLog]);
+  }, [initialSaveData, itemStore, initialProcessed, filterModel, onLog, runFilter]);
 
   const handleFileDrop = useCallback(async (files) => {
     setLastFiles(files);
@@ -160,10 +136,9 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
     try {
       const handle = await window.showDirectoryPicker({ mode: 'read' });
       setDirHandle(handle);
-      onLog('📁 Folder granted (Chromium)');
+      onLog('Folder granted (Chromium)');
       onStatusChange('Folder selected', 'active');
 
-      // Scan once
       const files = [];
       for await (const [name, h] of handle.entries()) {
         if (/\.sav$/i.test(name)) {
@@ -178,7 +153,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
       }
       onStatusChange('Ready', 'ready');
     } catch (e) {
-      onLog(`❌ Pick canceled: ${e?.message || e}`);
+      onLog(`Pick canceled: ${e?.message || e}`);
     }
   }, [processFiles, onLog, onStatusChange]);
 
@@ -189,18 +164,16 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
     }
 
     if (watching) {
-      // Stop watching
       if (watchTimerRef.current) {
         clearInterval(watchTimerRef.current);
         watchTimerRef.current = null;
       }
       setWatching(false);
-      onLog('⏹️ Stopped watching');
+      onLog('Stopped watching');
       onStatusChange('Ready', 'ready');
       return;
     }
 
-    // Start watching
     let handle = dirHandle;
     if (!handle) {
       try {
@@ -211,7 +184,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
       }
     }
 
-    onLog('👁️ Watching... (poll every 10s)');
+    onLog('Watching... (poll every 10s)');
     onStatusChange('Watching', 'active');
     setWatching(true);
 
@@ -235,10 +208,10 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
 
   const handleRerun = useCallback(async () => {
     if (lastFiles.length === 0) {
-      onLog('⚠️ No files to re-run');
+      onLog('No files to re-run');
       return;
     }
-    onLog(`🔄 Re-running ${lastFiles.length} file(s)`);
+    onLog(`Re-running ${lastFiles.length} file(s)`);
     onStatusChange('Re-running...', 'scanning');
     await processFiles(lastFiles);
     onStatusChange('Ready', 'ready');
@@ -247,45 +220,80 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
   const handleClear = useCallback(() => {
     setResults(new Map());
     setLastFiles([]);
-    onLog('🗑️ Results and file history cleared');
+    onLog('Results and file history cleared');
   }, [onLog]);
 
+  // --- Filter model updates from the config panel ---
+  const handleAffixChange = useCallback((affixIds) => {
+    setFilterModel(prev => ({
+      ...prev,
+      affixes: affixIds.map(id => ({ affixId: id })),
+    }));
+  }, []);
+
+  const handleMonogramChange = useCallback((monoIds) => {
+    setFilterModel(prev => ({
+      ...prev,
+      monograms: monoIds.map(id => ({ monogramId: id })),
+    }));
+  }, []);
+
   const handleApplyConfig = useCallback(async () => {
-    const patterns = parseFilterString(filterValue);
-    if (patterns.length === 0) {
-      onLog('⚠️ No valid filters provided');
+    if (filterModel.affixes.length === 0 && filterModel.monograms.length === 0) {
+      onLog('No filter criteria selected');
       return;
     }
-    setFilterPatterns(patterns);
     setConfigVisible(false);
-    onLog('⚙️ Filters updated:', patterns.join(', '));
+    onLog(`Filters updated: ${filterModel.affixes.length} affixes, ${filterModel.monograms.length} monograms`);
 
     if (lastFiles.length > 0) {
-      onLog('🔄 Re-scanning with new filters...');
+      onLog('Re-scanning with new filters...');
       onStatusChange('Applying filters...', 'scanning');
       setResults(new Map());
-      await processFiles(lastFiles, patterns);
+      await processFiles(lastFiles, filterModel);
       onStatusChange('Ready', 'ready');
+    } else if (itemStore?.inventory?.length) {
+      // Re-filter existing inventory
+      const filename = itemStore?.metadata?.filename || 'loaded.sav';
+      const { hits, close, totalItems } = runFilter(itemStore.inventory, filterModel);
+      setResults(new Map([[filename, {
+        hits, close, totalItems,
+        timestamp: Date.now(),
+        filterModel,
+      }]]));
+      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
+      if (hits.length > 0) playNotificationSound();
     }
-  }, [filterValue, lastFiles, processFiles, onLog, onStatusChange]);
+  }, [filterModel, lastFiles, processFiles, onLog, onStatusChange, itemStore, runFilter]);
 
   const handleResetConfig = useCallback(async () => {
-    setFilterValue(DEFAULT_FILTERS);
-    const patterns = parseFilterString(DEFAULT_FILTERS);
-    setFilterPatterns(patterns);
+    const newModel = createFilterModel('Default');
+    setFilterModel(newModel);
     setConfigVisible(false);
-    onLog('🔄 Filters reset to defaults');
+    onLog('Filters reset');
 
     if (lastFiles.length > 0) {
-      onLog('🔄 Re-scanning with default filters...');
+      onLog('Re-scanning with cleared filters...');
       onStatusChange('Applying filters...', 'scanning');
       setResults(new Map());
-      await processFiles(lastFiles, patterns);
+      await processFiles(lastFiles, newModel);
       onStatusChange('Ready', 'ready');
     }
   }, [lastFiles, processFiles, onLog, onStatusChange]);
 
   const sortedResults = Array.from(results.entries()).sort((a, b) => b[1].timestamp - a[1].timestamp);
+
+  // Build a summary string for the active filters display
+  const filterSummary = (() => {
+    const parts = [];
+    if (filterModel.affixes.length > 0) {
+      parts.push(`${filterModel.affixes.length} affix(es)`);
+    }
+    if (filterModel.monograms.length > 0) {
+      parts.push(`${filterModel.monograms.length} monogram(s)`);
+    }
+    return parts.length > 0 ? parts.join(', ') : 'None configured';
+  })();
 
   return (
     <div className="tab-content active">
@@ -328,8 +336,10 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
 
       <FilterConfig
         visible={configVisible}
-        filterValue={filterValue}
-        onFilterChange={setFilterValue}
+        selectedAffixes={filterModel.affixes.map(a => a.affixId)}
+        selectedMonograms={filterModel.monograms.map(m => m.monogramId)}
+        onAffixChange={handleAffixChange}
+        onMonogramChange={handleMonogramChange}
         onApply={handleApplyConfig}
         onReset={handleResetConfig}
       />
@@ -349,7 +359,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
         ) : (
           <>
             <div className="filter-display">
-              <strong>Active Filters:</strong> {filterPatterns.join(', ')}
+              <strong>Active Filters:</strong> {filterSummary}
               <div style={{ marginTop: '0.5rem', fontSize: '0.9em', color: 'var(--text-secondary)' }}>
                 {results.size} file(s) processed | {lastFiles.length} file(s) in memory
               </div>
@@ -365,7 +375,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
                     items={data.hits}
                     totalItems={data.totalItems}
                     timestamp={data.timestamp}
-                    filterPatterns={filterPatterns}
+                    filterModel={data.filterModel || filterModel}
                     type="hit"
                   />
                 )}
@@ -377,7 +387,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
                     items={data.close}
                     totalItems={data.totalItems}
                     timestamp={data.timestamp}
-                    filterPatterns={filterPatterns}
+                    filterModel={data.filterModel || filterModel}
                     type="close"
                   />
                 )}

@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
-import { analyzeUeSaveJson } from '../utils/dwarfFilter';
+import { transformAllItems } from '../models/itemTransformer';
 
 /**
  * Central store for all item data
@@ -9,9 +9,9 @@ import { analyzeUeSaveJson } from '../utils/dwarfFilter';
  * Save files are "imported" into the store - all UI reads from the store,
  * not from raw save data.
  *
- * Item formats:
- * - equipped[]: Item model format { id, displayName, type, rowName, baseStats, monograms, slot }
- * - inventory[]: DwarfFilter format (to be unified in future)
+ * All items use the unified Item model format:
+ * - equipped[]: Item model { id, displayName, type, rowName, baseStats, monograms, slot }
+ * - inventory[]: Item model (same shape, from transformAllItems)
  *
  * @returns {Object} Item store state and methods
  */
@@ -40,16 +40,12 @@ export function useItemStore() {
     // Extract equipped items using equipmentParser (outputs Item model format)
     const equippedItems = extractEquippedItems(saveJson);
 
-    // Extract all inventory items using dwarfFilter
-    const { hits: inventoryItems, totalItems } = analyzeUeSaveJson(saveJson, {
-      includeWeapons: true,
-      showClose: false,
-      minHits: 0,
-    });
+    // Extract all inventory items using unified Item model
+    const { items: inventoryItems, totalCount } = transformAllItems(saveJson);
 
     setEquipped(equippedItems);
     setInventory(inventoryItems);
-    setTotalInventoryCount(totalItems);
+    setTotalInventoryCount(totalCount);
     setMetadata({
       filename,
       loadedAt: new Date().toISOString(),

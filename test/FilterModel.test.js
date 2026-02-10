@@ -5,6 +5,7 @@ import {
   removeAffix,
   addMonogram,
   removeMonogram,
+  updateMonogramCount,
   updateOptions,
   hasAnyCriteria,
   serializeFilter,
@@ -86,6 +87,32 @@ describe('FilterModel', () => {
       expect(updated.monograms.length).toBe(1);
       expect(updated.monograms[0].monogramId).toBe('AllowPhasing');
     });
+
+    it('should accept minCount parameter', () => {
+      const model = addMonogram(createFilterModel(), 'Bloodlust.Base', 2);
+      expect(model.monograms[0].minCount).toBe(2);
+    });
+
+    it('should default minCount to null', () => {
+      const model = addMonogram(createFilterModel(), 'Bloodlust.Base');
+      expect(model.monograms[0].minCount).toBeNull();
+    });
+  });
+
+  describe('updateMonogramCount', () => {
+    it('should update minCount for existing monogram', () => {
+      let model = addMonogram(createFilterModel(), 'Bloodlust.Base');
+      model = updateMonogramCount(model, 'Bloodlust.Base', 3);
+      expect(model.monograms[0].minCount).toBe(3);
+    });
+
+    it('should not affect other monograms', () => {
+      let model = addMonogram(createFilterModel(), 'Bloodlust.Base');
+      model = addMonogram(model, 'AllowPhasing', 1);
+      model = updateMonogramCount(model, 'Bloodlust.Base', 2);
+      expect(model.monograms[0].minCount).toBe(2);
+      expect(model.monograms[1].minCount).toBe(1);
+    });
   });
 
   describe('updateOptions', () => {
@@ -95,6 +122,7 @@ describe('FilterModel', () => {
       expect(updated.options.minHitsPerPool).toBe(2);
       expect(updated.options.closeMinTotal).toBe(3);
       expect(updated.options.includeWeapons).toBe(true); // Preserved
+      expect(updated.options.minTotalMonograms).toBeNull(); // Preserved
       expect(model.options.minHitsPerPool).toBe(1); // Original unchanged
     });
   });

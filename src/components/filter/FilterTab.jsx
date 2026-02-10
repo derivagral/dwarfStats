@@ -224,6 +224,10 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
   }, [onLog]);
 
   // --- Filter model updates from the config panel ---
+  const handleProfileNameChange = useCallback((name) => {
+    setFilterModel(prev => ({ ...prev, name }));
+  }, []);
+
   const handleAffixChange = useCallback((affixIds) => {
     setFilterModel(prev => ({
       ...prev,
@@ -234,7 +238,14 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
   const handleMonogramChange = useCallback((monoIds) => {
     setFilterModel(prev => ({
       ...prev,
-      monograms: monoIds.map(id => ({ monogramId: id })),
+      monograms: monoIds.map(id => ({ monogramId: id, minCount: null })),
+    }));
+  }, []);
+
+  const handleMinTotalMonogramsChange = useCallback((value) => {
+    setFilterModel(prev => ({
+      ...prev,
+      options: { ...prev.options, minTotalMonograms: value },
     }));
   }, []);
 
@@ -292,8 +303,15 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
     if (filterModel.monograms.length > 0) {
       parts.push(`${filterModel.monograms.length} monogram(s)`);
     }
+    if (filterModel.options.minTotalMonograms != null) {
+      parts.push(`min ${filterModel.options.minTotalMonograms} total mono`);
+    }
     return parts.length > 0 ? parts.join(', ') : 'None configured';
   })();
+
+  const profileLabel = filterModel.name && filterModel.name !== 'Default'
+    ? filterModel.name
+    : null;
 
   return (
     <div className="tab-content active">
@@ -336,10 +354,14 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
 
       <FilterConfig
         visible={configVisible}
+        profileName={filterModel.name}
         selectedAffixes={filterModel.affixes.map(a => a.affixId)}
         selectedMonograms={filterModel.monograms.map(m => m.monogramId)}
+        minTotalMonograms={filterModel.options.minTotalMonograms}
+        onProfileNameChange={handleProfileNameChange}
         onAffixChange={handleAffixChange}
         onMonogramChange={handleMonogramChange}
+        onMinTotalMonogramsChange={handleMinTotalMonogramsChange}
         onApply={handleApplyConfig}
         onReset={handleResetConfig}
       />
@@ -359,6 +381,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
         ) : (
           <>
             <div className="filter-display">
+              {profileLabel && <div className="filter-profile-name">{profileLabel}</div>}
               <strong>Active Filters:</strong> {filterSummary}
               <div style={{ marginTop: '0.5rem', fontSize: '0.9em', color: 'var(--text-secondary)' }}>
                 {results.size} file(s) processed | {lastFiles.length} file(s) in memory

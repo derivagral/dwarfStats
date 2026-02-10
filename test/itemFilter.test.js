@@ -4,6 +4,7 @@ import {
   scorePool,
   scoreItemPools,
   scoreMonograms,
+  getMonogramCounts,
   filterByModel,
 } from '../src/utils/itemFilter.js';
 import { createFilterModel } from '../src/models/FilterModel.js';
@@ -145,6 +146,56 @@ describe('itemFilter', () => {
       const result = scoreMonograms(item, criteria);
       expect(result.matched).toEqual([]);
       expect(result.missing).toEqual(['Bloodlust.Base']);
+    });
+
+    it('should return totalCount of monograms on item', () => {
+      const item = createItem('ThreeMono', {}, ['A', 'B', 'C']);
+      const result = scoreMonograms(item, []);
+      expect(result.totalCount).toBe(3);
+    });
+
+    it('should respect minCount for specific monogram', () => {
+      const item = createItem('DoubleMono', {}, ['Bloodlust.Base', 'Bloodlust.Base', 'AllowPhasing']);
+      const criteria = [
+        { monogramId: 'Bloodlust.Base', minCount: 2 },
+      ];
+      const result = scoreMonograms(item, criteria);
+      expect(result.matched).toEqual(['Bloodlust.Base']);
+      expect(result.missing).toEqual([]);
+    });
+
+    it('should fail minCount when item has fewer instances', () => {
+      const item = createItem('SingleMono', {}, ['Bloodlust.Base']);
+      const criteria = [
+        { monogramId: 'Bloodlust.Base', minCount: 2 },
+      ];
+      const result = scoreMonograms(item, criteria);
+      expect(result.matched).toEqual([]);
+      expect(result.missing).toEqual(['Bloodlust.Base']);
+    });
+
+    it('should treat null minCount as 1', () => {
+      const item = createItem('OneMono', {}, ['Bloodlust.Base']);
+      const criteria = [
+        { monogramId: 'Bloodlust.Base', minCount: null },
+      ];
+      const result = scoreMonograms(item, criteria);
+      expect(result.matched).toEqual(['Bloodlust.Base']);
+    });
+  });
+
+  describe('getMonogramCounts', () => {
+    it('should count duplicate monogram IDs', () => {
+      const item = createItem('Dupes', {}, ['Bloodlust.Base', 'Bloodlust.Base', 'AllowPhasing']);
+      const counts = getMonogramCounts(item);
+      expect(counts.get('Bloodlust.Base')).toBe(2);
+      expect(counts.get('AllowPhasing')).toBe(1);
+    });
+
+    it('should return empty map for item with no monograms', () => {
+      const item = createItem('Empty');
+      const counts = getMonogramCounts(item);
+      expect(counts.size).toBe(0);
     });
   });
 
@@ -301,6 +352,57 @@ describe('itemFilter', () => {
       expect(hit.poolMatches).toBeDefined();
       expect(hit.monoMatched).toEqual(['Bloodlust.Base']);
       expect(hit.monoMissing).toEqual([]);
+    });
+
+    it('should enforce minTotalMonograms', () => {
+      const model = {
+        ...createFilterModel('MinTotal'),
+        affixes: [],
+        monograms: [],
+        options: { minHitsPerPool: 1, closeMinTotal: 2, includeWeapons: true, minTotalMonograms: 2 },
+      };
+
+      const items = [
+        createItem('TwoMonos', {}, ['Bloodlust.Base', 'AllowPhasing']),
+        createItem('OneMono', {}, ['Bloodlust.Base']),
+        createItem('NoMono'),
+      ];
+
+      const result = filterByModel(items, model);
+      // Only TwoMonos has >= 2 total monograms
+      expect(result.hits.length).toBe(1);
+      expect(result.hits[0].displayName).toBe('TwoMonos');
+      // OneMono has pool pass but mono total fail → close
+      expect(result.close.length).toBe(1);
+      expect(result.close[0].displayName).toBe('OneMono');
+    });
+
+    it('should enforce minCount on specific monograms via filterByModel', () => {
+      const model = {
+        ...createFilterModel('DoubleBloodlust'),
+        affixes: [],
+        monograms: [{ monogramId: 'Bloodlust.Base', minCount: 2 }],
+      };
+
+      const items = [
+        createItem('DoubleBlood', {}, ['Bloodlust.Base', 'Bloodlust.Base']),
+        createItem('SingleBlood', {}, ['Bloodlust.Base']),
+      ];
+
+      const result = filterByModel(items, model);
+      expect(result.hits.length).toBe(1);
+      expect(result.hits[0].displayName).toBe('DoubleBlood');
+      // SingleBlood pools pass but mono fails → close
+      expect(result.close.length).toBe(1);
+      expect(result.close[0].displayName).toBe('SingleBlood');
+    });
+
+    it('should include monoTotalCount in scored items', () => {
+      const model = createFilterModel('CountCheck');
+      const items = [createItem('ThreeMonos', {}, ['A', 'B', 'C'])];
+
+      const result = filterByModel(items, model);
+      expect(result.hits[0].monoTotalCount).toBe(3);
     });
   });
 });

@@ -1,18 +1,22 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Button } from '../common';
 import { AffixSelector } from './AffixSelector';
 
 /**
  * Filter configuration panel.
  * Uses the AffixSelector to build a FilterModel (affixes + monograms).
- * No more raw regex textarea.
+ * Includes profile naming and monogram count options.
  */
 export function FilterConfig({
   visible,
+  profileName,
   selectedAffixes,
   selectedMonograms,
+  minTotalMonograms,
+  onProfileNameChange,
   onAffixChange,
   onMonogramChange,
+  onMinTotalMonogramsChange,
   onApply,
   onReset,
 }) {
@@ -25,6 +29,34 @@ export function FilterConfig({
       </div>
 
       <div className="config-inputs">
+        <div className="config-profile-row">
+          <label className="config-label">
+            Profile Name
+            <input
+              type="text"
+              className="config-profile-name"
+              value={profileName}
+              onChange={(e) => onProfileNameChange(e.target.value)}
+              placeholder="e.g., Double Mono Crit Build"
+            />
+          </label>
+          <label className="config-label">
+            Min Total Monograms
+            <input
+              type="number"
+              className="config-mono-count"
+              value={minTotalMonograms ?? ''}
+              min={0}
+              max={10}
+              onChange={(e) => {
+                const val = e.target.value === '' ? null : parseInt(e.target.value, 10);
+                onMinTotalMonogramsChange(isNaN(val) ? null : val);
+              }}
+              placeholder="any"
+            />
+          </label>
+        </div>
+
         <AffixSelector
           selectedAffixes={selectedAffixes}
           selectedMonograms={selectedMonograms}

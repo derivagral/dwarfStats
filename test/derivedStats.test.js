@@ -98,6 +98,29 @@ describe('derivedStats', () => {
       expect(result.highestAttribute).toBe(200); // dexterity is highest
     });
 
+    it('should calculate totalLuck with bonus correctly', () => {
+      const baseStats = {
+        luck: 80,
+        luckBonus: 50,
+      };
+
+      const result = calculateDerivedStats(baseStats);
+
+      // 80 * (1 + 50/100) = 80 * 1.5 = 120
+      expect(result.totalLuck).toBe(120);
+    });
+
+    it('should calculate totalLuck without bonus', () => {
+      const baseStats = {
+        luck: 100,
+        luckBonus: 0,
+      };
+
+      const result = calculateDerivedStats(baseStats);
+
+      expect(result.totalLuck).toBe(100);
+    });
+
     it('should handle missing base stats gracefully', () => {
       const baseStats = {};
       const result = calculateDerivedStats(baseStats);

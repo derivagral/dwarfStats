@@ -15,6 +15,7 @@
 /**
  * @typedef {Object} MonogramCriterion
  * @property {string} monogramId - References MONOGRAM_REGISTRY key
+ * @property {number|null} minCount - Minimum instances of this specific monogram (null = at least 1)
  */
 
 /**
@@ -22,6 +23,7 @@
  * @property {number} minHitsPerPool - Minimum matching affixes per pool for a "hit" (default 1)
  * @property {number} closeMinTotal - Minimum total hits across pools for "near miss" (default 2)
  * @property {boolean} includeWeapons - Include weapon-type items in results (default true)
+ * @property {number|null} minTotalMonograms - Minimum total monograms on item regardless of type (null = no constraint)
  */
 
 /**
@@ -50,6 +52,7 @@ export function createFilterModel(name = 'Untitled Filter') {
       minHitsPerPool: 1,
       closeMinTotal: 2,
       includeWeapons: true,
+      minTotalMonograms: null,
     },
   };
 }
@@ -85,13 +88,30 @@ export function removeAffix(model, affixId) {
  * Add a monogram criterion to a filter model (immutable)
  * @param {FilterModel} model
  * @param {string} monogramId - MONOGRAM_REGISTRY key
+ * @param {number|null} [minCount=null] - Minimum instances (null = at least 1)
  * @returns {FilterModel}
  */
-export function addMonogram(model, monogramId) {
+export function addMonogram(model, monogramId, minCount = null) {
   if (model.monograms.some(m => m.monogramId === monogramId)) return model;
   return {
     ...model,
-    monograms: [...model.monograms, { monogramId }],
+    monograms: [...model.monograms, { monogramId, minCount }],
+  };
+}
+
+/**
+ * Update the minCount for an existing monogram criterion (immutable)
+ * @param {FilterModel} model
+ * @param {string} monogramId
+ * @param {number|null} minCount
+ * @returns {FilterModel}
+ */
+export function updateMonogramCount(model, monogramId, minCount) {
+  return {
+    ...model,
+    monograms: model.monograms.map(m =>
+      m.monogramId === monogramId ? { ...m, minCount } : m
+    ),
   };
 }
 
@@ -155,11 +175,15 @@ export function deserializeFilter(json) {
       id: parsed.id,
       name: parsed.name || 'Imported Filter',
       affixes: parsed.affixes,
-      monograms: parsed.monograms,
+      monograms: parsed.monograms.map(m => ({
+        monogramId: m.monogramId,
+        minCount: m.minCount ?? null,
+      })),
       options: {
         minHitsPerPool: parsed.options?.minHitsPerPool ?? 1,
         closeMinTotal: parsed.options?.closeMinTotal ?? 2,
         includeWeapons: parsed.options?.includeWeapons ?? true,
+        minTotalMonograms: parsed.options?.minTotalMonograms ?? null,
       },
     };
   } catch {

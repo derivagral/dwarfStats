@@ -90,30 +90,49 @@ export function scoreItemPools(item, matchers) {
 }
 
 /**
- * Score an item's monograms against filter monogram criteria.
+ * Count occurrences of each monogram ID on an item.
  *
  * @param {import('../models/Item.js').Item} item
- * @param {Array<{monogramId: string}>} monogramCriteria
- * @returns {{matched: string[], missing: string[]}}
+ * @returns {Map<string, number>} monogramId → count
+ */
+export function getMonogramCounts(item) {
+  const counts = new Map();
+  for (const mono of (item.monograms || [])) {
+    counts.set(mono.id, (counts.get(mono.id) || 0) + 1);
+  }
+  return counts;
+}
+
+/**
+ * Score an item's monograms against filter monogram criteria.
+ * Supports minCount per criterion (e.g., "at least 2x Bloodlust.Base").
+ *
+ * @param {import('../models/Item.js').Item} item
+ * @param {Array<{monogramId: string, minCount?: number|null}>} monogramCriteria
+ * @returns {{matched: string[], missing: string[], totalCount: number}}
  */
 export function scoreMonograms(item, monogramCriteria) {
+  const totalCount = (item.monograms || []).length;
+
   if (!monogramCriteria || monogramCriteria.length === 0) {
-    return { matched: [], missing: [] };
+    return { matched: [], missing: [], totalCount };
   }
 
-  const itemMonoIds = (item.monograms || []).map(m => m.id);
+  const counts = getMonogramCounts(item);
   const matched = [];
   const missing = [];
 
-  for (const { monogramId } of monogramCriteria) {
-    if (itemMonoIds.includes(monogramId)) {
+  for (const { monogramId, minCount } of monogramCriteria) {
+    const actual = counts.get(monogramId) || 0;
+    const required = minCount ?? 1;
+    if (actual >= required) {
       matched.push(monogramId);
     } else {
       missing.push(monogramId);
     }
   }
 
-  return { matched, missing };
+  return { matched, missing, totalCount };
 }
 
 /**
@@ -133,7 +152,7 @@ export function scoreMonograms(item, monogramCriteria) {
  */
 export function filterByModel(items, filterModel) {
   const { affixes, monograms: monogramCriteria, options } = filterModel;
-  const { minHitsPerPool = 1, closeMinTotal = 2, includeWeapons = true } = options;
+  const { minHitsPerPool = 1, closeMinTotal = 2, includeWeapons = true, minTotalMonograms = null } = options;
 
   const matchers = buildAffixMatchers(affixes);
   const hits = [];
@@ -155,6 +174,7 @@ export function filterByModel(items, filterModel) {
     );
 
     const monosPass = monogramCriteria.length === 0 || monoScores.missing.length === 0;
+    const totalMonosPass = minTotalMonograms === null || monoScores.totalCount >= minTotalMonograms;
 
     const scored = {
       ...item,
@@ -165,12 +185,18 @@ export function filterByModel(items, filterModel) {
       poolMatches: poolScores.poolMatches,
       monoMatched: monoScores.matched,
       monoMissing: monoScores.missing,
+      monoTotalCount: monoScores.totalCount,
     };
 
-    if (poolsPass && monosPass) {
+    if (poolsPass && monosPass && totalMonosPass) {
       hits.push(scored);
-    } else if (poolScores.total >= closeMinTotal || (poolsPass && !monosPass)) {
-      close.push(scored);
+    } else {
+      const hasPoolRelevance = poolScores.total >= closeMinTotal;
+      // For mono close: pools pass but monos don't, and the item has at least some monograms
+      const monoNearMiss = poolsPass && (!monosPass || !totalMonosPass) && monoScores.totalCount > 0;
+      if (hasPoolRelevance || monoNearMiss) {
+        close.push(scored);
+      }
     }
   }
 

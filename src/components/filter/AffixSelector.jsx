@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import {
   AFFIXES_BY_CATEGORY,
   AFFIX_CATEGORIES,
-  POPULAR_AFFIXES,
   searchAffixes,
 } from '../../utils/affixList';
 import {
@@ -136,11 +135,6 @@ export function AffixSelector({
     onMonogramChange(newSelection);
   };
 
-  const selectPopular = () => {
-    const popularIds = POPULAR_AFFIXES.map(a => a.id);
-    onAffixChange(popularIds);
-  };
-
   const clearAll = () => {
     onAffixChange([]);
     onMonogramChange([]);
@@ -173,9 +167,6 @@ export function AffixSelector({
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <div className="affix-quick-actions">
-          <button type="button" className="affix-quick-btn" onClick={selectPopular}>
-            Popular
-          </button>
           <button type="button" className="affix-quick-btn" onClick={clearAll}>
             Clear
           </button>

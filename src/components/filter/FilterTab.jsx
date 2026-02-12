@@ -8,6 +8,7 @@ import { playNotificationSound } from '../../utils/sound';
 import { filterByModel } from '../../utils/itemFilter';
 import { transformAllItems } from '../../models/itemTransformer';
 import { createFilterModel } from '../../models/FilterModel';
+import { useFilterProfiles } from '../../hooks/useFilterProfiles';
 
 export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange }) {
   const [results, setResults] = useState(new Map());
@@ -20,6 +21,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
   const watchTimerRef = useRef(null);
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
+  const { profiles, saveProfile, deleteProfile } = useFilterProfiles();
 
   /**
    * Run filtering against an array of Item models
@@ -249,6 +251,28 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
     }));
   }, []);
 
+  const handleSaveProfile = useCallback(() => {
+    if (!filterModel.name || !filterModel.name.trim()) {
+      onLog('Enter a profile name before saving');
+      return;
+    }
+    saveProfile(filterModel);
+    onLog(`Profile "${filterModel.name}" saved`);
+  }, [filterModel, saveProfile, onLog]);
+
+  const handleLoadProfile = useCallback((profile) => {
+    setFilterModel({
+      ...profile,
+      id: `filter-${Date.now()}-loaded`,
+    });
+    onLog(`Profile "${profile.name}" loaded`);
+  }, [onLog]);
+
+  const handleDeleteProfile = useCallback((name) => {
+    deleteProfile(name);
+    onLog(`Profile "${name}" deleted`);
+  }, [deleteProfile, onLog]);
+
   const handleApplyConfig = useCallback(async () => {
     if (filterModel.affixes.length === 0 && filterModel.monograms.length === 0) {
       onLog('No filter criteria selected');
@@ -364,6 +388,10 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
         onMinTotalMonogramsChange={handleMinTotalMonogramsChange}
         onApply={handleApplyConfig}
         onReset={handleResetConfig}
+        savedProfiles={profiles}
+        onSaveProfile={handleSaveProfile}
+        onLoadProfile={handleLoadProfile}
+        onDeleteProfile={handleDeleteProfile}
       />
 
       <DropZone

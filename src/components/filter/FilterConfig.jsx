@@ -19,6 +19,10 @@ export function FilterConfig({
   onMinTotalMonogramsChange,
   onApply,
   onReset,
+  savedProfiles = [],
+  onSaveProfile,
+  onLoadProfile,
+  onDeleteProfile,
 }) {
   if (!visible) return null;
 
@@ -55,6 +59,43 @@ export function FilterConfig({
               placeholder="any"
             />
           </label>
+        </div>
+
+        <div className="config-profile-actions">
+          <Button icon="💾" onClick={onSaveProfile} disabled={!profileName || !profileName.trim()}>
+            Save Profile
+          </Button>
+
+          {savedProfiles.length > 0 && (
+            <div className="config-profile-load">
+              <select
+                className="config-profile-select"
+                value=""
+                onChange={(e) => {
+                  const profile = savedProfiles.find(p => p.name === e.target.value);
+                  if (profile) onLoadProfile(profile);
+                }}
+              >
+                <option value="" disabled>Load profile...</option>
+                {savedProfiles.map(p => (
+                  <option key={p.id} value={p.name}>{p.name}</option>
+                ))}
+              </select>
+
+              <button
+                type="button"
+                className="config-profile-delete-btn"
+                onClick={() => {
+                  const match = savedProfiles.find(p => p.name === profileName);
+                  if (match) onDeleteProfile(match.name);
+                }}
+                disabled={!savedProfiles.some(p => p.name === profileName)}
+                title="Delete the current profile from saved list"
+              >
+                🗑️
+              </button>
+            </div>
+          )}
         </div>
 
         <AffixSelector

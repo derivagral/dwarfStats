@@ -10,7 +10,7 @@ import { transformAllItems } from '../../models/itemTransformer';
 import { createFilterModel } from '../../models/FilterModel';
 import { useFilterProfiles } from '../../hooks/useFilterProfiles';
 
-export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange }) {
+export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, sharedFilterModel, onSharedFilterConsumed }) {
   const [results, setResults] = useState(new Map());
   const [filterModel, setFilterModel] = useState(() => createFilterModel('Default'));
   const [configVisible, setConfigVisible] = useState(false);
@@ -109,6 +109,18 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
       }
     }
   }, [initialSaveData, itemStore, initialProcessed, filterModel, onLog, runFilter]);
+
+  // Load shared filter model from URL
+  useEffect(() => {
+    if (!sharedFilterModel) return;
+    setFilterModel({
+      ...sharedFilterModel,
+      id: `filter-${Date.now()}-shared`,
+    });
+    setConfigVisible(true);
+    onLog(`Loaded shared filter: "${sharedFilterModel.name}" (${sharedFilterModel.affixes.length} affixes, ${sharedFilterModel.monograms.length} monograms)`);
+    if (onSharedFilterConsumed) onSharedFilterConsumed();
+  }, [sharedFilterModel, onLog, onSharedFilterConsumed]);
 
   const handleFileDrop = useCallback(async (files) => {
     setLastFiles(files);
@@ -378,6 +390,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
 
       <FilterConfig
         visible={configVisible}
+        filterModel={filterModel}
         profileName={filterModel.name}
         selectedAffixes={filterModel.affixes.map(a => a.affixId)}
         selectedMonograms={filterModel.monograms.map(m => m.monogramId)}
@@ -392,6 +405,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
         onSaveProfile={handleSaveProfile}
         onLoadProfile={handleLoadProfile}
         onDeleteProfile={handleDeleteProfile}
+        onLog={onLog}
       />
 
       <DropZone

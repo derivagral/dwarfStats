@@ -9,6 +9,7 @@ import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 import { useItemStore } from './hooks/useItemStore';
+import { parseShareFromHash, decodeFilterShare } from './utils/shareUrl';
 
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
@@ -26,6 +27,7 @@ export default function App() {
   const [logVisible, setLogVisible] = useState(false);
   const [wasmReady, setWasmReady] = useState(false);
   const [saveData, setSaveData] = useState(null);
+  const [sharedFilterModel, setSharedFilterModel] = useState(null);
   const { logs, log } = useLogger();
 
   // Central item store - all UI reads from here, not from raw saveData
@@ -49,6 +51,31 @@ export default function App() {
     }
     init();
   }, [log]);
+
+  // Read share URL hash on mount
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const parsed = parseShareFromHash(hash);
+    if (!parsed) return;
+
+    if (parsed.type === 'filter') {
+      const decoded = decodeFilterShare(parsed.data);
+      if (decoded) {
+        setSharedFilterModel(decoded);
+        setActiveTab('filter');
+        log(`Loaded shared filter: "${decoded.name}"`);
+      }
+    }
+
+    // Clean the hash from the URL
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }, [log]);
+
+  const handleSharedFilterConsumed = useCallback(() => {
+    setSharedFilterModel(null);
+  }, []);
 
   const handleStatusChange = useCallback((text, type = 'ready') => {
     setStatus(text);
@@ -75,7 +102,11 @@ export default function App() {
   }, [log, itemStore]);
 
   // Determine which tabs are disabled
-  const disabledTabs = itemStore.hasItems ? [] : ['character', 'items', 'filter'];
+  const disabledTabs = itemStore.hasItems
+    ? []
+    : sharedFilterModel
+      ? ['character', 'items']
+      : ['character', 'items', 'filter'];
 
   return (
     <div className="app">
@@ -102,12 +133,14 @@ export default function App() {
           {activeTab === 'items' && saveData && (
             <ItemsTab saveData={saveData} itemStore={itemStore} onLog={log} />
           )}
-          {activeTab === 'filter' && saveData && (
+          {activeTab === 'filter' && (saveData || sharedFilterModel) && (
             <FilterTab
               initialSaveData={saveData}
               itemStore={itemStore}
               onLog={log}
               onStatusChange={handleStatusChange}
+              sharedFilterModel={sharedFilterModel}
+              onSharedFilterConsumed={handleSharedFilterConsumed}
             />
           )}
           {activeTab === 'stats' && (

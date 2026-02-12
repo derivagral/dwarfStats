@@ -6,6 +6,7 @@ import {
   scoreMonograms,
   getMonogramCounts,
   filterByModel,
+  removeEquippedItems,
 } from '../src/utils/itemFilter.js';
 import { createFilterModel } from '../src/models/FilterModel.js';
 
@@ -403,6 +404,71 @@ describe('itemFilter', () => {
 
       const result = filterByModel(items, model);
       expect(result.hits[0].monoTotalCount).toBe(3);
+    });
+  });
+
+  describe('removeEquippedItems', () => {
+    it('should remove items whose rowName matches equipped counts', () => {
+      const items = [
+        createItem('PantsA'),
+        createItem('BootsA'),
+        createItem('HelmetA'),
+      ];
+      const equippedCounts = new Map([['PantsA', 1], ['BootsA', 1]]);
+
+      const result = removeEquippedItems(items, equippedCounts);
+      expect(result.length).toBe(1);
+      expect(result[0].rowName).toBe('HelmetA');
+    });
+
+    it('should only exclude as many duplicates as are equipped, not all', () => {
+      // 1 equipped pants, but 3 inventory pants with same rowName
+      const items = [
+        createItem('PantsA'),
+        createItem('PantsA'),
+        createItem('PantsA'),
+        createItem('BootsA'),
+      ];
+      const equippedCounts = new Map([['PantsA', 1]]);
+
+      const result = removeEquippedItems(items, equippedCounts);
+      // Should remove only 1 PantsA, keep the other 2
+      expect(result.length).toBe(3);
+      expect(result.filter(i => i.rowName === 'PantsA').length).toBe(2);
+      expect(result.filter(i => i.rowName === 'BootsA').length).toBe(1);
+    });
+
+    it('should handle two equipped items with the same rowName', () => {
+      // 2 equipped rings of same type, 3 inventory copies
+      const items = [
+        createItem('RingA'),
+        createItem('RingA'),
+        createItem('RingA'),
+      ];
+      const equippedCounts = new Map([['RingA', 2]]);
+
+      const result = removeEquippedItems(items, equippedCounts);
+      expect(result.length).toBe(1);
+      expect(result[0].rowName).toBe('RingA');
+    });
+
+    it('should return all items when equippedCounts is empty', () => {
+      const items = [
+        createItem('PantsA'),
+        createItem('BootsA'),
+      ];
+      const equippedCounts = new Map();
+
+      const result = removeEquippedItems(items, equippedCounts);
+      expect(result.length).toBe(2);
+    });
+
+    it('should not mutate the original equippedCounts map', () => {
+      const items = [createItem('PantsA'), createItem('PantsA')];
+      const equippedCounts = new Map([['PantsA', 1]]);
+
+      removeEquippedItems(items, equippedCounts);
+      expect(equippedCounts.get('PantsA')).toBe(1);
     });
   });
 });

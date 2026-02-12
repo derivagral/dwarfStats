@@ -47,6 +47,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | File upload/processing | `src/hooks/useFileProcessor.js`, `src/utils/wasm.js` |
 | Item filtering logic | `src/utils/dwarfFilter.js`, `src/utils/itemFilter.js` |
 | Affix list for filters | `src/utils/affixList.js` |
+| URL sharing / encoding | `src/utils/shareUrl.js` |
 | Item data model | `src/models/Item.js`, `src/models/itemTransformer.js` |
 | Central item store | `src/hooks/useItemStore.js` |
 | Monogram/modifier registry | `src/utils/monogramRegistry.js` |
@@ -83,6 +84,7 @@ App.jsx (state holder)
 │   ├── inventory[]       → All items from save
 │   ├── equippedSlotMap   → Items by slot key
 │   └── metadata          → Filename, load time
+├── sharedFilterModel → Decoded filter from URL hash (consumed once)
 ├── status/statusType → UI feedback messages
 ├── logs            → Debug log buffer
 └── wasmReady       → WASM initialization flag
@@ -242,6 +244,7 @@ npm run test:coverage  # With coverage report
 - `test/derivedStats.test.js` - Calculation engine tests
 - `test/itemFilter.test.js` - Item filtering/scoring tests
 - `test/itemTransformer.test.js` - Save file parsing tests
+- `test/shareUrl.test.js` - URL sharing encode/decode tests
 
 ### Key Testable Modules
 | Module | Pure Functions | Notes |
@@ -249,6 +252,7 @@ npm run test:coverage  # With coverage report
 | `derivedStats.js` | `calculateDerivedStats()`, `getCalculationOrder()` | Layer-based calculations |
 | `itemFilter.js` | `filterInventoryItems()`, `scoreItemPools()` | Pattern matching |
 | `itemTransformer.js` | `transformItem()`, `transformAllItems()` | Save file parsing |
+| `shareUrl.js` | `encodeFilterShare()`, `decodeFilterShare()`, `parseShareFromHash()` | URL sharing |
 
 ## Test Fixtures
 
@@ -257,6 +261,42 @@ Located in `test/fixtures/`:
 - `learned_ring_monograms.json` - Ring modifier data (LearnedRingModifiers_0)
 - `dr-full-inventory.json` - Complete parsed save file (~7.8MB) with full character data
 - `dr-extracted-items.json` - Focused fixture with 16 equipped, 1 hotbar, 50 inventory items
+
+## URL Sharing
+
+Hash-based URL sharing for filter profiles (extensible to other share types).
+
+### Format
+```
+https://derivagral.github.io/dwarfStats/#filter=<base64url-encoded-json>
+```
+
+Each share type uses a separate hash key (`filter`, `character` in future), decoded independently in `App.jsx`.
+
+### Compact Encoding
+`src/utils/shareUrl.js` encodes FilterModel into compact JSON with short keys, then base64url-encodes it:
+
+```json
+{
+  "v": 1,                                          // schema version
+  "n": "Build Name",                               // profile name (omitted if default)
+  "a": ["strength", "critChance"],                  // affix IDs
+  "m": [["Bloodlust.Base", null]],                  // monogram tuples (omitted if empty)
+  "o": { "h": 2, "t": 3 }                          // non-default options only
+}
+```
+
+Options keys: `h`=minHitsPerPool, `c`=closeMinTotal, `w`=includeWeapons, `t`=minTotalMonograms.
+
+### Flow
+- **Share**: FilterConfig "Share" button → `encodeFilterShare()` → `buildShareUrl()` → clipboard
+- **Load**: App mount → `parseShareFromHash()` → `decodeFilterShare()` → passed to FilterTab as `sharedFilterModel` prop → consumed once, config panel auto-opens
+- When a shared filter is loaded without save data, the Filter tab is enabled so users can see the configuration before uploading a save
+
+### Adding a new share type
+1. Add encode/decode functions to `src/utils/shareUrl.js`
+2. Add hash type handling in `App.jsx` mount effect
+3. Pass decoded state to the target tab component
 
 ## Deployment
 

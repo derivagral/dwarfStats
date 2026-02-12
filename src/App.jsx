@@ -28,6 +28,7 @@ export default function App() {
   const [wasmReady, setWasmReady] = useState(false);
   const [saveData, setSaveData] = useState(null);
   const [sharedFilterModel, setSharedFilterModel] = useState(null);
+  const [filterTabUnlocked, setFilterTabUnlocked] = useState(false);
   const { logs, log } = useLogger();
 
   // Central item store - all UI reads from here, not from raw saveData
@@ -64,6 +65,7 @@ export default function App() {
       const decoded = decodeFilterShare(parsed.data);
       if (decoded) {
         setSharedFilterModel(decoded);
+        setFilterTabUnlocked(true);
         setActiveTab('filter');
         log(`Loaded shared filter: "${decoded.name}"`);
       }
@@ -104,7 +106,7 @@ export default function App() {
   // Determine which tabs are disabled
   const disabledTabs = itemStore.hasItems
     ? []
-    : sharedFilterModel
+    : filterTabUnlocked
       ? ['character', 'items']
       : ['character', 'items', 'filter'];
 
@@ -133,7 +135,7 @@ export default function App() {
           {activeTab === 'items' && saveData && (
             <ItemsTab saveData={saveData} itemStore={itemStore} onLog={log} />
           )}
-          {activeTab === 'filter' && (saveData || sharedFilterModel) && (
+          {activeTab === 'filter' && (saveData || filterTabUnlocked) && (
             <FilterTab
               initialSaveData={saveData}
               itemStore={itemStore}

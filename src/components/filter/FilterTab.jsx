@@ -111,17 +111,19 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
     }
   }, [initialSaveData, itemStore, initialProcessed, filterModel, onLog, runFilter]);
 
-  // Load shared filter model from URL
+  // Load shared filter model from URL and auto-save to profiles
   useEffect(() => {
     if (!sharedFilterModel) return;
-    setFilterModel({
+    const model = {
       ...sharedFilterModel,
       id: `filter-${Date.now()}-shared`,
-    });
+    };
+    setFilterModel(model);
     setConfigVisible(true);
-    onLog(`Loaded shared filter: "${sharedFilterModel.name}" (${sharedFilterModel.affixes.length} affixes, ${sharedFilterModel.monograms.length} monograms)`);
+    saveProfile(model);
+    onLog(`Loaded shared filter: "${sharedFilterModel.name}" (${sharedFilterModel.affixes.length} affixes, ${sharedFilterModel.monograms.length} monograms) — saved to profiles`);
     if (onSharedFilterConsumed) onSharedFilterConsumed();
-  }, [sharedFilterModel, onLog, onSharedFilterConsumed]);
+  }, [sharedFilterModel, onLog, onSharedFilterConsumed, saveProfile]);
 
   const handleFileDrop = useCallback(async (files) => {
     setLastFiles(files);
@@ -418,8 +420,23 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
       <div className="results-container">
         {results.size === 0 ? (
           <div className="empty-state">
-            <div className="empty-state-icon">🔭</div>
-            <div>No results yet. Select a .sav file or drop one here to begin.</div>
+            {(filterModel.affixes.length > 0 || filterModel.monograms.length > 0) ? (
+              <>
+                <div className="empty-state-icon">🔍</div>
+                <div className="filter-display" style={{ textAlign: 'left', display: 'inline-block' }}>
+                  {profileLabel && <div className="filter-profile-name">{profileLabel}</div>}
+                  <strong>Filter Ready:</strong> {filterSummary}
+                </div>
+                <div style={{ marginTop: '1rem', color: 'var(--text-secondary)' }}>
+                  Drop a <code>.sav</code> file above or use <strong>Pick .sav File</strong> to apply this filter.
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="empty-state-icon">🔭</div>
+                <div>No results yet. Select a .sav file or drop one here to begin.</div>
+              </>
+            )}
           </div>
         ) : (
           <>

@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from '../common';
 import { AffixSelector } from './AffixSelector';
+import { encodeFilterShare, buildShareUrl } from '../../utils/shareUrl';
 
 /**
  * Filter configuration panel.
  * Uses the AffixSelector to build a FilterModel (affixes + monograms).
- * Includes profile naming and monogram count options.
+ * Includes profile naming, monogram count options, and share functionality.
  */
 export function FilterConfig({
   visible,
+  filterModel,
   profileName,
   selectedAffixes,
   selectedMonograms,
@@ -23,7 +25,29 @@ export function FilterConfig({
   onSaveProfile,
   onLoadProfile,
   onDeleteProfile,
+  onLog,
 }) {
+  const [shareFeedback, setShareFeedback] = useState(null);
+
+  const handleShare = useCallback(async () => {
+    if (!filterModel) return;
+
+    const encoded = encodeFilterShare(filterModel);
+    const url = buildShareUrl('filter', encoded);
+
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareFeedback('Copied!');
+    } catch {
+      // Fallback: select from a prompt
+      window.prompt('Copy this share link:', url);
+      setShareFeedback('Ready');
+    }
+
+    if (onLog) onLog(`Share link generated for "${filterModel.name}"`);
+    setTimeout(() => setShareFeedback(null), 2000);
+  }, [filterModel, onLog]);
+
   if (!visible) return null;
 
   return (
@@ -64,6 +88,9 @@ export function FilterConfig({
         <div className="config-profile-actions">
           <Button icon="💾" onClick={onSaveProfile} disabled={!profileName || !profileName.trim()}>
             Save Profile
+          </Button>
+          <Button icon="🔗" onClick={handleShare}>
+            {shareFeedback || 'Share'}
           </Button>
 
           {savedProfiles.length > 0 && (

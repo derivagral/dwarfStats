@@ -14,7 +14,7 @@ function removeEquippedItems(items, equippedLookup) {
   return items.filter(item => !equippedLookup.has(item.rowName));
 }
 
-export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange }) {
+export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, sharedFilterModel, onSharedFilterConsumed }) {
   const [results, setResults] = useState(new Map());
   const [filterModel, setFilterModel] = useState(() => createFilterModel('Default'));
   const [configVisible, setConfigVisible] = useState(false);
@@ -128,6 +128,18 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
       }
     }
   }, [initialSaveData, itemStore, initialProcessed, filterModel, onLog, runFilter]);
+
+  // Load shared filter model from URL
+  useEffect(() => {
+    if (!sharedFilterModel) return;
+    setFilterModel({
+      ...sharedFilterModel,
+      id: `filter-${Date.now()}-shared`,
+    });
+    setConfigVisible(true);
+    onLog(`Loaded shared filter: "${sharedFilterModel.name}" (${sharedFilterModel.affixes.length} affixes, ${sharedFilterModel.monograms.length} monograms)`);
+    if (onSharedFilterConsumed) onSharedFilterConsumed();
+  }, [sharedFilterModel, onLog, onSharedFilterConsumed]);
 
   const handleFileDrop = useCallback(async (files) => {
     setLastFiles(files);
@@ -309,13 +321,15 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
     } else if (itemStore?.inventory?.length) {
       // Re-filter existing inventory
       const filename = itemStore?.metadata?.filename || 'loaded.sav';
-      const { hits, close, totalItems } = runFilter(itemStore.inventory, filterModel);
+      const searchableItems = removeEquippedItems(itemStore.inventory, equippedRowLookup.current);
+      const excludedCount = itemStore.inventory.length - searchableItems.length;
+      const { hits, close, totalItems } = runFilter(searchableItems, filterModel);
       setResults(new Map([[filename, {
         hits, close, totalItems,
         timestamp: Date.now(),
         filterModel,
       }]]));
-      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
+      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items (${excludedCount} equipped excluded)`);
       if (hits.length > 0) playNotificationSound();
     }
   }, [filterModel, lastFiles, processFiles, onLog, onStatusChange, itemStore, runFilter]);
@@ -397,6 +411,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
 
       <FilterConfig
         visible={configVisible}
+        filterModel={filterModel}
         profileName={filterModel.name}
         selectedAffixes={filterModel.affixes.map(a => a.affixId)}
         selectedMonograms={filterModel.monograms.map(m => m.monogramId)}
@@ -411,6 +426,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
         onSaveProfile={handleSaveProfile}
         onLoadProfile={handleLoadProfile}
         onDeleteProfile={handleDeleteProfile}
+        onLog={onLog}
       />
 
       <DropZone

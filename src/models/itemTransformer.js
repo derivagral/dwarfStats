@@ -13,6 +13,10 @@ import { createEmptyItem, Rarity } from './Item.js';
 const ITEMS_TABLE_SNIPPET = 'DT_Items.DT_Items';
 const POOL_PREFIXES = ['Pool1', 'Pool2', 'Pool3', 'Inherent'];
 
+// Keys to skip when collecting inventory items – these are extracted
+// separately by equipmentParser.extractEquippedItems()
+const EQUIPMENT_KEY_RE = /^(EquipmentItems|HotbarItems)_/i;
+
 // Monogram detection prefix
 const MONOGRAM_TAG_PREFIX = 'EasyRPG.Items.Modifiers.';
 
@@ -434,15 +438,26 @@ export function transformItem(rawStruct, index = 0) {
 }
 
 /**
- * Walk JSON tree to find all item structures
+ * Walk JSON tree to find inventory item structures.
+ *
+ * Skips EquipmentItems and HotbarItems arrays – those are extracted
+ * separately by {@link extractEquippedItems} in equipmentParser.js.
+ * This prevents equipped items from appearing in the inventory list and
+ * avoids the need for post-hoc deduplication via removeEquippedItems().
+ *
  * @param {Object} root - Root of JSON tree
- * @returns {Object[]} Array of raw item structures
+ * @returns {Object[]} Array of raw item structures (inventory only)
  */
 export function findAllItemStructs(root) {
   const items = [];
 
-  function traverse(node) {
+  function traverse(node, parentKey) {
     if (!node || typeof node !== 'object') return;
+
+    // Skip equipment / hotbar arrays – handled by extractEquippedItems
+    if (parentKey && EQUIPMENT_KEY_RE.test(parentKey)) {
+      return;
+    }
 
     // Handle Array.Struct.value pattern (inventory arrays)
     if (node.Array && typeof node.Array === 'object') {
@@ -469,16 +484,16 @@ export function findAllItemStructs(root) {
     // Continue traversing
     if (Array.isArray(node)) {
       for (const child of node) {
-        traverse(child);
+        traverse(child, '');
       }
     } else {
-      for (const value of Object.values(node)) {
-        traverse(value);
+      for (const [key, value] of Object.entries(node)) {
+        traverse(value, key);
       }
     }
   }
 
-  traverse(root);
+  traverse(root, '');
   return items;
 }
 

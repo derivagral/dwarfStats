@@ -5,7 +5,7 @@ import { ResultsSection, EmptyResultsSection } from './ResultsSection';
 import { useFileProcessor } from '../../hooks/useFileProcessor';
 import { hasDirPicker } from '../../utils/platform';
 import { playNotificationSound } from '../../utils/sound';
-import { filterByModel, removeEquippedItems } from '../../utils/itemFilter';
+import { filterByModel } from '../../utils/itemFilter';
 import { transformAllItems } from '../../models/itemTransformer';
 import { createFilterModel } from '../../models/FilterModel';
 import { useFilterProfiles } from '../../hooks/useFilterProfiles';
@@ -22,17 +22,6 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
   const { profiles, saveProfile, deleteProfile } = useFilterProfiles();
-  const equippedRowLookup = useRef(new Map());
-
-  useEffect(() => {
-    const next = new Map();
-    for (const item of (itemStore?.equipped || [])) {
-      if (item?.rowName) {
-        next.set(item.rowName, (next.get(item.rowName) || 0) + 1);
-      }
-    }
-    equippedRowLookup.current = next;
-  }, [itemStore?.equipped]);
 
   /**
    * Run filtering against an array of Item models
@@ -50,10 +39,9 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
         onLog(`Converting: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`);
         const result = await processFile(file);
 
-        // Transform raw JSON into Item models
-        const { items } = transformAllItems(result.json);
-        const searchableItems = removeEquippedItems(items, equippedRowLookup.current);
-        const excludedCount = items.length - searchableItems.length;
+        // Transform raw JSON into Item models (equipment arrays are
+        // automatically excluded by the transformer)
+        const { items: searchableItems } = transformAllItems(result.json);
         const { hits, close, totalItems } = runFilter(searchableItems, model);
 
         setResults(prev => {
@@ -68,7 +56,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
           return next;
         });
 
-        onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items (${excludedCount} equipped excluded)`);
+        onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
 
         if (hits.length > 0) {
           playNotificationSound();
@@ -97,9 +85,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
         return;
       }
 
-      const searchableItems = removeEquippedItems(items, equippedRowLookup.current);
-      const excludedCount = items.length - searchableItems.length;
-      const { hits, close, totalItems } = runFilter(searchableItems, filterModel);
+      const { hits, close, totalItems } = runFilter(items, filterModel);
 
       setResults(prev => {
         const next = new Map(prev);
@@ -117,7 +103,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
         setLastFiles([initialSaveData.file]);
       }
 
-      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename} (${excludedCount} equipped excluded)`);
+      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename}`);
 
       if (hits.length > 0) {
         playNotificationSound();
@@ -315,17 +301,15 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
       await processFiles(lastFiles, filterModel);
       onStatusChange('Ready', 'ready');
     } else if (itemStore?.inventory?.length) {
-      // Re-filter existing inventory
+      // Re-filter existing inventory (already excludes equipped items)
       const filename = itemStore?.metadata?.filename || 'loaded.sav';
-      const searchableItems = removeEquippedItems(itemStore.inventory, equippedRowLookup.current);
-      const excludedCount = itemStore.inventory.length - searchableItems.length;
-      const { hits, close, totalItems } = runFilter(searchableItems, filterModel);
+      const { hits, close, totalItems } = runFilter(itemStore.inventory, filterModel);
       setResults(new Map([[filename, {
         hits, close, totalItems,
         timestamp: Date.now(),
         filterModel,
       }]]));
-      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items (${excludedCount} equipped excluded)`);
+      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
       if (hits.length > 0) playNotificationSound();
     }
   }, [filterModel, lastFiles, processFiles, onLog, onStatusChange, itemStore, runFilter]);

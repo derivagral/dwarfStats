@@ -10,6 +10,10 @@ import { transformAllItems } from '../../models/itemTransformer';
 import { createFilterModel } from '../../models/FilterModel';
 import { useFilterProfiles } from '../../hooks/useFilterProfiles';
 
+function removeEquippedItems(items, equippedLookup) {
+  return items.filter(item => !equippedLookup.has(item.rowName));
+}
+
 export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange }) {
   const [results, setResults] = useState(new Map());
   const [filterModel, setFilterModel] = useState(() => createFilterModel('Default'));
@@ -22,6 +26,17 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
   const { profiles, saveProfile, deleteProfile } = useFilterProfiles();
+  const equippedRowLookup = useRef(new Set());
+
+  useEffect(() => {
+    const next = new Set();
+    for (const item of (itemStore?.equipped || [])) {
+      if (item?.rowName) {
+        next.add(item.rowName);
+      }
+    }
+    equippedRowLookup.current = next;
+  }, [itemStore?.equipped]);
 
   /**
    * Run filtering against an array of Item models
@@ -41,7 +56,9 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
 
         // Transform raw JSON into Item models
         const { items } = transformAllItems(result.json);
-        const { hits, close, totalItems } = runFilter(items, model);
+        const searchableItems = removeEquippedItems(items, equippedRowLookup.current);
+        const excludedCount = items.length - searchableItems.length;
+        const { hits, close, totalItems } = runFilter(searchableItems, model);
 
         setResults(prev => {
           const next = new Map(prev);
@@ -55,7 +72,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
           return next;
         });
 
-        onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
+        onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items (${excludedCount} equipped excluded)`);
 
         if (hits.length > 0) {
           playNotificationSound();
@@ -84,7 +101,9 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
         return;
       }
 
-      const { hits, close, totalItems } = runFilter(items, filterModel);
+      const searchableItems = removeEquippedItems(items, equippedRowLookup.current);
+      const excludedCount = items.length - searchableItems.length;
+      const { hits, close, totalItems } = runFilter(searchableItems, filterModel);
 
       setResults(prev => {
         const next = new Map(prev);
@@ -102,7 +121,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange })
         setLastFiles([initialSaveData.file]);
       }
 
-      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename}`);
+      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename} (${excludedCount} equipped excluded)`);
 
       if (hits.length > 0) {
         playNotificationSound();

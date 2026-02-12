@@ -6,6 +6,22 @@ import { transformItem } from '../models/itemTransformer.js';
 const EQUIPMENT_ITEMS_PATTERN = /EquipmentItems_\d+_[A-F0-9]+_0/i;
 const HOTBAR_ITEMS_PATTERN = /HotbarItems_\d+_[A-F0-9]+_0/i;
 
+const SLOT_LABELS = {
+  head: 'Head',
+  chest: 'Chest',
+  hands: 'Hands',
+  pants: 'Pants',
+  boots: 'Boots',
+  weapon: 'Weapon',
+  neck: 'Neck',
+  bracer: 'Bracer',
+  ring: 'Ring',
+  relic: 'Relic',
+  fossil: 'Fossil',
+  dragon: 'Dragon',
+  offhand: 'Offhand',
+};
+
 // Map item row names to equipment slots
 const SLOT_MAPPING = {
   // Head
@@ -73,7 +89,7 @@ const SLOT_MAPPING = {
 };
 
 // Determine slot from item row name
-function determineSlot(itemRow) {
+function determineSlot(itemRow, fallback = 'unknown') {
   if (!itemRow) return 'unknown';
 
   const lowerRow = itemRow.toLowerCase();
@@ -99,7 +115,27 @@ function determineSlot(itemRow) {
     }
   }
 
-  return 'offhand'; // Default to offhand if unknown
+  return fallback;
+}
+
+/**
+ * Infer likely equipment slot from an item row name.
+ * Uses the same keyword rules as equipped item extraction.
+ *
+ * @param {string} itemRow - Item row name from DT_Items
+ * @returns {string} Slot key or 'unknown'
+ */
+export function inferEquipmentSlot(itemRow) {
+  return determineSlot(itemRow, 'unknown');
+}
+
+/**
+ * Format a slot key for display.
+ * @param {string} slot - Slot key (head, chest, etc.)
+ * @returns {string} Human-friendly slot label
+ */
+export function formatSlotLabel(slot) {
+  return SLOT_LABELS[slot] || '';
 }
 
 /**
@@ -114,7 +150,7 @@ function processEquippedItem(itemStruct, index) {
   const item = transformItem(itemStruct, index);
 
   // Add slot based on row name
-  const slot = determineSlot(item.rowName);
+  const slot = determineSlot(item.rowName, 'offhand');
 
   return {
     ...item,

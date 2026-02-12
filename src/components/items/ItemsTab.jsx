@@ -3,25 +3,9 @@ import { ItemDetailTooltip } from '../character/ItemDetailTooltip';
 import { ItemEditor } from '../character/ItemEditor';
 import { transformAllItems } from '../../models/itemTransformer';
 import { useItemOverrides } from '../../hooks/useItemOverrides';
+import { inferEquipmentSlot, formatSlotLabel } from '../../utils/equipmentParser';
 
 const DEFAULT_FILTERS = '';
-
-const SLOT_LABELS = {
-  head: 'Head',
-  chest: 'Chest',
-  hands: 'Hands',
-  pants: 'Pants',
-  boots: 'Boots',
-  weapon: 'Weapon',
-  neck: 'Neck',
-  bracer: 'Bracer',
-  ring: 'Ring',
-  relic: 'Relic',
-  fossil: 'Fossil',
-  dragon: 'Dragon',
-  offhand: 'Offhand',
-  unknown: 'Equipped'
-};
 
 const SLOT_OPTIONS = [
   { key: 'weapon', label: 'Weapon' },
@@ -79,7 +63,7 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
 
     for (const item of equippedItems) {
       if (!item?.rowName) continue;
-      const label = SLOT_LABELS[item.slot] || item.slot || SLOT_LABELS.unknown;
+      const label = formatSlotLabel(item.slot) || item.slot || 'Equipped';
       lookup.set(item.rowName, label);
     }
 
@@ -426,6 +410,8 @@ function ItemListRow({ item, equippedLabel, isSelected, hasOverrides, onSelect }
     };
   }, [item]);
 
+  const itemSlotLabel = equippedLabel || formatSlotLabel(inferEquipmentSlot(item.rowName));
+
   return (
     <div
       ref={rowRef}
@@ -450,7 +436,7 @@ function ItemListRow({ item, equippedLabel, isSelected, hasOverrides, onSelect }
     >
       <div className="items-list-info">
         <div className="items-list-name">{item.displayName}</div>
-        <div className="items-list-type">{item.type}</div>
+        <div className="items-list-type">{itemSlotLabel || item.type}</div>
       </div>
       {hasOverrides && <span className="item-badge modified" title="Has modifications">✎</span>}
       {equippedLabel && <span className="item-badge equipped">Equipped: {equippedLabel}</span>}

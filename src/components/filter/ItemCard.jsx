@@ -1,5 +1,6 @@
 import React from 'react';
 import { getMonogramName } from '../../utils/monogramRegistry';
+import { inferEquipmentSlot, formatSlotLabel } from '../../utils/equipmentParser';
 
 /**
  * Render a pool's affixes with match highlighting.
@@ -83,6 +84,7 @@ function MonogramSection({ monograms, matchedIds, missingIds }) {
 
 export function ItemCard({ item, type, filterModel, equippedLabel = '', showScores = true }) {
   const scoreClass = (val) => val >= 2 ? 'good' : val === 1 ? 'partial' : 'zero';
+  const slotLabel = equippedLabel || formatSlotLabel(inferEquipmentSlot(item.rowName));
 
   const pool1 = item.affixPools?.pool1 || [];
   const pool2 = item.affixPools?.pool2 || [];
@@ -101,7 +103,7 @@ export function ItemCard({ item, type, filterModel, equippedLabel = '', showScor
           {equippedLabel && (
             <span className="item-badge equipped">Equipped: {equippedLabel}</span>
           )}
-          <div className="item-type">{item.type}</div>
+          <div className="item-type">{slotLabel || item.type}</div>
         </div>
       </div>
 

@@ -103,7 +103,8 @@ Tab callbacks:
 3. **Convert** → WASM `to_json()` converts bytes to JSON
 4. **Parse** → `JSON.parse()` result
 5. **Transform** → `extractEquippedItems()` uses `transformItem()` to create unified Item models
-6. **Display** → All UI reads from Item model, not raw save data
+6. **Filter** → Filter tab excludes equipped items (matched by `rowName`) from search results
+7. **Display** → All UI reads from Item model, not raw save data. Slot labels inferred via `inferEquipmentSlot()`
 
 ## Unified Item Model
 
@@ -182,7 +183,11 @@ Detection in `src/utils/platform.js`.
 Edit `src/utils/attributeDisplay.js` - add mapping to `ATTRIBUTE_NAMES` object.
 
 ### Adding a new equipment slot
-Edit `src/utils/equipmentParser.js` - update `SLOT_PATTERNS` and slot type handling.
+Edit `src/utils/equipmentParser.js` - update `SLOT_MAPPING`, `SLOT_LABELS`, and keyword patterns.
+
+Slot utilities exported from `equipmentParser.js`:
+- `inferEquipmentSlot(rowName)` - guess slot from any item row name (returns `'unknown'` if unrecognized)
+- `formatSlotLabel(slotKey)` - convert slot key to display label (`'head'` → `'Head'`)
 
 ### Changing filter defaults
 Edit `src/components/filter/FilterTab.jsx` - modify `DEFAULT_FILTERS` constant.

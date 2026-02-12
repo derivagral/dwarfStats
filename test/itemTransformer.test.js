@@ -329,5 +329,104 @@ describe('itemTransformer', () => {
       expect(result.totalCount).toBe(0);
       expect(result.items).toEqual([]);
     });
+
+    it('should skip EquipmentItems arrays (handled by extractEquippedItems)', () => {
+      const makeItemStruct = (rowName, name) => ({
+        Struct: {
+          'ItemHandle_50_XXX': {
+            Struct: {
+              Struct: {
+                DataTable_0: {
+                  Object: '/Game/EasySurvivalRPG/Blueprints/DataTables/DT_Items.DT_Items',
+                },
+                RowName_0: { Name: rowName },
+              },
+            },
+          },
+          'GeneratedName_57_XXX': { Str: name },
+        },
+      });
+
+      const saveData = {
+        root: {
+          properties: {
+            // Inventory items – should be found
+            InventoryItems_38_ABCDEF_0: {
+              Array: {
+                Struct: {
+                  value: [
+                    makeItemStruct('Armor_Helmet_Zone_1', 'Inv Helmet'),
+                    makeItemStruct('Armor_Boots_Zone_2', 'Inv Boots'),
+                  ],
+                },
+              },
+            },
+            // Equipment items – should be SKIPPED
+            EquipmentItems_40_123456_0: {
+              Array: {
+                Struct: {
+                  value: [
+                    makeItemStruct('Armor_Gloves_End_Game', 'Havoc Halo'),
+                  ],
+                },
+              },
+            },
+            // Hotbar items – should be SKIPPED
+            HotbarItems_42_789ABC_0: {
+              Array: {
+                Struct: {
+                  value: [
+                    makeItemStruct('Weapon_Maul_GM5', 'Emberbane Crush'),
+                  ],
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const result = transformAllItems(saveData);
+
+      // Only inventory items should be returned
+      expect(result.totalCount).toBe(2);
+      expect(result.items.map(i => i.displayName).sort()).toEqual(['Inv Boots', 'Inv Helmet']);
+    });
+
+    it('should include items from non-equipment arrays with numeric suffixes', () => {
+      const saveData = {
+        root: {
+          properties: {
+            SomeArray_0: {
+              Array: {
+                Struct: {
+                  value: [
+                    {
+                      Struct: {
+                        'ItemHandle_50_XXX': {
+                          Struct: {
+                            Struct: {
+                              DataTable_0: {
+                                Object: '/Game/EasySurvivalRPG/Blueprints/DataTables/DT_Items.DT_Items',
+                              },
+                              RowName_0: { Name: 'Armor_Chest_Zone_3' },
+                            },
+                          },
+                        },
+                        'GeneratedName_57_XXX': { Str: 'Chest Piece' },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const result = transformAllItems(saveData);
+
+      expect(result.totalCount).toBe(1);
+      expect(result.items[0].displayName).toBe('Chest Piece');
+    });
   });
 });

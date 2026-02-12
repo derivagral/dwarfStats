@@ -5,14 +5,10 @@ import { ResultsSection, EmptyResultsSection } from './ResultsSection';
 import { useFileProcessor } from '../../hooks/useFileProcessor';
 import { hasDirPicker } from '../../utils/platform';
 import { playNotificationSound } from '../../utils/sound';
-import { filterByModel } from '../../utils/itemFilter';
+import { filterByModel, removeEquippedItems } from '../../utils/itemFilter';
 import { transformAllItems } from '../../models/itemTransformer';
 import { createFilterModel } from '../../models/FilterModel';
 import { useFilterProfiles } from '../../hooks/useFilterProfiles';
-
-function removeEquippedItems(items, equippedLookup) {
-  return items.filter(item => !equippedLookup.has(item.rowName));
-}
 
 export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, sharedFilterModel, onSharedFilterConsumed }) {
   const [results, setResults] = useState(new Map());
@@ -26,13 +22,13 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
   const { profiles, saveProfile, deleteProfile } = useFilterProfiles();
-  const equippedRowLookup = useRef(new Set());
+  const equippedRowLookup = useRef(new Map());
 
   useEffect(() => {
-    const next = new Set();
+    const next = new Map();
     for (const item of (itemStore?.equipped || [])) {
       if (item?.rowName) {
-        next.add(item.rowName);
+        next.set(item.rowName, (next.get(item.rowName) || 0) + 1);
       }
     }
     equippedRowLookup.current = next;

@@ -202,3 +202,26 @@ export function filterByModel(items, filterModel) {
 
   return { hits, close, totalItems: items.length };
 }
+
+/**
+ * Remove equipped items from an inventory list using count-based matching.
+ *
+ * For each unique rowName, only as many items are excluded as are actually
+ * equipped.  This prevents over-exclusion when the inventory contains
+ * duplicate base types (same rowName) that are *not* equipped.
+ *
+ * @param {import('../models/Item.js').Item[]} items - Full inventory
+ * @param {Map<string, number>} equippedCounts - rowName → equipped count
+ * @returns {import('../models/Item.js').Item[]} Items with equipped instances removed
+ */
+export function removeEquippedItems(items, equippedCounts) {
+  const remaining = new Map(equippedCounts);
+  return items.filter(item => {
+    const count = remaining.get(item.rowName);
+    if (count > 0) {
+      remaining.set(item.rowName, count - 1);
+      return false;
+    }
+    return true;
+  });
+}

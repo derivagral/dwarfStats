@@ -448,6 +448,28 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
 
   // ---------------------------------------------------------------------------
+  // COLOSSUS DAMAGE BONUS (Bracer - 70% damage while active)
+  // ---------------------------------------------------------------------------
+  'Colossus.Damage%': {
+    displayName: 'Colossus Damage',
+    description: '+70% damage while Colossus is active',
+    effects: [
+      { derivedStatId: 'colossusDamageBonus', config: { enabled: true, damageBonus: 70 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // INVENTORY SLOT DAMAGE (Bracer - 2% damage per bonus slot)
+  // ---------------------------------------------------------------------------
+  'ExtraInventorySlotForDamage%': {
+    displayName: 'Damage% (Inv Slot)',
+    description: '+2% damage per bonus inventory slot',
+    effects: [
+      { derivedStatId: 'invSlotDamageBonus', config: { enabled: true, bonusPerSlot: 2 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
   // CRIT CHANCE FROM ENERGY REGEN (Bracer - 1:1 ratio)
   // ---------------------------------------------------------------------------
   'CritChanceForEnergyRegen': {
@@ -459,12 +481,11 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
 
   // ---------------------------------------------------------------------------
-  // DAMAGE% FOR STAT2 (Bracer - exact formula TBD)
-  // Possibly 1% damageBonus per 50 highest stat, or 2% per inv slot
+  // DAMAGE% FOR STAT2 (Bracer - 1% per 50 highest stat)
   // ---------------------------------------------------------------------------
   'Damage%ForStat2.Highest': {
     displayName: 'Stat Damage% II',
-    description: 'Damage% from highest stat (exact formula TBD)',
+    description: '+1% damage per 50 of highest stat',
     effects: [
       { derivedStatId: 'damagePercentForStat2', config: { enabled: true, damagePerInterval: 1, statInterval: 50 } },
     ],

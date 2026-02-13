@@ -1455,8 +1455,7 @@ export const DERIVED_STATS = {
 
   // ---------------------------------------------------------------------------
   // DAMAGE% FOR STAT2 (Bracer Monogram)
-  // Uncertain: possibly 1% damageBonus per 50 highest stat
-  // Alternative interpretation: 2% damageBonus per extra inventory slot
+  // 1% damageBonus per 50 of highest stat (duplicate ID for same mechanic)
   // ---------------------------------------------------------------------------
   damagePercentForStat2: {
     id: 'damagePercentForStat2',
@@ -1476,7 +1475,7 @@ export const DERIVED_STATS = {
       return Math.floor(highest / config.statInterval) * config.damagePerInterval;
     },
     format: v => `+${v.toFixed(0)}%`,
-    description: 'Damage% from highest stat (1% per 50, exact formula TBD)',
+    description: 'Damage% from highest stat (1% per 50)',
   },
 
   // ---------------------------------------------------------------------------
@@ -1712,6 +1711,53 @@ export const DERIVED_STATS = {
     },
     format: v => v > 0 ? 'Active' : 'Inactive',
     description: 'Doubles buff durations',
+  },
+
+  // ---------------------------------------------------------------------------
+  // COLOSSUS DAMAGE BONUS (Bracer Monogram)
+  // 70% damage while Colossus is active
+  // ---------------------------------------------------------------------------
+  colossusDamageBonus: {
+    id: 'colossusDamageBonus',
+    name: 'Colossus Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      damageBonus: 70, // 70% damage while Colossus active
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.colossusDamageBonus.config;
+      return config.enabled ? config.damageBonus : 0;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: '70% damage while Colossus is active',
+  },
+
+  // ---------------------------------------------------------------------------
+  // INVENTORY SLOT DAMAGE BONUS (Bracer Monogram)
+  // 2% damage per bonus inventory slot
+  // ---------------------------------------------------------------------------
+  invSlotDamageBonus: {
+    id: 'invSlotDamageBonus',
+    name: 'Damage% (Inv Slot)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerSlot: 2, // 2% damage per extra slot
+      extraSlots: 0,   // populated from save data / user config
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.invSlotDamageBonus.config;
+      if (!config.enabled) return 0;
+      const slots = config.extraSlots || stats.extraInventorySlots || 0;
+      return slots * config.bonusPerSlot;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage% per bonus inventory slot (2% per slot)',
   },
 };
 

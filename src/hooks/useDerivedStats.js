@@ -268,6 +268,7 @@ export function useDerivedStats(options = {}) {
       'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
       'pulseArcaneDamage', 'pulseFireDamage', 'pulseLightningDamage',
       'chargedSecondaryDamageBonus', 'shroudMaxStacksMultiplier',
+      'colossusDamageBonus', 'invSlotDamageBonus',
     ]);
 
     // Map internal categories to display categories

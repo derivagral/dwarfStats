@@ -120,6 +120,12 @@ export const MONOGRAM_REGISTRY = {
     category: 'colossus',
     description: 'Damage reduction while Colossus active',
   },
+  'Colossus.Damage%': {
+    id: 'Colossus.Damage%',
+    name: 'Colossus Damage',
+    category: 'colossus',
+    description: '+70% damage while Colossus is active',
+  },
   'Colossus.DoubleAttackSpeed': {
     id: 'Colossus.DoubleAttackSpeed',
     name: 'Colossus 2x IAS',
@@ -504,7 +510,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Damage%ForStat2.Highest',
     name: 'Stat Damage% II',
     category: 'damage',
-    description: 'Damage% from highest stat (exact formula TBD — possibly 1% per 50 or 2% per inv slot)',
+    description: '+1% damage per 50 of highest stat',
   },
   'HighestStatForDamage': {
     id: 'HighestStatForDamage',
@@ -693,6 +699,12 @@ export const MONOGRAM_REGISTRY = {
     name: 'Crit Damage (Inv)',
     category: 'inventory',
     description: '+5% crit damage per extra inventory slot',
+  },
+  'ExtraInventorySlotForDamage%': {
+    id: 'ExtraInventorySlotForDamage%',
+    name: 'Damage% (Inv)',
+    category: 'inventory',
+    description: '+2% damage per bonus inventory slot',
   },
 
   // ---------------------------------------------------------------------------
@@ -900,7 +912,7 @@ export const SLOT_MONOGRAMS = {
     'Health%ForHighest', 'ChanceToSpawnContainer', 'Shroud.ExtraHp',
   ],
   bracer: [
-    'Colossus.DoubleAttackSpeed', 'CritChanceForEnergyRegen',
+    'Colossus.DoubleAttackSpeed', 'Colossus.Damage%', 'CritChanceForEnergyRegen',
     'ExplodingLightningMineNode', 'ExplodingFireMineNode',
     'Damage%ForStat2.Highest', 'SecondaryBuild.ChargedSecondaryDamageForStat.Highest',
     'GoldOnDailyComplete', 'Damage%NoPotion', 'Bloodlust.DrawBlood',
@@ -909,6 +921,7 @@ export const SLOT_MONOGRAMS = {
     'Phasing.TranceEffectsPotency.Highest', 'PulseExplosion_Fire',
     'ExplodingArcaneMineNode', 'DoubleBuffLength', 'ChanceToSpawnAnotherElite',
     'PulseExplosion_Arcane', 'GainDamageForHPLoseArmor', 'Shroud.MaxStacksBonus',
+    'ExtraInventorySlotForDamage%',
   ],
   boots: [
     'Phasing.MovementSpeedBonus', 'PotionBonus.MaxHp%', 'ChanceToSpawnAnotherElite',

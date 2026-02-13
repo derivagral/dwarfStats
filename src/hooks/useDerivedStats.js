@@ -261,6 +261,13 @@ export function useDerivedStats(options = {}) {
       'paragonLevel', 'paragonArmorBonus', 'paragonDamageBonus', 'paragonHpBonus',
       'shroudDamageBonus', 'shroudFlatDamageBonus',
       'snailSpawnChance', 'lifestealToEnergySteal',
+      // Bracer monogram stats
+      'bloodlustDrawBloodBonus', 'colossusDoubleAttackSpeed',
+      'critChanceFromEnergyRegen', 'damagePercentForStat2',
+      'damageNoPotionBonus', 'doubleBuffLength',
+      'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
+      'pulseArcaneDamage', 'pulseFireDamage', 'pulseLightningDamage',
+      'chargedSecondaryDamageBonus', 'shroudMaxStacksMultiplier',
     ]);
 
     // Map internal categories to display categories

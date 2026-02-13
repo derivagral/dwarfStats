@@ -84,7 +84,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Bloodlust.DrawBlood',
     name: 'Draw Blood',
     category: 'bloodlust',
-    description: 'Bloodlust blood draw effect',
+    description: '+1% damage per bloodlust stack (100% at max 100 stacks)',
   },
   'Bloodlust.DrawLife': {
     id: 'Bloodlust.DrawLife',
@@ -122,9 +122,9 @@ export const MONOGRAM_REGISTRY = {
   },
   'Colossus.DoubleAttackSpeed': {
     id: 'Colossus.DoubleAttackSpeed',
-    name: 'Colossus Attack Speed',
+    name: 'Colossus 2x IAS',
     category: 'colossus',
-    description: 'Double attack speed during Colossus',
+    description: '2x attack speed during Colossus (not high-value stat)',
   },
   'Colossus.ElementalBonusForHighestStat.Arcane': {
     id: 'Colossus.ElementalBonusForHighestStat.Arcane',
@@ -168,9 +168,9 @@ export const MONOGRAM_REGISTRY = {
   },
   'Shroud.MaxStacksBonus': {
     id: 'Shroud.MaxStacksBonus',
-    name: 'Shroud Stacks',
+    name: 'Shroud First-Hit',
     category: 'shroud',
-    description: 'Increased max shroud stacks',
+    description: '2x damage on first hit (light→dark shroud transition)',
   },
   'Shroud.OnLose': {
     id: 'Shroud.OnLose',
@@ -316,19 +316,19 @@ export const MONOGRAM_REGISTRY = {
     id: 'PulseExplosion_Arcane',
     name: 'Arcane Pulse',
     category: 'pulse',
-    description: 'Periodic arcane explosion',
+    description: 'Pulse arcane damage (3% of arcane bonus × 100 stacks)',
   },
   'PulseExplosion_Fire': {
     id: 'PulseExplosion_Fire',
     name: 'Fire Pulse',
     category: 'pulse',
-    description: 'Periodic fire explosion',
+    description: 'Pulse fire damage (3% of fire bonus × 100 stacks)',
   },
   'PulseExplosion_Lightning': {
     id: 'PulseExplosion_Lightning',
     name: 'Lightning Pulse',
     category: 'pulse',
-    description: 'Periodic lightning explosion',
+    description: 'Pulse lightning damage (3% of lightning bonus × 100 stacks)',
   },
 
   // ---------------------------------------------------------------------------
@@ -338,19 +338,19 @@ export const MONOGRAM_REGISTRY = {
     id: 'ExplodingArcaneMineNode',
     name: 'Arcane Mine',
     category: 'mines',
-    description: 'Drop arcane mines',
+    description: '+5% arcane bonus per stack (20 stacks max = 100%)',
   },
   'ExplodingFireMineNode': {
     id: 'ExplodingFireMineNode',
     name: 'Fire Mine',
     category: 'mines',
-    description: 'Drop fire mines',
+    description: '+5% fire bonus per stack (20 stacks max = 100%)',
   },
   'ExplodingLightningMineNode': {
     id: 'ExplodingLightningMineNode',
     name: 'Lightning Mine',
     category: 'mines',
-    description: 'Drop lightning mines',
+    description: '+5% lightning bonus per stack (20 stacks max = 100%)',
   },
 
   // ---------------------------------------------------------------------------
@@ -454,7 +454,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Damage%NoPotion',
     name: 'No Potion Damage',
     category: 'potion',
-    description: 'Damage bonus when no potions available',
+    description: '+5% damage per potion slot (drawback: cannot use potions)',
   },
   'ProcOffhandsOnPotion': {
     id: 'ProcOffhandsOnPotion',
@@ -502,9 +502,9 @@ export const MONOGRAM_REGISTRY = {
   },
   'Damage%ForStat2.Highest': {
     id: 'Damage%ForStat2.Highest',
-    name: 'Stat Damage %',
+    name: 'Stat Damage% II',
     category: 'damage',
-    description: 'Percent damage based on highest stat',
+    description: 'Damage% from highest stat (exact formula TBD — possibly 1% per 50 or 2% per inv slot)',
   },
   'HighestStatForDamage': {
     id: 'HighestStatForDamage',
@@ -566,9 +566,9 @@ export const MONOGRAM_REGISTRY = {
   },
   'CritChanceForEnergyRegen': {
     id: 'CritChanceForEnergyRegen',
-    name: 'Energy Regen Crit',
+    name: 'Crit from Energy Regen',
     category: 'crit',
-    description: 'Crit chance based on energy regen',
+    description: '1:1 energy regen → crit chance',
   },
   'GainCritChanceForHighest': {
     id: 'GainCritChanceForHighest',
@@ -746,7 +746,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'SecondaryBuild.ChargedSecondaryDamageForStat.Highest',
     name: 'Charged Secondary',
     category: 'secondary',
-    description: 'Charged secondary damage scales with highest stat',
+    description: '+100% charged secondary damage per 100 highest stat (primary scaling driver)',
   },
   'SecondaryBuild.DoubleChargedDamage': {
     id: 'SecondaryBuild.DoubleChargedDamage',
@@ -824,7 +824,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'DoubleBuffLength',
     name: 'Extended Buffs',
     category: 'utility',
-    description: 'Double buff duration',
+    description: 'Doubles buff durations (not relevant to stat calcs)',
   },
   'ChanceForSnails': {
     id: 'ChanceForSnails',
@@ -854,7 +854,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'GoldOnDailyComplete',
     name: 'Daily Gold',
     category: 'utility',
-    description: 'Bonus gold on daily completion',
+    description: '+300k gold on daily completion (not relevant to calcs)',
   },
   'SharedImbunedBeetles': {
     id: 'SharedImbunedBeetles',

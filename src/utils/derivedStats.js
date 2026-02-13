@@ -1380,6 +1380,339 @@ export const DERIVED_STATS = {
     format: v => `+${v.toFixed(0)}`,
     description: 'Flat damage from total life (1% of life)',
   },
+
+  // ===========================================================================
+  // BRACER MONOGRAM STATS
+  // ===========================================================================
+
+  // ---------------------------------------------------------------------------
+  // BLOODLUST DRAW BLOOD (Bracer Monogram)
+  // 1% damage bonus per bloodlust stack (100% at max 100 stacks)
+  // ---------------------------------------------------------------------------
+  bloodlustDrawBloodBonus: {
+    id: 'bloodlustDrawBloodBonus',
+    name: 'Draw Blood Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['bloodlustStacks'],
+    config: {
+      damagePerStack: 1, // 1% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.bloodlustDrawBloodBonus.config;
+      const stacks = stats.bloodlustStacks || 0;
+      return stacks * config.damagePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage bonus from Draw Blood (1% per bloodlust stack)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // COLOSSUS DOUBLE ATTACK SPEED (Bracer Monogram)
+  // 2x IAS during Colossus (display flag)
+  // ---------------------------------------------------------------------------
+  colossusDoubleAttackSpeed: {
+    id: 'colossusDoubleAttackSpeed',
+    name: 'Colossus 2x IAS',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      multiplier: 2,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.colossusDoubleAttackSpeed.config;
+      return config.enabled ? config.multiplier : 0;
+    },
+    format: v => v > 0 ? `${v.toFixed(0)}x` : 'Inactive',
+    description: 'Double attack speed during Colossus',
+  },
+
+  // ---------------------------------------------------------------------------
+  // CRIT CHANCE FROM ENERGY REGEN (Bracer Monogram)
+  // 1:1 totalEnergyRegen → crit chance
+  // ---------------------------------------------------------------------------
+  critChanceFromEnergyRegen: {
+    id: 'critChanceFromEnergyRegen',
+    name: 'Crit% (Energy Regen)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      ratio: 1, // 1% crit per 1 energy regen
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.critChanceFromEnergyRegen.config;
+      if (!config.enabled) return 0;
+      const energyRegen = stats.energyRegen || 0;
+      return energyRegen * config.ratio;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Crit chance from energy regen (1:1 ratio)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE% FOR STAT2 (Bracer Monogram)
+  // Uncertain: possibly 1% damageBonus per 50 highest stat
+  // Alternative interpretation: 2% damageBonus per extra inventory slot
+  // ---------------------------------------------------------------------------
+  damagePercentForStat2: {
+    id: 'damagePercentForStat2',
+    name: 'Stat Damage% II',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      damagePerInterval: 1, // 1% damage bonus
+      statInterval: 50,     // per 50 highest stat
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damagePercentForStat2.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.damagePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage% from highest stat (1% per 50, exact formula TBD)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE% NO POTION (Bracer Monogram)
+  // 5% damage per potion slot, drawback: cannot use potions
+  // ---------------------------------------------------------------------------
+  damageNoPotionBonus: {
+    id: 'damageNoPotionBonus',
+    name: 'No Potion Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['potionSlotsFromAttributes'],
+    config: {
+      enabled: false,
+      damagePerSlot: 5, // 5% per potion slot
+      basePotionSlots: 3, // default base potion slots
+      drawback: 'Cannot use potions',
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damageNoPotionBonus.config;
+      if (!config.enabled) return 0;
+      const extraSlots = stats.potionSlotsFromAttributes || 0;
+      const baseSlots = config.basePotionSlots || 3;
+      return (baseSlots + extraSlots) * config.damagePerSlot;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage% per potion slot (5% per slot, cannot use potions)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXPLODING MINES (Bracer Monograms - 20 stacks max each)
+  // 5% elemental bonus per stack
+  // ---------------------------------------------------------------------------
+  arcaneMineBonus: {
+    id: 'arcaneMineBonus',
+    name: 'Mine Arcane%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerStack: 5,
+      maxStacks: 20,
+      currentStacks: 20,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.arcaneMineBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.bonusPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Arcane bonus from mines (5% per stack, 20 max = 100%)',
+  },
+  fireMineBonus: {
+    id: 'fireMineBonus',
+    name: 'Mine Fire%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerStack: 5,
+      maxStacks: 20,
+      currentStacks: 20,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.fireMineBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.bonusPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Fire bonus from mines (5% per stack, 20 max = 100%)',
+  },
+  lightningMineBonus: {
+    id: 'lightningMineBonus',
+    name: 'Mine Lightning%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerStack: 5,
+      maxStacks: 20,
+      currentStacks: 20,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lightningMineBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.bonusPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Lightning bonus from mines (5% per stack, 20 max = 100%)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // PULSE EXPLOSIONS (Bracer Monograms - 100 stacks max)
+  // Proc damage = 3% of elementalBonus per stack
+  // ---------------------------------------------------------------------------
+  pulseArcaneDamage: {
+    id: 'pulseArcaneDamage',
+    name: 'Pulse Arcane Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['arcaneMineBonus'],
+    config: {
+      enabled: false,
+      percentPerStack: 3,
+      maxStacks: 100,
+      currentStacks: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.pulseArcaneDamage.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      // Total arcane bonus from all sources
+      const arcaneBonus = (stats.arcaneBonus || 0) + (stats.arcaneMineBonus || 0);
+      return stacks * (config.percentPerStack / 100) * arcaneBonus;
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Pulse arcane proc damage (3% of arcane bonus × stacks, 100 max)',
+  },
+  pulseFireDamage: {
+    id: 'pulseFireDamage',
+    name: 'Pulse Fire Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['fireMineBonus'],
+    config: {
+      enabled: false,
+      percentPerStack: 3,
+      maxStacks: 100,
+      currentStacks: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.pulseFireDamage.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      const fireBonus = (stats.fireBonus || 0) + (stats.fireMineBonus || 0);
+      return stacks * (config.percentPerStack / 100) * fireBonus;
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Pulse fire proc damage (3% of fire bonus × stacks, 100 max)',
+  },
+  pulseLightningDamage: {
+    id: 'pulseLightningDamage',
+    name: 'Pulse Lightning Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['lightningMineBonus'],
+    config: {
+      enabled: false,
+      percentPerStack: 3,
+      maxStacks: 100,
+      currentStacks: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.pulseLightningDamage.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      const lightningBonus = (stats.lightningBonus || 0) + (stats.lightningMineBonus || 0);
+      return stacks * (config.percentPerStack / 100) * lightningBonus;
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Pulse lightning proc damage (3% of lightning bonus × stacks, 100 max)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // CHARGED SECONDARY DAMAGE (Bracer Monogram - primary scaling driver)
+  // 100% charged secondary damage per 100 of highest stat
+  // ---------------------------------------------------------------------------
+  chargedSecondaryDamageBonus: {
+    id: 'chargedSecondaryDamageBonus',
+    name: 'Charged Secondary%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      bonusPer100Stat: 100, // 100% charged secondary damage per 100 highest stat
+      uptimeEstimate: 0.5,  // estimated uptime for effective DPS display
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.chargedSecondaryDamageBonus.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / 100) * config.bonusPer100Stat;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Charged secondary damage from highest stat (100% per 100 stat)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SHROUD MAX STACKS BONUS (Bracer Monogram)
+  // 2x multiplier on first hit when light→dark shroud transition
+  // Display only, don't fold into primary damage
+  // ---------------------------------------------------------------------------
+  shroudMaxStacksMultiplier: {
+    id: 'shroudMaxStacksMultiplier',
+    name: 'Shroud First-Hit',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      multiplier: 2,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudMaxStacksMultiplier.config;
+      return config.enabled ? config.multiplier : 0;
+    },
+    format: v => v > 0 ? `${v.toFixed(0)}x` : 'Inactive',
+    description: '2x damage on first hit (light→dark shroud transition)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DOUBLE BUFF LENGTH (Bracer - display stub)
+  // ---------------------------------------------------------------------------
+  doubleBuffLength: {
+    id: 'doubleBuffLength',
+    name: 'Double Buff Length',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.doubleBuffLength.config;
+      return config.enabled ? 1 : 0;
+    },
+    format: v => v > 0 ? 'Active' : 'Inactive',
+    description: 'Doubles buff durations',
+  },
 };
 
 // ============================================================================

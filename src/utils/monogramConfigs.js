@@ -421,6 +421,175 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
 
   // ===========================================================================
+  // BRACER MONOGRAMS
+  // ===========================================================================
+
+  // ---------------------------------------------------------------------------
+  // BLOODLUST DRAW BLOOD (Bracer - 1% damage per bloodlust stack)
+  // ---------------------------------------------------------------------------
+  'Bloodlust.DrawBlood': {
+    displayName: 'Draw Blood',
+    description: '+1% damage per bloodlust stack (100% at max)',
+    effects: [
+      { derivedStatId: 'bloodlustStacks', config: { enabled: true, maxStacks: 100, currentStacks: 100 } },
+      { derivedStatId: 'bloodlustDrawBloodBonus', config: { damagePerStack: 1 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // COLOSSUS DOUBLE ATTACK SPEED (Bracer - 2x IAS during Colossus)
+  // ---------------------------------------------------------------------------
+  'Colossus.DoubleAttackSpeed': {
+    displayName: 'Colossus 2x IAS',
+    description: '2x attack speed during Colossus',
+    effects: [
+      { derivedStatId: 'colossusDoubleAttackSpeed', config: { enabled: true, multiplier: 2 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // CRIT CHANCE FROM ENERGY REGEN (Bracer - 1:1 ratio)
+  // ---------------------------------------------------------------------------
+  'CritChanceForEnergyRegen': {
+    displayName: 'Crit from Energy Regen',
+    description: '1:1 energy regen → crit chance',
+    effects: [
+      { derivedStatId: 'critChanceFromEnergyRegen', config: { enabled: true, ratio: 1 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE% FOR STAT2 (Bracer - exact formula TBD)
+  // Possibly 1% damageBonus per 50 highest stat, or 2% per inv slot
+  // ---------------------------------------------------------------------------
+  'Damage%ForStat2.Highest': {
+    displayName: 'Stat Damage% II',
+    description: 'Damage% from highest stat (exact formula TBD)',
+    effects: [
+      { derivedStatId: 'damagePercentForStat2', config: { enabled: true, damagePerInterval: 1, statInterval: 50 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE% NO POTION (Bracer - 5% per slot, cannot use potions)
+  // ---------------------------------------------------------------------------
+  'Damage%NoPotion': {
+    displayName: 'No Potion Damage',
+    description: '+5% damage per potion slot (cannot use potions)',
+    effects: [
+      { derivedStatId: 'damageNoPotionBonus', config: { enabled: true, damagePerSlot: 5, basePotionSlots: 3 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // DOUBLE BUFF LENGTH (Bracer - display stub)
+  // ---------------------------------------------------------------------------
+  'DoubleBuffLength': {
+    displayName: 'Extended Buffs',
+    description: 'Doubles buff durations',
+    effects: [
+      { derivedStatId: 'doubleBuffLength', config: { enabled: true } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXPLODING MINES (Bracer - 5% elemental per stack, 20 max)
+  // ---------------------------------------------------------------------------
+  'ExplodingArcaneMineNode': {
+    displayName: 'Arcane Mine',
+    description: '+5% arcane bonus per stack (20 max = 100%)',
+    effects: [
+      { derivedStatId: 'arcaneMineBonus', config: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } },
+    ],
+  },
+  'ExplodingFireMineNode': {
+    displayName: 'Fire Mine',
+    description: '+5% fire bonus per stack (20 max = 100%)',
+    effects: [
+      { derivedStatId: 'fireMineBonus', config: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } },
+    ],
+  },
+  'ExplodingLightningMineNode': {
+    displayName: 'Lightning Mine',
+    description: '+5% lightning bonus per stack (20 max = 100%)',
+    effects: [
+      { derivedStatId: 'lightningMineBonus', config: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // UTILITY STUBS (Bracer - not relevant to calcs)
+  // ---------------------------------------------------------------------------
+  'GoldOnDailyComplete': {
+    displayName: 'Daily Gold',
+    description: '+300k gold on daily completion (not relevant to calcs)',
+    effects: [],
+  },
+  'LargeStonesInContainers': {
+    displayName: 'Large Stones',
+    description: 'Find large stones in containers (not relevant to calcs)',
+    effects: [],
+  },
+  'LongerSnailBuff': {
+    displayName: 'Extended Snail Buff',
+    description: 'Longer snail buff duration (not relevant to calcs)',
+    effects: [],
+  },
+  'ProcOffhandsOnPotion': {
+    displayName: 'Offhand on Potion',
+    description: 'Trigger offhand effects on potion use (not relevant currently)',
+    effects: [],
+  },
+
+  // ---------------------------------------------------------------------------
+  // PULSE EXPLOSIONS (Bracer - 3% of elemental bonus × 100 stacks)
+  // ---------------------------------------------------------------------------
+  'PulseExplosion_Arcane': {
+    displayName: 'Arcane Pulse',
+    description: 'Pulse arcane damage (3% of arcane bonus × 100 stacks)',
+    effects: [
+      { derivedStatId: 'pulseArcaneDamage', config: { enabled: true, percentPerStack: 3, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+  'PulseExplosion_Fire': {
+    displayName: 'Fire Pulse',
+    description: 'Pulse fire damage (3% of fire bonus × 100 stacks)',
+    effects: [
+      { derivedStatId: 'pulseFireDamage', config: { enabled: true, percentPerStack: 3, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+  'PulseExplosion_Lightning': {
+    displayName: 'Lightning Pulse',
+    description: 'Pulse lightning damage (3% of lightning bonus × 100 stacks)',
+    effects: [
+      { derivedStatId: 'pulseLightningDamage', config: { enabled: true, percentPerStack: 3, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // CHARGED SECONDARY (Bracer - primary scaling driver)
+  // 100% charged secondary damage per 100 highest stat
+  // ---------------------------------------------------------------------------
+  'SecondaryBuild.ChargedSecondaryDamageForStat.Highest': {
+    displayName: 'Charged Secondary',
+    description: '+100% charged secondary damage per 100 highest stat',
+    effects: [
+      { derivedStatId: 'chargedSecondaryDamageBonus', config: { enabled: true, bonusPer100Stat: 100 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // SHROUD MAX STACKS BONUS (Bracer - 2x first-hit multiplier)
+  // ---------------------------------------------------------------------------
+  'Shroud.MaxStacksBonus': {
+    displayName: 'Shroud First-Hit',
+    description: '2x damage on first hit (light→dark shroud transition)',
+    effects: [
+      { derivedStatId: 'shroudMaxStacksMultiplier', config: { enabled: true, multiplier: 2 } },
+    ],
+  },
+
+  // ===========================================================================
   // CHARGED GLYPH RUNES (Helmet - TBD, triple secondary charge rate)
   // ===========================================================================
   'Gain2ChargedGlyphRunes': {

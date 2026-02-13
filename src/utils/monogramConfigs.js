@@ -263,6 +263,193 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
 
   // ===========================================================================
+  // CRIT DAMAGE FROM ARMOR (Helmet Monogram)
+  // 1% crit damage per 500 total armor
+  // ===========================================================================
+  'CritDamageForArmor': {
+    displayName: 'Crit from Armor',
+    description: '+1% crit damage per 500 total armor',
+    effects: [
+      { derivedStatId: 'critDamageFromArmor', config: { enabled: true, critDamagePerInterval: 1, armorInterval: 500 } },
+    ],
+  },
+
+  // ===========================================================================
+  // ELEMENT FOR CRIT CHANCE → LIFE (Helmet Monogram)
+  // 1% life bonus per 1% crit over 100%
+  // ===========================================================================
+  'ElementForCritChance.MaxHealth': {
+    displayName: 'Life from Crit',
+    description: '+1% life per 1% crit over 100%',
+    effects: [
+      { derivedStatId: 'lifeBonusFromCritChance', config: { enabled: true, critThreshold: 100, lifePerCrit: 1 } },
+    ],
+  },
+
+  // ===========================================================================
+  // ENERGY TO DAMAGE (Helmet Monogram)
+  // 2 flat damage per energy over base 100
+  // ===========================================================================
+  'ExtraEnergyAddDamage': {
+    displayName: 'Energy to Damage',
+    description: '+2 flat damage per energy over base 100',
+    effects: [
+      { derivedStatId: 'energyDamageBonus', config: { enabled: true, baseEnergy: 100, damagePerEnergy: 2 } },
+    ],
+  },
+
+  // ===========================================================================
+  // INVENTORY SLOT BONUSES (Helmet Monograms)
+  // ===========================================================================
+  'ExtraInventorySlotForAttackSpeed': {
+    displayName: 'Boss Damage (Inv Slot)',
+    description: '+1% boss damage per extra inventory slot',
+    effects: [
+      { derivedStatId: 'invSlotBossDamageBonus', config: { enabled: true, bonusPerSlot: 1 } },
+    ],
+  },
+  'ExtraInventorySlotForCritDamage': {
+    displayName: 'Crit Damage (Inv Slot)',
+    description: '+5% crit damage per extra inventory slot',
+    effects: [
+      { derivedStatId: 'invSlotCritDamageBonus', config: { enabled: true, bonusPerSlot: 5 } },
+    ],
+  },
+
+  // ===========================================================================
+  // JUGGERNAUT (Helmet - Fist Pinnacle, single instance)
+  // +40% MS, +25% crit chance, 2x crit damage multiplier
+  // ===========================================================================
+  'Juggernaut': {
+    displayName: 'Juggernaut',
+    description: '+40% MS, +25% crit, 2x crit damage (fist pinnacle, single instance)',
+    effects: [
+      { derivedStatId: 'juggernautMoveSpeed', config: { enabled: true, moveSpeedBonus: 40 } },
+      { derivedStatId: 'juggernautCritChance', config: { enabled: true, critChanceBonus: 25 } },
+      { derivedStatId: 'juggernautCritDamage', config: { enabled: true, critDamageMultiplier: 2 } },
+    ],
+  },
+
+  // ===========================================================================
+  // LIFESTEAL TO ENERGY STEAL (Helmet - drawback)
+  // ===========================================================================
+  'LifeStealToEnergySteal': {
+    displayName: 'Energy Steal',
+    description: 'Converts lifesteal to energy steal (drawback)',
+    effects: [
+      { derivedStatId: 'lifestealToEnergySteal', config: { enabled: true } },
+    ],
+  },
+
+  // ===========================================================================
+  // PARAGON (Helmet - Melee & Ranged stances)
+  // Per level: 15 armor, 2 flat damage, 10 flat HP
+  // Level from stance XP (out of scope), configurable
+  // ===========================================================================
+  'MeleeParagon.Armor': {
+    displayName: 'Melee Paragon Armor',
+    description: '+15 armor per paragon level (maul/spear/sword/2h)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonArmorBonus', config: { armorPerLevel: 15 } },
+    ],
+  },
+  'MeleeParagon.BaseDamage': {
+    displayName: 'Melee Paragon Damage',
+    description: '+2 flat damage per paragon level (maul/spear/sword/2h)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonDamageBonus', config: { damagePerLevel: 2 } },
+    ],
+  },
+  'MeleeParagon.MaxHp': {
+    displayName: 'Melee Paragon HP',
+    description: '+10 flat HP per paragon level (maul/spear/sword/2h)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonHpBonus', config: { hpPerLevel: 10 } },
+    ],
+  },
+  'RangedParagon.Armor': {
+    displayName: 'Ranged Paragon Armor',
+    description: '+15 armor per paragon level (bow/magery/scythe/fist)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonArmorBonus', config: { armorPerLevel: 15 } },
+    ],
+  },
+  'RangedParagon.BaseDamage': {
+    displayName: 'Ranged Paragon Damage',
+    description: '+2 flat damage per paragon level (bow/magery/scythe/fist)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonDamageBonus', config: { damagePerLevel: 2 } },
+    ],
+  },
+  'RangedParagon.MaxHp': {
+    displayName: 'Ranged Paragon HP',
+    description: '+10 flat HP per paragon level (bow/magery/scythe/fist)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonHpBonus', config: { hpPerLevel: 10 } },
+    ],
+  },
+
+  // ===========================================================================
+  // SHROUD BASE (Helmet - 1H stance enabler)
+  // 5% damageBonus + 1% flatDamageBonus (separate multiplier) per stack, 50 max
+  // ===========================================================================
+  'Shroud': {
+    displayName: 'Shroud',
+    description: '+5% damage + 1% flat damage (separate mult.) per stack (50 max)',
+    effects: [
+      { derivedStatId: 'shroudStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
+      { derivedStatId: 'shroudDamageBonus', config: { damagePerStack: 5 } },
+      { derivedStatId: 'shroudFlatDamageBonus', config: { flatDamagePerStack: 1 } },
+    ],
+  },
+
+  // ===========================================================================
+  // SNAIL SPAWN (Helmet - display only)
+  // ===========================================================================
+  'ChanceForSnails': {
+    displayName: 'Snail Spawn',
+    description: '10% per instance to spawn snails',
+    effects: [
+      { derivedStatId: 'snailSpawnChance', config: { enabled: true, chancePerInstance: 10 } },
+    ],
+  },
+
+  // ===========================================================================
+  // CHARGED GLYPH RUNES (Helmet - TBD, triple secondary charge rate)
+  // ===========================================================================
+  'Gain2ChargedGlyphRunes': {
+    displayName: 'Charged Glyphs',
+    description: 'Triple secondary charge rate (TBD)',
+    effects: [],
+  },
+
+  // ===========================================================================
+  // COLOSSUS BASE (Helmet - 2H capstone)
+  // 50% CDR, 50% IAS, 5% duration, 30s cooldown
+  // ===========================================================================
+  'Colossus.Base': {
+    displayName: 'Colossus',
+    description: '2H capstone: 50% CDR, 50% IAS, 5% duration, 30s CD',
+    effects: [],
+  },
+
+  // ===========================================================================
+  // DAMAGE CIRCLE BASE (Helmet - Unholy Void)
+  // Disables regular attacks/skills, 100% damage weapon hit in AOE
+  // ===========================================================================
+  'DamageCircle.Base': {
+    displayName: 'Unholy Void',
+    description: 'Disables attacks/skills, 100% damage weapon hit in AOE',
+    effects: [],
+  },
+
+  // ===========================================================================
   // COLOSSUS CDR (Amulet - 2H stance, minimal calc impact)
   // ===========================================================================
   'Colossus.CooldownReduceOnEliteKill': {
@@ -321,16 +508,8 @@ export const MONOGRAM_CALC_CONFIGS = {
       baseValue: 1,
     },
   },
-  'Colossus.Base': {
-    displayName: 'Colossus',
-    derivedStatId: null,
-  },
   'Colossus.DamageReduction': {
     displayName: 'Colossus DR',
-    derivedStatId: null,
-  },
-  'DamageCircle.Base': {
-    displayName: 'Damage Circle',
     derivedStatId: null,
   },
   'DamageCircle.DamageForStats.Highest': {

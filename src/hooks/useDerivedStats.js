@@ -253,6 +253,14 @@ export function useDerivedStats(options = {}) {
       'flatDamageMonogramBonus', 'noEnergyDamageBonus',
       'highestStatDamageBonus',
       'eliteSpawnChance', 'containerSpawnChance',
+      // Helmet monogram stats
+      'critDamageFromArmor', 'lifeBonusFromCritChance',
+      'energyDamageBonus',
+      'invSlotBossDamageBonus', 'invSlotCritDamageBonus',
+      'juggernautMoveSpeed', 'juggernautCritChance', 'juggernautCritDamage',
+      'paragonLevel', 'paragonArmorBonus', 'paragonDamageBonus', 'paragonHpBonus',
+      'shroudDamageBonus', 'shroudFlatDamageBonus',
+      'snailSpawnChance', 'lifestealToEnergySteal',
     ]);
 
     // Map internal categories to display categories

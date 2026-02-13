@@ -935,6 +935,317 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
+  // CRIT DAMAGE FROM ARMOR (Helmet Monogram)
+  // 1% crit damage per 500 total armor
+  // ---------------------------------------------------------------------------
+  critDamageFromArmor: {
+    id: 'critDamageFromArmor',
+    name: 'Crit Damage (Armor)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['totalArmor'],
+    config: {
+      enabled: false,
+      critDamagePerInterval: 1, // 1% crit damage
+      armorInterval: 500,       // per 500 total armor
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.critDamageFromArmor.config;
+      if (!config.enabled) return 0;
+      const armor = stats.totalArmor || 0;
+      return Math.floor(armor / config.armorInterval) * config.critDamagePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Crit damage bonus from armor (1% per 500 armor)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // ENERGY TO DAMAGE (Helmet Monogram)
+  // 2 flat damage per energy over base 100
+  // ---------------------------------------------------------------------------
+  energyDamageBonus: {
+    id: 'energyDamageBonus',
+    name: 'Energy Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      baseEnergy: 100,      // energy threshold
+      damagePerEnergy: 2,   // 2 flat damage per energy over base
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.energyDamageBonus.config;
+      if (!config.enabled) return 0;
+      const energy = stats.energy || 0;
+      const excess = Math.max(0, energy - config.baseEnergy);
+      return excess * config.damagePerEnergy;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat damage from energy over 100 (2 per energy)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // INVENTORY SLOT BONUSES (Helmet Monograms)
+  // Slots come from skill tree, cards, etc. — configurable until save mapping
+  // ---------------------------------------------------------------------------
+  invSlotBossDamageBonus: {
+    id: 'invSlotBossDamageBonus',
+    name: 'Boss Damage (Inv)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerSlot: 1,   // 1% boss damage per extra slot
+      extraSlots: 0,     // set from save data
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.invSlotBossDamageBonus.config;
+      if (!config.enabled) return 0;
+      return (config.extraSlots || 0) * config.bonusPerSlot;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Boss damage from extra inventory slots (1% per slot)',
+  },
+  invSlotCritDamageBonus: {
+    id: 'invSlotCritDamageBonus',
+    name: 'Crit Damage (Inv)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerSlot: 5,   // 5% crit damage per extra slot
+      extraSlots: 0,     // set from save data
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.invSlotCritDamageBonus.config;
+      if (!config.enabled) return 0;
+      return (config.extraSlots || 0) * config.bonusPerSlot;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Crit damage from extra inventory slots (5% per slot)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // JUGGERNAUT (Helmet - Fist Pinnacle, single instance only)
+  // +40% move speed, +25% crit chance, 2x crit damage multiplier
+  // ---------------------------------------------------------------------------
+  juggernautMoveSpeed: {
+    id: 'juggernautMoveSpeed',
+    name: 'Juggernaut MS%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      moveSpeedBonus: 40,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.juggernautMoveSpeed.config;
+      if (!config.enabled) return 0;
+      return config.moveSpeedBonus;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Movement speed from Juggernaut (40%, single instance)',
+  },
+  juggernautCritChance: {
+    id: 'juggernautCritChance',
+    name: 'Juggernaut Crit%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      critChanceBonus: 25,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.juggernautCritChance.config;
+      if (!config.enabled) return 0;
+      return config.critChanceBonus;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Crit chance from Juggernaut (25%, single instance)',
+  },
+  juggernautCritDamage: {
+    id: 'juggernautCritDamage',
+    name: 'Juggernaut Crit Dmg',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      critDamageMultiplier: 2, // straight 2x multiplier on crit damage
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.juggernautCritDamage.config;
+      if (!config.enabled) return 0;
+      return config.critDamageMultiplier;
+    },
+    format: v => `${v.toFixed(0)}x`,
+    description: 'Crit damage multiplier from Juggernaut (2x, single instance)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // PARAGON (Helmet Monograms - Melee & Ranged)
+  // Per paragon level: 15 armor, 2 flat damage, 10 flat HP
+  // Paragon level derived from stance XP (3500 XP per level after 5k)
+  // Level configurable — XP calculation out of scope
+  // ---------------------------------------------------------------------------
+  paragonLevel: {
+    id: 'paragonLevel',
+    name: 'Paragon Level',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      level: 0, // set from save data (stance XP / 3500 after 5k threshold)
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.paragonLevel.config;
+      if (!config.enabled) return 0;
+      return config.level;
+    },
+    format: v => v.toFixed(0),
+    description: 'Paragon level (from stance XP, 3500 per level)',
+  },
+  paragonArmorBonus: {
+    id: 'paragonArmorBonus',
+    name: 'Paragon Armor',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['paragonLevel'],
+    config: {
+      armorPerLevel: 15,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.paragonArmorBonus.config;
+      const level = stats.paragonLevel || 0;
+      return level * config.armorPerLevel;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat armor from Paragon level (15 per level)',
+  },
+  paragonDamageBonus: {
+    id: 'paragonDamageBonus',
+    name: 'Paragon Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['paragonLevel'],
+    config: {
+      damagePerLevel: 2,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.paragonDamageBonus.config;
+      const level = stats.paragonLevel || 0;
+      return level * config.damagePerLevel;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat damage from Paragon level (2 per level)',
+  },
+  paragonHpBonus: {
+    id: 'paragonHpBonus',
+    name: 'Paragon HP',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['paragonLevel'],
+    config: {
+      hpPerLevel: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.paragonHpBonus.config;
+      const level = stats.paragonLevel || 0;
+      return level * config.hpPerLevel;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat HP from Paragon level (10 per level)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SHROUD DAMAGE BONUSES (Helmet - base Shroud monogram)
+  // 5% damageBonus per stack + 1% flatDamageBonus per stack (separate multiplier)
+  // ---------------------------------------------------------------------------
+  shroudDamageBonus: {
+    id: 'shroudDamageBonus',
+    name: 'Shroud Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['shroudStacks'],
+    config: {
+      damagePerStack: 5, // 5% per stack = 250% at max
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudDamageBonus.config;
+      const stacks = stats.shroudStacks || 0;
+      return stacks * config.damagePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage bonus from Shroud stacks (5% per stack, 250% at max)',
+  },
+  shroudFlatDamageBonus: {
+    id: 'shroudFlatDamageBonus',
+    name: 'Shroud Flat Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['shroudStacks'],
+    config: {
+      flatDamagePerStack: 1, // 1% per stack = 50% at max (SEPARATE multiplier)
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudFlatDamageBonus.config;
+      const stacks = stats.shroudStacks || 0;
+      return stacks * config.flatDamagePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Flat damage bonus from Shroud stacks (1% per stack, separate multiplier)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SNAIL SPAWN CHANCE (Helmet - display only)
+  // ---------------------------------------------------------------------------
+  snailSpawnChance: {
+    id: 'snailSpawnChance',
+    name: 'Snail Spawn%',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      chancePerInstance: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.snailSpawnChance.config;
+      if (!config.enabled) return 0;
+      const instances = config.instanceCount || 1;
+      return instances * config.chancePerInstance;
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Chance to spawn snails (10% per instance)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // LIFESTEAL TO ENERGY STEAL (Helmet - drawback, no bonus calc)
+  // ---------------------------------------------------------------------------
+  lifestealToEnergySteal: {
+    id: 'lifestealToEnergySteal',
+    name: 'Energy Steal',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lifestealToEnergySteal.config;
+      return config.enabled ? 1 : 0;
+    },
+    format: v => v > 0 ? 'Active' : 'Inactive',
+    description: 'Converts lifesteal to energy steal (drawback)',
+  },
+
+  // ---------------------------------------------------------------------------
   // ESSENCE → CRIT CHAIN
   // Crit chance per essence: 1% crit per 20 essence
   // ---------------------------------------------------------------------------
@@ -986,6 +1297,34 @@ export const DERIVED_STATS = {
     },
     format: v => `+${v.toFixed(0)}%`,
     description: 'Elemental damage from crit over 100% (3% per 1% crit)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // LIFE FROM OVERCRIT (Helmet Monogram - ElementForCritChance.MaxHealth)
+  // 1% life bonus per 1% crit over 100%
+  // ---------------------------------------------------------------------------
+  lifeBonusFromCritChance: {
+    id: 'lifeBonusFromCritChance',
+    name: 'Life% (Crit)',
+    category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['critChanceFromEssence'],
+    config: {
+      enabled: false,
+      critThreshold: 100, // Only counts crit over this %
+      lifePerCrit: 1,     // 1% life per 1% crit over threshold
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lifeBonusFromCritChance.config;
+      if (!config.enabled) return 0;
+      const baseCrit = stats.critChance || 0;
+      const essenceCrit = stats.critChanceFromEssence || 0;
+      const totalCrit = baseCrit + essenceCrit;
+      const excessCrit = Math.max(0, totalCrit - config.critThreshold);
+      return excessCrit * config.lifePerCrit;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from crit over 100% (1% life per 1% overcrit)',
   },
 
   // ---------------------------------------------------------------------------

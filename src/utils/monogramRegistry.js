@@ -106,7 +106,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Colossus.Base',
     name: 'Colossus',
     category: 'colossus',
-    description: 'Base colossus effect',
+    description: '2H capstone: 50% CDR, 50% IAS, 5% duration, 30s CD',
   },
   'Colossus.CooldownReduceOnEliteKill': {
     id: 'Colossus.CooldownReduceOnEliteKill',
@@ -152,7 +152,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Shroud',
     name: 'Shroud',
     category: 'shroud',
-    description: 'Base shroud effect',
+    description: '1H stance: +5% damage + 1% flat damage (separate mult.) per stack (50 max)',
   },
   'Shroud.ElementalAug.Arcane': {
     id: 'Shroud.ElementalAug.Arcane',
@@ -200,9 +200,9 @@ export const MONOGRAM_REGISTRY = {
   // ---------------------------------------------------------------------------
   'DamageCircle.Base': {
     id: 'DamageCircle.Base',
-    name: 'Damage Circle',
+    name: 'Unholy Void',
     category: 'damageCircle',
-    description: 'Base damage circle effect',
+    description: 'Disables attacks/skills, 100% damage weapon hit in AOE',
   },
   'DamageCircle.BiggerFaster': {
     id: 'DamageCircle.BiggerFaster',
@@ -242,37 +242,37 @@ export const MONOGRAM_REGISTRY = {
     id: 'MeleeParagon.Armor',
     name: 'Melee Paragon Armor',
     category: 'paragon',
-    description: 'Armor bonus for melee paragon',
+    description: '+15 armor per paragon level (maul/spear/sword/2h)',
   },
   'MeleeParagon.BaseDamage': {
     id: 'MeleeParagon.BaseDamage',
     name: 'Melee Paragon Damage',
     category: 'paragon',
-    description: 'Base damage for melee paragon',
+    description: '+2 flat damage per paragon level (maul/spear/sword/2h)',
   },
   'MeleeParagon.MaxHp': {
     id: 'MeleeParagon.MaxHp',
     name: 'Melee Paragon HP',
     category: 'paragon',
-    description: 'Max HP for melee paragon',
+    description: '+10 flat HP per paragon level (maul/spear/sword/2h)',
   },
   'RangedParagon.Armor': {
     id: 'RangedParagon.Armor',
     name: 'Ranged Paragon Armor',
     category: 'paragon',
-    description: 'Armor bonus for ranged paragon',
+    description: '+15 armor per paragon level (bow/magery/scythe/fist)',
   },
   'RangedParagon.BaseDamage': {
     id: 'RangedParagon.BaseDamage',
     name: 'Ranged Paragon Damage',
     category: 'paragon',
-    description: 'Base damage for ranged paragon',
+    description: '+2 flat damage per paragon level (bow/magery/scythe/fist)',
   },
   'RangedParagon.MaxHp': {
     id: 'RangedParagon.MaxHp',
     name: 'Ranged Paragon HP',
     category: 'paragon',
-    description: 'Max HP for ranged paragon',
+    description: '+10 flat HP per paragon level (bow/magery/scythe/fist)',
   },
 
   // ---------------------------------------------------------------------------
@@ -298,9 +298,9 @@ export const MONOGRAM_REGISTRY = {
   },
   'ElementForCritChance.MaxHealth': {
     id: 'ElementForCritChance.MaxHealth',
-    name: 'Health Crit',
+    name: 'Life from Overcrit',
     category: 'elemental',
-    description: 'Crit chance from max health',
+    description: '+1% life per 1% crit over 100%',
   },
   'ElementalToHp%.Fire': {
     id: 'ElementalToHp%.Fire',
@@ -562,7 +562,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'CritDamageForArmor',
     name: 'Armor to Crit Damage',
     category: 'crit',
-    description: 'Convert armor to crit damage',
+    description: '+1% crit damage per 500 total armor',
   },
   'CritChanceForEnergyRegen': {
     id: 'CritChanceForEnergyRegen',
@@ -620,7 +620,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Juggernaut',
     name: 'Juggernaut',
     category: 'defense',
-    description: 'Juggernaut defensive effect',
+    description: 'Fist pinnacle: +40% MS, +25% crit, 2x crit damage (single instance)',
   },
   'ExtraArmor': {
     id: 'ExtraArmor',
@@ -642,7 +642,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'LifeStealToEnergySteal',
     name: 'Energy Steal',
     category: 'sustain',
-    description: 'Convert lifesteal to energy steal',
+    description: 'Converts lifesteal to energy steal (drawback)',
   },
 
   // ---------------------------------------------------------------------------
@@ -684,15 +684,15 @@ export const MONOGRAM_REGISTRY = {
   // ---------------------------------------------------------------------------
   'ExtraInventorySlotForAttackSpeed': {
     id: 'ExtraInventorySlotForAttackSpeed',
-    name: 'AS Inventory Slot',
+    name: 'Boss Damage (Inv)',
     category: 'inventory',
-    description: 'Extra inventory slot that gives attack speed',
+    description: '+1% boss damage per extra inventory slot',
   },
   'ExtraInventorySlotForCritDamage': {
     id: 'ExtraInventorySlotForCritDamage',
-    name: 'Crit Inventory Slot',
+    name: 'Crit Damage (Inv)',
     category: 'inventory',
-    description: 'Extra inventory slot that gives crit damage',
+    description: '+5% crit damage per extra inventory slot',
   },
 
   // ---------------------------------------------------------------------------
@@ -730,7 +730,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'ExtraEnergyAddDamage',
     name: 'Energy to Damage',
     category: 'energy',
-    description: 'Convert extra energy to damage',
+    description: '+2 flat damage per energy over base 100',
   },
   'EnergyConsumptionReduceHalf': {
     id: 'EnergyConsumptionReduceHalf',
@@ -802,7 +802,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Gain2ChargedGlyphRunes',
     name: 'Charged Glyphs',
     category: 'glyphs',
-    description: 'Start with 2 charged glyph runes',
+    description: 'Triple secondary charge rate (TBD)',
   },
 
   // ---------------------------------------------------------------------------
@@ -830,7 +830,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'ChanceForSnails',
     name: 'Snail Chance',
     category: 'utility',
-    description: 'Chance to spawn snails',
+    description: '10% per instance to spawn snails',
   },
   'LongerSnailBuff': {
     id: 'LongerSnailBuff',

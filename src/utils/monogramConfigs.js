@@ -426,12 +426,12 @@ export const MONOGRAM_CALC_CONFIGS = {
 
   // ---------------------------------------------------------------------------
   // BLOODLUST DRAW BLOOD (Bracer - 1% damage per bloodlust stack)
+  // Requires Bloodlust.Base (helmet) to be active for stacks
   // ---------------------------------------------------------------------------
   'Bloodlust.DrawBlood': {
     displayName: 'Draw Blood',
-    description: '+1% damage per bloodlust stack (100% at max)',
+    description: '+1% damage per bloodlust stack (100% at max, requires Bloodlust.Base)',
     effects: [
-      { derivedStatId: 'bloodlustStacks', config: { enabled: true, maxStacks: 100, currentStacks: 100 } },
       { derivedStatId: 'bloodlustDrawBloodBonus', config: { damagePerStack: 1 } },
     ],
   },

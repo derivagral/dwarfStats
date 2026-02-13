@@ -244,6 +244,15 @@ export function useDerivedStats(options = {}) {
       'elementForCritChance', 'elementalToHpFire', 'elementalToHpLightning',
       'damageFromHealth', 'finalDamage',
       'highestAttribute', // intermediate calculation
+      // Amulet monogram stats
+      'shroudStacks', 'shroudLifeBonus',
+      'damageCircleLifeBonus',
+      'distanceProcsDamageBonus', 'distanceProcsNearDamageBonus',
+      'eliteAttackSpeedBonus', 'eliteEnergyBonus',
+      'extraLifestealBonus',
+      'flatDamageMonogramBonus', 'noEnergyDamageBonus',
+      'highestStatDamageBonus',
+      'eliteSpawnChance', 'containerSpawnChance',
     ]);
 
     // Map internal categories to display categories

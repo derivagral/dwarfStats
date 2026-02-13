@@ -143,6 +143,144 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
 
   // ===========================================================================
+  // SHROUD (1H Monogram - 50 stacks max)
+  // Effects: 3% life per stack
+  // ===========================================================================
+  'Shroud.ExtraHp': {
+    displayName: 'Shroud HP',
+    description: '+3% life per shroud stack (50 stacks max = 150%)',
+    effects: [
+      { derivedStatId: 'shroudStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // DAMAGE CIRCLE / UNHOLY VOID (Amulet + upcoming Helmet)
+  // 2% life bonus per 50 of highest attribute
+  // ===========================================================================
+  'DamageCircle.Hp%.Highest': {
+    displayName: 'Circle Life Bonus',
+    description: '+2% life per 50 of highest attribute while in circle',
+    effects: [
+      { derivedStatId: 'damageCircleLifeBonus', config: { enabled: true, lifePerInterval: 2, statInterval: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // DISTANCE PROCS (Amulet - exclusive pair, own additive bucket)
+  // 50% damage each, NOT regular damageBonus
+  // ===========================================================================
+  'DistanceProcsDamage': {
+    displayName: 'Distance Procs',
+    description: '+50% damage (own additive bucket, exclusive with Near)',
+    effects: [
+      { derivedStatId: 'distanceProcsDamageBonus', config: { enabled: true, bonusPercent: 50 } },
+    ],
+  },
+  'DistanceProcsDamage_Near': {
+    displayName: 'Distance Procs (Near)',
+    description: '+50% damage (own additive bucket, exclusive with Far)',
+    effects: [
+      { derivedStatId: 'distanceProcsNearDamageBonus', config: { enabled: true, bonusPercent: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // ELITE BUFFS (Amulet - assume capped stacks for calcs)
+  // ===========================================================================
+  'EliteBuffs.AttackSpeed%': {
+    displayName: 'Elite AS Buff',
+    description: 'Attack speed from elite kills (assume capped)',
+    effects: [
+      { derivedStatId: 'eliteAttackSpeedBonus', config: { enabled: true, attackSpeedPerStack: 3, maxStacks: 10, currentStacks: 10 } },
+    ],
+  },
+  'EliteBuffs.Energy': {
+    displayName: 'Elite Energy Buff',
+    description: 'Energy from elite kills (assume capped)',
+    effects: [
+      { derivedStatId: 'eliteEnergyBonus', config: { enabled: true, energyPerStack: 10, maxStacks: 10, currentStacks: 10 } },
+    ],
+  },
+
+  // ===========================================================================
+  // EXTRA LIFESTEAL (Amulet - simple additive)
+  // ===========================================================================
+  'ExtraLifeSteal': {
+    displayName: 'Extra Lifesteal',
+    description: '+10% lifesteal',
+    effects: [
+      { derivedStatId: 'extraLifestealBonus', config: { enabled: true, lifestealPercent: 10 } },
+    ],
+  },
+
+  // ===========================================================================
+  // FLAT DAMAGE MONOGRAMS (Amulet)
+  // ===========================================================================
+  'DamageBonusAnd51Damage': {
+    displayName: 'Flat Damage Bonus',
+    description: '+300 flat damage (drawback: incoming damage deals 50% HP)',
+    effects: [
+      { derivedStatId: 'flatDamageMonogramBonus', config: { enabled: true, flatDamage: 300 } },
+    ],
+  },
+  'DamageGainNoEnergy': {
+    displayName: 'No Energy Damage',
+    description: '+300 flat damage (drawback: sets energy to 0)',
+    effects: [
+      { derivedStatId: 'noEnergyDamageBonus', config: { enabled: true, flatDamage: 300 } },
+    ],
+  },
+
+  // ===========================================================================
+  // HIGHEST STAT FOR DAMAGE (Amulet)
+  // 1% damage bonus per 50 of highest stat
+  // ===========================================================================
+  'HighestStatForDamage': {
+    displayName: 'Highest Stat Damage',
+    description: '+1% damage per 50 of highest stat',
+    effects: [
+      { derivedStatId: 'highestStatDamageBonus', config: { enabled: true, damagePerInterval: 1, statInterval: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // SPAWN CHANCES (Amulet - display only, no calc chain)
+  // ===========================================================================
+  'ChanceToSpawnAnotherElite': {
+    displayName: 'Elite Spawn Chance',
+    description: '10% per instance to spawn another elite (cap 40%)',
+    effects: [
+      { derivedStatId: 'eliteSpawnChance', config: { enabled: true, chancePerInstance: 10, maxChance: 40 } },
+    ],
+  },
+  'ChanceToSpawnContainer': {
+    displayName: 'Container Spawn Chance',
+    description: '10% per instance to spawn a container (cap 100%)',
+    effects: [
+      { derivedStatId: 'containerSpawnChance', config: { enabled: true, chancePerInstance: 10, maxChance: 100 } },
+    ],
+  },
+
+  // ===========================================================================
+  // COLOSSUS CDR (Amulet - 2H stance, minimal calc impact)
+  // ===========================================================================
+  'Colossus.CooldownReduceOnEliteKill': {
+    displayName: 'Colossus CDR',
+    description: 'Cooldown reduction on elite kill (2H stance)',
+    effects: [],
+  },
+
+  // ===========================================================================
+  // SECONDARY BUILD (Amulet - deferred, interactions TBD)
+  // ===========================================================================
+  'SecondaryBuild.DoubleEnergyMoreDamage': {
+    displayName: 'Energy Overcharge',
+    description: 'Secondary costs double energy, deals more damage (TBD)',
+    effects: [],
+  },
+
+  // ===========================================================================
   // RING MONOGRAMS - Stat Scalers
   // ===========================================================================
   'DamageForStat.Highest': {
@@ -207,7 +345,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Potion Slots from Stats',
     derivedStatId: 'potionSlotsFromAttributes',
     config: {
-      ratio: 200,
+      ratio: 50,  // 1 potion slot per 50 of highest stat
     },
   },
   'Damage%ForPotions': {
@@ -216,7 +354,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     config: {
       sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
-      baseValue: 3,
+      baseValue: 5,  // 5% damage per available potion slot
     },
   },
 };

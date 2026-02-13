@@ -78,7 +78,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Bloodlust.Damage%PerStack',
     name: 'Bloodlust Damage',
     category: 'bloodlust',
-    description: 'Damage per bloodlust stack',
+    description: '+2% damage bonus per bloodlust stack',
   },
   'Bloodlust.DrawBlood': {
     id: 'Bloodlust.DrawBlood',
@@ -90,7 +90,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Bloodlust.DrawLife',
     name: 'Draw Life',
     category: 'bloodlust',
-    description: 'Bloodlust life draw effect',
+    description: '+1% life bonus per bloodlust stack (100 stacks)',
   },
   'Bloodlust.MoreLife.Highest': {
     id: 'Bloodlust.MoreLife.Highest',
@@ -112,7 +112,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Colossus.CooldownReduceOnEliteKill',
     name: 'Colossus CDR',
     category: 'colossus',
-    description: 'Cooldown reduction on elite kill',
+    description: 'Cooldown reduction on elite kill (2H stance)',
   },
   'Colossus.DamageReduction': {
     id: 'Colossus.DamageReduction',
@@ -164,7 +164,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Shroud.ExtraHp',
     name: 'Shroud HP',
     category: 'shroud',
-    description: 'Extra HP while shrouded',
+    description: '+3% life per shroud stack (50 stacks max = 150%)',
   },
   'Shroud.MaxStacksBonus': {
     id: 'Shroud.MaxStacksBonus',
@@ -232,7 +232,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'DamageCircle.Hp%.Highest',
     name: 'Circle HP',
     category: 'damageCircle',
-    description: 'HP bonus in circle based on highest stat',
+    description: '+2% life per 50 of highest attribute while in circle',
   },
 
   // ---------------------------------------------------------------------------
@@ -360,13 +360,13 @@ export const MONOGRAM_REGISTRY = {
     id: 'ChanceToSpawnAnotherElite',
     name: 'Elite Spawn',
     category: 'spawn',
-    description: 'Chance to spawn additional elite',
+    description: '10% chance per instance to spawn another elite (cap 40%)',
   },
   'ChanceToSpawnContainer': {
     id: 'ChanceToSpawnContainer',
     name: 'Container Spawn',
     category: 'spawn',
-    description: 'Chance to spawn loot container',
+    description: '10% chance per instance to spawn loot container (cap 100%)',
   },
   'ChanceToSpawnArcaneEagle': {
     id: 'ChanceToSpawnArcaneEagle',
@@ -424,13 +424,13 @@ export const MONOGRAM_REGISTRY = {
     id: 'PotionSlotForStat.Highest',
     name: 'Potion Stat Slot',
     category: 'potion',
-    description: 'Extra potion slot based on highest stat',
+    description: '+1 potion slot per 50 of highest stat',
   },
   'Damage%ForPotions': {
     id: 'Damage%ForPotions',
     name: 'Damage per Potion',
     category: 'potion',
-    description: 'Damage bonus per available potion',
+    description: '+5% damage per available potion slot',
   },
   'ArmorForPotions': {
     id: 'ArmorForPotions',
@@ -470,13 +470,13 @@ export const MONOGRAM_REGISTRY = {
     id: 'EliteBuffs.AttackSpeed%',
     name: 'Elite AS Buff',
     category: 'elite',
-    description: 'Attack speed from elite kills',
+    description: '+3% attack speed per elite kill (max 10 stacks)',
   },
   'EliteBuffs.Energy': {
     id: 'EliteBuffs.Energy',
     name: 'Elite Energy Buff',
     category: 'elite',
-    description: 'Energy from elite kills',
+    description: '+10 energy per elite kill (max 10 stacks)',
   },
   'EliteBuffs.MaxHp%': {
     id: 'EliteBuffs.MaxHp%',
@@ -510,19 +510,19 @@ export const MONOGRAM_REGISTRY = {
     id: 'HighestStatForDamage',
     name: 'Highest Stat Damage',
     category: 'damage',
-    description: 'Use highest stat for damage calculation',
+    description: '+1% damage per 50 of highest stat',
   },
   'DamageBonusAnd51Damage': {
     id: 'DamageBonusAnd51Damage',
     name: 'Flat Damage Bonus',
     category: 'damage',
-    description: 'Damage bonus plus flat 51 damage',
+    description: '+300 flat damage (drawback: incoming deals 50% HP)',
   },
   'DamageGainNoEnergy': {
     id: 'DamageGainNoEnergy',
     name: 'No Energy Damage',
     category: 'damage',
-    description: 'Damage bonus when at zero energy',
+    description: '+300 flat damage (drawback: sets energy to 0)',
   },
   'GainDamageForHPLoseArmor': {
     id: 'GainDamageForHPLoseArmor',
@@ -534,13 +534,13 @@ export const MONOGRAM_REGISTRY = {
     id: 'DistanceProcsDamage',
     name: 'Distance Damage',
     category: 'damage',
-    description: 'Damage procs based on distance traveled',
+    description: '+50% damage proc (own additive bucket, exclusive with Near)',
   },
   'DistanceProcsDamage_Near': {
     id: 'DistanceProcsDamage_Near',
     name: 'Close Range Damage',
     category: 'damage',
-    description: 'Damage procs for nearby enemies',
+    description: '+50% damage proc (own additive bucket, exclusive with Far)',
   },
   'ProcsTake100EnergyHighDamage': {
     id: 'ProcsTake100EnergyHighDamage',
@@ -602,7 +602,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Health%ForHighest',
     name: 'Stat HP Bonus',
     category: 'defense',
-    description: 'HP bonus based on highest stat',
+    description: 'Life% bonus = highest stat / 50',
   },
   'MaxHp%ForStat.Highest': {
     id: 'MaxHp%ForStat.Highest',
@@ -636,7 +636,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'ExtraLifeSteal',
     name: 'Bonus Lifesteal',
     category: 'sustain',
-    description: 'Additional lifesteal',
+    description: '+10% extra lifesteal',
   },
   'LifeStealToEnergySteal': {
     id: 'LifeStealToEnergySteal',
@@ -758,7 +758,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'SecondaryBuild.DoubleEnergyMoreDamage',
     name: 'Energy Overcharge',
     category: 'secondary',
-    description: 'Spend double energy for more damage',
+    description: 'Secondary costs double energy, deals more damage (TBD)',
   },
 
   // ---------------------------------------------------------------------------

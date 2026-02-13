@@ -249,24 +249,24 @@ export const DERIVED_STATS = {
   },
 
   /**
-   * Placeholder: Potions per combined attributes
+   * Extra potion slots from highest attribute (1 per 50)
    */
   potionSlotsFromAttributes: {
     id: 'potionSlotsFromAttributes',
-    name: 'Potion Slots (Attrs)',
+    name: 'Potion Slots (Stats)',
     category: 'utility-derived',
     layer: LAYERS.PRIMARY_DERIVED,
-    dependencies: ['totalStrength', 'totalVitality'],
+    dependencies: ['highestAttribute'],
     config: {
-      ratio: 200,  // per 200 combined str+vit
+      ratio: 50,  // per 50 of highest stat
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.potionSlotsFromAttributes.config;
-      const combined = (stats.totalStrength || 0) + (stats.totalVitality || 0);
-      return Math.floor(combined / config.ratio);
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.ratio);
     },
     format: v => v.toFixed(0),
-    description: 'Additional potion slots from attributes',
+    description: 'Additional potion slots from highest attribute (1 per 50)',
   },
 
   // ---------------------------------------------------------------------------
@@ -318,18 +318,18 @@ export const DERIVED_STATS = {
   },
 
   /**
-   * Placeholder: Stat bonus per potion slot
+   * Damage bonus per potion slot (5% per slot)
    */
   statBonusFromPotions: {
     id: 'statBonusFromPotions',
-    name: 'Stat Bonus (Potions)',
+    name: 'Damage% (Potions)',
     category: 'chained',
     layer: LAYERS.SECONDARY_DERIVED,
     dependencies: ['potionSlotsFromAttributes'],
     config: {
       sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
-      baseValue: 5,  // +5 to stats per potion slot
+      baseValue: 5,  // +5% damage per potion slot
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.statBonusFromPotions.config;
@@ -643,6 +643,295 @@ export const DERIVED_STATS = {
     },
     format: v => `+${v.toFixed(0)}%`,
     description: 'Life bonus from Bloodlust stacks scaling with highest attribute',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SHROUD BUFF (1H Monogram - 50 stacks max)
+  // Effects: 3% life per stack
+  // ---------------------------------------------------------------------------
+  shroudStacks: {
+    id: 'shroudStacks',
+    name: 'Shroud Stacks',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      maxStacks: 50,
+      currentStacks: 50,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudStacks.config;
+      if (!config.enabled) return 0;
+      return Math.min(config.currentStacks, config.maxStacks);
+    },
+    format: v => v.toFixed(0),
+    description: 'Current Shroud buff stacks (max 50)',
+  },
+  shroudLifeBonus: {
+    id: 'shroudLifeBonus',
+    name: 'Shroud Life%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['shroudStacks'],
+    config: {
+      lifePerStack: 3, // 3% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudLifeBonus.config;
+      const stacks = stats.shroudStacks || 0;
+      return stacks * config.lifePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from Shroud stacks (3% per stack, 150% at max)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE CIRCLE / UNHOLY VOID (Amulet + upcoming Helmet Monogram)
+  // 2% life bonus per 50 of highest attribute
+  // ---------------------------------------------------------------------------
+  damageCircleLifeBonus: {
+    id: 'damageCircleLifeBonus',
+    name: 'Circle Life%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      lifePerInterval: 2,  // 2% life bonus
+      statInterval: 50,    // per 50 highest attribute
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damageCircleLifeBonus.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.lifePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from Damage Circle (2% per 50 highest attribute)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DISTANCE PROCS (Amulet Monograms - exclusive pair)
+  // 50% damage each, own additive bucket (not damageBonus)
+  // ---------------------------------------------------------------------------
+  distanceProcsDamageBonus: {
+    id: 'distanceProcsDamageBonus',
+    name: 'Distance Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPercent: 50,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.distanceProcsDamageBonus.config;
+      if (!config.enabled) return 0;
+      return config.bonusPercent;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Distance proc damage (50%, own additive bucket, exclusive with Near)',
+  },
+  distanceProcsNearDamageBonus: {
+    id: 'distanceProcsNearDamageBonus',
+    name: 'Near Distance Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPercent: 50,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.distanceProcsNearDamageBonus.config;
+      if (!config.enabled) return 0;
+      return config.bonusPercent;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Near distance proc damage (50%, own additive bucket, exclusive with Far)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // ELITE BUFFS (Amulet Monograms - assume capped stacks)
+  // ---------------------------------------------------------------------------
+  eliteAttackSpeedBonus: {
+    id: 'eliteAttackSpeedBonus',
+    name: 'Elite AS%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      attackSpeedPerStack: 3,
+      maxStacks: 10,
+      currentStacks: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.eliteAttackSpeedBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.attackSpeedPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Attack speed from elite kills (assume capped stacks)',
+  },
+  eliteEnergyBonus: {
+    id: 'eliteEnergyBonus',
+    name: 'Elite Energy',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      energyPerStack: 10,
+      maxStacks: 10,
+      currentStacks: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.eliteEnergyBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.energyPerStack;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Energy from elite kills (assume capped stacks)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXTRA LIFESTEAL (Amulet Monogram)
+  // +10% lifesteal, simple additive
+  // ---------------------------------------------------------------------------
+  extraLifestealBonus: {
+    id: 'extraLifestealBonus',
+    name: 'Extra Lifesteal%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      lifestealPercent: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.extraLifestealBonus.config;
+      if (!config.enabled) return 0;
+      return config.lifestealPercent;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Extra lifesteal bonus (10%)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // FLAT DAMAGE MONOGRAMS (Amulet)
+  // DamageBonusAnd51Damage: 300 flat, drawback: incoming deals 50% HP
+  // DamageGainNoEnergy: 300 flat, drawback: sets energy to 0
+  // ---------------------------------------------------------------------------
+  flatDamageMonogramBonus: {
+    id: 'flatDamageMonogramBonus',
+    name: 'Flat Damage (Monogram)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      flatDamage: 300,
+      drawback: 'Incoming damage deals 50% of max HP',
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.flatDamageMonogramBonus.config;
+      if (!config.enabled) return 0;
+      return config.flatDamage;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: '+300 flat damage (drawback: incoming damage deals 50% HP)',
+  },
+  noEnergyDamageBonus: {
+    id: 'noEnergyDamageBonus',
+    name: 'No Energy Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      flatDamage: 300,
+      drawback: 'Sets energy to 0',
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.noEnergyDamageBonus.config;
+      if (!config.enabled) return 0;
+      return config.flatDamage;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: '+300 flat damage (drawback: sets energy to 0)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // HIGHEST STAT FOR DAMAGE (Amulet Monogram)
+  // 1% damage bonus per 50 of highest stat
+  // ---------------------------------------------------------------------------
+  highestStatDamageBonus: {
+    id: 'highestStatDamageBonus',
+    name: 'Highest Stat Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      damagePerInterval: 1, // 1% damage bonus
+      statInterval: 50,     // per 50 highest stat
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.highestStatDamageBonus.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.damagePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage bonus from highest stat (1% per 50)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SPAWN CHANCE DISPLAY (Amulet Monograms - display only, no calc chain)
+  // ---------------------------------------------------------------------------
+  eliteSpawnChance: {
+    id: 'eliteSpawnChance',
+    name: 'Elite Spawn%',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      chancePerInstance: 10,
+      maxChance: 40,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.eliteSpawnChance.config;
+      if (!config.enabled) return 0;
+      const instances = config.instanceCount || 1;
+      return Math.min(instances * config.chancePerInstance, config.maxChance);
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Chance to spawn another elite on kill (10% per, cap 40%)',
+  },
+  containerSpawnChance: {
+    id: 'containerSpawnChance',
+    name: 'Container Spawn%',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      chancePerInstance: 10,
+      maxChance: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.containerSpawnChance.config;
+      if (!config.enabled) return 0;
+      const instances = config.instanceCount || 1;
+      return Math.min(instances * config.chancePerInstance, config.maxChance);
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Chance to spawn container on elite kill (10% per, cap 100%)',
   },
 
   // ---------------------------------------------------------------------------

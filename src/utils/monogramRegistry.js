@@ -52,6 +52,12 @@ export const MONOGRAM_REGISTRY = {
     category: 'mobility',
     description: 'Increased trance effect potency based on highest stat',
   },
+  'Phasing.PassiveStackGain': {
+    id: 'Phasing.PassiveStackGain',
+    name: 'Passive Phase Stacks',
+    category: 'mobility',
+    description: 'While phasing, gain a phasing stack every 2s',
+  },
   'FasterMount': {
     id: 'FasterMount',
     name: 'Swift Mount',
@@ -164,7 +170,25 @@ export const MONOGRAM_REGISTRY = {
     id: 'Shroud.ElementalAug.Arcane',
     name: 'Shroud Arcane',
     category: 'shroud',
-    description: 'Arcane augment for shroud',
+    description: 'Dark shroud: +2% arcane damage per stack',
+  },
+  'Shroud.ElementalAug.Fire': {
+    id: 'Shroud.ElementalAug.Fire',
+    name: 'Shroud Fire',
+    category: 'shroud',
+    description: 'Dark shroud: +2% fire damage per stack',
+  },
+  'Shroud.ElementalAug.Lightning': {
+    id: 'Shroud.ElementalAug.Lightning',
+    name: 'Shroud Lightning',
+    category: 'shroud',
+    description: 'Dark shroud: +2% lightning damage per stack',
+  },
+  'Shroud.LightMovementSpeed': {
+    id: 'Shroud.LightMovementSpeed',
+    name: 'Light Shroud Speed',
+    category: 'shroud',
+    description: '+40% movement speed while light shroud active',
   },
   'Shroud.ExtraHp': {
     id: 'Shroud.ExtraHp',
@@ -468,6 +492,12 @@ export const MONOGRAM_REGISTRY = {
     category: 'potion',
     description: '+5% damage per potion slot (drawback: cannot use potions)',
   },
+  'HealthRegenNoPotion': {
+    id: 'HealthRegenNoPotion',
+    name: 'No Potion Regen',
+    category: 'potion',
+    description: '+100% health regeneration (drawback: cannot use potions)',
+  },
   'ProcOffhandsOnPotion': {
     id: 'ProcOffhandsOnPotion',
     name: 'Offhand on Potion',
@@ -490,11 +520,29 @@ export const MONOGRAM_REGISTRY = {
     category: 'elite',
     description: '+10 energy per elite kill (max 10 stacks)',
   },
+  'EliteBuffs.Armor%': {
+    id: 'EliteBuffs.Armor%',
+    name: 'Elite Armor Buff',
+    category: 'elite',
+    description: '+2% armor per elite kill stack (100 stacks max)',
+  },
+  'EliteBuffs.Damage%': {
+    id: 'EliteBuffs.Damage%',
+    name: 'Elite Damage Buff',
+    category: 'elite',
+    description: '+5% damage per elite kill stack (20 stacks max)',
+  },
   'EliteBuffs.MaxHp%': {
     id: 'EliteBuffs.MaxHp%',
     name: 'Elite HP Buff',
     category: 'elite',
-    description: 'Max HP from elite kills',
+    description: '+2% health bonus per elite kill stack (50 stacks max)',
+  },
+  'EliteBuffs.PotionWhenLow': {
+    id: 'EliteBuffs.PotionWhenLow',
+    name: 'Elite Potion Drop',
+    category: 'elite',
+    description: 'Elite drops potion when HP under 100%',
   },
 
   // ---------------------------------------------------------------------------
@@ -594,6 +642,12 @@ export const MONOGRAM_REGISTRY = {
     category: 'crit',
     description: 'Crit damage based on essence',
   },
+  'CritChanceForEssence': {
+    id: 'CritChanceForEssence',
+    name: 'Essence Crit Chance',
+    category: 'crit',
+    description: '+1% crit chance per 20 essence (dark essence chain)',
+  },
 
   // ---------------------------------------------------------------------------
   // DEFENSE / SURVIVABILITY
@@ -639,6 +693,18 @@ export const MONOGRAM_REGISTRY = {
     name: 'Bonus Armor',
     category: 'defense',
     description: 'Flat armor bonus',
+  },
+  'ExtraArmor%': {
+    id: 'ExtraArmor%',
+    name: 'Bonus Armor %',
+    category: 'defense',
+    description: '+10% armor bonus',
+  },
+  'ExtraFlatHp': {
+    id: 'ExtraFlatHp',
+    name: 'Bonus Flat HP',
+    category: 'defense',
+    description: '+100 flat health',
   },
 
   // ---------------------------------------------------------------------------
@@ -736,6 +802,16 @@ export const MONOGRAM_REGISTRY = {
   },
 
   // ---------------------------------------------------------------------------
+  // PANTS SPECIFIC
+  // ---------------------------------------------------------------------------
+  'PantsEnergyRegen': {
+    id: 'PantsEnergyRegen',
+    name: 'Regen Pants',
+    category: 'pants',
+    description: '+8 energy regeneration',
+  },
+
+  // ---------------------------------------------------------------------------
   // ENERGY
   // ---------------------------------------------------------------------------
   'DoubleEnergy': {
@@ -777,6 +853,12 @@ export const MONOGRAM_REGISTRY = {
     name: 'Energy Overcharge',
     category: 'secondary',
     description: 'Secondary costs double energy, deals more damage (TBD)',
+  },
+  'SecondaryBuild.ChargedOnly': {
+    id: 'SecondaryBuild.ChargedOnly',
+    name: 'Charged Only',
+    category: 'secondary',
+    description: '+300% charged secondary damage (drawback: no uncharged secondary)',
   },
 
   // ---------------------------------------------------------------------------
@@ -939,8 +1021,13 @@ export const SLOT_MONOGRAMS = {
     'BootsExtraEnergyRegen4', 'ExtraInventorySlotForDamage%',
   ],
   pants: [
-    'ChanceToSpawnAnotherElite', 'Gain2ChargedGlyphRunes', 'EliteBuffs.MaxHp%',
-    'Shroud.ElementalAug.Arcane', 'ExtraHp%',
+    'HealthRegenNoPotion', 'SecondaryBuild.ChargedOnly', 'EliteBuffs.PotionWhenLow',
+    'EliteBuffs.Armor%', 'EliteBuffs.MaxHp%', 'Shroud.LightMovementSpeed',
+    'Shroud.ElementalAug.Arcane', 'Shroud.ElementalAug.Fire', 'Shroud.ElementalAug.Lightning',
+    'ExtraInventorySlotForCritDamage', 'PantsEnergyRegen', 'ChanceToSpawnAnotherElite',
+    'ChanceForGoldOnKill', 'ExtraHp%', 'ExtraArmor%', 'ExtraFlatHp',
+    'ChanceToSpawnContainer', 'Gain2ChargedGlyphRunes', 'EliteBuffs.Damage%',
+    'CritChanceForEssence', 'Phasing.PassiveStackGain',
   ],
   relic: [
     'Veil', 'EnergyConsumptionReduceHalf', 'FellowshipChargeAllGlyphs',

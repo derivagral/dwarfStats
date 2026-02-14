@@ -100,17 +100,7 @@ export const MONOGRAM_REGISTRY = {
   },
 
   // ---------------------------------------------------------------------------
-  // BERSERKER FURY
-  // ---------------------------------------------------------------------------
-  'BerserkerFury.FreeDash': {
-    id: 'BerserkerFury.FreeDash',
-    name: 'Berserker Free Dash',
-    category: 'berserker',
-    description: 'Dash costs no Energy while in Berserker Fury state',
-  },
-
-  // ---------------------------------------------------------------------------
-  // COLOSSUS
+  // COLOSSUS (also called Berserker Fury — same buff from helmet monogram or 2H pinnacle)
   // ---------------------------------------------------------------------------
   'Colossus.Base': {
     id: 'Colossus.Base',
@@ -943,7 +933,7 @@ export const SLOT_MONOGRAMS = {
     'Phasing.MovementSpeedBonus', 'PotionBonus.MaxHp%', 'ChanceToSpawnAnotherElite',
     'GainCritChanceForHighest', 'Veil.OnLose', 'BonusCritDamage%ForEssence',
     'BootsMoveSpeed4', 'BootsExtraEnergy3', 'PotionBonus.Armor%',
-    'BerserkerFury.FreeDash', 'DamageCircle.BiggerFaster', 'PotionBonus.MovementSpeed%',
+    'Colossus.FreeDash', 'DamageCircle.BiggerFaster', 'PotionBonus.MovementSpeed%',
     'PotionBonus.CritChance%', 'Shroud.OnLose', 'ChanceToSpawnContainer',
     'FasterMount', 'DamageForStat2.Highest', 'PotionBonus.MaxEnergy',
     'BootsExtraEnergyRegen4', 'ExtraInventorySlotForDamage%',

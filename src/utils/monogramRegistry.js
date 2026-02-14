@@ -44,7 +44,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Phasing.PhasingTrance.Hp',
     name: 'Phase Trance HP',
     category: 'mobility',
-    description: 'HP bonus during phasing trance',
+    description: 'Phasing trance grants +2 base health per stack',
   },
   'Phasing.TranceEffectsPotency.Highest': {
     id: 'Phasing.TranceEffectsPotency.Highest',
@@ -78,7 +78,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Bloodlust.Armor%',
     name: 'Bloodlust Armor',
     category: 'bloodlust',
-    description: 'Armor bonus from bloodlust stacks',
+    description: '+2 armor per bloodlust stack',
   },
   'Bloodlust.Damage%PerStack': {
     id: 'Bloodlust.Damage%PerStack',
@@ -124,7 +124,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Colossus.DamageReduction',
     name: 'Colossus DR',
     category: 'colossus',
-    description: 'Damage reduction while Colossus active',
+    description: '+2% DR per hit while Colossus active, at max DR gain +100 base damage',
   },
   'Colossus.Damage%': {
     id: 'Colossus.Damage%',
@@ -216,7 +216,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Veil',
     name: 'Veil',
     category: 'veil',
-    description: 'Base veil effect',
+    description: 'Veil stacks while moving, +0.5% DR per stack, lost on hit',
   },
   'Veil.OnLose': {
     id: 'Veil.OnLose',
@@ -244,7 +244,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'DamageCircle.BossDamageBuff',
     name: 'Circle Boss Damage',
     category: 'damageCircle',
-    description: 'Increased boss damage in circle',
+    description: 'Unholy Void: 10% chance for Call of Void stack, +1% boss damage per stack (50 max)',
   },
   'DamageCircle.DamageForStats.Highest': {
     id: 'DamageCircle.DamageForStats.Highest',
@@ -256,7 +256,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'DamageCircle.DamageReduction.Highest',
     name: 'Circle DR',
     category: 'damageCircle',
-    description: 'Damage reduction in circle based on highest stat',
+    description: 'Unholy Void: +0.2% DR per 50 of highest stat',
   },
   'DamageCircle.Hp%.Highest': {
     id: 'DamageCircle.Hp%.Highest',
@@ -472,7 +472,13 @@ export const MONOGRAM_REGISTRY = {
     id: 'ArmorForPotions',
     name: 'Armor per Potion',
     category: 'potion',
-    description: 'Armor bonus per available potion',
+    description: '+100 armor per available potion',
+  },
+  'BaseDamageForPotions': {
+    id: 'BaseDamageForPotions',
+    name: 'Damage per Potion',
+    category: 'potion',
+    description: '+2 base damage per available potion',
   },
   'AttackSpeedForPotions': {
     id: 'AttackSpeedForPotions',
@@ -484,7 +490,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'MaxHpForAvailablePotion',
     name: 'HP per Potion',
     category: 'potion',
-    description: 'Max HP per available potion',
+    description: '+20 max HP per available potion',
   },
   'Damage%NoPotion': {
     id: 'Damage%NoPotion',
@@ -571,6 +577,12 @@ export const MONOGRAM_REGISTRY = {
     name: 'Highest Stat Damage',
     category: 'damage',
     description: '+1% damage per 50 of highest stat',
+  },
+  'BasicAbilityCostForDamage': {
+    id: 'BasicAbilityCostForDamage',
+    name: 'Costly Basics',
+    category: 'damage',
+    description: 'Basic abilities cost 100 energy, +200% damage bonus',
   },
   'DamageBonusAnd51Damage': {
     id: 'DamageBonusAnd51Damage',
@@ -832,6 +844,12 @@ export const MONOGRAM_REGISTRY = {
     category: 'energy',
     description: 'Reduce energy consumption by 50%',
   },
+  'ExtraMaxEnergy%': {
+    id: 'ExtraMaxEnergy%',
+    name: 'Bonus Max Energy %',
+    category: 'energy',
+    description: '+75% maximum energy',
+  },
 
   // ---------------------------------------------------------------------------
   // SECONDARY BUILD
@@ -888,6 +906,12 @@ export const MONOGRAM_REGISTRY = {
     category: 'fellowship',
     description: 'Fellowship gets XP on rupture complete',
   },
+  'DailyFellowshipXpShare': {
+    id: 'DailyFellowshipXpShare',
+    name: 'Daily XP Share',
+    category: 'fellowship',
+    description: 'Completing dailies gives fellowship members 20% of their level XP',
+  },
   'DoubleFellowshipXp': {
     id: 'DoubleFellowshipXp',
     name: 'Double Fellowship XP',
@@ -918,7 +942,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'PainAmplifier',
     name: 'Pain Amplifier',
     category: 'utility',
-    description: 'Amplify damage taken and dealt',
+    description: 'Each hit taken: +15% damage up to 75%, 30s blessing',
   },
   'DoubleBuffLength': {
     id: 'DoubleBuffLength',
@@ -1030,9 +1054,17 @@ export const SLOT_MONOGRAMS = {
     'CritChanceForEssence', 'Phasing.PassiveStackGain',
   ],
   relic: [
-    'Veil', 'EnergyConsumptionReduceHalf', 'FellowshipChargeAllGlyphs',
-    'Bloodlust.Armor%', 'FellowshipRuptureBossBuff', 'PainAmplifier',
-    'ChanceToSpawnElectricHound', 'Colossus.DamageReduction',
+    'EnergyConsumptionReduceHalf', 'BasicAbilityCostForDamage',
+    'ChanceToSpawnElectricHound', 'ChanceToSpawnFireGolem',
+    'DoubleFellowshipXp', 'DailyFellowshipXpShare',
+    'FellowshipRuptureBossBuff', 'FellowshipChargeAllGlyphs',
+    'FellowshipBubbleShare', 'SharedImbunedBeetles', 'SharedInfusedBeetles',
+    'PainAmplifier', 'ChanceForGoldOnKill', 'Damage%ForPotions',
+    'ExtraMaxEnergy%', 'ArmorForPotions', 'BaseDamageForPotions',
+    'Bloodlust.Armor%', 'Colossus.DamageReduction',
+    'MaxHpForAvailablePotion', 'ChanceToSpawnArcaneEagle',
+    'Phasing.PhasingTrance.Hp', 'Veil',
+    'DamageCircle.DamageReduction.Highest', 'DamageCircle.BossDamageBuff',
   ],
   ring: [
     'DamageForStat.Highest', 'GainStatIfNoOffHand.Luck', 'DamageReduction%ForStat.Highest',

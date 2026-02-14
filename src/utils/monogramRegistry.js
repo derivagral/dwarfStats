@@ -58,6 +58,12 @@ export const MONOGRAM_REGISTRY = {
     category: 'mobility',
     description: 'While phasing, gain a phasing stack every 2s',
   },
+  'Phasing.OffhandProc': {
+    id: 'Phasing.OffhandProc',
+    name: 'Phase Offhand Proc',
+    category: 'mobility',
+    description: 'While phasing, trigger offhands every 6s; 10% chance for +150% health regen for 2s',
+  },
   'FasterMount': {
     id: 'FasterMount',
     name: 'Swift Mount',
@@ -102,7 +108,25 @@ export const MONOGRAM_REGISTRY = {
     id: 'Bloodlust.MoreLife.Highest',
     name: 'Bloodlust Life Bonus',
     category: 'bloodlust',
-    description: 'More life from bloodlust based on highest stat',
+    description: '+0.1% max HP per Life stack per 50 of highest stat',
+  },
+  'Bloodlust.MoreDamage.Highest': {
+    id: 'Bloodlust.MoreDamage.Highest',
+    name: 'Bloodlust Damage Bonus',
+    category: 'bloodlust',
+    description: '+0.1% damage per Blood stack per 50 of highest stat',
+  },
+  'Bloodlust.ActiveDamage%': {
+    id: 'Bloodlust.ActiveDamage%',
+    name: 'Bloodlust Active Damage',
+    category: 'bloodlust',
+    description: '+25% damage while Bloodlust is active',
+  },
+  'Bloodlust.ActiveHp%': {
+    id: 'Bloodlust.ActiveHp%',
+    name: 'Bloodlust Active HP',
+    category: 'bloodlust',
+    description: '+25% max HP while Bloodlust is active',
   },
 
   // ---------------------------------------------------------------------------
@@ -142,7 +166,19 @@ export const MONOGRAM_REGISTRY = {
     id: 'Colossus.ElementalBonusForHighestStat.Arcane',
     name: 'Colossus Arcane',
     category: 'colossus',
-    description: 'Arcane bonus based on highest stat',
+    description: '+5% arcane damage per 40 of highest stat during Berserker Fury',
+  },
+  'Colossus.ElementalBonusForHighestStat.Fire': {
+    id: 'Colossus.ElementalBonusForHighestStat.Fire',
+    name: 'Colossus Fire',
+    category: 'colossus',
+    description: '+5% fire damage per 40 of highest stat during Berserker Fury',
+  },
+  'Colossus.ElementalBonusForHighestStat.Lightning': {
+    id: 'Colossus.ElementalBonusForHighestStat.Lightning',
+    name: 'Colossus Lightning',
+    category: 'colossus',
+    description: '+5% lightning damage per 40 of highest stat during Berserker Fury',
   },
   'Colossus.FreeDash': {
     id: 'Colossus.FreeDash',
@@ -154,7 +190,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'Colossus.LifeSteal',
     name: 'Colossus Lifesteal',
     category: 'colossus',
-    description: 'Lifesteal during Colossus',
+    description: '+20% lifesteal chance and +5% lifesteal during Berserker Fury',
   },
 
   // ---------------------------------------------------------------------------
@@ -208,6 +244,18 @@ export const MONOGRAM_REGISTRY = {
     category: 'shroud',
     description: 'Effect when shroud is lost',
   },
+  'Shroud.Damage%ForStat.Highest': {
+    id: 'Shroud.Damage%ForStat.Highest',
+    name: 'Shroud Stat Damage',
+    category: 'shroud',
+    description: '+0.1% damage per Dark Shroud stack per 50 of highest stat',
+  },
+  'Shroud.DamageReduction%ForStat.Highest': {
+    id: 'Shroud.DamageReduction%ForStat.Highest',
+    name: 'Light Shroud DR',
+    category: 'shroud',
+    description: 'Light Shroud: +0.05% DR per stack per 50 of highest stat',
+  },
 
   // ---------------------------------------------------------------------------
   // VEIL
@@ -250,7 +298,19 @@ export const MONOGRAM_REGISTRY = {
     id: 'DamageCircle.DamageForStats.Highest',
     name: 'Circle Stat Damage',
     category: 'damageCircle',
-    description: 'Circle damage scales with highest stat',
+    description: 'Unholy Void: +3 base damage per 25 of highest stat',
+  },
+  'DamageCircle.DamageForHealthRegen': {
+    id: 'DamageCircle.DamageForHealthRegen',
+    name: 'Circle Regen Damage',
+    category: 'damageCircle',
+    description: 'Unholy Void: +1% stronger per 35 health regeneration',
+  },
+  'DamageCircle.BaseHpForStat.Highest': {
+    id: 'DamageCircle.BaseHpForStat.Highest',
+    name: 'Circle Base HP',
+    category: 'damageCircle',
+    description: 'Unholy Void: +2 base health per 25 of highest stat',
   },
   'DamageCircle.DamageReduction.Highest': {
     id: 'DamageCircle.DamageReduction.Highest',
@@ -336,7 +396,37 @@ export const MONOGRAM_REGISTRY = {
     id: 'ElementalToHp%.Fire',
     name: 'Fire to HP',
     category: 'elemental',
-    description: 'Convert fire damage to HP bonus',
+    description: '+2% max HP per 30% fire damage bonus',
+  },
+  'ElementalToHp%.Lightning': {
+    id: 'ElementalToHp%.Lightning',
+    name: 'Lightning to HP',
+    category: 'elemental',
+    description: '+2% max HP per 30% lightning damage bonus',
+  },
+  'ElementalToHp%.Arcane': {
+    id: 'ElementalToHp%.Arcane',
+    name: 'Arcane to HP',
+    category: 'elemental',
+    description: '+2% max HP per 30% arcane damage bonus',
+  },
+  'ElementalToDamage%.Fire': {
+    id: 'ElementalToDamage%.Fire',
+    name: 'Fire to Damage',
+    category: 'elemental',
+    description: '+2% damage per 30% fire damage bonus',
+  },
+  'ElementalToDamage%.Lightning': {
+    id: 'ElementalToDamage%.Lightning',
+    name: 'Lightning to Damage',
+    category: 'elemental',
+    description: '+2% damage per 30% lightning damage bonus',
+  },
+  'ElementalToDamage%.Arcane': {
+    id: 'ElementalToDamage%.Arcane',
+    name: 'Arcane to Damage',
+    category: 'elemental',
+    description: '+2% damage per 30% arcane damage bonus',
   },
 
   // ---------------------------------------------------------------------------
@@ -558,7 +648,7 @@ export const MONOGRAM_REGISTRY = {
     id: 'DamageForStat.Highest',
     name: 'Stat Damage',
     category: 'damage',
-    description: 'Damage based on highest stat',
+    description: '+15 damage per 150 of highest stat',
   },
   'DamageForStat2.Highest': {
     id: 'DamageForStat2.Highest',
@@ -622,9 +712,27 @@ export const MONOGRAM_REGISTRY = {
   },
   'BonusDamage%ForEssence': {
     id: 'BonusDamage%ForEssence',
-    name: 'Essence Damage',
+    name: 'Essence Damage %',
     category: 'damage',
-    description: 'Damage bonus based on essence',
+    description: '+1% damage per 10 essence',
+  },
+  'DamageForEssence': {
+    id: 'DamageForEssence',
+    name: 'Essence Flat Damage',
+    category: 'damage',
+    description: '+1 damage per 20 essence',
+  },
+  'BossDamage%ForStat.Highest': {
+    id: 'BossDamage%ForStat.Highest',
+    name: 'Boss Damage Scaling',
+    category: 'damage',
+    description: '+1% boss damage per 50 of highest stat',
+  },
+  'ExtraDamage%': {
+    id: 'ExtraDamage%',
+    name: 'Bonus Damage %',
+    category: 'damage',
+    description: '+25% damage bonus',
   },
 
   // ---------------------------------------------------------------------------
@@ -668,13 +776,13 @@ export const MONOGRAM_REGISTRY = {
     id: 'DamageReduction',
     name: 'Damage Reduction',
     category: 'defense',
-    description: 'Flat damage reduction',
+    description: '+10% damage reduction',
   },
   'DamageReduction%ForStat.Highest': {
     id: 'DamageReduction%ForStat.Highest',
     name: 'Stat DR',
     category: 'defense',
-    description: 'Damage reduction based on highest stat',
+    description: '+0.02% DR per 25 of highest stat',
   },
   'Health%ForHighest': {
     id: 'Health%ForHighest',
@@ -686,13 +794,31 @@ export const MONOGRAM_REGISTRY = {
     id: 'MaxHp%ForStat.Highest',
     name: 'Max HP Scaling',
     category: 'defense',
-    description: 'Max HP scales with highest stat',
+    description: '+1% max HP per 50 of highest stat',
+  },
+  'MaxHpForStat.Highest': {
+    id: 'MaxHpForStat.Highest',
+    name: 'Flat HP Scaling',
+    category: 'defense',
+    description: '+10 max HP per 100 of highest stat',
+  },
+  'Armor%ForStat.Highest': {
+    id: 'Armor%ForStat.Highest',
+    name: 'Armor Scaling',
+    category: 'defense',
+    description: '+1% armor per 20 of highest stat',
+  },
+  'ExtraMovementSpeed': {
+    id: 'ExtraMovementSpeed',
+    name: 'Bonus Movement Speed',
+    category: 'defense',
+    description: '+10% movement speed',
   },
   'ExtraHp%': {
     id: 'ExtraHp%',
     name: 'Bonus HP %',
     category: 'defense',
-    description: 'Flat percent HP bonus',
+    description: '+10% maximum health',
   },
   'Juggernaut': {
     id: 'Juggernaut',
@@ -710,13 +836,13 @@ export const MONOGRAM_REGISTRY = {
     id: 'ExtraArmor%',
     name: 'Bonus Armor %',
     category: 'defense',
-    description: '+10% armor bonus',
+    description: '+10% armor',
   },
   'ExtraFlatHp': {
     id: 'ExtraFlatHp',
     name: 'Bonus Flat HP',
     category: 'defense',
-    description: '+100 flat health',
+    description: '+100 maximum health',
   },
 
   // ---------------------------------------------------------------------------
@@ -742,31 +868,85 @@ export const MONOGRAM_REGISTRY = {
     id: 'ExtraStrength',
     name: 'Bonus Strength',
     category: 'stats',
-    description: 'Flat strength bonus',
+    description: '+200 strength',
   },
   'ExtraWisdom': {
     id: 'ExtraWisdom',
     name: 'Bonus Wisdom',
     category: 'stats',
-    description: 'Flat wisdom bonus',
+    description: '+200 wisdom',
   },
   'ExtraEndurance': {
     id: 'ExtraEndurance',
     name: 'Bonus Endurance',
     category: 'stats',
-    description: 'Flat endurance bonus',
+    description: '+200 endurance',
   },
   'ExtraStamina': {
     id: 'ExtraStamina',
     name: 'Bonus Stamina',
     category: 'stats',
-    description: 'Flat stamina bonus',
+    description: '+200 stamina',
+  },
+  'GainStatIfNoOffHand.Strength': {
+    id: 'GainStatIfNoOffHand.Strength',
+    name: 'No Offhand Strength',
+    category: 'stats',
+    description: '+500 strength when not using offhand',
+  },
+  'GainStatIfNoOffHand.Agility': {
+    id: 'GainStatIfNoOffHand.Agility',
+    name: 'No Offhand Agility',
+    category: 'stats',
+    description: '+500 agility when not using offhand',
+  },
+  'GainStatIfNoOffHand.Stamina': {
+    id: 'GainStatIfNoOffHand.Stamina',
+    name: 'No Offhand Stamina',
+    category: 'stats',
+    description: '+500 stamina when not using offhand',
+  },
+  'GainStatIfNoOffHand.Endurance': {
+    id: 'GainStatIfNoOffHand.Endurance',
+    name: 'No Offhand Endurance',
+    category: 'stats',
+    description: '+500 endurance when not using offhand',
   },
   'GainStatIfNoOffHand.Luck': {
     id: 'GainStatIfNoOffHand.Luck',
     name: 'No Offhand Luck',
     category: 'stats',
-    description: 'Luck bonus when not using offhand',
+    description: '+500 luck when not using offhand',
+  },
+  'GainStatIfNoOffHand.Dexterity': {
+    id: 'GainStatIfNoOffHand.Dexterity',
+    name: 'No Offhand Dexterity',
+    category: 'stats',
+    description: '+500 dexterity when not using offhand',
+  },
+  'GainStatIfNoOffHand.Wisdom': {
+    id: 'GainStatIfNoOffHand.Wisdom',
+    name: 'No Offhand Wisdom',
+    category: 'stats',
+    description: '+500 wisdom when not using offhand',
+  },
+  'ExtraAgility': {
+    id: 'ExtraAgility',
+    name: 'Bonus Agility',
+    category: 'stats',
+    description: '+200 agility',
+  },
+  'ExtraLuck': {
+    id: 'ExtraLuck',
+    name: 'Bonus Luck',
+    category: 'stats',
+    description: '+200 luck',
+  },
+  'ExtraDexterity': {
+    id: 'ExtraDexterity',
+    name: 'Bonus Dexterity',
+    category: 'stats',
+    description: '+200 dexterity',
   },
 
   // ---------------------------------------------------------------------------
@@ -850,6 +1030,18 @@ export const MONOGRAM_REGISTRY = {
     category: 'energy',
     description: '+75% maximum energy',
   },
+  'ExtraEnergy': {
+    id: 'ExtraEnergy',
+    name: 'Bonus Energy',
+    category: 'energy',
+    description: '+15 maximum energy',
+  },
+  'EnergyForStat.Highest': {
+    id: 'EnergyForStat.Highest',
+    name: 'Energy Scaling',
+    category: 'energy',
+    description: '+2 max energy per 75 of highest stat',
+  },
 
   // ---------------------------------------------------------------------------
   // SECONDARY BUILD
@@ -871,6 +1063,12 @@ export const MONOGRAM_REGISTRY = {
     name: 'Energy Overcharge',
     category: 'secondary',
     description: 'Secondary costs double energy, deals more damage (TBD)',
+  },
+  'SecondaryBuild.ChargedDamageForStat2.Highest': {
+    id: 'SecondaryBuild.ChargedDamageForStat2.Highest',
+    name: 'Charged Secondary II',
+    category: 'secondary',
+    description: '+20% charged secondary damage per 65 of highest stat',
   },
   'SecondaryBuild.ChargedOnly': {
     id: 'SecondaryBuild.ChargedOnly',
@@ -992,6 +1190,18 @@ export const MONOGRAM_REGISTRY = {
     category: 'utility',
     description: 'Share infused beetle effects',
   },
+  'ExtraPotionSlots': {
+    id: 'ExtraPotionSlots',
+    name: 'Bonus Potion Slots',
+    category: 'potion',
+    description: '+2 additional potion slots',
+  },
+  'AmadoraBlessingBonus': {
+    id: 'AmadoraBlessingBonus',
+    name: 'Amadora Blessing',
+    category: 'utility',
+    description: 'Amadora Blessing deals 100% more damage, duration doubled',
+  },
 };
 
 // ============================================================================
@@ -1067,12 +1277,49 @@ export const SLOT_MONOGRAMS = {
     'DamageCircle.DamageReduction.Highest', 'DamageCircle.BossDamageBuff',
   ],
   ring: [
-    'DamageForStat.Highest', 'GainStatIfNoOffHand.Luck', 'DamageReduction%ForStat.Highest',
-    'ExtraStrength', 'ExtraStamina', 'Colossus.LifeSteal', 'MaxHp%ForStat.Highest',
-    'BonusDamage%ForEssence', 'ExtraArmor', 'DamageCircle.DamageForStats.Highest',
-    'Bloodlust.MoreLife.Highest', 'SecondaryBuild.DoubleChargedDamage', 'ExtraWisdom',
-    'DamageReduction', 'ElementalToHp%.Fire', 'ExtraEndurance',
+    // Essence scaling
+    'BonusDamage%ForEssence', 'DamageForEssence',
+    // Inventory bonus
+    'ExtraInventorySlotForDamage%',
+    // Amadora
+    'AmadoraBlessingBonus',
+    // No-offhand stat bonuses
+    'GainStatIfNoOffHand.Strength', 'GainStatIfNoOffHand.Agility',
+    'GainStatIfNoOffHand.Stamina', 'GainStatIfNoOffHand.Endurance',
+    'GainStatIfNoOffHand.Luck', 'GainStatIfNoOffHand.Dexterity',
+    'GainStatIfNoOffHand.Wisdom',
+    // Flat stat bonuses
+    'ExtraFlatHp', 'ExtraStrength', 'ExtraStamina', 'ExtraEndurance',
+    'ExtraWisdom', 'ExtraAgility', 'ExtraLuck', 'ExtraDexterity',
+    // Flat bonuses
+    'ExtraDamage%', 'ExtraHp%', 'ExtraArmor%', 'ExtraMovementSpeed',
+    'ExtraEnergy', 'ExtraPotionSlots', 'DamageReduction',
+    // Elemental to HP
+    'ElementalToHp%.Fire', 'ElementalToHp%.Lightning', 'ElementalToHp%.Arcane',
+    // Elemental to Damage
+    'ElementalToDamage%.Fire', 'ElementalToDamage%.Lightning', 'ElementalToDamage%.Arcane',
+    // Shroud scaling
+    'Shroud.Damage%ForStat.Highest', 'Shroud.DamageReduction%ForStat.Highest',
+    // Phasing
+    'Phasing.OffhandProc',
+    // Secondary build
+    'SecondaryBuild.ChargedDamageForStat2.Highest', 'SecondaryBuild.DoubleChargedDamage',
+    'Gain2ChargedGlyphRunes',
+    // Highest stat scaling
+    'DamageForStat.Highest', 'HighestStatForDamage', 'BossDamage%ForStat.Highest',
+    'MaxHp%ForStat.Highest', 'MaxHpForStat.Highest', 'Armor%ForStat.Highest',
+    'DamageReduction%ForStat.Highest', 'EnergyForStat.Highest',
+    // Bloodlust
+    'Bloodlust.MoreLife.Highest', 'Bloodlust.MoreDamage.Highest',
+    'Bloodlust.ActiveDamage%', 'Bloodlust.ActiveHp%',
+    // Colossus / Berserker Fury
+    'Colossus.LifeSteal',
     'Colossus.ElementalBonusForHighestStat.Arcane',
+    'Colossus.ElementalBonusForHighestStat.Fire',
+    'Colossus.ElementalBonusForHighestStat.Lightning',
+    // Unholy Void (Damage Circle)
+    'DamageCircle.DamageForStats.Highest', 'DamageCircle.DamageForHealthRegen',
+    'DamageCircle.BaseHpForStat.Highest',
   ],
 };
 

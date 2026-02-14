@@ -100,6 +100,16 @@ export const MONOGRAM_REGISTRY = {
   },
 
   // ---------------------------------------------------------------------------
+  // BERSERKER FURY
+  // ---------------------------------------------------------------------------
+  'BerserkerFury.FreeDash': {
+    id: 'BerserkerFury.FreeDash',
+    name: 'Berserker Free Dash',
+    category: 'berserker',
+    description: 'Dash costs no Energy while in Berserker Fury state',
+  },
+
+  // ---------------------------------------------------------------------------
   // COLOSSUS
   // ---------------------------------------------------------------------------
   'Colossus.Base': {
@@ -408,6 +418,12 @@ export const MONOGRAM_REGISTRY = {
     category: 'potion',
     description: 'Attack speed bonus from potions',
   },
+  'PotionBonus.CritChance%': {
+    id: 'PotionBonus.CritChance%',
+    name: 'Potion Crit Chance',
+    category: 'potion',
+    description: '+1% crit chance per potion slot',
+  },
   'PotionBonus.MaxEnergy': {
     id: 'PotionBonus.MaxEnergy',
     name: 'Potion Energy',
@@ -714,19 +730,19 @@ export const MONOGRAM_REGISTRY = {
     id: 'BootsMoveSpeed4',
     name: 'Swift Boots',
     category: 'boots',
-    description: '+4 movement speed',
+    description: '+20% movement speed',
   },
   'BootsExtraEnergy3': {
     id: 'BootsExtraEnergy3',
     name: 'Energy Boots',
     category: 'boots',
-    description: '+3 max energy',
+    description: '+20 to maximum Energy',
   },
   'BootsExtraEnergyRegen4': {
     id: 'BootsExtraEnergyRegen4',
     name: 'Regen Boots',
     category: 'boots',
-    description: '+4 energy regen',
+    description: '+8 energy regeneration',
   },
 
   // ---------------------------------------------------------------------------
@@ -927,10 +943,10 @@ export const SLOT_MONOGRAMS = {
     'Phasing.MovementSpeedBonus', 'PotionBonus.MaxHp%', 'ChanceToSpawnAnotherElite',
     'GainCritChanceForHighest', 'Veil.OnLose', 'BonusCritDamage%ForEssence',
     'BootsMoveSpeed4', 'BootsExtraEnergy3', 'PotionBonus.Armor%',
-    'Colossus.FreeDash', 'DamageCircle.BiggerFaster', 'PotionBonus.MovementSpeed%',
-    'PotionBonus.AttackSpeed%', 'Shroud.OnLose', 'ChanceToSpawnContainer',
+    'BerserkerFury.FreeDash', 'DamageCircle.BiggerFaster', 'PotionBonus.MovementSpeed%',
+    'PotionBonus.CritChance%', 'Shroud.OnLose', 'ChanceToSpawnContainer',
     'FasterMount', 'DamageForStat2.Highest', 'PotionBonus.MaxEnergy',
-    'BootsExtraEnergyRegen4',
+    'BootsExtraEnergyRegen4', 'ExtraInventorySlotForDamage%',
   ],
   pants: [
     'ChanceToSpawnAnotherElite', 'Gain2ChargedGlyphRunes', 'EliteBuffs.MaxHp%',

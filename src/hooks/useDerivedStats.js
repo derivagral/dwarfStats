@@ -244,6 +244,31 @@ export function useDerivedStats(options = {}) {
       'elementForCritChance', 'elementalToHpFire', 'elementalToHpLightning',
       'damageFromHealth', 'finalDamage',
       'highestAttribute', // intermediate calculation
+      // Amulet monogram stats
+      'shroudStacks', 'shroudLifeBonus',
+      'damageCircleLifeBonus',
+      'distanceProcsDamageBonus', 'distanceProcsNearDamageBonus',
+      'eliteAttackSpeedBonus', 'eliteEnergyBonus',
+      'extraLifestealBonus',
+      'flatDamageMonogramBonus', 'noEnergyDamageBonus',
+      'highestStatDamageBonus',
+      'eliteSpawnChance', 'containerSpawnChance',
+      // Helmet monogram stats
+      'critDamageFromArmor', 'lifeBonusFromCritChance',
+      'energyDamageBonus',
+      'invSlotBossDamageBonus', 'invSlotCritDamageBonus',
+      'juggernautMoveSpeed', 'juggernautCritChance', 'juggernautCritDamage',
+      'paragonLevel', 'paragonArmorBonus', 'paragonDamageBonus', 'paragonHpBonus',
+      'shroudDamageBonus', 'shroudFlatDamageBonus',
+      'snailSpawnChance', 'lifestealToEnergySteal',
+      // Bracer monogram stats
+      'bloodlustDrawBloodBonus', 'colossusDoubleAttackSpeed',
+      'critChanceFromEnergyRegen', 'damagePercentForStat2',
+      'damageNoPotionBonus', 'doubleBuffLength',
+      'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
+      'pulseArcaneDamage', 'pulseFireDamage', 'pulseLightningDamage',
+      'chargedSecondaryDamageBonus', 'shroudMaxStacksMultiplier',
+      'colossusDamageBonus', 'invSlotDamageBonus',
     ]);
 
     // Map internal categories to display categories

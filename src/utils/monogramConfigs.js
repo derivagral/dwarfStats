@@ -143,6 +143,521 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
 
   // ===========================================================================
+  // SHROUD (1H Monogram - 50 stacks max)
+  // Effects: 3% life per stack
+  // ===========================================================================
+  'Shroud.ExtraHp': {
+    displayName: 'Shroud HP',
+    description: '+3% life per shroud stack (50 stacks max = 150%)',
+    effects: [
+      { derivedStatId: 'shroudStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // DAMAGE CIRCLE / UNHOLY VOID (Amulet + upcoming Helmet)
+  // 2% life bonus per 50 of highest attribute
+  // ===========================================================================
+  'DamageCircle.Hp%.Highest': {
+    displayName: 'Circle Life Bonus',
+    description: '+2% life per 50 of highest attribute while in circle',
+    effects: [
+      { derivedStatId: 'damageCircleLifeBonus', config: { enabled: true, lifePerInterval: 2, statInterval: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // DISTANCE PROCS (Amulet - exclusive pair, own additive bucket)
+  // 50% damage each, NOT regular damageBonus
+  // ===========================================================================
+  'DistanceProcsDamage': {
+    displayName: 'Distance Procs',
+    description: '+50% damage (own additive bucket, exclusive with Near)',
+    effects: [
+      { derivedStatId: 'distanceProcsDamageBonus', config: { enabled: true, bonusPercent: 50 } },
+    ],
+  },
+  'DistanceProcsDamage_Near': {
+    displayName: 'Distance Procs (Near)',
+    description: '+50% damage (own additive bucket, exclusive with Far)',
+    effects: [
+      { derivedStatId: 'distanceProcsNearDamageBonus', config: { enabled: true, bonusPercent: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // ELITE BUFFS (Amulet - assume capped stacks for calcs)
+  // ===========================================================================
+  'EliteBuffs.AttackSpeed%': {
+    displayName: 'Elite AS Buff',
+    description: 'Attack speed from elite kills (assume capped)',
+    effects: [
+      { derivedStatId: 'eliteAttackSpeedBonus', config: { enabled: true, attackSpeedPerStack: 3, maxStacks: 10, currentStacks: 10 } },
+    ],
+  },
+  'EliteBuffs.Energy': {
+    displayName: 'Elite Energy Buff',
+    description: 'Energy from elite kills (assume capped)',
+    effects: [
+      { derivedStatId: 'eliteEnergyBonus', config: { enabled: true, energyPerStack: 10, maxStacks: 10, currentStacks: 10 } },
+    ],
+  },
+
+  // ===========================================================================
+  // EXTRA LIFESTEAL (Amulet - simple additive)
+  // ===========================================================================
+  'ExtraLifeSteal': {
+    displayName: 'Extra Lifesteal',
+    description: '+10% lifesteal',
+    effects: [
+      { derivedStatId: 'extraLifestealBonus', config: { enabled: true, lifestealPercent: 10 } },
+    ],
+  },
+
+  // ===========================================================================
+  // FLAT DAMAGE MONOGRAMS (Amulet)
+  // ===========================================================================
+  'DamageBonusAnd51Damage': {
+    displayName: 'Flat Damage Bonus',
+    description: '+300 flat damage (drawback: incoming damage deals 50% HP)',
+    effects: [
+      { derivedStatId: 'flatDamageMonogramBonus', config: { enabled: true, flatDamage: 300 } },
+    ],
+  },
+  'DamageGainNoEnergy': {
+    displayName: 'No Energy Damage',
+    description: '+300 flat damage (drawback: sets energy to 0)',
+    effects: [
+      { derivedStatId: 'noEnergyDamageBonus', config: { enabled: true, flatDamage: 300 } },
+    ],
+  },
+
+  // ===========================================================================
+  // HIGHEST STAT FOR DAMAGE (Amulet)
+  // 1% damage bonus per 50 of highest stat
+  // ===========================================================================
+  'HighestStatForDamage': {
+    displayName: 'Highest Stat Damage',
+    description: '+1% damage per 50 of highest stat',
+    effects: [
+      { derivedStatId: 'highestStatDamageBonus', config: { enabled: true, damagePerInterval: 1, statInterval: 50 } },
+    ],
+  },
+
+  // ===========================================================================
+  // SPAWN CHANCES (Amulet - display only, no calc chain)
+  // ===========================================================================
+  'ChanceToSpawnAnotherElite': {
+    displayName: 'Elite Spawn Chance',
+    description: '10% per instance to spawn another elite (cap 40%)',
+    effects: [
+      { derivedStatId: 'eliteSpawnChance', config: { enabled: true, chancePerInstance: 10, maxChance: 40 } },
+    ],
+  },
+  'ChanceToSpawnContainer': {
+    displayName: 'Container Spawn Chance',
+    description: '10% per instance to spawn a container (cap 100%)',
+    effects: [
+      { derivedStatId: 'containerSpawnChance', config: { enabled: true, chancePerInstance: 10, maxChance: 100 } },
+    ],
+  },
+
+  // ===========================================================================
+  // CRIT DAMAGE FROM ARMOR (Helmet Monogram)
+  // 1% crit damage per 500 total armor
+  // ===========================================================================
+  'CritDamageForArmor': {
+    displayName: 'Crit from Armor',
+    description: '+1% crit damage per 500 total armor',
+    effects: [
+      { derivedStatId: 'critDamageFromArmor', config: { enabled: true, critDamagePerInterval: 1, armorInterval: 500 } },
+    ],
+  },
+
+  // ===========================================================================
+  // ELEMENT FOR CRIT CHANCE → LIFE (Helmet Monogram)
+  // 1% life bonus per 1% crit over 100%
+  // ===========================================================================
+  'ElementForCritChance.MaxHealth': {
+    displayName: 'Life from Crit',
+    description: '+1% life per 1% crit over 100%',
+    effects: [
+      { derivedStatId: 'lifeBonusFromCritChance', config: { enabled: true, critThreshold: 100, lifePerCrit: 1 } },
+    ],
+  },
+
+  // ===========================================================================
+  // ENERGY TO DAMAGE (Helmet Monogram)
+  // 2 flat damage per energy over base 100
+  // ===========================================================================
+  'ExtraEnergyAddDamage': {
+    displayName: 'Energy to Damage',
+    description: '+2 flat damage per energy over base 100',
+    effects: [
+      { derivedStatId: 'energyDamageBonus', config: { enabled: true, baseEnergy: 100, damagePerEnergy: 2 } },
+    ],
+  },
+
+  // ===========================================================================
+  // INVENTORY SLOT BONUSES (Helmet Monograms)
+  // ===========================================================================
+  'ExtraInventorySlotForAttackSpeed': {
+    displayName: 'Boss Damage (Inv Slot)',
+    description: '+1% boss damage per extra inventory slot',
+    effects: [
+      { derivedStatId: 'invSlotBossDamageBonus', config: { enabled: true, bonusPerSlot: 1 } },
+    ],
+  },
+  'ExtraInventorySlotForCritDamage': {
+    displayName: 'Crit Damage (Inv Slot)',
+    description: '+5% crit damage per extra inventory slot',
+    effects: [
+      { derivedStatId: 'invSlotCritDamageBonus', config: { enabled: true, bonusPerSlot: 5 } },
+    ],
+  },
+
+  // ===========================================================================
+  // JUGGERNAUT (Helmet - Fist Pinnacle, single instance)
+  // +40% MS, +25% crit chance, 2x crit damage multiplier
+  // ===========================================================================
+  'Juggernaut': {
+    displayName: 'Juggernaut',
+    description: '+40% MS, +25% crit, 2x crit damage (fist pinnacle, single instance)',
+    effects: [
+      { derivedStatId: 'juggernautMoveSpeed', config: { enabled: true, moveSpeedBonus: 40 } },
+      { derivedStatId: 'juggernautCritChance', config: { enabled: true, critChanceBonus: 25 } },
+      { derivedStatId: 'juggernautCritDamage', config: { enabled: true, critDamageMultiplier: 2 } },
+    ],
+  },
+
+  // ===========================================================================
+  // LIFESTEAL TO ENERGY STEAL (Helmet - drawback)
+  // ===========================================================================
+  'LifeStealToEnergySteal': {
+    displayName: 'Energy Steal',
+    description: 'Converts lifesteal to energy steal (drawback)',
+    effects: [
+      { derivedStatId: 'lifestealToEnergySteal', config: { enabled: true } },
+    ],
+  },
+
+  // ===========================================================================
+  // PARAGON (Helmet - Melee & Ranged stances)
+  // Per level: 15 armor, 2 flat damage, 10 flat HP
+  // Level from stance XP (out of scope), configurable
+  // ===========================================================================
+  'MeleeParagon.Armor': {
+    displayName: 'Melee Paragon Armor',
+    description: '+15 armor per paragon level (maul/spear/sword/2h)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonArmorBonus', config: { armorPerLevel: 15 } },
+    ],
+  },
+  'MeleeParagon.BaseDamage': {
+    displayName: 'Melee Paragon Damage',
+    description: '+2 flat damage per paragon level (maul/spear/sword/2h)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonDamageBonus', config: { damagePerLevel: 2 } },
+    ],
+  },
+  'MeleeParagon.MaxHp': {
+    displayName: 'Melee Paragon HP',
+    description: '+10 flat HP per paragon level (maul/spear/sword/2h)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonHpBonus', config: { hpPerLevel: 10 } },
+    ],
+  },
+  'RangedParagon.Armor': {
+    displayName: 'Ranged Paragon Armor',
+    description: '+15 armor per paragon level (bow/magery/scythe/fist)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonArmorBonus', config: { armorPerLevel: 15 } },
+    ],
+  },
+  'RangedParagon.BaseDamage': {
+    displayName: 'Ranged Paragon Damage',
+    description: '+2 flat damage per paragon level (bow/magery/scythe/fist)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonDamageBonus', config: { damagePerLevel: 2 } },
+    ],
+  },
+  'RangedParagon.MaxHp': {
+    displayName: 'Ranged Paragon HP',
+    description: '+10 flat HP per paragon level (bow/magery/scythe/fist)',
+    effects: [
+      { derivedStatId: 'paragonLevel', config: { enabled: true } },
+      { derivedStatId: 'paragonHpBonus', config: { hpPerLevel: 10 } },
+    ],
+  },
+
+  // ===========================================================================
+  // SHROUD BASE (Helmet - 1H stance enabler)
+  // 5% damageBonus + 1% flatDamageBonus (separate multiplier) per stack, 50 max
+  // ===========================================================================
+  'Shroud': {
+    displayName: 'Shroud',
+    description: '+5% damage + 1% flat damage (separate mult.) per stack (50 max)',
+    effects: [
+      { derivedStatId: 'shroudStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
+      { derivedStatId: 'shroudDamageBonus', config: { damagePerStack: 5 } },
+      { derivedStatId: 'shroudFlatDamageBonus', config: { flatDamagePerStack: 1 } },
+    ],
+  },
+
+  // ===========================================================================
+  // SNAIL SPAWN (Helmet - display only)
+  // ===========================================================================
+  'ChanceForSnails': {
+    displayName: 'Snail Spawn',
+    description: '10% per instance to spawn snails',
+    effects: [
+      { derivedStatId: 'snailSpawnChance', config: { enabled: true, chancePerInstance: 10 } },
+    ],
+  },
+
+  // ===========================================================================
+  // BRACER MONOGRAMS
+  // ===========================================================================
+
+  // ---------------------------------------------------------------------------
+  // BLOODLUST DRAW BLOOD (Bracer - 1% damage per bloodlust stack)
+  // Requires Bloodlust.Base (helmet) to be active for stacks
+  // ---------------------------------------------------------------------------
+  'Bloodlust.DrawBlood': {
+    displayName: 'Draw Blood',
+    description: '+1% damage per bloodlust stack (100% at max, requires Bloodlust.Base)',
+    effects: [
+      { derivedStatId: 'bloodlustDrawBloodBonus', config: { damagePerStack: 1 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // COLOSSUS DOUBLE ATTACK SPEED (Bracer - 2x IAS during Colossus)
+  // ---------------------------------------------------------------------------
+  'Colossus.DoubleAttackSpeed': {
+    displayName: 'Colossus 2x IAS',
+    description: '2x attack speed during Colossus',
+    effects: [
+      { derivedStatId: 'colossusDoubleAttackSpeed', config: { enabled: true, multiplier: 2 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // COLOSSUS DAMAGE BONUS (Bracer - 70% damage while active)
+  // ---------------------------------------------------------------------------
+  'Colossus.Damage%': {
+    displayName: 'Colossus Damage',
+    description: '+70% damage while Colossus is active',
+    effects: [
+      { derivedStatId: 'colossusDamageBonus', config: { enabled: true, damageBonus: 70 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // INVENTORY SLOT DAMAGE (Bracer - 2% damage per bonus slot)
+  // ---------------------------------------------------------------------------
+  'ExtraInventorySlotForDamage%': {
+    displayName: 'Damage% (Inv Slot)',
+    description: '+2% damage per bonus inventory slot',
+    effects: [
+      { derivedStatId: 'invSlotDamageBonus', config: { enabled: true, bonusPerSlot: 2 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // CRIT CHANCE FROM ENERGY REGEN (Bracer - 1:1 ratio)
+  // ---------------------------------------------------------------------------
+  'CritChanceForEnergyRegen': {
+    displayName: 'Crit from Energy Regen',
+    description: '1:1 energy regen → crit chance',
+    effects: [
+      { derivedStatId: 'critChanceFromEnergyRegen', config: { enabled: true, ratio: 1 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE% FOR STAT2 (Bracer - 1% per 50 highest stat)
+  // ---------------------------------------------------------------------------
+  'Damage%ForStat2.Highest': {
+    displayName: 'Stat Damage% II',
+    description: '+1% damage per 50 of highest stat',
+    effects: [
+      { derivedStatId: 'damagePercentForStat2', config: { enabled: true, damagePerInterval: 1, statInterval: 50 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE% NO POTION (Bracer - 5% per slot, cannot use potions)
+  // ---------------------------------------------------------------------------
+  'Damage%NoPotion': {
+    displayName: 'No Potion Damage',
+    description: '+5% damage per potion slot (cannot use potions)',
+    effects: [
+      { derivedStatId: 'damageNoPotionBonus', config: { enabled: true, damagePerSlot: 5, basePotionSlots: 3 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // DOUBLE BUFF LENGTH (Bracer - display stub)
+  // ---------------------------------------------------------------------------
+  'DoubleBuffLength': {
+    displayName: 'Extended Buffs',
+    description: 'Doubles buff durations',
+    effects: [
+      { derivedStatId: 'doubleBuffLength', config: { enabled: true } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXPLODING MINES (Bracer - 5% elemental per stack, 20 max)
+  // ---------------------------------------------------------------------------
+  'ExplodingArcaneMineNode': {
+    displayName: 'Arcane Mine',
+    description: '+5% arcane bonus per stack (20 max = 100%)',
+    effects: [
+      { derivedStatId: 'arcaneMineBonus', config: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } },
+    ],
+  },
+  'ExplodingFireMineNode': {
+    displayName: 'Fire Mine',
+    description: '+5% fire bonus per stack (20 max = 100%)',
+    effects: [
+      { derivedStatId: 'fireMineBonus', config: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } },
+    ],
+  },
+  'ExplodingLightningMineNode': {
+    displayName: 'Lightning Mine',
+    description: '+5% lightning bonus per stack (20 max = 100%)',
+    effects: [
+      { derivedStatId: 'lightningMineBonus', config: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // UTILITY STUBS (Bracer - not relevant to calcs)
+  // ---------------------------------------------------------------------------
+  'GoldOnDailyComplete': {
+    displayName: 'Daily Gold',
+    description: '+300k gold on daily completion (not relevant to calcs)',
+    effects: [],
+  },
+  'LargeStonesInContainers': {
+    displayName: 'Large Stones',
+    description: 'Find large stones in containers (not relevant to calcs)',
+    effects: [],
+  },
+  'LongerSnailBuff': {
+    displayName: 'Extended Snail Buff',
+    description: 'Longer snail buff duration (not relevant to calcs)',
+    effects: [],
+  },
+  'ProcOffhandsOnPotion': {
+    displayName: 'Offhand on Potion',
+    description: 'Trigger offhand effects on potion use (not relevant currently)',
+    effects: [],
+  },
+
+  // ---------------------------------------------------------------------------
+  // PULSE EXPLOSIONS (Bracer - 3% of elemental bonus × 100 stacks)
+  // ---------------------------------------------------------------------------
+  'PulseExplosion_Arcane': {
+    displayName: 'Arcane Pulse',
+    description: 'Pulse arcane damage (3% of arcane bonus × 100 stacks)',
+    effects: [
+      { derivedStatId: 'pulseArcaneDamage', config: { enabled: true, percentPerStack: 3, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+  'PulseExplosion_Fire': {
+    displayName: 'Fire Pulse',
+    description: 'Pulse fire damage (3% of fire bonus × 100 stacks)',
+    effects: [
+      { derivedStatId: 'pulseFireDamage', config: { enabled: true, percentPerStack: 3, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+  'PulseExplosion_Lightning': {
+    displayName: 'Lightning Pulse',
+    description: 'Pulse lightning damage (3% of lightning bonus × 100 stacks)',
+    effects: [
+      { derivedStatId: 'pulseLightningDamage', config: { enabled: true, percentPerStack: 3, maxStacks: 100, currentStacks: 100 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // CHARGED SECONDARY (Bracer - primary scaling driver)
+  // 100% charged secondary damage per 100 highest stat
+  // ---------------------------------------------------------------------------
+  'SecondaryBuild.ChargedSecondaryDamageForStat.Highest': {
+    displayName: 'Charged Secondary',
+    description: '+100% charged secondary damage per 100 highest stat',
+    effects: [
+      { derivedStatId: 'chargedSecondaryDamageBonus', config: { enabled: true, bonusPer100Stat: 100 } },
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // SHROUD MAX STACKS BONUS (Bracer - 2x first-hit multiplier)
+  // ---------------------------------------------------------------------------
+  'Shroud.MaxStacksBonus': {
+    displayName: 'Shroud First-Hit',
+    description: '2x damage on first hit (light→dark shroud transition)',
+    effects: [
+      { derivedStatId: 'shroudMaxStacksMultiplier', config: { enabled: true, multiplier: 2 } },
+    ],
+  },
+
+  // ===========================================================================
+  // CHARGED GLYPH RUNES (Helmet - TBD, triple secondary charge rate)
+  // ===========================================================================
+  'Gain2ChargedGlyphRunes': {
+    displayName: 'Charged Glyphs',
+    description: 'Triple secondary charge rate (TBD)',
+    effects: [],
+  },
+
+  // ===========================================================================
+  // COLOSSUS BASE (Helmet - 2H capstone)
+  // 50% CDR, 50% IAS, 5% duration, 30s cooldown
+  // ===========================================================================
+  'Colossus.Base': {
+    displayName: 'Colossus',
+    description: '2H capstone: 50% CDR, 50% IAS, 5% duration, 30s CD',
+    effects: [],
+  },
+
+  // ===========================================================================
+  // DAMAGE CIRCLE BASE (Helmet - Unholy Void)
+  // Disables regular attacks/skills, 100% damage weapon hit in AOE
+  // ===========================================================================
+  'DamageCircle.Base': {
+    displayName: 'Unholy Void',
+    description: 'Disables attacks/skills, 100% damage weapon hit in AOE',
+    effects: [],
+  },
+
+  // ===========================================================================
+  // COLOSSUS CDR (Amulet - 2H stance, minimal calc impact)
+  // ===========================================================================
+  'Colossus.CooldownReduceOnEliteKill': {
+    displayName: 'Colossus CDR',
+    description: 'Cooldown reduction on elite kill (2H stance)',
+    effects: [],
+  },
+
+  // ===========================================================================
+  // SECONDARY BUILD (Amulet - deferred, interactions TBD)
+  // ===========================================================================
+  'SecondaryBuild.DoubleEnergyMoreDamage': {
+    displayName: 'Energy Overcharge',
+    description: 'Secondary costs double energy, deals more damage (TBD)',
+    effects: [],
+  },
+
+  // ===========================================================================
   // RING MONOGRAMS - Stat Scalers
   // ===========================================================================
   'DamageForStat.Highest': {
@@ -183,16 +698,8 @@ export const MONOGRAM_CALC_CONFIGS = {
       baseValue: 1,
     },
   },
-  'Colossus.Base': {
-    displayName: 'Colossus',
-    derivedStatId: null,
-  },
   'Colossus.DamageReduction': {
     displayName: 'Colossus DR',
-    derivedStatId: null,
-  },
-  'DamageCircle.Base': {
-    displayName: 'Damage Circle',
     derivedStatId: null,
   },
   'DamageCircle.DamageForStats.Highest': {
@@ -207,7 +714,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Potion Slots from Stats',
     derivedStatId: 'potionSlotsFromAttributes',
     config: {
-      ratio: 200,
+      ratio: 50,  // 1 potion slot per 50 of highest stat
     },
   },
   'Damage%ForPotions': {
@@ -216,7 +723,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     config: {
       sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
-      baseValue: 3,
+      baseValue: 5,  // 5% damage per available potion slot
     },
   },
 };

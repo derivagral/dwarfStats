@@ -249,24 +249,24 @@ export const DERIVED_STATS = {
   },
 
   /**
-   * Placeholder: Potions per combined attributes
+   * Extra potion slots from highest attribute (1 per 50)
    */
   potionSlotsFromAttributes: {
     id: 'potionSlotsFromAttributes',
-    name: 'Potion Slots (Attrs)',
+    name: 'Potion Slots (Stats)',
     category: 'utility-derived',
     layer: LAYERS.PRIMARY_DERIVED,
-    dependencies: ['totalStrength', 'totalVitality'],
+    dependencies: ['highestAttribute'],
     config: {
-      ratio: 200,  // per 200 combined str+vit
+      ratio: 50,  // per 50 of highest stat
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.potionSlotsFromAttributes.config;
-      const combined = (stats.totalStrength || 0) + (stats.totalVitality || 0);
-      return Math.floor(combined / config.ratio);
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.ratio);
     },
     format: v => v.toFixed(0),
-    description: 'Additional potion slots from attributes',
+    description: 'Additional potion slots from highest attribute (1 per 50)',
   },
 
   // ---------------------------------------------------------------------------
@@ -318,18 +318,18 @@ export const DERIVED_STATS = {
   },
 
   /**
-   * Placeholder: Stat bonus per potion slot
+   * Damage bonus per potion slot (5% per slot)
    */
   statBonusFromPotions: {
     id: 'statBonusFromPotions',
-    name: 'Stat Bonus (Potions)',
+    name: 'Damage% (Potions)',
     category: 'chained',
     layer: LAYERS.SECONDARY_DERIVED,
     dependencies: ['potionSlotsFromAttributes'],
     config: {
       sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
-      baseValue: 5,  // +5 to stats per potion slot
+      baseValue: 5,  // +5% damage per potion slot
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.statBonusFromPotions.config;
@@ -646,6 +646,606 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
+  // SHROUD BUFF (1H Monogram - 50 stacks max)
+  // Effects: 3% life per stack
+  // ---------------------------------------------------------------------------
+  shroudStacks: {
+    id: 'shroudStacks',
+    name: 'Shroud Stacks',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      maxStacks: 50,
+      currentStacks: 50,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudStacks.config;
+      if (!config.enabled) return 0;
+      return Math.min(config.currentStacks, config.maxStacks);
+    },
+    format: v => v.toFixed(0),
+    description: 'Current Shroud buff stacks (max 50)',
+  },
+  shroudLifeBonus: {
+    id: 'shroudLifeBonus',
+    name: 'Shroud Life%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['shroudStacks'],
+    config: {
+      lifePerStack: 3, // 3% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudLifeBonus.config;
+      const stacks = stats.shroudStacks || 0;
+      return stacks * config.lifePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from Shroud stacks (3% per stack, 150% at max)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE CIRCLE / UNHOLY VOID (Amulet + upcoming Helmet Monogram)
+  // 2% life bonus per 50 of highest attribute
+  // ---------------------------------------------------------------------------
+  damageCircleLifeBonus: {
+    id: 'damageCircleLifeBonus',
+    name: 'Circle Life%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      lifePerInterval: 2,  // 2% life bonus
+      statInterval: 50,    // per 50 highest attribute
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damageCircleLifeBonus.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.lifePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from Damage Circle (2% per 50 highest attribute)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DISTANCE PROCS (Amulet Monograms - exclusive pair)
+  // 50% damage each, own additive bucket (not damageBonus)
+  // ---------------------------------------------------------------------------
+  distanceProcsDamageBonus: {
+    id: 'distanceProcsDamageBonus',
+    name: 'Distance Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPercent: 50,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.distanceProcsDamageBonus.config;
+      if (!config.enabled) return 0;
+      return config.bonusPercent;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Distance proc damage (50%, own additive bucket, exclusive with Near)',
+  },
+  distanceProcsNearDamageBonus: {
+    id: 'distanceProcsNearDamageBonus',
+    name: 'Near Distance Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPercent: 50,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.distanceProcsNearDamageBonus.config;
+      if (!config.enabled) return 0;
+      return config.bonusPercent;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Near distance proc damage (50%, own additive bucket, exclusive with Far)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // ELITE BUFFS (Amulet Monograms - assume capped stacks)
+  // ---------------------------------------------------------------------------
+  eliteAttackSpeedBonus: {
+    id: 'eliteAttackSpeedBonus',
+    name: 'Elite AS%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      attackSpeedPerStack: 3,
+      maxStacks: 10,
+      currentStacks: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.eliteAttackSpeedBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.attackSpeedPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Attack speed from elite kills (assume capped stacks)',
+  },
+  eliteEnergyBonus: {
+    id: 'eliteEnergyBonus',
+    name: 'Elite Energy',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      energyPerStack: 10,
+      maxStacks: 10,
+      currentStacks: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.eliteEnergyBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.energyPerStack;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Energy from elite kills (assume capped stacks)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXTRA LIFESTEAL (Amulet Monogram)
+  // +10% lifesteal, simple additive
+  // ---------------------------------------------------------------------------
+  extraLifestealBonus: {
+    id: 'extraLifestealBonus',
+    name: 'Extra Lifesteal%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      lifestealPercent: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.extraLifestealBonus.config;
+      if (!config.enabled) return 0;
+      return config.lifestealPercent;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Extra lifesteal bonus (10%)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // FLAT DAMAGE MONOGRAMS (Amulet)
+  // DamageBonusAnd51Damage: 300 flat, drawback: incoming deals 50% HP
+  // DamageGainNoEnergy: 300 flat, drawback: sets energy to 0
+  // ---------------------------------------------------------------------------
+  flatDamageMonogramBonus: {
+    id: 'flatDamageMonogramBonus',
+    name: 'Flat Damage (Monogram)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      flatDamage: 300,
+      drawback: 'Incoming damage deals 50% of max HP',
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.flatDamageMonogramBonus.config;
+      if (!config.enabled) return 0;
+      return config.flatDamage;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: '+300 flat damage (drawback: incoming damage deals 50% HP)',
+  },
+  noEnergyDamageBonus: {
+    id: 'noEnergyDamageBonus',
+    name: 'No Energy Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      flatDamage: 300,
+      drawback: 'Sets energy to 0',
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.noEnergyDamageBonus.config;
+      if (!config.enabled) return 0;
+      return config.flatDamage;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: '+300 flat damage (drawback: sets energy to 0)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // HIGHEST STAT FOR DAMAGE (Amulet Monogram)
+  // 1% damage bonus per 50 of highest stat
+  // ---------------------------------------------------------------------------
+  highestStatDamageBonus: {
+    id: 'highestStatDamageBonus',
+    name: 'Highest Stat Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      damagePerInterval: 1, // 1% damage bonus
+      statInterval: 50,     // per 50 highest stat
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.highestStatDamageBonus.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.damagePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage bonus from highest stat (1% per 50)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SPAWN CHANCE DISPLAY (Amulet Monograms - display only, no calc chain)
+  // ---------------------------------------------------------------------------
+  eliteSpawnChance: {
+    id: 'eliteSpawnChance',
+    name: 'Elite Spawn%',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      chancePerInstance: 10,
+      maxChance: 40,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.eliteSpawnChance.config;
+      if (!config.enabled) return 0;
+      const instances = config.instanceCount || 1;
+      return Math.min(instances * config.chancePerInstance, config.maxChance);
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Chance to spawn another elite on kill (10% per, cap 40%)',
+  },
+  containerSpawnChance: {
+    id: 'containerSpawnChance',
+    name: 'Container Spawn%',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      chancePerInstance: 10,
+      maxChance: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.containerSpawnChance.config;
+      if (!config.enabled) return 0;
+      const instances = config.instanceCount || 1;
+      return Math.min(instances * config.chancePerInstance, config.maxChance);
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Chance to spawn container on elite kill (10% per, cap 100%)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // CRIT DAMAGE FROM ARMOR (Helmet Monogram)
+  // 1% crit damage per 500 total armor
+  // ---------------------------------------------------------------------------
+  critDamageFromArmor: {
+    id: 'critDamageFromArmor',
+    name: 'Crit Damage (Armor)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['totalArmor'],
+    config: {
+      enabled: false,
+      critDamagePerInterval: 1, // 1% crit damage
+      armorInterval: 500,       // per 500 total armor
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.critDamageFromArmor.config;
+      if (!config.enabled) return 0;
+      const armor = stats.totalArmor || 0;
+      return Math.floor(armor / config.armorInterval) * config.critDamagePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Crit damage bonus from armor (1% per 500 armor)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // ENERGY TO DAMAGE (Helmet Monogram)
+  // 2 flat damage per energy over base 100
+  // ---------------------------------------------------------------------------
+  energyDamageBonus: {
+    id: 'energyDamageBonus',
+    name: 'Energy Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      baseEnergy: 100,      // energy threshold
+      damagePerEnergy: 2,   // 2 flat damage per energy over base
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.energyDamageBonus.config;
+      if (!config.enabled) return 0;
+      const energy = stats.energy || 0;
+      const excess = Math.max(0, energy - config.baseEnergy);
+      return excess * config.damagePerEnergy;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat damage from energy over 100 (2 per energy)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // INVENTORY SLOT BONUSES (Helmet Monograms)
+  // Slots come from skill tree, cards, etc. — configurable until save mapping
+  // ---------------------------------------------------------------------------
+  invSlotBossDamageBonus: {
+    id: 'invSlotBossDamageBonus',
+    name: 'Boss Damage (Inv)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerSlot: 1,   // 1% boss damage per extra slot
+      extraSlots: 0,     // set from save data
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.invSlotBossDamageBonus.config;
+      if (!config.enabled) return 0;
+      return (config.extraSlots || 0) * config.bonusPerSlot;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Boss damage from extra inventory slots (1% per slot)',
+  },
+  invSlotCritDamageBonus: {
+    id: 'invSlotCritDamageBonus',
+    name: 'Crit Damage (Inv)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerSlot: 5,   // 5% crit damage per extra slot
+      extraSlots: 0,     // set from save data
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.invSlotCritDamageBonus.config;
+      if (!config.enabled) return 0;
+      return (config.extraSlots || 0) * config.bonusPerSlot;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Crit damage from extra inventory slots (5% per slot)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // JUGGERNAUT (Helmet - Fist Pinnacle, single instance only)
+  // +40% move speed, +25% crit chance, 2x crit damage multiplier
+  // ---------------------------------------------------------------------------
+  juggernautMoveSpeed: {
+    id: 'juggernautMoveSpeed',
+    name: 'Juggernaut MS%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      moveSpeedBonus: 40,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.juggernautMoveSpeed.config;
+      if (!config.enabled) return 0;
+      return config.moveSpeedBonus;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Movement speed from Juggernaut (40%, single instance)',
+  },
+  juggernautCritChance: {
+    id: 'juggernautCritChance',
+    name: 'Juggernaut Crit%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      critChanceBonus: 25,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.juggernautCritChance.config;
+      if (!config.enabled) return 0;
+      return config.critChanceBonus;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Crit chance from Juggernaut (25%, single instance)',
+  },
+  juggernautCritDamage: {
+    id: 'juggernautCritDamage',
+    name: 'Juggernaut Crit Dmg',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      critDamageMultiplier: 2, // straight 2x multiplier on crit damage
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.juggernautCritDamage.config;
+      if (!config.enabled) return 0;
+      return config.critDamageMultiplier;
+    },
+    format: v => `${v.toFixed(0)}x`,
+    description: 'Crit damage multiplier from Juggernaut (2x, single instance)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // PARAGON (Helmet Monograms - Melee & Ranged)
+  // Per paragon level: 15 armor, 2 flat damage, 10 flat HP
+  // Paragon level derived from stance XP (3500 XP per level after 5k)
+  // Level configurable — XP calculation out of scope
+  // ---------------------------------------------------------------------------
+  paragonLevel: {
+    id: 'paragonLevel',
+    name: 'Paragon Level',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      level: 0, // set from save data (stance XP / 3500 after 5k threshold)
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.paragonLevel.config;
+      if (!config.enabled) return 0;
+      return config.level;
+    },
+    format: v => v.toFixed(0),
+    description: 'Paragon level (from stance XP, 3500 per level)',
+  },
+  paragonArmorBonus: {
+    id: 'paragonArmorBonus',
+    name: 'Paragon Armor',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['paragonLevel'],
+    config: {
+      armorPerLevel: 15,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.paragonArmorBonus.config;
+      const level = stats.paragonLevel || 0;
+      return level * config.armorPerLevel;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat armor from Paragon level (15 per level)',
+  },
+  paragonDamageBonus: {
+    id: 'paragonDamageBonus',
+    name: 'Paragon Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['paragonLevel'],
+    config: {
+      damagePerLevel: 2,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.paragonDamageBonus.config;
+      const level = stats.paragonLevel || 0;
+      return level * config.damagePerLevel;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat damage from Paragon level (2 per level)',
+  },
+  paragonHpBonus: {
+    id: 'paragonHpBonus',
+    name: 'Paragon HP',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['paragonLevel'],
+    config: {
+      hpPerLevel: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.paragonHpBonus.config;
+      const level = stats.paragonLevel || 0;
+      return level * config.hpPerLevel;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat HP from Paragon level (10 per level)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SHROUD DAMAGE BONUSES (Helmet - base Shroud monogram)
+  // 5% damageBonus per stack + 1% flatDamageBonus per stack (separate multiplier)
+  // ---------------------------------------------------------------------------
+  shroudDamageBonus: {
+    id: 'shroudDamageBonus',
+    name: 'Shroud Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['shroudStacks'],
+    config: {
+      damagePerStack: 5, // 5% per stack = 250% at max
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudDamageBonus.config;
+      const stacks = stats.shroudStacks || 0;
+      return stacks * config.damagePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage bonus from Shroud stacks (5% per stack, 250% at max)',
+  },
+  shroudFlatDamageBonus: {
+    id: 'shroudFlatDamageBonus',
+    name: 'Shroud Flat Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['shroudStacks'],
+    config: {
+      flatDamagePerStack: 1, // 1% per stack = 50% at max (SEPARATE multiplier)
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudFlatDamageBonus.config;
+      const stacks = stats.shroudStacks || 0;
+      return stacks * config.flatDamagePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Flat damage bonus from Shroud stacks (1% per stack, separate multiplier)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SNAIL SPAWN CHANCE (Helmet - display only)
+  // ---------------------------------------------------------------------------
+  snailSpawnChance: {
+    id: 'snailSpawnChance',
+    name: 'Snail Spawn%',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      chancePerInstance: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.snailSpawnChance.config;
+      if (!config.enabled) return 0;
+      const instances = config.instanceCount || 1;
+      return instances * config.chancePerInstance;
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Chance to spawn snails (10% per instance)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // LIFESTEAL TO ENERGY STEAL (Helmet - drawback, no bonus calc)
+  // ---------------------------------------------------------------------------
+  lifestealToEnergySteal: {
+    id: 'lifestealToEnergySteal',
+    name: 'Energy Steal',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lifestealToEnergySteal.config;
+      return config.enabled ? 1 : 0;
+    },
+    format: v => v > 0 ? 'Active' : 'Inactive',
+    description: 'Converts lifesteal to energy steal (drawback)',
+  },
+
+  // ---------------------------------------------------------------------------
   // ESSENCE → CRIT CHAIN
   // Crit chance per essence: 1% crit per 20 essence
   // ---------------------------------------------------------------------------
@@ -700,6 +1300,34 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
+  // LIFE FROM OVERCRIT (Helmet Monogram - ElementForCritChance.MaxHealth)
+  // 1% life bonus per 1% crit over 100%
+  // ---------------------------------------------------------------------------
+  lifeBonusFromCritChance: {
+    id: 'lifeBonusFromCritChance',
+    name: 'Life% (Crit)',
+    category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['critChanceFromEssence'],
+    config: {
+      enabled: false,
+      critThreshold: 100, // Only counts crit over this %
+      lifePerCrit: 1,     // 1% life per 1% crit over threshold
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lifeBonusFromCritChance.config;
+      if (!config.enabled) return 0;
+      const baseCrit = stats.critChance || 0;
+      const essenceCrit = stats.critChanceFromEssence || 0;
+      const totalCrit = baseCrit + essenceCrit;
+      const excessCrit = Math.max(0, totalCrit - config.critThreshold);
+      return excessCrit * config.lifePerCrit;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Life bonus from crit over 100% (1% life per 1% overcrit)',
+  },
+
+  // ---------------------------------------------------------------------------
   // LIFE FROM ELEMENT (Ring Monogram - placeholder)
   // 2% life per 30% of a particular element
   // ---------------------------------------------------------------------------
@@ -751,6 +1379,385 @@ export const DERIVED_STATS = {
     },
     format: v => `+${v.toFixed(0)}`,
     description: 'Flat damage from total life (1% of life)',
+  },
+
+  // ===========================================================================
+  // BRACER MONOGRAM STATS
+  // ===========================================================================
+
+  // ---------------------------------------------------------------------------
+  // BLOODLUST DRAW BLOOD (Bracer Monogram)
+  // 1% damage bonus per bloodlust stack (100% at max 100 stacks)
+  // ---------------------------------------------------------------------------
+  bloodlustDrawBloodBonus: {
+    id: 'bloodlustDrawBloodBonus',
+    name: 'Draw Blood Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['bloodlustStacks'],
+    config: {
+      damagePerStack: 1, // 1% per stack
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.bloodlustDrawBloodBonus.config;
+      const stacks = stats.bloodlustStacks || 0;
+      return stacks * config.damagePerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage bonus from Draw Blood (1% per bloodlust stack)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // COLOSSUS DOUBLE ATTACK SPEED (Bracer Monogram)
+  // 2x IAS during Colossus (display flag)
+  // ---------------------------------------------------------------------------
+  colossusDoubleAttackSpeed: {
+    id: 'colossusDoubleAttackSpeed',
+    name: 'Colossus 2x IAS',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      multiplier: 2,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.colossusDoubleAttackSpeed.config;
+      return config.enabled ? config.multiplier : 0;
+    },
+    format: v => v > 0 ? `${v.toFixed(0)}x` : 'Inactive',
+    description: 'Double attack speed during Colossus',
+  },
+
+  // ---------------------------------------------------------------------------
+  // CRIT CHANCE FROM ENERGY REGEN (Bracer Monogram)
+  // 1:1 totalEnergyRegen → crit chance
+  // ---------------------------------------------------------------------------
+  critChanceFromEnergyRegen: {
+    id: 'critChanceFromEnergyRegen',
+    name: 'Crit% (Energy Regen)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      ratio: 1, // 1% crit per 1 energy regen
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.critChanceFromEnergyRegen.config;
+      if (!config.enabled) return 0;
+      const energyRegen = stats.energyRegen || 0;
+      return energyRegen * config.ratio;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Crit chance from energy regen (1:1 ratio)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE% FOR STAT2 (Bracer Monogram)
+  // 1% damageBonus per 50 of highest stat (duplicate ID for same mechanic)
+  // ---------------------------------------------------------------------------
+  damagePercentForStat2: {
+    id: 'damagePercentForStat2',
+    name: 'Stat Damage% II',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      damagePerInterval: 1, // 1% damage bonus
+      statInterval: 50,     // per 50 highest stat
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damagePercentForStat2.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.damagePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage% from highest stat (1% per 50)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DAMAGE% NO POTION (Bracer Monogram)
+  // 5% damage per potion slot, drawback: cannot use potions
+  // ---------------------------------------------------------------------------
+  damageNoPotionBonus: {
+    id: 'damageNoPotionBonus',
+    name: 'No Potion Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['potionSlotsFromAttributes'],
+    config: {
+      enabled: false,
+      damagePerSlot: 5, // 5% per potion slot
+      basePotionSlots: 3, // default base potion slots
+      drawback: 'Cannot use potions',
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damageNoPotionBonus.config;
+      if (!config.enabled) return 0;
+      const extraSlots = stats.potionSlotsFromAttributes || 0;
+      const baseSlots = config.basePotionSlots || 3;
+      return (baseSlots + extraSlots) * config.damagePerSlot;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage% per potion slot (5% per slot, cannot use potions)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXPLODING MINES (Bracer Monograms - 20 stacks max each)
+  // 5% elemental bonus per stack
+  // ---------------------------------------------------------------------------
+  arcaneMineBonus: {
+    id: 'arcaneMineBonus',
+    name: 'Mine Arcane%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerStack: 5,
+      maxStacks: 20,
+      currentStacks: 20,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.arcaneMineBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.bonusPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Arcane bonus from mines (5% per stack, 20 max = 100%)',
+  },
+  fireMineBonus: {
+    id: 'fireMineBonus',
+    name: 'Mine Fire%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerStack: 5,
+      maxStacks: 20,
+      currentStacks: 20,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.fireMineBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.bonusPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Fire bonus from mines (5% per stack, 20 max = 100%)',
+  },
+  lightningMineBonus: {
+    id: 'lightningMineBonus',
+    name: 'Mine Lightning%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerStack: 5,
+      maxStacks: 20,
+      currentStacks: 20,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.lightningMineBonus.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      return stacks * config.bonusPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Lightning bonus from mines (5% per stack, 20 max = 100%)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // PULSE EXPLOSIONS (Bracer Monograms - 100 stacks max)
+  // Proc damage = 3% of elementalBonus per stack
+  // ---------------------------------------------------------------------------
+  pulseArcaneDamage: {
+    id: 'pulseArcaneDamage',
+    name: 'Pulse Arcane Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['arcaneMineBonus'],
+    config: {
+      enabled: false,
+      percentPerStack: 3,
+      maxStacks: 100,
+      currentStacks: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.pulseArcaneDamage.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      // Total arcane bonus from all sources
+      const arcaneBonus = (stats.arcaneBonus || 0) + (stats.arcaneMineBonus || 0);
+      return stacks * (config.percentPerStack / 100) * arcaneBonus;
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Pulse arcane proc damage (3% of arcane bonus × stacks, 100 max)',
+  },
+  pulseFireDamage: {
+    id: 'pulseFireDamage',
+    name: 'Pulse Fire Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['fireMineBonus'],
+    config: {
+      enabled: false,
+      percentPerStack: 3,
+      maxStacks: 100,
+      currentStacks: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.pulseFireDamage.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      const fireBonus = (stats.fireBonus || 0) + (stats.fireMineBonus || 0);
+      return stacks * (config.percentPerStack / 100) * fireBonus;
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Pulse fire proc damage (3% of fire bonus × stacks, 100 max)',
+  },
+  pulseLightningDamage: {
+    id: 'pulseLightningDamage',
+    name: 'Pulse Lightning Damage',
+    category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['lightningMineBonus'],
+    config: {
+      enabled: false,
+      percentPerStack: 3,
+      maxStacks: 100,
+      currentStacks: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.pulseLightningDamage.config;
+      if (!config.enabled) return 0;
+      const stacks = Math.min(config.currentStacks, config.maxStacks);
+      const lightningBonus = (stats.lightningBonus || 0) + (stats.lightningMineBonus || 0);
+      return stacks * (config.percentPerStack / 100) * lightningBonus;
+    },
+    format: v => `${v.toFixed(0)}%`,
+    description: 'Pulse lightning proc damage (3% of lightning bonus × stacks, 100 max)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // CHARGED SECONDARY DAMAGE (Bracer Monogram - primary scaling driver)
+  // 100% charged secondary damage per 100 of highest stat
+  // ---------------------------------------------------------------------------
+  chargedSecondaryDamageBonus: {
+    id: 'chargedSecondaryDamageBonus',
+    name: 'Charged Secondary%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      bonusPer100Stat: 100, // 100% charged secondary damage per 100 highest stat
+      uptimeEstimate: 0.5,  // estimated uptime for effective DPS display
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.chargedSecondaryDamageBonus.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / 100) * config.bonusPer100Stat;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Charged secondary damage from highest stat (100% per 100 stat)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // SHROUD MAX STACKS BONUS (Bracer Monogram)
+  // 2x multiplier on first hit when light→dark shroud transition
+  // Display only, don't fold into primary damage
+  // ---------------------------------------------------------------------------
+  shroudMaxStacksMultiplier: {
+    id: 'shroudMaxStacksMultiplier',
+    name: 'Shroud First-Hit',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      multiplier: 2,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.shroudMaxStacksMultiplier.config;
+      return config.enabled ? config.multiplier : 0;
+    },
+    format: v => v > 0 ? `${v.toFixed(0)}x` : 'Inactive',
+    description: '2x damage on first hit (light→dark shroud transition)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // DOUBLE BUFF LENGTH (Bracer - display stub)
+  // ---------------------------------------------------------------------------
+  doubleBuffLength: {
+    id: 'doubleBuffLength',
+    name: 'Double Buff Length',
+    category: 'monogram-display',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.doubleBuffLength.config;
+      return config.enabled ? 1 : 0;
+    },
+    format: v => v > 0 ? 'Active' : 'Inactive',
+    description: 'Doubles buff durations',
+  },
+
+  // ---------------------------------------------------------------------------
+  // COLOSSUS DAMAGE BONUS (Bracer Monogram)
+  // 70% damage while Colossus is active
+  // ---------------------------------------------------------------------------
+  colossusDamageBonus: {
+    id: 'colossusDamageBonus',
+    name: 'Colossus Damage%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      damageBonus: 70, // 70% damage while Colossus active
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.colossusDamageBonus.config;
+      return config.enabled ? config.damageBonus : 0;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: '70% damage while Colossus is active',
+  },
+
+  // ---------------------------------------------------------------------------
+  // INVENTORY SLOT DAMAGE BONUS (Bracer Monogram)
+  // 2% damage per bonus inventory slot
+  // ---------------------------------------------------------------------------
+  invSlotDamageBonus: {
+    id: 'invSlotDamageBonus',
+    name: 'Damage% (Inv Slot)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      bonusPerSlot: 2, // 2% damage per extra slot
+      extraSlots: 0,   // populated from save data / user config
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.invSlotDamageBonus.config;
+      if (!config.enabled) return 0;
+      const slots = config.extraSlots || stats.extraInventorySlots || 0;
+      return slots * config.bonusPerSlot;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Damage% per bonus inventory slot (2% per slot)',
   },
 };
 

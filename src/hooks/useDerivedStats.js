@@ -224,16 +224,28 @@ export function useDerivedStats(options = {}) {
   const categories = useMemo(() => {
     const { values, detailed } = calculatedStats;
 
-    // Primary attribute IDs that should go in "attributes" category
-    const primaryAttributeIds = new Set([
-      'strength', 'dexterity', 'wisdom', 'vitality',
-      'endurance', 'agility', 'luck', 'stamina',
-      'health', 'armor', 'damage',
-      // Also include their bonus variants
-      'strengthBonus', 'dexterityBonus', 'wisdomBonus', 'vitalityBonus',
-      'enduranceBonus', 'agilityBonus', 'luckBonus', 'staminaBonus',
-      'healthBonus', 'armorBonus', 'damageBonus',
-    ]);
+    // Map total stats to their base components and display routing.
+    // Total stats apply bonus%: base × (1 + bonus%) and replace the raw flat display.
+    const TOTAL_STAT_ROUTING = {
+      totalStrength: { base: 'strength', bonus: 'strengthBonus', category: 'attributes', name: 'Strength' },
+      totalDexterity: { base: 'dexterity', bonus: 'dexterityBonus', category: 'attributes', name: 'Dexterity' },
+      totalWisdom: { base: 'wisdom', bonus: 'wisdomBonus', category: 'attributes', name: 'Wisdom' },
+      totalVitality: { base: 'vitality', bonus: 'vitalityBonus', category: 'attributes', name: 'Vitality' },
+      totalEndurance: { base: 'endurance', bonus: 'enduranceBonus', category: 'attributes', name: 'Endurance' },
+      totalAgility: { base: 'agility', bonus: 'agilityBonus', category: 'attributes', name: 'Agility' },
+      totalLuck: { base: 'luck', bonus: 'luckBonus', category: 'attributes', name: 'Luck' },
+      totalStamina: { base: 'stamina', bonus: 'staminaBonus', category: 'attributes', name: 'Stamina' },
+      totalArmor: { base: 'armor', bonus: 'armorBonus', category: 'defense', name: 'Armor' },
+      totalHealth: { base: 'health', bonus: 'healthBonus', category: 'defense', name: 'Health' },
+      totalDamage: { base: 'damage', bonus: 'damageBonus', category: 'offense', name: 'Damage' },
+    };
+
+    // Base/bonus stat IDs consumed by total stats (don't show separately)
+    const consumedByTotals = new Set();
+    for (const info of Object.values(TOTAL_STAT_ROUTING)) {
+      consumedByTotals.add(info.base);
+      consumedByTotals.add(info.bonus);
+    }
 
     // Monogram-derived stat IDs - these go in the monograms section
     const monogramStatIds = new Set([
@@ -294,10 +306,44 @@ export function useDerivedStats(options = {}) {
 
     // Process calculated/derived stats first
     for (const stat of detailed) {
-      // Skip totals category (handled via base stats)
+      // Route total stats to display categories with bonus% applied and source breakdown
+      if (TOTAL_STAT_ROUTING[stat.id]) {
+        const routing = TOTAL_STAT_ROUTING[stat.id];
+        processedIds.add(stat.id);
+
+        // Build combined sources from flat base + bonus%
+        const baseSources = aggregatedWithSources[routing.base]?.sources || [];
+        const bonusSources = aggregatedWithSources[routing.bonus]?.sources || [];
+        const baseTotal = aggregatedWithSources[routing.base]?.total || 0;
+        const bonusTotal = aggregatedWithSources[routing.bonus]?.total || 0;
+
+        const sources = [
+          ...baseSources.map(s => ({ ...s, isPercent: false })),
+          ...bonusSources.map(s => ({ ...s, itemName: `${s.itemName} (%)`, isPercent: true })),
+        ];
+
+        // Show calculation in description when bonus% exists
+        let description;
+        if (bonusTotal) {
+          description = `${Math.floor(baseTotal)} flat \u00d7 ${((1 + bonusTotal) * 100).toFixed(0)}% = ${stat.formattedValue}`;
+        } else {
+          description = `${routing.name} from gear`;
+        }
+
+        result[routing.category].push({
+          id: stat.id,
+          name: routing.name,
+          value: stat.value,
+          formattedValue: stat.formattedValue,
+          description,
+          sources,
+          layer: stat.layer,
+        });
+        continue;
+      }
+
+      // Skip remaining totals-category stats not in routing map
       if (stat.category === 'totals') continue;
-      // Skip total* stats (we use base stats directly)
-      if (stat.id.startsWith('total')) continue;
 
       processedIds.add(stat.id);
 
@@ -327,10 +373,12 @@ export function useDerivedStats(options = {}) {
       }
     }
 
-    // Add ALL aggregated base stats with source tracking
+    // Add remaining aggregated base stats with source tracking
     for (const [statId, data] of Object.entries(aggregatedWithSources)) {
       // Skip if already processed
       if (processedIds.has(statId)) continue;
+      // Skip base/bonus stats that are shown as part of a total stat
+      if (consumedByTotals.has(statId)) continue;
 
       const statDef = STAT_REGISTRY[statId];
       if (statDef) {
@@ -343,7 +391,7 @@ export function useDerivedStats(options = {}) {
             value: data.total,
             formattedValue: statDef.format ? statDef.format(data.total) : String(data.total),
             description: statDef.description,
-            sources: data.sources,
+            sources: data.sources.map(s => ({ ...s, isPercent: statDef.isPercent })),
             layer: LAYERS.BASE,
           });
         }

@@ -83,11 +83,13 @@ export function StatTooltip({
   const hasSources = stat.sources && stat.sources.length > 0;
 
   // Format value for display in sources
-  const formatSourceValue = (value) => {
+  // Uses isPercent flag when available; falls back to value-size heuristic
+  const formatSourceValue = (value, isPercent) => {
     if (value === 0) return '0';
     const sign = value >= 0 ? '+' : '';
-    // For very small decimals or percentages, show more precision
-    if (Math.abs(value) < 1 && value !== 0) {
+    // Use explicit flag if set, otherwise guess from magnitude
+    const showAsPercent = isPercent !== undefined ? isPercent : (Math.abs(value) < 1 && value !== 0);
+    if (showAsPercent) {
       return `${sign}${(value * 100).toFixed(1)}%`;
     }
     return `${sign}${value.toFixed(1)}`;
@@ -124,7 +126,7 @@ export function StatTooltip({
           {stat.sources.map((source, i) => (
             <div key={i} className="stat-tooltip-source">
               <span className="source-item">{source.itemName}</span>
-              <span className="source-value">{formatSourceValue(source.value)}</span>
+              <span className="source-value">{formatSourceValue(source.value, source.isPercent)}</span>
             </div>
           ))}
         </div>

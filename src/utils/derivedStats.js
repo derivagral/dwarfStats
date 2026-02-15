@@ -29,6 +29,7 @@ export const LAYERS = {
   PRIMARY_DERIVED: 2, // First derived values (e.g., monogram bonuses)
   SECONDARY_DERIVED: 3, // Second-order derived
   TERTIARY_DERIVED: 4,  // Third-order derived
+  EDPS: 5,              // eDPS calculation (depends on all prior layers)
 };
 
 // ============================================================================
@@ -1758,6 +1759,353 @@ export const DERIVED_STATS = {
     },
     format: v => `+${v.toFixed(0)}%`,
     description: 'Damage% per bonus inventory slot (2% per slot)',
+  },
+
+  // ===========================================================================
+  // eDPS CALCULATION
+  //
+  // Formula (assuming 100% crit, ignoring IAS):
+  //   Normal:  FLAT × (CHD + DB + SD) × SCHD × WAD × EMulti = DD
+  //   Boss:    DD × BD
+  //   Offhand: DD × (AD + AFFIN) × ED
+  //
+  // Terms:
+  //   FLAT  = total flat damage (gear + STR contribution)
+  //   CHD   = base crit hit damage (additive bucket since S3.5)
+  //   DB    = damage bonus % (additive from all sources)
+  //   SD    = stance damage % (included for display; 0 when using offhands)
+  //   SCHD  = stance crit hit damage (standalone multiplier since S4.0)
+  //   WAD   = weapon ability damage multiplier (primary 200%, secondary 400%)
+  //   EMulti= enchantment independent multipliers (class weapon, distance, etc.)
+  //   BD    = boss damage %
+  //   AD    = ability damage (offhand skill damage)
+  //   ED    = elemental damage % (additive from all sources)
+  //   AFFIN = affinity damage from skill tree
+  // ===========================================================================
+
+  // ---------------------------------------------------------------------------
+  // eDPS LAYER: Bucket aggregations and final damage numbers
+  // ---------------------------------------------------------------------------
+
+  /**
+   * FLAT: Total flat damage from all sources.
+   * Gear flat damage + STR contribution (1 STR = 1 flat damage by default).
+   */
+  edpsFlat: {
+    id: 'edpsFlat',
+    name: 'FLAT (Base Damage)',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: ['totalDamage', 'totalStrength', 'damageFromHealth',
+      'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'paragonDamageBonus'],
+    config: {
+      strToDamageRatio: 1, // 1 STR = 1 flat damage (adjustable)
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsFlat.config;
+      const baseDamage = stats.totalDamage || 0;
+      const strDamage = (stats.totalStrength || 0) * config.strToDamageRatio;
+      const healthDamage = stats.damageFromHealth || 0;
+      const flatMono = stats.flatDamageMonogramBonus || 0;
+      const noEnergyMono = stats.noEnergyDamageBonus || 0;
+      const paragonDmg = stats.paragonDamageBonus || 0;
+      return Math.floor(baseDamage + strDamage + healthDamage + flatMono + noEnergyMono + paragonDmg);
+    },
+    format: v => v.toFixed(0),
+    description: 'Total flat damage: gear + STR + health conversion + monograms',
+  },
+
+  /**
+   * CHD + DB + SD: Additive damage multiplier bucket.
+   * Base crit damage + damage bonus% + stance damage% (all additive since S3.5).
+   * Values stored as decimals in save data (0.50 = 50%).
+   *
+   * Auto-detects active stance from whichever stance stats are present.
+   */
+  edpsAdditiveMulti: {
+    id: 'edpsAdditiveMulti',
+    name: 'CHD + DB + SD',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: [],
+    calculate: (stats) => {
+      const critDmg = stats.critDamage || 0;         // decimal: 1.5 = 150%
+      const dmgBonus = stats.damageBonus || 0;        // decimal: 0.50 = 50%
+
+      // Auto-detect stance damage: pick the highest non-zero stance
+      const stanceDmgIds = [
+        'maulDamage', 'swordDamage', 'archeryDamage', 'mageryDamage',
+        'unarmedDamage', 'scytheDamage', 'twohandDamage', 'spearDamage',
+      ];
+      let stanceDmg = 0;
+      for (const id of stanceDmgIds) {
+        if ((stats[id] || 0) > stanceDmg) stanceDmg = stats[id];
+      }
+
+      // Add monogram damage% sources that are additive with this bucket
+      const phasingDmg = (stats.phasingDamageBonus || 0) / 100;
+      const shroudDmg = (stats.shroudDamageBonus || 0) / 100;
+      const drawBloodDmg = (stats.bloodlustDrawBloodBonus || 0) / 100;
+      const highestStatDmg = (stats.highestStatDamageBonus || 0) / 100;
+      const dmgPerStat2 = (stats.damagePercentForStat2 || 0) / 100;
+      const colossusDmg = (stats.colossusDamageBonus || 0) / 100;
+      const noPotionDmg = (stats.damageNoPotionBonus || 0) / 100;
+      const invSlotDmg = (stats.invSlotDamageBonus || 0) / 100;
+
+      return critDmg + dmgBonus + stanceDmg
+        + phasingDmg + shroudDmg + drawBloodDmg + highestStatDmg
+        + dmgPerStat2 + colossusDmg + noPotionDmg + invSlotDmg;
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Additive bucket: Crit Damage + Damage Bonus% + Stance Damage% + monogram damage%',
+  },
+
+  /**
+   * SCHD: Stance Crit Hit Damage — standalone multiplier since S4.0.
+   * Auto-detects from whichever stance crit stats are present.
+   * Applied as (1 + SCHD) multiplier.
+   */
+  edpsSCHD: {
+    id: 'edpsSCHD',
+    name: 'SCHD (Stance Crit)',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: [],
+    calculate: (stats) => {
+      const stanceCritIds = [
+        'maulCritDamage', 'swordCritDamage', 'archeryCritDamage', 'mageryCritDamage',
+        'unarmedCritDamage', 'scytheCritDamage', 'twohandCritDamage', 'spearCritDamage',
+      ];
+      let stanceCrit = 0;
+      for (const id of stanceCritIds) {
+        if ((stats[id] || 0) > stanceCrit) stanceCrit = stats[id];
+      }
+      // Bloodlust crit damage is additive into this bucket
+      const bloodlustCrit = (stats.bloodlustCritDamageBonus || 0) / 100;
+      const critFromArmor = (stats.critDamageFromArmor || 0) / 100;
+      return 1 + stanceCrit + bloodlustCrit + critFromArmor;
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Stance Crit Hit Damage multiplier (standalone since S4.0)',
+  },
+
+  /**
+   * WAD: Weapon Ability Damage multiplier.
+   * Primary (left click) = 200%, Q/R = 400% base.
+   * Monogram bonuses are additive to these.
+   * Config determines which to show (default: primary).
+   */
+  edpsWAD: {
+    id: 'edpsWAD',
+    name: 'WAD (Ability Damage)',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: [],
+    config: {
+      primaryBase: 2.0,    // 200% base for left click
+      secondaryBase: 4.0,  // 400% base for Q/R
+      useSecondary: false,  // toggle to show Q/R instead of primary
+      wadBonus: 0,         // additive bonus from monograms/tree (decimal)
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsWAD.config;
+      const base = config.useSecondary ? config.secondaryBase : config.primaryBase;
+      return base + (config.wadBonus || 0);
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Weapon Ability Damage: primary 200%, Q/R 400% + monogram bonuses',
+  },
+
+  /**
+   * EMulti: Enchantment / independent multipliers.
+   * Class weapon bonus, distance procs, shroud flat damage%, etc.
+   * Each is its own multiplier — they multiply together.
+   */
+  edpsEMulti: {
+    id: 'edpsEMulti',
+    name: 'EMulti (Enchant)',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: ['distanceProcsDamageBonus', 'distanceProcsNearDamageBonus',
+      'shroudFlatDamageBonus'],
+    config: {
+      classWeaponBonus: 0, // manual: class weapon augmentation (decimal, e.g. 0.50 = 50%)
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsEMulti.config;
+      let multi = 1;
+
+      // Class weapon bonus
+      if (config.classWeaponBonus) {
+        multi *= (1 + config.classWeaponBonus);
+      }
+
+      // Distance procs (exclusive pair — only one active, own bucket)
+      const distFar = stats.distanceProcsDamageBonus || 0;
+      const distNear = stats.distanceProcsNearDamageBonus || 0;
+      const distBonus = Math.max(distFar, distNear);
+      if (distBonus) {
+        multi *= (1 + distBonus / 100);
+      }
+
+      // Shroud flat damage% (separate multiplier from shroud damage%)
+      const shroudFlat = stats.shroudFlatDamageBonus || 0;
+      if (shroudFlat) {
+        multi *= (1 + shroudFlat / 100);
+      }
+
+      return multi;
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Independent multipliers: class weapon, distance procs, shroud flat%',
+  },
+
+  /**
+   * BD: Boss Damage % — separate multiplier applied to boss/elite targets.
+   */
+  edpsBD: {
+    id: 'edpsBD',
+    name: 'BD (Boss Damage)',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: ['phasingBossDamageBonus'],
+    calculate: (stats) => {
+      const bossBonus = stats.bossBonus || 0; // decimal from gear
+      const phasingBoss = (stats.phasingBossDamageBonus || 0) / 100;
+      return 1 + bossBonus + phasingBoss;
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Boss/Elite damage multiplier',
+  },
+
+  /**
+   * ED: Elemental Damage — additive from all sources.
+   * Fire + Arcane + Lightning + monogram element bonuses.
+   * Applied as (1 + ED) multiplier on offhand.
+   */
+  edpsED: {
+    id: 'edpsED',
+    name: 'ED (Elemental)',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: ['elementFromCritChance', 'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus'],
+    calculate: (stats) => {
+      // Gear elemental (decimals)
+      const fire = stats.fireDamageBonus || 0;
+      const arcane = stats.arcaneDamageBonus || 0;
+      const lightning = stats.lightningDamageBonus || 0;
+      // Monogram element bonuses (already whole numbers, convert)
+      const elemFromCrit = (stats.elementFromCritChance || 0) / 100;
+      const arcMine = (stats.arcaneMineBonus || 0) / 100;
+      const fireMine = (stats.fireMineBonus || 0) / 100;
+      const ltngMine = (stats.lightningMineBonus || 0) / 100;
+      return 1 + fire + arcane + lightning + elemFromCrit + arcMine + fireMine + ltngMine;
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Elemental damage multiplier (all sources additive)',
+  },
+
+  /**
+   * AD + AFFIN: Ability Damage + Affinity — offhand skill scaling.
+   * AD comes from offhand skill damage affixes on gear.
+   * AFFIN is skill tree affinity damage (manual input for now).
+   */
+  edpsAD: {
+    id: 'edpsAD',
+    name: 'AD + Affinity',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: [],
+    config: {
+      abilityDamage: 1.0, // decimal: offhand ability base (from gear skill% affixes)
+      affinityDamage: 0,  // decimal: skill tree affinity bonus
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsAD.config;
+      return config.abilityDamage + config.affinityDamage;
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Offhand ability damage + skill tree affinity',
+  },
+
+  /**
+   * DD: Damage per hit (normal mobs).
+   * FLAT × (CHD + DB + SD) × SCHD × WAD × EMulti
+   */
+  edpsDDNormal: {
+    id: 'edpsDDNormal',
+    name: 'Hit Damage (Normal)',
+    category: 'edps-result',
+    layer: LAYERS.EDPS,
+    dependencies: ['edpsFlat', 'edpsAdditiveMulti', 'edpsSCHD', 'edpsWAD', 'edpsEMulti'],
+    calculate: (stats) => {
+      return Math.floor(
+        (stats.edpsFlat || 0)
+        * (stats.edpsAdditiveMulti || 1)
+        * (stats.edpsSCHD || 1)
+        * (stats.edpsWAD || 1)
+        * (stats.edpsEMulti || 1)
+      );
+    },
+    format: v => v.toLocaleString(),
+    description: 'FLAT × (CHD + DB + SD) × SCHD × WAD × EMulti',
+  },
+
+  /**
+   * DD: Damage per hit (boss/elite mobs).
+   * DDNormal × BD
+   */
+  edpsDDBoss: {
+    id: 'edpsDDBoss',
+    name: 'Hit Damage (Boss)',
+    category: 'edps-result',
+    layer: LAYERS.EDPS,
+    dependencies: ['edpsDDNormal', 'edpsBD'],
+    calculate: (stats) => {
+      return Math.floor((stats.edpsDDNormal || 0) * (stats.edpsBD || 1));
+    },
+    format: v => v.toLocaleString(),
+    description: 'Hit Damage × Boss Damage%',
+  },
+
+  /**
+   * Offhand Damage (normal): DD × (AD + AFFIN) × ED
+   */
+  edpsOffhandNormal: {
+    id: 'edpsOffhandNormal',
+    name: 'Offhand Damage (Normal)',
+    category: 'edps-result',
+    layer: LAYERS.EDPS,
+    dependencies: ['edpsDDNormal', 'edpsAD', 'edpsED'],
+    calculate: (stats) => {
+      return Math.floor(
+        (stats.edpsDDNormal || 0)
+        * (stats.edpsAD || 1)
+        * (stats.edpsED || 1)
+      );
+    },
+    format: v => v.toLocaleString(),
+    description: 'DD × (AD + Affinity) × Elemental Damage',
+  },
+
+  /**
+   * Offhand Damage (boss): DDBoss × (AD + AFFIN) × ED
+   */
+  edpsOffhandBoss: {
+    id: 'edpsOffhandBoss',
+    name: 'Offhand Damage (Boss)',
+    category: 'edps-result',
+    layer: LAYERS.EDPS,
+    dependencies: ['edpsDDBoss', 'edpsAD', 'edpsED'],
+    calculate: (stats) => {
+      return Math.floor(
+        (stats.edpsDDBoss || 0)
+        * (stats.edpsAD || 1)
+        * (stats.edpsED || 1)
+      );
+    },
+    format: v => v.toLocaleString(),
+    description: 'Boss DD × (AD + Affinity) × Elemental Damage',
   },
 };
 

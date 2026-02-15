@@ -288,6 +288,7 @@ export function useDerivedStats(options = {}) {
       conversion: 'offense',
       final: 'offense',
       'utility-derived': 'defense',
+      'edps-result': 'edps',
     };
 
     const result = {
@@ -296,6 +297,7 @@ export function useDerivedStats(options = {}) {
       stance: [],
       defense: [],
       elemental: [],
+      edps: [],
       monograms: [],
       abilities: [],
       utility: [],

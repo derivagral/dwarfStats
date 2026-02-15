@@ -8,14 +8,15 @@ const categoryLabels = {
   stance: 'Stance/Weapon',
   defense: 'Defense',
   elemental: 'Elemental',
+  edps: 'eDPS',
   monograms: 'Monograms',
   abilities: 'Abilities',
   utility: 'Utility',
   unmapped: 'Unmapped (Debug)',
 };
 
-// Attributes first, then combat stats, then monograms at the end
-const categoryOrder = ['attributes', 'offense', 'stance', 'elemental', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
+// Attributes first, then combat stats, eDPS, then monograms at the end
+const categoryOrder = ['attributes', 'offense', 'stance', 'elemental', 'defense', 'edps', 'monograms', 'abilities', 'utility', 'unmapped'];
 
 /**
  * @param {Object} props

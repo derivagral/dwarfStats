@@ -205,7 +205,40 @@ Layer 1: TOTALS       - Base + bonus% calculations (totalStrength, totalHealth, 
 Layer 2: PRIMARY      - First derived values (monogram buffs, stack effects)
 Layer 3: SECONDARY    - Chained calculations (essence → crit, element from crit)
 Layer 4: TERTIARY     - Final chains (life from element, damage from life)
+Layer 5: EDPS         - eDPS calculation buckets and final damage numbers
 ```
+
+### eDPS Calculation (Layer 5)
+
+Effective DPS calculation assuming 100% crit, ignoring IAS. Stats in `derivedStats.js` with `category: 'edps'`/`'edps-result'`, displayed in StatsPanel under "eDPS".
+
+**Formula (Left Click / Q / R):**
+```
+Normal:  FLAT × (CHD + DB + SD) × SCHD × WAD × EMulti = DD
+Boss:    DD × BD
+Offhand: DD × (AD + AFFIN) × ED
+```
+
+**Stat IDs → Formula Terms:**
+
+| Term | Stat ID | Source | Notes |
+|------|---------|--------|-------|
+| FLAT | `edpsFlat` | totalDamage + totalStrength + damageFromHealth + monograms | STR→dmg ratio configurable (default 1:1) |
+| CHD + DB + SD | `edpsAdditiveMulti` | critDamage + damageBonus + auto-detected stance + monogram dmg% | Auto-picks highest stance; S3.5 additive bucket |
+| SCHD | `edpsSCHD` | Auto-detected stance crit damage + bloodlust crit + crit from armor | Standalone multiplier since S4.0 |
+| WAD | `edpsWAD` | Config: primary=200%, secondary=400% | `useSecondary` toggle; `wadBonus` for monogram additions |
+| EMulti | `edpsEMulti` | classWeaponBonus (manual) × distance procs × shroud flat% | Independent multipliers multiply together |
+| BD | `edpsBD` | bossBonus (gear) + phasing boss dmg | Separate boss/elite multiplier |
+| ED | `edpsED` | fire + arcane + lightning + elemFromCrit + mine monograms | All sources additive then applied as multiplier |
+| AD + AFFIN | `edpsAD` | Config: abilityDamage (skill%), affinityDamage (tree) | Manual input until skill tree data available |
+
+**Result Stats:**
+- `edpsDDNormal` — Hit damage vs normal mobs
+- `edpsDDBoss` — Hit damage vs boss/elite
+- `edpsOffhandNormal` — Offhand damage vs normal
+- `edpsOffhandBoss` — Offhand damage vs boss
+
+**Configurable via overrides:** `edpsWAD` (primary/secondary toggle, wadBonus), `edpsAD` (ability + affinity), `edpsEMulti` (classWeaponBonus), `edpsFlat` (strToDamageRatio).
 
 ### Adding a new derived stat
 1. Add definition to `DERIVED_STATS` in `src/utils/derivedStats.js`

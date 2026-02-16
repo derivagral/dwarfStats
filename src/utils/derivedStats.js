@@ -1770,7 +1770,7 @@ export const DERIVED_STATS = {
   //   Offhand: DD × (AD + AFFIN) × ED
   //
   // Terms:
-  //   FLAT  = total flat damage (gear + STR contribution)
+  //   FLAT  = total flat damage (gear damage + monogram flat sources)
   //   CHD   = base crit hit damage (additive bucket since S3.5)
   //   DB    = damage bonus % (additive from all sources)
   //   SD    = stance damage % (included for display; 0 when using offhands)
@@ -1781,6 +1781,17 @@ export const DERIVED_STATS = {
   //   AD    = ability damage (offhand skill damage)
   //   ED    = elemental damage % (additive from all sources)
   //   AFFIN = affinity damage from skill tree
+  //
+  // NOTE: Primary attributes do NOT feed flat damage directly.
+  //   STR → Armor bonus      DEX → Crit Chance
+  //   WIS → (TBD)            VIT → Health
+  //   END → (TBD)            AGI → Move Speed / Dodge
+  //   LCK → (TBD)            STA → (TBD)
+  //   Attribute→bonus mappings are NOT balanced and vary by build.
+  //
+  // TODO: Wire stance detection from equipped weapon type (rowName keywords)
+  // TODO: Integrate skill tree data for AFFIN / AD
+  // TODO: Map attribute→stat bonuses once confirmed (STR→armor, DEX→crit, etc.)
   // ===========================================================================
 
   // ---------------------------------------------------------------------------
@@ -1789,30 +1800,26 @@ export const DERIVED_STATS = {
 
   /**
    * FLAT: Total flat damage from all sources.
-   * Gear flat damage + STR contribution (1 STR = 1 flat damage by default).
+   * Gear flat damage + health conversion + monogram flat bonuses.
+   * NOTE: Primary attributes (STR, etc.) do NOT feed flat damage directly.
    */
   edpsFlat: {
     id: 'edpsFlat',
     name: 'FLAT (Base Damage)',
     category: 'edps',
     layer: LAYERS.EDPS,
-    dependencies: ['totalDamage', 'totalStrength', 'damageFromHealth',
+    dependencies: ['totalDamage', 'damageFromHealth',
       'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'paragonDamageBonus'],
-    config: {
-      strToDamageRatio: 1, // 1 STR = 1 flat damage (adjustable)
-    },
-    calculate: (stats, cfg) => {
-      const config = cfg || DERIVED_STATS.edpsFlat.config;
+    calculate: (stats) => {
       const baseDamage = stats.totalDamage || 0;
-      const strDamage = (stats.totalStrength || 0) * config.strToDamageRatio;
       const healthDamage = stats.damageFromHealth || 0;
       const flatMono = stats.flatDamageMonogramBonus || 0;
       const noEnergyMono = stats.noEnergyDamageBonus || 0;
       const paragonDmg = stats.paragonDamageBonus || 0;
-      return Math.floor(baseDamage + strDamage + healthDamage + flatMono + noEnergyMono + paragonDmg);
+      return Math.floor(baseDamage + healthDamage + flatMono + noEnergyMono + paragonDmg);
     },
     format: v => v.toFixed(0),
-    description: 'Total flat damage: gear + STR + health conversion + monograms',
+    description: 'Total flat damage: gear damage + health conversion + monogram flat bonuses',
   },
 
   /**
@@ -1820,7 +1827,8 @@ export const DERIVED_STATS = {
    * Base crit damage + damage bonus% + stance damage% (all additive since S3.5).
    * Values stored as decimals in save data (0.50 = 50%).
    *
-   * Auto-detects active stance from whichever stance stats are present.
+   * When config.stance is set (from equipped weapon), uses that stance's stats.
+   * Otherwise falls back to picking the highest non-zero stance.
    */
   edpsAdditiveMulti: {
     id: 'edpsAdditiveMulti',
@@ -1828,18 +1836,25 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: [],
-    calculate: (stats) => {
+    config: { stance: null },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsAdditiveMulti.config;
       const critDmg = stats.critDamage || 0;         // decimal: 1.5 = 150%
       const dmgBonus = stats.damageBonus || 0;        // decimal: 0.50 = 50%
 
-      // Auto-detect stance damage: pick the highest non-zero stance
-      const stanceDmgIds = [
-        'maulDamage', 'swordDamage', 'archeryDamage', 'mageryDamage',
-        'unarmedDamage', 'scytheDamage', 'twohandDamage', 'spearDamage',
-      ];
+      // Stance damage: use weapon-detected stance if available, else highest
+      const STANCE_DMG_IDS = {
+        maul: 'maulDamage', sword: 'swordDamage', archery: 'archeryDamage',
+        magery: 'mageryDamage', unarmed: 'unarmedDamage', scythe: 'scytheDamage',
+        twohand: 'twohandDamage', spear: 'spearDamage',
+      };
       let stanceDmg = 0;
-      for (const id of stanceDmgIds) {
-        if ((stats[id] || 0) > stanceDmg) stanceDmg = stats[id];
+      if (config.stance && STANCE_DMG_IDS[config.stance]) {
+        stanceDmg = stats[STANCE_DMG_IDS[config.stance]] || 0;
+      } else {
+        for (const id of Object.values(STANCE_DMG_IDS)) {
+          if ((stats[id] || 0) > stanceDmg) stanceDmg = stats[id];
+        }
       }
 
       // Add monogram damage% sources that are additive with this bucket
@@ -1862,7 +1877,7 @@ export const DERIVED_STATS = {
 
   /**
    * SCHD: Stance Crit Hit Damage — standalone multiplier since S4.0.
-   * Auto-detects from whichever stance crit stats are present.
+   * Uses weapon-detected stance when available, else highest.
    * Applied as (1 + SCHD) multiplier.
    */
   edpsSCHD: {
@@ -1871,15 +1886,24 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: [],
-    calculate: (stats) => {
-      const stanceCritIds = [
-        'maulCritDamage', 'swordCritDamage', 'archeryCritDamage', 'mageryCritDamage',
-        'unarmedCritDamage', 'scytheCritDamage', 'twohandCritDamage', 'spearCritDamage',
-      ];
+    config: { stance: null },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsSCHD.config;
+
+      const STANCE_CRIT_IDS = {
+        maul: 'maulCritDamage', sword: 'swordCritDamage', archery: 'archeryCritDamage',
+        magery: 'mageryCritDamage', unarmed: 'unarmedCritDamage', scythe: 'scytheCritDamage',
+        twohand: 'twohandCritDamage', spear: 'spearCritDamage',
+      };
       let stanceCrit = 0;
-      for (const id of stanceCritIds) {
-        if ((stats[id] || 0) > stanceCrit) stanceCrit = stats[id];
+      if (config.stance && STANCE_CRIT_IDS[config.stance]) {
+        stanceCrit = stats[STANCE_CRIT_IDS[config.stance]] || 0;
+      } else {
+        for (const id of Object.values(STANCE_CRIT_IDS)) {
+          if ((stats[id] || 0) > stanceCrit) stanceCrit = stats[id];
+        }
       }
+
       // Bloodlust crit damage is additive into this bucket
       const bloodlustCrit = (stats.bloodlustCritDamageBonus || 0) / 100;
       const critFromArmor = (stats.critDamageFromArmor || 0) / 100;

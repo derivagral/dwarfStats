@@ -223,7 +223,7 @@ Offhand: DD × (AD + AFFIN) × ED
 
 | Term | Stat ID | Source | Notes |
 |------|---------|--------|-------|
-| FLAT | `edpsFlat` | totalDamage + totalStrength + damageFromHealth + monograms | STR→dmg ratio configurable (default 1:1) |
+| FLAT | `edpsFlat` | totalDamage + damageFromHealth + monograms | Primary attributes do NOT feed flat damage |
 | CHD + DB + SD | `edpsAdditiveMulti` | critDamage + damageBonus + auto-detected stance + monogram dmg% | Auto-picks highest stance; S3.5 additive bucket |
 | SCHD | `edpsSCHD` | Auto-detected stance crit damage + bloodlust crit + crit from armor | Standalone multiplier since S4.0 |
 | WAD | `edpsWAD` | Config: primary=200%, secondary=400% | `useSecondary` toggle; `wadBonus` for monogram additions |
@@ -238,7 +238,21 @@ Offhand: DD × (AD + AFFIN) × ED
 - `edpsOffhandNormal` — Offhand damage vs normal
 - `edpsOffhandBoss` — Offhand damage vs boss
 
-**Configurable via overrides:** `edpsWAD` (primary/secondary toggle, wadBonus), `edpsAD` (ability + affinity), `edpsEMulti` (classWeaponBonus), `edpsFlat` (strToDamageRatio).
+**Configurable via overrides:** `edpsWAD` (primary/secondary toggle, wadBonus), `edpsAD` (ability + affinity), `edpsEMulti` (classWeaponBonus).
+
+**Stance detection:** `inferWeaponStance(rowName)` in `equipmentParser.js` maps weapon keywords to stance prefixes. `useDerivedStats` auto-detects stance from the equipped weapon's row name and passes it to eDPS calcs via config override. Falls back to highest-stat heuristic if no weapon detected.
+
+**Primary Attribute Mappings (NOT balanced, do not assume 1:1):**
+| Attribute | Known Effect | Status |
+|-----------|-------------|--------|
+| STR | Armor bonus | Confirmed |
+| DEX | Crit Chance | Confirmed |
+| WIS | (TBD) | Needs testing |
+| VIT | Health | Confirmed |
+| END | (TBD) | Needs testing |
+| AGI | Move Speed / Dodge | Likely |
+| LCK | (TBD) | Needs testing |
+| STA | (TBD) | Needs testing |
 
 ### Adding a new derived stat
 1. Add definition to `DERIVED_STATS` in `src/utils/derivedStats.js`
@@ -344,3 +358,31 @@ GitHub Actions workflow in `.github/workflows/static.yml`:
 3. Deploys `dist/` to GitHub Pages
 
 Push to `main` triggers deployment automatically.
+
+## Integration TODOs
+
+### Skill Tree / Affinity Data
+- **AFFIN** (affinity damage from skill tree): Currently manual config in `edpsAD`. Need to parse skill tree data from save or provide UI input.
+- Skill tree also provides **racial bonuses** — broad damage/crit damage totals that feed into eDPS buckets.
+- Affinities contribute to AD (offhand ability damage) and potentially to other buckets.
+
+### Ability Damage (AD)
+- AD exists on offhand items as skill damage affixes (gear `DamageMultiplier` stats).
+- Per-ability multipliers are already parsed as `displayOnly` stats in `statRegistry.js` (chainLightningDamage, fireballDamage, etc.).
+- These could feed into `edpsAD` once we know which offhand is active.
+- Skill-specific interactions are intentionally deferred — current goal is "sum of item/tree based stats" for build comparison.
+
+### Void Ring / Special Weapon Interactions
+- Unholy Void ring mod with health regen affects the Void's WAD (normally 100% base, not the standard 200%/400%).
+- Void disables other abilities — would need special WAD handling.
+- These edge cases can use config overrides for now.
+
+### Attribute → Stat Mappings
+- Primary attributes are NOT balanced and do NOT all map to damage.
+- Known: STR→Armor, DEX→Crit, VIT→Health. Others TBD.
+- Once confirmed, these can feed into appropriate eDPS buckets or defense calcs.
+
+### WAD Monogram Bonuses
+- Various monograms add to WAD (weapon ability damage multiplier).
+- Real values are slightly less than listed. Fine for now; can refine later.
+- Currently handled via `wadBonus` config on `edpsWAD`.

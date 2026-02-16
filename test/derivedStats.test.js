@@ -8,7 +8,7 @@ import {
   getStatsByLayer,
   getDependencyChain,
 } from '../src/utils/derivedStats.js';
-import { extractEquippedItems } from '../src/utils/equipmentParser.js';
+import { extractEquippedItems, inferWeaponStance } from '../src/utils/equipmentParser.js';
 import fixtureData from './fixtures/dr-full-inventory.json';
 
 describe('derivedStats', () => {
@@ -306,19 +306,19 @@ describe('derivedStats', () => {
   });
 
   describe('eDPS calculations', () => {
-    it('should calculate FLAT damage from gear + STR', () => {
+    it('should calculate FLAT damage from gear (STR does not contribute)', () => {
       const baseStats = {
         damage: 100,
         damageBonus: 0,
         strength: 200,
-        strengthBonus: 0.50, // 50% bonus → totalStrength = 300
+        strengthBonus: 0.50,
       };
       const result = calculateDerivedStats(baseStats);
 
       // totalDamage = 100 * (1 + 0) = 100
-      // totalStrength = 200 * 1.5 = 300
-      // FLAT = totalDamage + STR = 100 + 300 = 400
-      expect(result.edpsFlat).toBe(400);
+      // STR does NOT feed flat damage (STR → armor)
+      // FLAT = totalDamage only = 100
+      expect(result.edpsFlat).toBe(100);
     });
 
     it('should build additive multiplier bucket (CHD + DB + SD)', () => {
@@ -419,10 +419,8 @@ describe('derivedStats', () => {
 
     it('should calculate full eDPS chain for normal mobs', () => {
       const baseStats = {
-        damage: 50,
+        damage: 150,
         damageBonus: 0,
-        strength: 100,
-        strengthBonus: 0,
         critDamage: 1.0,       // 100% crit damage
         maulDamage: 0.50,      // 50% stance damage
         maulCritDamage: 0.50,  // 50% stance crit damage
@@ -430,7 +428,7 @@ describe('derivedStats', () => {
 
       const result = calculateDerivedStats(baseStats);
 
-      // FLAT = totalDamage(50) + STR(100) = 150
+      // FLAT = totalDamage(150) (no STR contribution)
       expect(result.edpsFlat).toBe(150);
       // Additive = CHD(1.0) + SD(0.50) = 1.50
       expect(result.edpsAdditiveMulti).toBeCloseTo(1.50, 2);
@@ -461,6 +459,38 @@ describe('derivedStats', () => {
       // DDBoss = 200 * 2.0 = 400
       expect(result.edpsDDNormal).toBe(200);
       expect(result.edpsDDBoss).toBe(400);
+    });
+
+    it('should use weapon-configured stance for SD and SCHD', () => {
+      const baseStats = {
+        critDamage: 1.0,
+        maulDamage: 0.80,      // maul is highest
+        swordDamage: 0.20,     // sword is lower
+        maulCritDamage: 2.0,
+        swordCritDamage: 0.50,
+      };
+      // But weapon is a sword — should use sword stats, not maul
+      const config = {
+        edpsAdditiveMulti: { stance: 'sword' },
+        edpsSCHD: { stance: 'sword' },
+      };
+      const result = calculateDerivedStats(baseStats, config);
+
+      // Additive = CHD(1.0) + swordDamage(0.20) = 1.20 (not maulDamage)
+      expect(result.edpsAdditiveMulti).toBeCloseTo(1.20, 2);
+      // SCHD = 1 + swordCrit(0.50) = 1.50 (not maulCrit)
+      expect(result.edpsSCHD).toBeCloseTo(1.50, 2);
+    });
+
+    it('should detect weapon stance from row name', () => {
+      expect(inferWeaponStance('Equipment_Weapon_Maul_T5')).toBe('maul');
+      expect(inferWeaponStance('Equipment_Weapon_Sword_Legendary')).toBe('sword');
+      expect(inferWeaponStance('Equipment_Weapon_Bow_T3')).toBe('archery');
+      expect(inferWeaponStance('Equipment_Weapon_Staff_Fire')).toBe('magery');
+      expect(inferWeaponStance('Equipment_Weapon_Spear_T4')).toBe('spear');
+      expect(inferWeaponStance('Equipment_Weapon_Axe_T5')).toBe('twohand');
+      expect(inferWeaponStance('Equipment_Weapon_Dagger_Shadow')).toBe('sword');
+      expect(inferWeaponStance('Equipment_Armor_Head_T5')).toBeNull();
     });
 
     it('should calculate offhand damage with elemental multiplier', () => {

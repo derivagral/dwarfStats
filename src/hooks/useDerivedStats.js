@@ -3,6 +3,7 @@ import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LA
 import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY } from '../utils/statRegistry.js';
 import { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
+import { inferWeaponStance } from '../utils/equipmentParser.js';
 
 // Re-export for backward compatibility
 export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
@@ -187,10 +188,32 @@ export function useDerivedStats(options = {}) {
     return overrides;
   }, [appliedMonograms, monogramInstanceCounts]);
 
+  // Detect weapon stance from equipped weapon item's row name
+  const detectedStance = useMemo(() => {
+    for (const item of equippedItems) {
+      const slot = item?.slotKey || item?.slot || '';
+      if (slot === 'weapon') {
+        const rowName = item?.rowName || item?.model?.rowName || '';
+        return inferWeaponStance(rowName);
+      }
+    }
+    return null;
+  }, [equippedItems]);
+
+  // Merge stance detection into config overrides for eDPS
+  const finalConfigOverrides = useMemo(() => {
+    if (!detectedStance) return configOverrides;
+    return {
+      ...configOverrides,
+      edpsAdditiveMulti: { stance: detectedStance },
+      edpsSCHD: { stance: detectedStance },
+    };
+  }, [configOverrides, detectedStance]);
+
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {
-    return calculateDerivedStatsDetailed(aggregatedBaseStats, configOverrides);
-  }, [aggregatedBaseStats, configOverrides]);
+    return calculateDerivedStatsDetailed(aggregatedBaseStats, finalConfigOverrides);
+  }, [aggregatedBaseStats, finalConfigOverrides]);
 
   // Get summary stats for display
   const summary = useMemo(() => {

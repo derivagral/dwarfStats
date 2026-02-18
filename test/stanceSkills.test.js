@@ -14,9 +14,19 @@ describe('stance skill parsing', () => {
     expect(inferWeaponStance(equipped)).toBe('maul');
   });
 
-  it('treats axes as one-hand sword stance', () => {
+  it('treats axes as two-hand stance', () => {
     const stanceId = inferWeaponStance([{ slot: 'weapon', rowName: 'Weapon_Axe_GM5' }]);
-    expect(stanceId).toBe('sword');
+    expect(stanceId).toBe('twohand');
+  });
+
+  it('maps polearms to spear stance', () => {
+    const stanceId = inferWeaponStance([{ slot: 'weapon', rowName: 'Weapon_Polearm_GM5' }]);
+    expect(stanceId).toBe('spear');
+  });
+
+  it('maps legacy staff variants to maul and regular staff to magery', () => {
+    expect(inferWeaponStance([{ slot: 'weapon', rowName: 'Weapon_Staff_Legacy_GM1' }])).toBe('maul');
+    expect(inferWeaponStance([{ slot: 'weapon', rowName: 'Weapon_Staff_Magery_GM1' }])).toBe('magery');
   });
 
   it('parses stance totals, keystone, and mastery levels from host player data', () => {

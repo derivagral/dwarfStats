@@ -88,6 +88,38 @@ const SLOT_MAPPING = {
   waistband: 'offhand',
 };
 
+// Map weapon keywords to stance IDs for eDPS calculation
+// Each weapon type maps to a stance prefix used in stat IDs
+// e.g., 'maul' → { damage: 'maulDamage', critDamage: 'maulCritDamage' }
+const WEAPON_STANCE_MAP = {
+  maul:    'maul',
+  mace:    'maul',      // maces use maul stance
+  sword:   'sword',
+  dagger:  'sword',     // daggers use one-handed stance
+  axe:     'twohand',   // axes use two-handed stance
+  bow:     'archery',
+  staff:   'magery',
+  wand:    'magery',    // wands use magery stance
+  spear:   'spear',
+  scythe:  'scythe',
+  fist:    'unarmed',
+};
+
+/**
+ * Infer the stance (weapon type category) from an item row name.
+ * Returns the stance prefix used in stat IDs (e.g., 'maul', 'sword', 'archery').
+ * @param {string} itemRow - Item row name
+ * @returns {string|null} Stance prefix or null if not a weapon
+ */
+export function inferWeaponStance(itemRow) {
+  if (!itemRow) return null;
+  const lower = itemRow.toLowerCase();
+  for (const [keyword, stance] of Object.entries(WEAPON_STANCE_MAP)) {
+    if (lower.includes(keyword)) return stance;
+  }
+  return null;
+}
+
 // Determine slot from item row name
 function determineSlot(itemRow, fallback = 'unknown') {
   if (!itemRow) return 'unknown';

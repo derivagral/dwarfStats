@@ -205,7 +205,54 @@ Layer 1: TOTALS       - Base + bonus% calculations (totalStrength, totalHealth, 
 Layer 2: PRIMARY      - First derived values (monogram buffs, stack effects)
 Layer 3: SECONDARY    - Chained calculations (essence → crit, element from crit)
 Layer 4: TERTIARY     - Final chains (life from element, damage from life)
+Layer 5: EDPS         - eDPS calculation buckets and final damage numbers
 ```
+
+### eDPS Calculation (Layer 5)
+
+Effective DPS calculation assuming 100% crit, ignoring IAS. Stats in `derivedStats.js` with `category: 'edps'`/`'edps-result'`, displayed in StatsPanel under "eDPS".
+
+**Formula (Left Click / Q / R):**
+```
+Normal:  FLAT × (CHD + DB + SD) × SCHD × WAD × EMulti = DD
+Boss:    DD × BD
+Offhand: DD × (AD + AFFIN) × ED
+```
+
+**Stat IDs → Formula Terms:**
+
+| Term | Stat ID | Source | Notes |
+|------|---------|--------|-------|
+| FLAT | `edpsFlat` | totalDamage + damageFromHealth + monograms | Primary attributes do NOT feed flat damage |
+| CHD + DB + SD | `edpsAdditiveMulti` | critDamage + damageBonus + auto-detected stance + monogram dmg% | Auto-picks highest stance; S3.5 additive bucket |
+| SCHD | `edpsSCHD` | Auto-detected stance crit damage + bloodlust crit + crit from armor | Standalone multiplier since S4.0 |
+| WAD | `edpsWAD` | Config: primary=200%, secondary=400% | `useSecondary` toggle; `wadBonus` for monogram additions |
+| EMulti | `edpsEMulti` | classWeaponBonus (manual) × distance procs × shroud flat% | Independent multipliers multiply together |
+| BD | `edpsBD` | bossBonus (gear) + phasing boss dmg | Separate boss/elite multiplier |
+| ED | `edpsED` | fire + arcane + lightning + elemFromCrit + mine monograms | All sources additive then applied as multiplier |
+| AD + AFFIN | `edpsAD` | Config: abilityDamage (skill%), affinityDamage (tree) | Manual input until skill tree data available |
+
+**Result Stats:**
+- `edpsDDNormal` — Hit damage vs normal mobs
+- `edpsDDBoss` — Hit damage vs boss/elite
+- `edpsOffhandNormal` — Offhand damage vs normal
+- `edpsOffhandBoss` — Offhand damage vs boss
+
+**Configurable via overrides:** `edpsWAD` (primary/secondary toggle, wadBonus), `edpsAD` (ability + affinity), `edpsEMulti` (classWeaponBonus).
+
+**Stance detection:** `inferWeaponStance(rowName)` in `equipmentParser.js` maps weapon keywords to stance prefixes. `useDerivedStats` auto-detects stance from the equipped weapon's row name and passes it to eDPS calcs via config override. Falls back to highest-stat heuristic if no weapon detected.
+
+**Primary Attribute Mappings (NOT balanced, do not assume 1:1):**
+| Attribute | Known Effect | Status |
+|-----------|-------------|--------|
+| STR | Armor bonus | Confirmed |
+| DEX | Crit Chance | Confirmed |
+| WIS | (TBD) | Needs testing |
+| VIT | Health | Confirmed |
+| END | (TBD) | Needs testing |
+| AGI | Move Speed / Dodge | Likely |
+| LCK | (TBD) | Needs testing |
+| STA | (TBD) | Needs testing |
 
 ### Adding a new derived stat
 1. Add definition to `DERIVED_STATS` in `src/utils/derivedStats.js`
@@ -311,3 +358,31 @@ GitHub Actions workflow in `.github/workflows/static.yml`:
 3. Deploys `dist/` to GitHub Pages
 
 Push to `main` triggers deployment automatically.
+
+## Integration TODOs
+
+### Skill Tree / Affinity Data
+- **AFFIN** (affinity damage from skill tree): Currently manual config in `edpsAD`. Need to parse skill tree data from save or provide UI input.
+- Skill tree also provides **racial bonuses** — broad damage/crit damage totals that feed into eDPS buckets.
+- Affinities contribute to AD (offhand ability damage) and potentially to other buckets.
+
+### Ability Damage (AD)
+- AD exists on offhand items as skill damage affixes (gear `DamageMultiplier` stats).
+- Per-ability multipliers are already parsed as `displayOnly` stats in `statRegistry.js` (chainLightningDamage, fireballDamage, etc.).
+- These could feed into `edpsAD` once we know which offhand is active.
+- Skill-specific interactions are intentionally deferred — current goal is "sum of item/tree based stats" for build comparison.
+
+### Void Ring / Special Weapon Interactions
+- Unholy Void ring mod with health regen affects the Void's WAD (normally 100% base, not the standard 200%/400%).
+- Void disables other abilities — would need special WAD handling.
+- These edge cases can use config overrides for now.
+
+### Attribute → Stat Mappings
+- Primary attributes are NOT balanced and do NOT all map to damage.
+- Known: STR→Armor, DEX→Crit, VIT→Health. Others TBD.
+- Once confirmed, these can feed into appropriate eDPS buckets or defense calcs.
+
+### WAD Monogram Bonuses
+- Various monograms add to WAD (weapon ability damage multiplier).
+- Real values are slightly less than listed. Fine for now; can refine later.
+- Currently handled via `wadBonus` config on `edpsWAD`.

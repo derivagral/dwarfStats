@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
+import { parseStanceContext } from '../utils/stanceSkills';
 
 /**
  * Central store for all item data
@@ -27,6 +28,7 @@ export function useItemStore() {
   const [metadata, setMetadata] = useState({
     filename: null,
     loadedAt: null,
+    stanceContext: null,
   });
 
   /**
@@ -39,6 +41,7 @@ export function useItemStore() {
   const loadFromSave = useCallback((saveJson, filename) => {
     // Extract equipped items using equipmentParser (outputs Item model format)
     const equippedItems = extractEquippedItems(saveJson);
+    const stanceContext = parseStanceContext(saveJson, equippedItems);
 
     // Extract all inventory items using unified Item model
     const { items: inventoryItems, totalCount } = transformAllItems(saveJson);
@@ -49,6 +52,7 @@ export function useItemStore() {
     setMetadata({
       filename,
       loadedAt: new Date().toISOString(),
+      stanceContext,
     });
   }, []);
 
@@ -62,6 +66,7 @@ export function useItemStore() {
     setMetadata({
       filename: null,
       loadedAt: null,
+      stanceContext: null,
     });
   }, []);
 

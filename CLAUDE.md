@@ -30,7 +30,7 @@ src/
 │   ├── filter/          # Attribute search/filtering tab
 │   └── items/           # Items browsing tab
 ├── hooks/               # Custom React hooks
-├── models/              # Clean data models (Item, transformers)
+├── models/              # Clean data models (Item, SkillTree, transformers)
 ├── utils/               # Core logic (parsing, filtering, WASM)
 ├── styles/              # CSS with theme variables
 ├── App.jsx              # Main app, tab routing, state
@@ -55,6 +55,9 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Derived stats calculations | `src/utils/derivedStats.js`, `src/hooks/useDerivedStats.js` |
 | Equipment slot mapping | `src/utils/equipmentParser.js` |
 | Attribute display names | `src/utils/attributeDisplay.js` |
+| Skill tree data model | `src/models/SkillTree.js` |
+| Skill tree extraction | `src/utils/skillTreeParser.js` |
+| Skill/card/keystone registry | `src/utils/skillTreeRegistry.js` |
 | Styling/theming | `src/styles/index.css` |
 
 ## Tab Architecture
@@ -236,6 +239,35 @@ Key monogram chains:
 Defined in `SLOT_MONOGRAMS` in `src/utils/monogramRegistry.js`:
 - head, amulet, bracer, boots, pants, relic, ring
 
+## Skill Tree System
+
+Save data at `HostPlayerData_0.Struct.Struct.CharacterSkills_77_*` contains 4 skill categories:
+
+| Category | DataTable Discriminator | ID Style | Levels |
+|----------|------------------------|----------|--------|
+| Main Passive Tree | `DT_GENERATED_SkillTree_Main` | Opaque (`UI_SkillTreeNode_Small_624`) | All 1 |
+| Weapon Stance (8 types) | `DT_Skills_{Weapon}` | Descriptive (`SpearCritDamage`) | 1, paragon to 732 |
+| Crystal Cards | `DT_Crystal_Cards_Skills` | `CARD{N}_{variant}` | 1, 2, 3, 6 |
+| Crafting/Elven | `DT_Skills_Crafting_S24` | Descriptive (`Armor_Health%`) | 1-177 |
+
+### Key files
+- `src/models/SkillTree.js` - Data model, factory, helpers
+- `src/utils/skillTreeParser.js` - `extractSkillTree(saveData)` extracts + categorizes
+- `src/utils/skillTreeRegistry.js` - Four registries:
+  - `WEAPON_SKILL_REGISTRY` - 94 weapon stance entries mapped to stat effects
+  - `CRAFTING_SKILL_REGISTRY` - 40 crafting/elven entries mapped to branches
+  - `CARD_REGISTRY` - 16 card entries (skeleton, effects TBD)
+  - `TREE_KEYSTONES` - Manually curated main-tree keystones (proximity, mastery, affinity, utility)
+
+### Main tree keystones (user-input checklist)
+Opaque node IDs can't be auto-detected. `TREE_KEYSTONES` provides a checklist of notable effects that overlap with monograms or grant unique bonuses:
+- Close/Far Distance (proximity damage), Melee/Ranged Mastery (damage/armor)
+- Fire/Arcane/Lightning Affinity (CDR ~35%, damage ~100% additive)
+- Extra inventory slots, extra potions
+
+### TODO: Card registry
+Card effects need population. Cards have L1/L2/L3 base stats; L6 doubles L3 and removes from further choice. Currently stored as skeleton entries with empty effects arrays.
+
 ## Testing
 
 Run tests with vitest:
@@ -250,6 +282,7 @@ npm run test:coverage  # With coverage report
 - `test/itemFilter.test.js` - Item filtering/scoring tests
 - `test/itemTransformer.test.js` - Save file parsing tests
 - `test/shareUrl.test.js` - URL sharing encode/decode tests
+- `test/skillTreeParser.test.js` - Skill tree parsing/registry tests
 
 ### Key Testable Modules
 | Module | Pure Functions | Notes |
@@ -258,6 +291,8 @@ npm run test:coverage  # With coverage report
 | `itemFilter.js` | `filterInventoryItems()`, `scoreItemPools()` | Pattern matching |
 | `itemTransformer.js` | `transformItem()`, `transformAllItems()` | Save file parsing |
 | `shareUrl.js` | `encodeFilterShare()`, `decodeFilterShare()`, `parseShareFromHash()` | URL sharing |
+| `skillTreeParser.js` | `extractSkillTree()`, `categorizeSkill()` | Skill tree extraction |
+| `skillTreeRegistry.js` | `getWeaponSkillDef()`, `getCraftingSkillDef()`, `getCardDef()` | Skill/card/keystone lookups |
 
 ## Test Fixtures
 
@@ -266,6 +301,7 @@ Located in `test/fixtures/`:
 - `learned_ring_monograms.json` - Ring modifier data (LearnedRingModifiers_0)
 - `dr-full-inventory.json` - Complete parsed save file (~7.8MB) with full character data
 - `dr-extracted-items.json` - Focused fixture with 16 equipped, 1 hotbar, 50 inventory items
+- `dr-character-skills.json` - CharacterSkills array + metadata (381 skills, weapon XP, skill points)
 
 ## URL Sharing
 

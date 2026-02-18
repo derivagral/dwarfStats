@@ -14,17 +14,44 @@ describe('stance skill parsing', () => {
     expect(inferWeaponStance(equipped)).toBe('maul');
   });
 
+  it('treats axes as one-hand sword stance', () => {
+    const stanceId = inferWeaponStance([{ slot: 'weapon', rowName: 'Weapon_Axe_GM5' }]);
+    expect(stanceId).toBe('sword');
+  });
+
   it('parses stance totals, keystone, and mastery levels from host player data', () => {
     const equipped = extractEquippedItems(fixtureData);
     const context = parseStanceContext(fixtureData, equipped);
 
     expect(context.activeStanceId).toBe('maul');
+    expect(context.activeStance.monogramFamily).toBe('melee');
     expect(context.stances.maul.totalSkill).toBe(261870);
     expect(context.stances.maul.keystoneUnlocked).toBe(true);
 
     const expectedMastery = Math.floor((261870 - STANCE_KEYSTONE_BREAKPOINT) / STANCE_MASTERY_STEP);
     expect(context.stances.maul.mastery).toBe(expectedMastery);
     expect(context.activeStance.mastery).toBe(expectedMastery);
+  });
+
+  it('maps one-hand keystone to Shroud when unlocked', () => {
+    const save = {
+      root: {
+        properties: {
+          HostPlayerData_0: {
+            Struct: {
+              Struct: {
+                OneHandSkill_0: { Int64: 5500 },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const context = parseStanceContext(save, [{ slot: 'weapon', rowName: 'Weapon_1H_Test' }]);
+    expect(context.activeStance.keystoneUnlocked).toBe(true);
+    expect(context.activeStance.keystoneAbility).toBe('Shroud');
+    expect(context.activeStance.keystoneMonogramId).toBe('Shroud');
   });
 
   it('uses zero mastery below keystone breakpoint', () => {

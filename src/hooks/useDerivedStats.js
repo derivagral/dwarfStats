@@ -206,7 +206,7 @@ export function useDerivedStats(options = {}) {
     if (activeStance && activeStance.mastery > 0) {
       overrides.paragonLevel = {
         ...DERIVED_STATS.paragonLevel?.config,
-        enabled: true,
+        ...overrides.paragonLevel,
         level: activeStance.mastery,
       };
     }
@@ -408,6 +408,15 @@ export function useDerivedStats(options = {}) {
         formattedValue: (active.mastery || 0).toFixed(0),
         description: 'Mastery = floor((skill - 5000) / 350)',
         sources: [{ itemName: `${active.id}.mastery`, value: active.mastery || 0 }],
+        layer: LAYERS.BASE,
+      });
+      result.stance.push({
+        id: 'activeStanceFamily',
+        name: 'Stance Monogram Family',
+        value: active.monogramFamily === 'melee' ? 1 : 2,
+        formattedValue: active.monogramFamily || 'unknown',
+        description: 'Melee stances: sword/axe/maul/spear. Ranged stances: bow/magery/scythe/fist.',
+        sources: [{ itemName: `${active.id}.family`, value: active.monogramFamily === 'melee' ? 1 : 2 }],
         layer: LAYERS.BASE,
       });
       result.stance.push({

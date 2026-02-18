@@ -18,6 +18,7 @@ const STANCE_DEFS = {
     keystoneAbility: 'Bloodlust',
     keystoneMonogramId: 'Bloodlust.Base',
     appliesGlobally: true,
+    monogramFamily: 'melee',
   },
   maul: {
     id: 'maul',
@@ -26,14 +27,17 @@ const STANCE_DEFS = {
     damageStatId: 'maulDamage',
     keystoneAbility: 'Divine Protection',
     appliesGlobally: false,
+    monogramFamily: 'melee',
   },
   sword: {
     id: 'sword',
     name: 'One-Handed',
     skillKey: 'OneHandSkill',
     damageStatId: 'swordDamage',
-    keystoneAbility: 'Dual Wield',
-    appliesGlobally: false,
+    keystoneAbility: 'Shroud',
+    keystoneMonogramId: 'Shroud',
+    appliesGlobally: true,
+    monogramFamily: 'melee',
   },
   twohand: {
     id: 'twohand',
@@ -43,6 +47,7 @@ const STANCE_DEFS = {
     keystoneAbility: 'Colossus',
     keystoneMonogramId: 'Colossus.Base',
     appliesGlobally: true,
+    monogramFamily: 'melee',
   },
   bow: {
     id: 'bow',
@@ -51,6 +56,7 @@ const STANCE_DEFS = {
     damageStatId: 'archeryDamage',
     keystoneAbility: 'Phantom Archers',
     appliesGlobally: false,
+    monogramFamily: 'ranged',
   },
   magery: {
     id: 'magery',
@@ -60,6 +66,7 @@ const STANCE_DEFS = {
     keystoneAbility: 'Phasing',
     keystoneMonogramId: 'AllowPhasing',
     appliesGlobally: true,
+    monogramFamily: 'ranged',
   },
   fist: {
     id: 'fist',
@@ -69,6 +76,7 @@ const STANCE_DEFS = {
     keystoneAbility: 'Juggernaut',
     keystoneMonogramId: 'Juggernaut',
     appliesGlobally: true,
+    monogramFamily: 'ranged',
   },
   scythe: {
     id: 'scythe',
@@ -77,6 +85,7 @@ const STANCE_DEFS = {
     damageStatId: 'scytheDamage',
     keystoneAbility: 'Minion Mastery',
     appliesGlobally: false,
+    monogramFamily: 'ranged',
   },
 };
 
@@ -94,7 +103,7 @@ export function inferWeaponStance(equippedItems = []) {
   if (!rowName) return null;
   if (rowName.includes('weapon_maul')) return 'maul';
   if (rowName.includes('weapon_spear')) return 'spear';
-  if (rowName.includes('weapon_1h') || rowName.includes('weapon_sword')) return 'sword';
+  if (rowName.includes('weapon_1h') || rowName.includes('weapon_sword') || rowName.includes('weapon_axe')) return 'sword';
   if (rowName.includes('weapon_2h') || rowName.includes('weapon_twohand')) return 'twohand';
   if (rowName.includes('weapon_bow')) return 'bow';
   if (rowName.includes('weapon_magery') || rowName.includes('weapon_staff') || rowName.includes('weapon_wand')) return 'magery';

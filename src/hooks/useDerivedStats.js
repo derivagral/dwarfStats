@@ -21,7 +21,7 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
  * @returns {Object} Aggregated and calculated stats
  */
 export function useDerivedStats(options = {}) {
-  const { equippedItems = [], itemOverrides = {}, characterStats = {} } = options;
+  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null } = options;
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -29,11 +29,28 @@ export function useDerivedStats(options = {}) {
     const stats = {};
 
     // Initialize with character stats (if any)
-    for (const [statId, value] of Object.entries(characterStats)) {
+    for (const [statId, rawValue] of Object.entries(characterStats)) {
+      const value = typeof rawValue === 'number' ? rawValue : Number(rawValue?.value || 0);
+      const sourceName = rawValue?.sourceName || 'Character';
       stats[statId] = {
         total: value,
-        sources: [{ itemName: 'Character', slot: 'base', value }],
+        sources: [{ itemName: sourceName, slot: 'base', value }],
       };
+    }
+
+    // Active stance mastery defaults: +1% stance-specific damage per mastery level
+    const activeStance = stanceContext?.activeStance;
+    if (activeStance?.damageStatId && activeStance.mastery > 0) {
+      const value = activeStance.mastery * 0.01;
+      if (!stats[activeStance.damageStatId]) {
+        stats[activeStance.damageStatId] = { total: 0, sources: [] };
+      }
+      stats[activeStance.damageStatId].total += value;
+      stats[activeStance.damageStatId].sources.push({
+        itemName: `${activeStance.id}.level.1`,
+        slot: 'stance',
+        value,
+      });
     }
 
     for (const item of equippedItems) {
@@ -86,7 +103,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return stats;
-  }, [equippedItems, itemOverrides, characterStats]);
+  }, [equippedItems, itemOverrides, characterStats, stanceContext]);
 
   // Flatten to simple { [statId]: total } for backward compatibility
   const aggregatedBaseStats = useMemo(() => {
@@ -152,18 +169,13 @@ export function useDerivedStats(options = {}) {
     const overrides = {};
     const seen = new Set();
 
-    for (const mono of appliedMonograms) {
-      // Skip duplicate processing of same ID — config is identical,
-      // just set instanceCount once
-      if (seen.has(mono.id)) continue;
-      seen.add(mono.id);
+    const applyMonogramConfig = (monogramId, instanceCount = 1) => {
+      if (seen.has(monogramId)) return;
+      seen.add(monogramId);
 
-      const monoConfig = MONOGRAM_CALC_CONFIGS[mono.id];
-      if (!monoConfig) continue;
+      const monoConfig = MONOGRAM_CALC_CONFIGS[monogramId];
+      if (!monoConfig) return;
 
-      const instanceCount = monogramInstanceCounts[mono.id] || 1;
-
-      // Handle new 'effects' array format (multiple derived stats per monogram)
       if (monoConfig.effects) {
         for (const effect of monoConfig.effects) {
           if (effect.derivedStatId && effect.config) {
@@ -174,19 +186,34 @@ export function useDerivedStats(options = {}) {
             };
           }
         }
-      }
-      // Handle legacy single-stat format
-      else if (monoConfig.derivedStatId && monoConfig.config) {
+      } else if (monoConfig.derivedStatId && monoConfig.config) {
         overrides[monoConfig.derivedStatId] = {
           ...DERIVED_STATS[monoConfig.derivedStatId]?.config,
           ...monoConfig.config,
           instanceCount,
         };
       }
+    };
+
+    for (const mono of appliedMonograms) {
+      applyMonogramConfig(mono.id, monogramInstanceCounts[mono.id] || 1);
+    }
+
+    const activeStance = stanceContext?.activeStance;
+    if (activeStance?.keystoneUnlocked && activeStance.keystoneMonogramId) {
+      applyMonogramConfig(activeStance.keystoneMonogramId, 1);
+    }
+
+    if (activeStance && activeStance.mastery > 0) {
+      overrides.paragonLevel = {
+        ...DERIVED_STATS.paragonLevel?.config,
+        ...overrides.paragonLevel,
+        level: activeStance.mastery,
+      };
     }
 
     return overrides;
-  }, [appliedMonograms, monogramInstanceCounts]);
+  }, [appliedMonograms, monogramInstanceCounts, stanceContext]);
 
   // Detect weapon stance from equipped weapon item's row name
   const detectedStance = useMemo(() => {
@@ -434,6 +461,48 @@ export function useDerivedStats(options = {}) {
       }
     }
 
+
+    // Add stance context debug/info rows
+    if (stanceContext?.activeStance) {
+      const active = stanceContext.activeStance;
+      result.stance.push({
+        id: 'activeStanceSkill',
+        name: 'Active Stance Skill',
+        value: active.totalSkill || 0,
+        formattedValue: `${active.name}: ${(active.totalSkill || 0).toFixed(0)}`,
+        description: 'Total stance skill from HostPlayerData',
+        sources: [{ itemName: `${active.id}.total`, value: active.totalSkill || 0 }],
+        layer: LAYERS.BASE,
+      });
+      result.stance.push({
+        id: 'activeStanceMastery',
+        name: 'Active Stance Mastery',
+        value: active.mastery || 0,
+        formattedValue: (active.mastery || 0).toFixed(0),
+        description: 'Mastery = floor((skill - 5000) / 350)',
+        sources: [{ itemName: `${active.id}.mastery`, value: active.mastery || 0 }],
+        layer: LAYERS.BASE,
+      });
+      result.stance.push({
+        id: 'activeStanceFamily',
+        name: 'Stance Monogram Family',
+        value: active.monogramFamily === 'melee' ? 1 : 2,
+        formattedValue: active.monogramFamily || 'unknown',
+        description: 'Melee stances: sword/axe/maul/spear. Ranged stances: bow/magery/scythe/fist.',
+        sources: [{ itemName: `${active.id}.family`, value: active.monogramFamily === 'melee' ? 1 : 2 }],
+        layer: LAYERS.BASE,
+      });
+      result.stance.push({
+        id: 'activeStanceKeystone',
+        name: 'Keystone Active',
+        value: active.keystoneUnlocked ? 1 : 0,
+        formattedValue: active.keystoneUnlocked ? 'Yes' : 'No',
+        description: `${active.keystoneAbility || 'Keystone'} unlocks at 5000 while this weapon is equipped`,
+        sources: [{ itemName: `${active.id}.keystone`, value: active.keystoneUnlocked ? 1 : 0 }],
+        layer: LAYERS.BASE,
+      });
+    }
+
     // Sort each category by value descending for easier reading
     for (const key of Object.keys(result)) {
       if (Array.isArray(result[key])) {
@@ -442,7 +511,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return result;
-  }, [calculatedStats, aggregatedWithSources]);
+  }, [calculatedStats, aggregatedWithSources, stanceContext]);
 
   return {
     // For StatsPanel compatibility

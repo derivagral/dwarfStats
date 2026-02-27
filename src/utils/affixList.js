@@ -214,7 +214,7 @@ export function searchAffixes(query, limit = 10) {
  */
 export function getPopularAffixes() {
   const popularIds = [
-    'strength', 'wisdom', 'vitality', 'dexterity',
+    'strength', 'wisdom', 'dexterity',
     'critChance', 'critDamage', 'damageBonus',
     'lifeSteal', 'lifeStealBonus',
     'fireDamageBonus', 'arcaneDamageBonus', 'lightningDamageBonus',

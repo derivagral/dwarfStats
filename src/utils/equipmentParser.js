@@ -100,6 +100,7 @@ const WEAPON_STANCE_MAP = {
   bow:     'archery',
   staff:   'magery',
   wand:    'magery',    // wands use magery stance
+  polearm: 'maul',     // polearms use maul stance
   spear:   'spear',
   scythe:  'scythe',
   fist:    'unarmed',

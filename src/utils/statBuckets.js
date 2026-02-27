@@ -68,7 +68,7 @@ export const BUCKET_DEFINITIONS = {
     name: 'Main Stats',
     description: 'Primary attribute bonuses',
     maxSlots: 2,
-    allowedStats: ['strength', 'dexterity', 'wisdom', 'vitality'],
+    allowedStats: ['strength', 'dexterity', 'wisdom'],
     slotRestrictions: null,
     defaultSlots: [
       { statId: null, value: 0 },

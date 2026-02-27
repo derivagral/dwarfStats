@@ -39,13 +39,13 @@ describe('shareUrl', () => {
 
     it('should round-trip a minimal filter (affixes only, no monograms)', () => {
       let model = createFilterModel();
-      model = addAffix(model, 'vitality');
+      model = addAffix(model, 'endurance');
 
       const encoded = encodeFilterShare(model);
       const decoded = decodeFilterShare(encoded);
 
       expect(decoded).not.toBeNull();
-      expect(decoded.affixes).toEqual([{ affixId: 'vitality' }]);
+      expect(decoded.affixes).toEqual([{ affixId: 'endurance' }]);
       expect(decoded.monograms).toEqual([]);
       expect(decoded.options.minHitsPerPool).toBe(1);
     });

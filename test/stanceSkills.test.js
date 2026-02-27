@@ -19,9 +19,9 @@ describe('stance skill parsing', () => {
     expect(stanceId).toBe('twohand');
   });
 
-  it('maps polearms to spear stance', () => {
+  it('maps polearms to maul stance', () => {
     const stanceId = inferWeaponStance([{ slot: 'weapon', rowName: 'Weapon_Polearm_GM5' }]);
-    expect(stanceId).toBe('spear');
+    expect(stanceId).toBe('maul');
   });
 
   it('maps legacy staff variants to maul and regular staff to magery', () => {

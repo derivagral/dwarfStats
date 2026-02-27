@@ -104,12 +104,12 @@ export function inferWeaponStance(equippedItems = []) {
 
   // Historical naming/grouping rules from game data:
   // - Axes are 2H stance, swords are 1H stance
-  // - Polearms route to spear stance
+  // - Polearms route to maul stance (shares maul damage tree)
   // - Some legacy staff variants route to maul, while regular staff/wand routes to magery
   if (rowName.includes('weapon_2h') || rowName.includes('weapon_twohand') || rowName.includes('weapon_axe')) return 'twohand';
   if (rowName.includes('weapon_1h') || rowName.includes('weapon_sword')) return 'sword';
-  if (rowName.includes('weapon_spear') || rowName.includes('weapon_polearm')) return 'spear';
-  if (rowName.includes('weapon_maul') || rowName.includes('weapon_staff_maul') || rowName.includes('weapon_staff_legacy')) return 'maul';
+  if (rowName.includes('weapon_spear')) return 'spear';
+  if (rowName.includes('weapon_maul') || rowName.includes('weapon_polearm') || rowName.includes('weapon_staff_maul') || rowName.includes('weapon_staff_legacy')) return 'maul';
   if (rowName.includes('weapon_bow')) return 'bow';
   if (rowName.includes('weapon_magery') || rowName.includes('weapon_staff') || rowName.includes('weapon_wand')) return 'magery';
   if (rowName.includes('weapon_fist') || rowName.includes('weapon_unarmed')) return 'fist';

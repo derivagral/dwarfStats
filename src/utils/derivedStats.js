@@ -82,20 +82,6 @@ export const DERIVED_STATS = {
     format: v => v.toFixed(0),
     description: 'Wisdom after bonuses applied',
   },
-  totalVitality: {
-    id: 'totalVitality',
-    name: 'Total Vitality',
-    category: 'totals',
-    layer: LAYERS.TOTALS,
-    dependencies: ['vitality', 'vitalityBonus'],
-    calculate: (stats) => {
-      const base = stats.vitality || 0;
-      const bonus = stats.vitalityBonus || 0;
-      return Math.floor(base * (1 + bonus));
-    },
-    format: v => v.toFixed(0),
-    description: 'Vitality after bonuses applied',
-  },
   totalEndurance: {
     id: 'totalEndurance',
     name: 'Total Endurance',
@@ -382,13 +368,12 @@ export const DERIVED_STATS = {
     name: 'Highest Attribute',
     category: 'utility',
     layer: LAYERS.TOTALS,
-    dependencies: ['totalStrength', 'totalDexterity', 'totalWisdom', 'totalVitality', 'totalEndurance', 'totalAgility', 'totalLuck', 'totalStamina'],
+    dependencies: ['totalStrength', 'totalDexterity', 'totalWisdom', 'totalEndurance', 'totalAgility', 'totalLuck', 'totalStamina'],
     calculate: (stats) => {
       return Math.max(
         stats.totalStrength || 0,
         stats.totalDexterity || 0,
         stats.totalWisdom || 0,
-        stats.totalVitality || 0,
         stats.totalEndurance || 0,
         stats.totalAgility || 0,
         stats.totalLuck || 0,

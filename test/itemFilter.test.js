@@ -63,7 +63,7 @@ describe('itemFilter', () => {
     it('should count matching affixes in a pool', () => {
       const matchers = buildAffixMatchers([
         { affixId: 'strength' },
-        { affixId: 'vitality' },
+        { affixId: 'endurance' },
       ]);
       // Pool contains rowNames that should match stat patterns
       const poolAffixes = [

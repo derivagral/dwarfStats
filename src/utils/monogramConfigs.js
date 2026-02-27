@@ -693,7 +693,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Health from Stats',
     derivedStatId: 'chainedHealthBonus',
     config: {
-      sourceStat: 'totalVitality',
+      sourceStat: 'highestAttribute',
       ratio: 50,
       baseValue: 1,
     },

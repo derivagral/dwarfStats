@@ -250,7 +250,6 @@ export function useDerivedStats(options = {}) {
       strength: values.totalStrength || values.strength || 0,
       dexterity: values.totalDexterity || values.dexterity || 0,
       wisdom: values.totalWisdom || values.wisdom || 0,
-      vitality: values.totalVitality || values.vitality || 0,
       endurance: values.totalEndurance || values.endurance || 0,
       agility: values.totalAgility || values.agility || 0,
       luck: values.totalLuck || values.luck || 0,
@@ -280,7 +279,6 @@ export function useDerivedStats(options = {}) {
       totalStrength: { base: 'strength', bonus: 'strengthBonus', category: 'attributes', name: 'Strength' },
       totalDexterity: { base: 'dexterity', bonus: 'dexterityBonus', category: 'attributes', name: 'Dexterity' },
       totalWisdom: { base: 'wisdom', bonus: 'wisdomBonus', category: 'attributes', name: 'Wisdom' },
-      totalVitality: { base: 'vitality', bonus: 'vitalityBonus', category: 'attributes', name: 'Vitality' },
       totalEndurance: { base: 'endurance', bonus: 'enduranceBonus', category: 'attributes', name: 'Endurance' },
       totalAgility: { base: 'agility', bonus: 'agilityBonus', category: 'attributes', name: 'Agility' },
       totalLuck: { base: 'luck', bonus: 'luckBonus', category: 'attributes', name: 'Luck' },
@@ -382,11 +380,17 @@ export function useDerivedStats(options = {}) {
           description = `${routing.name} from gear`;
         }
 
+        // For primary attributes, append bonus% to the displayed value
+        let displayValue = stat.formattedValue;
+        if (routing.category === 'attributes' && bonusTotal) {
+          displayValue = `${stat.formattedValue} (+${(bonusTotal * 100).toFixed(0)}%)`;
+        }
+
         result[routing.category].push({
           id: stat.id,
           name: routing.name,
           value: stat.value,
-          formattedValue: stat.formattedValue,
+          formattedValue: displayValue,
           description,
           sources,
           layer: stat.layer,

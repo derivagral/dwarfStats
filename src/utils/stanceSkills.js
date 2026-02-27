@@ -1,3 +1,5 @@
+import { findStatForAttribute } from './statRegistry.js';
+
 const SKILL_KEY_TO_STANCE = {
   SpearSkill: 'spear',
   MaulsSkill: 'maul',
@@ -155,6 +157,66 @@ export function parseStanceContext(saveData, equippedItems = []) {
     activeStanceId,
     activeStance,
   };
+}
+
+/**
+ * Parse allocated attribute points from HostPlayerData.
+ * The game stores level-up stat allocations in Attributes_21_* as an array
+ * of STR_Attribute structs (STR_ is a UE struct prefix, not "Strength").
+ *
+ * Each entry contains:
+ *   - GameplayTag with TagName = "EasyRPG.Attributes.Characteristics.<Stat>"
+ *   - Value (Float) = total allocated points
+ *
+ * @param {Object} saveData - Parsed save JSON
+ * @returns {Object} Map of { statId: { value, sourceName, rawTag } }
+ */
+export function parseAllocatedAttributes(saveData) {
+  const hostPlayerStruct = findHostPlayerStruct(saveData);
+  if (!hostPlayerStruct) return {};
+
+  // Find Attributes_21_* key
+  const attrKey = Object.keys(hostPlayerStruct).find(k => k.startsWith('Attributes_21_'));
+  if (!attrKey) return {};
+
+  const entries = hostPlayerStruct[attrKey]?.Array?.Struct?.value;
+  if (!Array.isArray(entries)) return {};
+
+  const result = {};
+
+  for (const entry of entries) {
+    const structData = entry?.Struct;
+    if (!structData) continue;
+
+    // Find the GameplayTag key (contains the attribute name)
+    const tagKey = Object.keys(structData).find(k => k.startsWith('GameplayTag_'));
+    // Find the Value key (contains the numeric value)
+    const valueKey = Object.keys(structData).find(k => k.startsWith('Value_'));
+
+    if (!tagKey || !valueKey) continue;
+
+    const rawTag = structData[tagKey]?.Struct?.Struct?.TagName_0?.Name;
+    const value = structData[valueKey]?.Float;
+
+    if (!rawTag || typeof value !== 'number' || value === 0) continue;
+
+    // Resolve to a known stat ID via the registry
+    const statDef = findStatForAttribute(rawTag);
+    const statId = statDef?.id;
+    if (!statId) continue;
+
+    // Accumulate in case multiple entries resolve to the same stat
+    if (result[statId]) {
+      result[statId].value += value;
+    } else {
+      result[statId] = {
+        value,
+        sourceName: 'Allocated Points',
+      };
+    }
+  }
+
+  return result;
 }
 
 export { STANCE_DEFS };

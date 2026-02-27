@@ -10,6 +10,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     equippedItems: itemStore.equipped,
     timestamp: itemStore.metadata.loadedAt,
     stanceContext: itemStore.metadata.stanceContext,
+    characterStats: itemStore.metadata.allocatedAttributes,
   } : saveData ? {
     filename: saveData.filename,
     equippedItems: saveData.equippedItems || [],

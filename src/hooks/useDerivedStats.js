@@ -563,13 +563,32 @@ function resolveStatId(rawTag) {
   const parts = rawTag.split('.');
   const lastPart = parts[parts.length - 1];
 
-  // Normalize common patterns
+  // Try exact pattern match first (preserves % suffix for bonus stats)
+  // This ensures Luck%6 matches luckBonus patterns before luck patterns
+  const lastPartLower = lastPart.toLowerCase();
+  for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
+    if (stat.patterns?.some(p => p.toLowerCase() === lastPartLower)) {
+      return id;
+    }
+  }
+
+  // Try tail match (last 2+ segments) for deeper paths
+  if (parts.length > 1) {
+    const tail = parts.slice(-2).join('.');
+    const tailLower = tail.toLowerCase();
+    for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
+      if (stat.patterns?.some(p => p.toLowerCase() === tailLower)) {
+        return id;
+      }
+    }
+  }
+
+  // Normalize: strip %6 suffix and try loose matching as fallback
   const normalized = lastPart
     .replace(/%6?$/, '')  // Remove %6 or % suffix
     .replace(/Bonus$/, 'Bonus')
     .toLowerCase();
 
-  // Check against known stat patterns
   for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
     if (stat.patterns?.some(p => p.toLowerCase().includes(normalized))) {
       return id;

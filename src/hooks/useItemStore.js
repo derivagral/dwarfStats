@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
-import { parseStanceContext } from '../utils/stanceSkills';
+import { parseStanceContext, parseAllocatedAttributes } from '../utils/stanceSkills';
 
 /**
  * Central store for all item data
@@ -29,6 +29,7 @@ export function useItemStore() {
     filename: null,
     loadedAt: null,
     stanceContext: null,
+    allocatedAttributes: {},
   });
 
   /**
@@ -42,6 +43,7 @@ export function useItemStore() {
     // Extract equipped items using equipmentParser (outputs Item model format)
     const equippedItems = extractEquippedItems(saveJson);
     const stanceContext = parseStanceContext(saveJson, equippedItems);
+    const allocatedAttributes = parseAllocatedAttributes(saveJson);
 
     // Extract all inventory items using unified Item model
     const { items: inventoryItems, totalCount } = transformAllItems(saveJson);
@@ -53,6 +55,7 @@ export function useItemStore() {
       filename,
       loadedAt: new Date().toISOString(),
       stanceContext,
+      allocatedAttributes,
     });
   }, []);
 

@@ -250,7 +250,6 @@ export function useDerivedStats(options = {}) {
       strength: values.totalStrength || values.strength || 0,
       dexterity: values.totalDexterity || values.dexterity || 0,
       wisdom: values.totalWisdom || values.wisdom || 0,
-      vitality: values.totalVitality || values.vitality || 0,
       endurance: values.totalEndurance || values.endurance || 0,
       agility: values.totalAgility || values.agility || 0,
       luck: values.totalLuck || values.luck || 0,
@@ -280,7 +279,6 @@ export function useDerivedStats(options = {}) {
       totalStrength: { base: 'strength', bonus: 'strengthBonus', category: 'attributes', name: 'Strength' },
       totalDexterity: { base: 'dexterity', bonus: 'dexterityBonus', category: 'attributes', name: 'Dexterity' },
       totalWisdom: { base: 'wisdom', bonus: 'wisdomBonus', category: 'attributes', name: 'Wisdom' },
-      totalVitality: { base: 'vitality', bonus: 'vitalityBonus', category: 'attributes', name: 'Vitality' },
       totalEndurance: { base: 'endurance', bonus: 'enduranceBonus', category: 'attributes', name: 'Endurance' },
       totalAgility: { base: 'agility', bonus: 'agilityBonus', category: 'attributes', name: 'Agility' },
       totalLuck: { base: 'luck', bonus: 'luckBonus', category: 'attributes', name: 'Luck' },
@@ -382,11 +380,17 @@ export function useDerivedStats(options = {}) {
           description = `${routing.name} from gear`;
         }
 
+        // For primary attributes, append bonus% to the displayed value
+        let displayValue = stat.formattedValue;
+        if (routing.category === 'attributes' && bonusTotal) {
+          displayValue = `${stat.formattedValue} (+${(bonusTotal * 100).toFixed(0)}%)`;
+        }
+
         result[routing.category].push({
           id: stat.id,
           name: routing.name,
           value: stat.value,
-          formattedValue: stat.formattedValue,
+          formattedValue: displayValue,
           description,
           sources,
           layer: stat.layer,
@@ -559,13 +563,32 @@ function resolveStatId(rawTag) {
   const parts = rawTag.split('.');
   const lastPart = parts[parts.length - 1];
 
-  // Normalize common patterns
+  // Try exact pattern match first (preserves % suffix for bonus stats)
+  // This ensures Luck%6 matches luckBonus patterns before luck patterns
+  const lastPartLower = lastPart.toLowerCase();
+  for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
+    if (stat.patterns?.some(p => p.toLowerCase() === lastPartLower)) {
+      return id;
+    }
+  }
+
+  // Try tail match (last 2+ segments) for deeper paths
+  if (parts.length > 1) {
+    const tail = parts.slice(-2).join('.');
+    const tailLower = tail.toLowerCase();
+    for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
+      if (stat.patterns?.some(p => p.toLowerCase() === tailLower)) {
+        return id;
+      }
+    }
+  }
+
+  // Normalize: strip %6 suffix and try loose matching as fallback
   const normalized = lastPart
     .replace(/%6?$/, '')  // Remove %6 or % suffix
     .replace(/Bonus$/, 'Bonus')
     .toLowerCase();
 
-  // Check against known stat patterns
   for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
     if (stat.patterns?.some(p => p.toLowerCase().includes(normalized))) {
       return id;

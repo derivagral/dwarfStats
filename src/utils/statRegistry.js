@@ -226,34 +226,6 @@ export const STAT_REGISTRY = {
     format: v => `+${(v * 100).toFixed(0)}%`,
     description: 'Stamina Bonus',
   },
-  vitality: {
-    id: 'vitality',
-    name: 'Vitality',
-    category: 'attributes',
-    patterns: [
-      'Characteristics.Vitality',
-      'Vitality',
-    ],
-    canonical: 'Characteristics.Vitality',
-    isPercent: false,
-    format: v => `+${v.toFixed(0)}`,
-    description: 'Vitality',
-  },
-  vitalityBonus: {
-    id: 'vitalityBonus',
-    name: 'Vitality Bonus',
-    category: 'attributes',
-    patterns: [
-      'Characteristics.Vitality%6',
-      'Characteristics.Vitality%',
-      'Vitality%6',
-      'Vitality%',
-    ],
-    canonical: 'Characteristics.Vitality%6',
-    isPercent: true,
-    format: v => `+${(v * 100).toFixed(0)}%`,
-    description: 'Vitality Bonus',
-  },
 
   // ---------------------------------------------------------------------------
   // OFFENSE - GENERIC

@@ -57,10 +57,10 @@ describe('FilterModel', () => {
     it('should remove an affix immutably', () => {
       let model = createFilterModel();
       model = addAffix(model, 'strength');
-      model = addAffix(model, 'vitality');
+      model = addAffix(model, 'endurance');
       const updated = removeAffix(model, 'strength');
       expect(updated.affixes.length).toBe(1);
-      expect(updated.affixes[0].affixId).toBe('vitality');
+      expect(updated.affixes[0].affixId).toBe('endurance');
     });
   });
 

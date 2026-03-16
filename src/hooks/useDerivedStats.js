@@ -21,7 +21,7 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
  * @returns {Object} Aggregated and calculated stats
  */
 export function useDerivedStats(options = {}) {
-  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null } = options;
+  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, skillTreeStats = {}, skillTreeConfigOverrides = {} } = options;
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -36,6 +36,18 @@ export function useDerivedStats(options = {}) {
         total: value,
         sources: [{ itemName: sourceName, slot: 'base', value }],
       };
+    }
+
+    // Merge skill tree stats (from useSkillTreeStore)
+    for (const [statId, data] of Object.entries(skillTreeStats)) {
+      if (!data || !data.total) continue;
+      if (!stats[statId]) {
+        stats[statId] = { total: 0, sources: [] };
+      }
+      stats[statId].total += data.total;
+      if (data.sources) {
+        stats[statId].sources.push(...data.sources);
+      }
     }
 
     // Active stance mastery defaults: +1% stance-specific damage per mastery level
@@ -103,7 +115,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return stats;
-  }, [equippedItems, itemOverrides, characterStats, stanceContext]);
+  }, [equippedItems, itemOverrides, characterStats, stanceContext, skillTreeStats]);
 
   // Flatten to simple { [statId]: total } for backward compatibility
   const aggregatedBaseStats = useMemo(() => {
@@ -227,15 +239,23 @@ export function useDerivedStats(options = {}) {
     return null;
   }, [equippedItems]);
 
-  // Merge stance detection into config overrides for eDPS
+  // Merge stance detection and skill tree overrides into config overrides for eDPS
   const finalConfigOverrides = useMemo(() => {
-    if (!detectedStance) return configOverrides;
-    return {
-      ...configOverrides,
-      edpsAdditiveMulti: { stance: detectedStance },
-      edpsSCHD: { stance: detectedStance },
-    };
-  }, [configOverrides, detectedStance]);
+    const merged = { ...configOverrides };
+
+    // Merge skill tree config overrides (additive with monogram configs)
+    for (const [statId, config] of Object.entries(skillTreeConfigOverrides)) {
+      merged[statId] = { ...merged[statId], ...config };
+    }
+
+    // Merge stance detection
+    if (detectedStance) {
+      merged.edpsAdditiveMulti = { ...merged.edpsAdditiveMulti, stance: detectedStance };
+      merged.edpsSCHD = { ...merged.edpsSCHD, stance: detectedStance };
+    }
+
+    return merged;
+  }, [configOverrides, detectedStance, skillTreeConfigOverrides]);
 
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {

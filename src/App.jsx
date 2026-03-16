@@ -5,15 +5,18 @@ import { CharacterTab } from './components/character';
 import { FilterTab } from './components/filter';
 import { ItemsTab } from './components/items';
 import { StatsTab } from './components/stats';
+import { SkillTreeTab } from './components/skilltree';
 import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 import { useItemStore } from './hooks/useItemStore';
+import { useSkillTreeStore } from './hooks/useSkillTreeStore';
 import { parseShareFromHash, decodeFilterShare } from './utils/shareUrl';
 
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
   { id: 'character', label: 'Character', icon: '🧙' },
+  { id: 'skilltree', label: 'Skills', icon: '🌳' },
   { id: 'items', label: 'Items', icon: '🎒' },
   { id: 'filter', label: 'Filter', icon: '🔍' },
   { id: 'stats', label: 'Stats', icon: '📊' },
@@ -33,6 +36,9 @@ export default function App() {
 
   // Central item store - all UI reads from here, not from raw saveData
   const itemStore = useItemStore();
+
+  // Skill tree store - manages skill tree data and user overrides
+  const skillTreeStore = useSkillTreeStore();
 
   // Initialize WASM and detect platform
   useEffect(() => {
@@ -92,6 +98,8 @@ export default function App() {
     setSaveData(data);
     // Load items into central store from parsed save data
     itemStore.loadFromSave(data.parsed || data.raw, data.filename);
+    // Load skill tree data
+    skillTreeStore.loadFromSave(data.parsed || data.raw);
     setActiveTab('character');
     log(`🎮 Save loaded: ${data.filename}`);
   }, [log, itemStore]);
@@ -99,16 +107,17 @@ export default function App() {
   const handleClearSave = useCallback(() => {
     setSaveData(null);
     itemStore.clear();
+    skillTreeStore.clear();
     setActiveTab('upload');
     log('🗑️ Save data cleared');
-  }, [log, itemStore]);
+  }, [log, itemStore, skillTreeStore]);
 
   // Determine which tabs are disabled
   const disabledTabs = itemStore.hasItems
     ? []
     : filterTabUnlocked
-      ? ['character', 'items']
-      : ['character', 'items', 'filter'];
+      ? ['character', 'skilltree', 'items']
+      : ['character', 'skilltree', 'items', 'filter'];
 
   return (
     <div className="app">
@@ -127,9 +136,17 @@ export default function App() {
             <CharacterTab
               saveData={saveData}
               itemStore={itemStore}
+              skillTreeStore={skillTreeStore}
               onClearSave={handleClearSave}
               onLog={log}
               onStatusChange={handleStatusChange}
+            />
+          )}
+          {activeTab === 'skilltree' && saveData && (
+            <SkillTreeTab
+              skillTreeStore={skillTreeStore}
+              saveData={saveData}
+              onLog={log}
             />
           )}
           {activeTab === 'items' && saveData && (

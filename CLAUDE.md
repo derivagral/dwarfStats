@@ -28,7 +28,8 @@ src/
 │   ├── upload/          # File upload tab
 │   ├── character/       # Equipment/inventory display tab
 │   ├── filter/          # Attribute search/filtering tab
-│   └── items/           # Items browsing tab
+│   ├── items/           # Items browsing tab
+│   └── skilltree/       # Skill tree display/editing tab
 ├── hooks/               # Custom React hooks
 ├── models/              # Clean data models (Item, SkillTree, transformers)
 ├── utils/               # Core logic (parsing, filtering, WASM)
@@ -58,16 +59,20 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Skill tree data model | `src/models/SkillTree.js` |
 | Skill tree extraction | `src/utils/skillTreeParser.js` |
 | Skill/card/keystone registry | `src/utils/skillTreeRegistry.js` |
+| Skill tree tab UI | `src/components/skilltree/SkillTreeTab.jsx` |
+| Skill tree state/store | `src/hooks/useSkillTreeStore.js` |
 | Styling/theming | `src/styles/index.css` |
 
 ## Tab Architecture
 
 Tabs defined in `App.jsx` TABS array:
 ```jsx
-{ id: 'upload', label: 'Upload', icon: '📁' }
+{ id: 'upload', label: 'Upload', icon: '📂' }
 { id: 'character', label: 'Character', icon: '🧙' }
-{ id: 'filter', label: 'Filter', icon: '🔍' }
+{ id: 'skilltree', label: 'Skill Tree', icon: '🌳' }
 { id: 'items', label: 'Items', icon: '🎒' }
+{ id: 'filter', label: 'Filter', icon: '🔍' }
+{ id: 'stats', label: 'Stats', icon: '📊' }
 ```
 
 **To add a new tab:**
@@ -87,14 +92,21 @@ App.jsx (state holder)
 │   ├── inventory[]       → All items from save
 │   ├── equippedSlotMap   → Items by slot key
 │   └── metadata          → Filename, load time
+├── skillTreeStore  → Skill tree store (useSkillTreeStore hook)
+│   ├── skillTreeData     → Parsed SkillTreeData from save
+│   ├── keystoneSelections → Manual keystone checkbox state
+│   ├── skillOverrides    → Per-skill enable/level overrides
+│   ├── skillValues       → User-entered stat values
+│   ├── effectiveSkillStats → Computed stats for useDerivedStats
+│   └── skillConfigOverrides → Computed config overrides for eDPS
 ├── sharedFilterModel → Decoded filter from URL hash (consumed once)
 ├── status/statusType → UI feedback messages
 ├── logs            → Debug log buffer
 └── wasmReady       → WASM initialization flag
 
 Tab callbacks:
-- onFileLoaded(data) → Sets saveData, loads itemStore, switches to Character tab
-- onClearSave()      → Clears saveData and itemStore, returns to Upload tab
+- onFileLoaded(data) → Sets saveData, loads itemStore + skillTreeStore, switches to Character tab
+- onClearSave()      → Clears saveData, itemStore + skillTreeStore, returns to Upload tab
 - onLog(msg)         → Adds to log buffer
 - onStatusChange(msg, type) → Updates status bar
 ```
@@ -305,12 +317,27 @@ Save data at `HostPlayerData_0.Struct.Struct.CharacterSkills_77_*` contains 4 sk
   - `CRAFTING_SKILL_REGISTRY` - 40 crafting/elven entries mapped to branches
   - `CARD_REGISTRY` - 16 card entries (skeleton, effects TBD)
   - `TREE_KEYSTONES` - Manually curated main-tree keystones (proximity, mastery, affinity, utility)
+- `src/hooks/useSkillTreeStore.js` - Central store for skill tree state and overrides
+- `src/components/skilltree/SkillTreeTab.jsx` - Tab UI with sub-components
+
+### Skill Tree Tab (hybrid auto-detect + manual input)
+The Skill Tree tab uses a hybrid approach:
+- **Auto-detected** from save: weapon stances (94 skills), crafting/elven tree (40 skills), cards (16)
+- **Manual checklist**: 14 main-tree keystones (opaque IDs can't be auto-mapped)
+- **User-editable values**: skills with `statId` show a value input (flat or percent based on `STAT_REGISTRY.isPercent`)
+- **Overrides**: toggle skills on/off, edit paragon levels, enter stat values
+- **Integration**: `effectiveSkillStats` and `skillConfigOverrides` feed into `useDerivedStats`
 
 ### Main tree keystones (user-input checklist)
 Opaque node IDs can't be auto-detected. `TREE_KEYSTONES` provides a checklist of notable effects that overlap with monograms or grant unique bonuses:
 - Close/Far Distance (proximity damage), Melee/Ranged Mastery (damage/armor)
 - Fire/Arcane/Lightning Affinity (CDR ~35%, damage ~100% additive)
 - Extra inventory slots, extra potions
+
+### Skill Tree → eDPS integration
+- Affinity damage keystones → `edpsAD.affinityDamage` config override
+- Proximity keystones → `edpsEMulti` distance flags
+- Weapon/crafting skills with `statId` + user-entered values → base stat aggregation via `useDerivedStats`
 
 ### TODO: Card registry
 Card effects need population. Cards have L1/L2/L3 base stats; L6 doubles L3 and removes from further choice. Currently stored as skeleton entries with empty effects arrays.
@@ -330,6 +357,7 @@ npm run test:coverage  # With coverage report
 - `test/itemTransformer.test.js` - Save file parsing tests
 - `test/shareUrl.test.js` - URL sharing encode/decode tests
 - `test/skillTreeParser.test.js` - Skill tree parsing/registry tests
+- `test/useSkillTreeStore.test.js` - Skill tree store logic tests
 
 ### Key Testable Modules
 | Module | Pure Functions | Notes |
@@ -340,6 +368,7 @@ npm run test:coverage  # With coverage report
 | `shareUrl.js` | `encodeFilterShare()`, `decodeFilterShare()`, `parseShareFromHash()` | URL sharing |
 | `skillTreeParser.js` | `extractSkillTree()`, `categorizeSkill()` | Skill tree extraction |
 | `skillTreeRegistry.js` | `getWeaponSkillDef()`, `getCraftingSkillDef()`, `getCardDef()` | Skill/card/keystone lookups |
+| `useSkillTreeStore.js` | `computeEffectiveStats()`, `computeConfigOverrides()` | Stat aggregation from skills |
 
 ## Test Fixtures
 

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { SkillRow } from './SkillRow';
 import { getWeaponSkillDef } from '../../utils/skillTreeRegistry';
+import { STAT_REGISTRY } from '../../utils/statRegistry';
 import { WEAPON_TYPE } from '../../models/SkillTree';
 
 const WEAPON_LABELS = {
@@ -83,6 +84,7 @@ export function WeaponSkillsSection({
                   const type = def?.type || 'stat';
                   const statId = def?.statId;
                   const perLevel = def?.perLevel;
+                  const statIsPercent = statId ? (STAT_REGISTRY[statId]?.isPercent ?? true) : true;
                   const enabled = isSkillEnabled(skill.rowName);
                   const effectiveLevel = getEffectiveLevel(skill.rowName, skill.level);
 
@@ -94,6 +96,7 @@ export function WeaponSkillsSection({
                       type={type}
                       statId={statId}
                       perLevel={perLevel}
+                      isPercent={statIsPercent}
                       enabled={enabled}
                       onToggle={() => onOverride(skill.rowName, { enabled: !enabled })}
                       userValue={skillValues[skill.rowName]}

@@ -16,7 +16,7 @@ import { parseShareFromHash, decodeFilterShare } from './utils/shareUrl';
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
   { id: 'character', label: 'Character', icon: '🧙' },
-  { id: 'skilltree', label: 'Skills', icon: '🌳' },
+  { id: 'skilltree', label: 'Skill Tree', icon: '🌳' },
   { id: 'items', label: 'Items', icon: '🎒' },
   { id: 'filter', label: 'Filter', icon: '🔍' },
   { id: 'stats', label: 'Stats', icon: '📊' },

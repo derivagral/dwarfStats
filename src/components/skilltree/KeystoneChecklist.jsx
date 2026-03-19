@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatInput } from '../character/StatInput';
 import { TREE_KEYSTONES } from '../../utils/skillTreeRegistry';
+import { STAT_REGISTRY } from '../../utils/statRegistry';
 
 const CATEGORY_LABELS = {
   proximity: 'Proximity',
@@ -71,8 +72,8 @@ export function KeystoneChecklist({ selections, onToggle, skillValues, onValueCh
                           value={skillValues[keystone.id] || 0}
                           onChange={(v) => onValueChange(keystone.id, v)}
                           min={0}
-                          step={1}
-                          isPercent
+                          step={(STAT_REGISTRY[keystone.statId]?.isPercent ?? true) ? 1 : 10}
+                          isPercent={STAT_REGISTRY[keystone.statId]?.isPercent ?? true}
                           placeholder="0"
                         />
                         <span className="skill-stat-id">{keystone.statId}</span>

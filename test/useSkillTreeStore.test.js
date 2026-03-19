@@ -5,6 +5,7 @@ import {
   getCraftingSkillDef,
   TREE_KEYSTONES,
 } from '../src/utils/skillTreeRegistry.js';
+import { STAT_REGISTRY } from '../src/utils/statRegistry.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -172,6 +173,38 @@ describe('useSkillTreeStore logic', () => {
 
       expect(stats.health).toBeDefined();
       expect(stats.health.total).toBeCloseTo(0.05);
+    });
+
+    it('handles flat value crafting skills (health is flat, not percent)', () => {
+      // health in STAT_REGISTRY has isPercent: false
+      expect(STAT_REGISTRY.health.isPercent).toBe(false);
+      // Armor_Health_Low maps to 'health' — a flat stat
+      const skillValues = { 'Armor_Health_Low': 500 }; // flat value, not percent
+      const stats = computeEffectiveStats(skillTreeData, {}, skillValues, {});
+
+      expect(stats.health.total).toBe(500);
+    });
+
+    it('handles percent value weapon skills (spearDamage is percent)', () => {
+      // spearDamage in STAT_REGISTRY has isPercent: true
+      expect(STAT_REGISTRY.spearDamage.isPercent).toBe(true);
+      // SpearMediumDmg maps to 'spearDamage' — a percent stat
+      const skillValues = { 'SpearMediumDmg': 0.15 }; // stored as decimal
+      const stats = computeEffectiveStats(skillTreeData, {}, skillValues, {});
+
+      expect(stats.spearDamage.total).toBeCloseTo(0.15);
+    });
+
+    it('handles mixed flat and percent stats from different skills', () => {
+      const skillValues = {
+        'Damage_Bonus1_Bot': 100,      // damage is flat (isPercent: false)
+        'SpearMediumDmg': 0.15,        // spearDamage is percent (isPercent: true)
+      };
+      const stats = computeEffectiveStats(skillTreeData, {}, skillValues, {});
+
+      // Both should be present with correct values
+      expect(stats.damage?.total).toBe(100);
+      expect(stats.spearDamage?.total).toBeCloseTo(0.15);
     });
 
     it('aggregates keystone stat with user value', () => {

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { SkillRow } from './SkillRow';
 import { getCraftingSkillDef } from '../../utils/skillTreeRegistry';
+import { STAT_REGISTRY } from '../../utils/statRegistry';
 
 const BRANCH_LABELS = {
   armor: 'Armor',
@@ -84,6 +85,7 @@ export function CraftingSkillsSection({
                   const name = def?.name || skill.rowName;
                   const statId = def?.statId;
                   const isParagon = def?.paragon;
+                  const statIsPercent = statId ? (STAT_REGISTRY[statId]?.isPercent ?? true) : true;
                   const enabled = isSkillEnabled(skill.rowName);
                   const effectiveLevel = getEffectiveLevel(skill.rowName, skill.level);
 
@@ -95,6 +97,7 @@ export function CraftingSkillsSection({
                       type={isParagon ? 'paragon' : (statId ? 'stat' : 'utility')}
                       statId={statId}
                       perLevel={isParagon}
+                      isPercent={statIsPercent}
                       enabled={enabled}
                       onToggle={() => onOverride(skill.rowName, { enabled: !enabled })}
                       userValue={skillValues[skill.rowName]}

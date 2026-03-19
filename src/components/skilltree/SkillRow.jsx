@@ -10,6 +10,7 @@ import { StatInput } from '../character/StatInput';
  * @param {string} props.type - Skill type badge (ability, stat, buff, paragon, utility)
  * @param {string} [props.statId] - Stat this skill contributes to
  * @param {boolean} [props.perLevel] - Whether value scales with level
+ * @param {boolean} [props.isPercent] - Whether stat value is a percentage (vs flat)
  * @param {boolean} props.enabled - Whether skill is active
  * @param {Function} props.onToggle - Toggle enabled state
  * @param {number} [props.userValue] - User-entered stat value
@@ -23,6 +24,7 @@ export function SkillRow({
   type,
   statId,
   perLevel,
+  isPercent = true,
   enabled,
   onToggle,
   userValue,
@@ -76,8 +78,8 @@ export function SkillRow({
             value={userValue || 0}
             onChange={onValueChange}
             min={0}
-            step={1}
-            isPercent
+            step={isPercent ? 1 : 10}
+            isPercent={isPercent}
             disabled={!enabled}
             placeholder="0"
           />

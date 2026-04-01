@@ -1036,6 +1036,20 @@ export const STAT_REGISTRY = {
     format: v => `+${(v * 100).toFixed(0)}%`,
     description: 'Increased loot drop chance',
   },
+  cooldownReduction: {
+    id: 'cooldownReduction',
+    name: 'Cooldown Reduction',
+    category: 'utility',
+    patterns: [
+      'CooldownReduction%',
+      'CooldownReduction%6',
+      'CooldownReduction',
+    ],
+    canonical: 'CooldownReduction%',
+    isPercent: true,
+    format: v => `+${(v * 100).toFixed(1)}%`,
+    description: 'Cooldown reduction for abilities',
+  },
 
   // ---------------------------------------------------------------------------
   // ABILITIES (display-only, not calculated in stat totals)

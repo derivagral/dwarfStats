@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '../common';
 import { CharacterPanel } from './CharacterPanel';
 
-export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
+export function CharacterTab({ saveData, itemStore, skillTreeStore, onClearSave, onLog }) {
   // Build characterData from itemStore (central source of truth)
   // Falls back to saveData for backward compatibility
   const characterData = itemStore?.hasItems ? {
@@ -16,6 +16,12 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     equippedItems: saveData.equippedItems || [],
     timestamp: saveData.timestamp,
   } : null;
+
+  // Attach skill tree effects if available
+  if (characterData && skillTreeStore?.isLoaded) {
+    characterData.skillTreeStats = skillTreeStore.effectiveSkillStats;
+    characterData.skillTreeConfigOverrides = skillTreeStore.skillConfigOverrides;
+  }
 
   return (
     <div className="tab-content active">

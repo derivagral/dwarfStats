@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
 import { parseStanceContext, parseAllocatedAttributes } from '../utils/stanceSkills';
+import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
  * Central store for all item data
@@ -56,6 +57,28 @@ export function useItemStore() {
       loadedAt: new Date().toISOString(),
       stanceContext,
       allocatedAttributes,
+    });
+  }, []);
+
+  /**
+   * Load equipped items from a decoded character share payload.
+   * Populates only the equipped list — inventory is left empty.
+   *
+   * @param {import('../models/CharacterShareModel').EquippedItemShare[]} itemShares
+   * @param {Object|null} [masteryData] - Decoded mastery data (stored in metadata for downstream use)
+   */
+  const loadFromShare = useCallback((itemShares, masteryData = null) => {
+    const equippedItems = (itemShares || []).map((share, i) => itemShareToItem(share, i));
+
+    setEquipped(equippedItems);
+    setInventory([]);
+    setTotalInventoryCount(0);
+    setMetadata({
+      filename: 'Shared Build',
+      loadedAt: new Date().toISOString(),
+      stanceContext: null,
+      allocatedAttributes: {},
+      sharedMastery: masteryData,
     });
   }, []);
 
@@ -211,6 +234,7 @@ export function useItemStore() {
 
     // Actions
     loadFromSave,
+    loadFromShare,
     clear,
   };
 }

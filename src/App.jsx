@@ -9,7 +9,8 @@ import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 import { useItemStore } from './hooks/useItemStore';
-import { parseShareFromHash, decodeFilterShare } from './utils/shareUrl';
+import { parseShareFromHash, decodeFilterShare, decodeCharacterShare } from './utils/shareUrl';
+import { masteryShareToData } from './models/CharacterShareModel';
 
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
@@ -69,6 +70,14 @@ export default function App() {
         setActiveTab('filter');
         log(`Loaded shared filter: "${decoded.name}"`);
       }
+    } else if (parsed.type === 'character') {
+      const decoded = decodeCharacterShare(parsed.data);
+      if (decoded) {
+        const masteryData = masteryShareToData(decoded.sk ?? null);
+        itemStore.loadFromShare(decoded.e ?? [], masteryData);
+        setActiveTab('character');
+        log('Loaded shared character build');
+      }
     }
 
     // Clean the hash from the URL
@@ -123,7 +132,7 @@ export default function App() {
           {activeTab === 'upload' && (
             <UploadTab onFileLoaded={handleFileLoaded} onLog={log} onStatusChange={handleStatusChange} />
           )}
-          {activeTab === 'character' && saveData && (
+          {activeTab === 'character' && (saveData || itemStore.hasItems) && (
             <CharacterTab
               saveData={saveData}
               itemStore={itemStore}

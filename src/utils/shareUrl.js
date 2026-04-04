@@ -153,3 +153,41 @@ export function parseShareFromHash(hash) {
 
   return { type, data };
 }
+
+/**
+ * Encode a CharacterSharePayload to a base64url string.
+ *
+ * @param {import('../models/CharacterShareModel').CharacterSharePayload} payload
+ * @returns {string} base64url-encoded string
+ */
+export function encodeCharacterShare(payload) {
+  return toBase64Url(JSON.stringify(payload));
+}
+
+/**
+ * Decode a base64url character share string back into a payload.
+ *
+ * @param {string} encoded - base64url string
+ * @returns {import('../models/CharacterShareModel').CharacterSharePayload|null}
+ */
+export function decodeCharacterShare(encoded) {
+  try {
+    const json = fromBase64Url(encoded);
+    const payload = JSON.parse(json);
+    if (!payload || typeof payload.v !== 'number' || payload.v > 1) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Build a full shareable URL for a character payload.
+ *
+ * @param {import('../models/CharacterShareModel').CharacterSharePayload} payload
+ * @param {string} [baseUrl] - Optional base URL override
+ * @returns {string} Full URL with #character= hash
+ */
+export function buildCharacterShareUrl(payload, baseUrl) {
+  return buildShareUrl('character', encodeCharacterShare(payload), baseUrl);
+}

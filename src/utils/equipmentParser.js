@@ -137,10 +137,20 @@ function determineSlot(itemRow, fallback = 'unknown') {
     return 'fossil';
   }
 
+  // Armor row names often include weapon-stance suffixes (e.g., _Mauls_GM4, _Spear_GM3)
+  // which would falsely match weapon keywords. When the row starts with "armor_",
+  // restrict to armor/accessory slot keywords only.
+  const isArmorRow = lowerRow.startsWith('armor_');
+  const weaponSlots = new Set(['weapon']);
+
   // Check each slot mapping
   for (const [keyword, slot] of Object.entries(SLOT_MAPPING)) {
     // Skip these vague keywords that need specific patterns above
     if (['fossil', 'artifact', 'ancient', 'heart'].includes(keyword)) {
+      continue;
+    }
+    // Skip weapon keywords for armor row names
+    if (isArmorRow && weaponSlots.has(slot)) {
       continue;
     }
     if (lowerRow.includes(keyword)) {

@@ -23,7 +23,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
         <div className="control-row" style={{ marginBottom: 0 }}>
           <div className="current-file-info">
             <span className="current-file-icon">📄</span>
-            <span className="current-file-name">{saveData?.filename}</span>
+            <span className="current-file-name">{characterData?.filename || saveData?.filename}</span>
           </div>
           <Button icon="📂" onClick={onClearSave}>
             Load Different File

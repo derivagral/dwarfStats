@@ -286,4 +286,151 @@ describe('shareUrl — character share encode/decode', () => {
     const url = buildCharacterShareUrl(payload, 'https://example.com/');
     expect(url).toMatch(/^https:\/\/example\.com\/#character=/);
   });
+
+  it('rejects future version payloads', () => {
+    // Simulate a payload from a future version
+    const futurePayload = btoa(JSON.stringify({ v: 99, e: [] }))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    expect(decodeCharacterShare(futurePayload)).toBeNull();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Edge cases: decimal precision, raw-tag stat names, real-world data
+// ---------------------------------------------------------------------------
+
+describe('CharacterShareModel — edge cases', () => {
+  it('preserves decimal stat values exactly through JSON round-trip', () => {
+    const item = {
+      id: 't', rowName: 'Head_Test', type: 'Head', displayName: 'Test',
+      slot: 'head', rarity: 0, tier: 0,
+      baseStats: [
+        { stat: 'armor', value: 197.5757 },
+        { stat: 'critChance', value: 0.31600076 },
+        { stat: 'health', value: 5810.91354 },
+      ],
+      monograms: [],
+      affixPools: { inherent: [], pool1: [], pool2: [], pool3: [] },
+    };
+    const share = createItemShare(item);
+    // Simulate full encode→decode cycle (JSON stringify/parse as URL would)
+    const cycled = JSON.parse(JSON.stringify(share));
+    const restored = itemShareToItem(cycled, 0);
+
+    expect(restored.baseStats[0].value).toBe(197.5757);
+    expect(restored.baseStats[1].value).toBe(0.31600076);
+    expect(restored.baseStats[2].value).toBe(5810.91354);
+  });
+
+  it('handles raw-tag stat names with % suffix (not in STAT_DICT)', () => {
+    // Game data has tags like "OneHandedCritcalChance%" which aren't in the
+    // stat registry (only the canonical "swordCritChance" is). These must
+    // survive as fallback strings, not be silently dropped.
+    const item = {
+      id: 't', rowName: 'Weapon_Test', type: 'Weapon', displayName: 'Test',
+      slot: 'weapon', rarity: 0, tier: 0,
+      baseStats: [
+        { stat: 'OneHandedCritcalChance%', value: 0.316 },
+        { stat: 'PoleArmCriticalDamage%', value: 3.09 },
+      ],
+      monograms: [],
+      affixPools: { inherent: [], pool1: [], pool2: [], pool3: [] },
+    };
+    const share = createItemShare(item);
+    // Unknown stats stored as strings in the tuple
+    expect(typeof share.bs[0][0]).toBe('string');
+    expect(share.bs[0][0]).toBe('OneHandedCritcalChance%');
+
+    const restored = itemShareToItem(share, 0);
+    expect(restored.baseStats[0].stat).toBe('OneHandedCritcalChance%');
+    expect(restored.baseStats[0].value).toBe(0.316);
+    expect(restored.baseStats[1].stat).toBe('PoleArmCriticalDamage%');
+  });
+
+  it('handles monograms with null, undefined, and numeric values', () => {
+    const item = {
+      id: 't', rowName: 'Ring_Test', type: 'Ring', displayName: 'Test',
+      slot: 'ring', rarity: 0, tier: 0,
+      baseStats: [],
+      monograms: [
+        { id: 'Bloodlust.Base', value: 1 },
+        { id: 'AllowPhasing', value: null },
+        { id: 'DarkEssence', value: undefined },
+      ],
+      affixPools: { inherent: [], pool1: [], pool2: [], pool3: [] },
+    };
+    const share = createItemShare(item);
+    const restored = itemShareToItem(JSON.parse(JSON.stringify(share)), 0);
+
+    expect(restored.monograms).toHaveLength(3);
+    expect(restored.monograms[0]).toEqual({ id: 'Bloodlust.Base', value: 1 });
+    expect(restored.monograms[1]).toEqual({ id: 'AllowPhasing', value: null });
+    expect(restored.monograms[2]).toEqual({ id: 'DarkEssence', value: null });
+  });
+
+  it('handles items with zero-length rowName gracefully', () => {
+    const item = {
+      id: 't', rowName: '', type: '', displayName: '',
+      slot: 'head', rarity: 0, tier: 0,
+      baseStats: [], monograms: [],
+      affixPools: { inherent: [], pool1: [], pool2: [], pool3: [] },
+    };
+    const share = createItemShare(item);
+    const restored = itemShareToItem(share, 0);
+    expect(restored.rowName).toBe('');
+    expect(restored.id).toBe('share-0-');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Real-world: full equipped set round-trip from fixture data
+// ---------------------------------------------------------------------------
+
+describe('CharacterShareModel — real-world fixture round-trip', () => {
+  // eslint-disable-next-line global-require
+  let equipped;
+  try {
+    const { extractEquippedItems } = require('../src/utils/equipmentParser.js');
+    const saveData = require('./fixtures/dr-full-inventory.json');
+    equipped = extractEquippedItems(saveData);
+  } catch {
+    equipped = null;
+  }
+
+  it('round-trips all equipped items from fixture', () => {
+    if (!equipped || equipped.length === 0) return; // skip if fixture missing
+
+    const payload = createCharacterSharePayload(equipped);
+    const encoded = encodeCharacterShare(payload);
+    const decoded = decodeCharacterShare(encoded);
+
+    expect(decoded.e).toHaveLength(equipped.length);
+
+    for (let i = 0; i < equipped.length; i++) {
+      const original = equipped[i];
+      const restored = itemShareToItem(decoded.e[i], i);
+
+      expect(restored.slot).toBe(original.slot);
+      expect(restored.rowName).toBe(original.rowName);
+      expect(restored.rarity).toBe(original.rarity);
+      expect(restored.baseStats.length).toBe(original.baseStats.length);
+      expect(restored.monograms.length).toBe(original.monograms.length);
+
+      // Verify every stat value is exactly preserved
+      for (let j = 0; j < original.baseStats.length; j++) {
+        expect(restored.baseStats[j].value).toBe(original.baseStats[j].value);
+      }
+    }
+  });
+
+  it('URL payload size is reasonable for full build share', () => {
+    if (!equipped || equipped.length === 0) return;
+
+    const payload = createCharacterSharePayload(equipped);
+    const encoded = encodeCharacterShare(payload);
+    // A full build URL should be under 8KB (well within browser URL limits)
+    expect(encoded.length).toBeLessThan(8192);
+    // Log actual size for visibility
+    console.log(`Full build payload size: ${encoded.length} chars (${equipped.length} items)`);
+  });
 });

@@ -113,11 +113,11 @@ export default function App() {
   }, [log, itemStore]);
 
   // Determine which tabs are disabled
-  const disabledTabs = itemStore.hasItems
-    ? []
-    : filterTabUnlocked
-      ? ['character', 'items']
-      : ['character', 'items', 'filter'];
+  const disabledTabs = [
+    ...(!itemStore.hasItems ? ['character'] : []),
+    ...(!saveData ? ['items'] : []),
+    ...(!saveData && !filterTabUnlocked ? ['filter'] : []),
+  ];
 
   return (
     <div className="app">

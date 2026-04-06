@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
-import { parseStanceContext, parseAllocatedAttributes } from '../utils/stanceSkills';
+import { parseStanceContext, parseAllocatedAttributes, convertMasteryToStanceContext } from '../utils/stanceSkills';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -76,7 +76,7 @@ export function useItemStore() {
     setMetadata({
       filename: 'Shared Build',
       loadedAt: new Date().toISOString(),
-      stanceContext: null,
+      stanceContext: convertMasteryToStanceContext(masteryData),
       allocatedAttributes: {},
       sharedMastery: masteryData,
     });

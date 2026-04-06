@@ -14,9 +14,10 @@ import {
 } from '../src/models/CharacterShareModel.js';
 import {
   encodeId, decodeId, encodeIdOrString, decodeIdOrString,
-  STAT_DICT, MONOGRAM_DICT, WEAPON_SKILL_DICT, KEYSTONE_DICT,
+  STAT_DICT, MONOGRAM_DICT, KEYSTONE_DICT,
   SLOT_DICT, WEAPON_TYPE_DICT,
 } from '../src/utils/shareCodec.js';
+import { convertMasteryToStanceContext } from '../src/utils/stanceSkills.js';
 
 // ---------------------------------------------------------------------------
 // Codec
@@ -59,7 +60,6 @@ describe('shareCodec', () => {
   it('all dictionaries are non-empty', () => {
     expect(STAT_DICT.length).toBeGreaterThan(0);
     expect(MONOGRAM_DICT.length).toBeGreaterThan(0);
-    expect(WEAPON_SKILL_DICT.length).toBeGreaterThan(0);
     expect(KEYSTONE_DICT.length).toBeGreaterThan(0);
     expect(SLOT_DICT.length).toBeGreaterThan(0);
     expect(WEAPON_TYPE_DICT.length).toBeGreaterThan(0);
@@ -141,55 +141,116 @@ describe('CharacterShareModel — item round-trip', () => {
 });
 
 // ---------------------------------------------------------------------------
-// createMasteryShare / masteryShareToData round-trip
+// createMasteryShare / masteryShareToData / convertMasteryToStanceContext
 // ---------------------------------------------------------------------------
 
 describe('CharacterShareModel — mastery round-trip', () => {
-  const sampleSkillTree = {
-    weaponStances: {
+  const sampleStanceContext = {
+    stances: {
       spear: {
-        skills: [
-          { rowName: 'SpearsQ', level: 1 },
-          { rowName: 'SpearsDamage', level: 5 },
-        ],
+        id: 'spear', damageStatId: 'spearDamage',
+        keystoneMonogramId: 'Bloodlust.Base', monogramFamily: 'melee',
+        totalSkill: 15000, keystoneUnlocked: true, mastery: 28,
       },
     },
-    keystones: ['closeDistance', 'meleeMasteryDamage'],
+    activeStanceId: 'spear',
+    activeStance: {
+      id: 'spear', damageStatId: 'spearDamage',
+      keystoneMonogramId: 'Bloodlust.Base', monogramFamily: 'melee',
+      totalSkill: 15000, keystoneUnlocked: true, mastery: 28,
+    },
   };
 
-  it('round-trips weapon type and skills', () => {
-    const share = createMasteryShare(sampleSkillTree);
-    const restored = masteryShareToData(share);
-
-    expect(restored.weaponType).toBe('spear');
-    expect(restored.weaponSkills).toHaveLength(2);
-    expect(restored.weaponSkills[0]).toEqual({ rowName: 'SpearsQ', level: 1 });
-    expect(restored.weaponSkills[1]).toEqual({ rowName: 'SpearsDamage', level: 5 });
+  it('encodes weaponType, keystoneUnlocked, and paragonLevel', () => {
+    const share = createMasteryShare(sampleStanceContext);
+    expect(share).not.toBeNull();
+    expect(share.wt).toBe(WEAPON_TYPE_DICT.indexOf('spear'));
+    expect(share.ku).toBe(1);
+    expect(share.pl).toBe(28);
   });
 
-  it('round-trips keystones', () => {
-    const share = createMasteryShare(sampleSkillTree);
-    const restored = masteryShareToData(share);
-
-    expect(restored.keystones).toEqual(['closeDistance', 'meleeMasteryDamage']);
+  it('omits ku when keystone not unlocked', () => {
+    const noKeystone = { activeStance: { ...sampleStanceContext.activeStance, keystoneUnlocked: false } };
+    const share = createMasteryShare(noKeystone);
+    expect(share.ku).toBeUndefined();
   });
 
-  it('returns null for null input', () => {
+  it('omits pl when mastery is zero', () => {
+    const zeroMastery = { activeStance: { ...sampleStanceContext.activeStance, mastery: 0 } };
+    const share = createMasteryShare(zeroMastery);
+    expect(share.pl).toBeUndefined();
+  });
+
+  it('returns null for null or missing activeStance', () => {
     expect(createMasteryShare(null)).toBeNull();
+    expect(createMasteryShare({})).toBeNull();
+    expect(createMasteryShare({ activeStance: null })).toBeNull();
+  });
+
+  it('masteryShareToData decodes all fields', () => {
+    const share = createMasteryShare(sampleStanceContext);
+    const decoded = masteryShareToData(share);
+
+    expect(decoded.weaponType).toBe('spear');
+    expect(decoded.keystoneUnlocked).toBe(true);
+    expect(decoded.paragonLevel).toBe(28);
+  });
+
+  it('masteryShareToData defaults keystoneUnlocked to false and paragonLevel to 0', () => {
+    const minimalShare = { wt: WEAPON_TYPE_DICT.indexOf('sword') };
+    const decoded = masteryShareToData(minimalShare);
+    expect(decoded.keystoneUnlocked).toBe(false);
+    expect(decoded.paragonLevel).toBe(0);
+  });
+
+  it('masteryShareToData returns null for null input', () => {
     expect(masteryShareToData(null)).toBeNull();
   });
+});
 
-  it('preserves unknown skill rowNames as strings', () => {
-    const withFutureSkill = {
-      weaponStances: {
-        spear: {
-          skills: [{ rowName: 'FutureSpearSkill_99', level: 3 }],
-        },
+// ---------------------------------------------------------------------------
+// convertMasteryToStanceContext
+// ---------------------------------------------------------------------------
+
+describe('convertMasteryToStanceContext', () => {
+  it('reconstructs a valid stanceContext from masteryData', () => {
+    const masteryData = { weaponType: 'spear', keystoneUnlocked: true, paragonLevel: 42 };
+    const ctx = convertMasteryToStanceContext(masteryData);
+
+    expect(ctx).not.toBeNull();
+    expect(ctx.activeStanceId).toBe('spear');
+    expect(ctx.activeStance.id).toBe('spear');
+    expect(ctx.activeStance.damageStatId).toBe('spearDamage');
+    expect(ctx.activeStance.keystoneMonogramId).toBe('Bloodlust.Base');
+    expect(ctx.activeStance.keystoneUnlocked).toBe(true);
+    expect(ctx.activeStance.mastery).toBe(42);
+    expect(ctx.stances.spear).toBe(ctx.activeStance);
+  });
+
+  it('returns null for null or missing weaponType', () => {
+    expect(convertMasteryToStanceContext(null)).toBeNull();
+    expect(convertMasteryToStanceContext({})).toBeNull();
+    expect(convertMasteryToStanceContext({ weaponType: null })).toBeNull();
+    expect(convertMasteryToStanceContext({ weaponType: 'unknownWeapon999' })).toBeNull();
+  });
+
+  it('full round-trip: stanceContext → share → decode → stanceContext', () => {
+    const original = {
+      activeStance: {
+        id: 'sword', damageStatId: 'swordDamage',
+        keystoneMonogramId: 'Shroud', monogramFamily: 'melee',
+        totalSkill: 6000, keystoneUnlocked: true, mastery: 3,
       },
     };
-    const share = createMasteryShare(withFutureSkill);
-    const restored = masteryShareToData(share);
-    expect(restored.weaponSkills[0].rowName).toBe('FutureSpearSkill_99');
+    const share = createMasteryShare(original);
+    const decoded = masteryShareToData(share);
+    const restored = convertMasteryToStanceContext(decoded);
+
+    expect(restored.activeStance.id).toBe('sword');
+    expect(restored.activeStance.keystoneUnlocked).toBe(true);
+    expect(restored.activeStance.mastery).toBe(3);
+    expect(restored.activeStance.damageStatId).toBe('swordDamage');
+    expect(restored.activeStance.keystoneMonogramId).toBe('Shroud');
   });
 });
 
@@ -217,10 +278,11 @@ describe('shareUrl — character share encode/decode', () => {
         },
       ],
       {
-        weaponStances: {
-          spear: { skills: [{ rowName: 'SpearsQ', level: 1 }] },
+        activeStance: {
+          id: 'spear', damageStatId: 'spearDamage',
+          keystoneMonogramId: 'Bloodlust.Base',
+          keystoneUnlocked: true, mastery: 10,
         },
-        keystones: ['farDistance'],
       }
     );
 
@@ -242,7 +304,8 @@ describe('shareUrl — character share encode/decode', () => {
 
     const mastery = masteryShareToData(decoded.sk);
     expect(mastery.weaponType).toBe('spear');
-    expect(mastery.keystones).toContain('farDistance');
+    expect(mastery.keystoneUnlocked).toBe(true);
+    expect(mastery.paragonLevel).toBe(10);
   });
 
   it('round-trips an items-only payload (no mastery)', () => {

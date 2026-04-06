@@ -14,7 +14,7 @@
  */
 
 import {
-  STAT_DICT, MONOGRAM_DICT, WEAPON_SKILL_DICT, KEYSTONE_DICT,
+  STAT_DICT, MONOGRAM_DICT,
   SLOT_DICT, WEAPON_TYPE_DICT,
   encodeIdOrString, decodeIdOrString,
 } from '../utils/shareCodec.js';
@@ -39,11 +39,11 @@ export const CHARACTER_SHARE_VERSION = 1;
 
 /**
  * Compact mastery snapshot for URL sharing.
- * V1 scope: active weapon type, weapon stance skill levels, main-tree keystones.
+ * V1 scope: active weapon type, stance keystone status, paragon level.
  * @typedef {Object} MasteryShare
  * @property {number|string} wt - Weapon type (WEAPON_TYPE_DICT index or fallback string)
- * @property {Array<[number|string, number]>} [ws] - Weapon skills [[skillEnc, level], ...]
- * @property {Array<number|string>} [ks] - Active keystone IDs [keystoneEnc, ...]
+ * @property {1} [ku] - Keystone unlocked flag (omitted if false)
+ * @property {number} [pl] - Paragon level / mastery level (omitted if 0)
  */
 
 /**
@@ -91,66 +91,38 @@ export function createItemShare(item) {
 }
 
 /**
- * Convert SkillTreeData to compact mastery share form.
- * Selects the weapon stance with the most allocated skills as the active one.
+ * Convert a stanceContext to compact mastery share form.
+ * Encodes the active weapon type, stance keystone status, and paragon level.
+ * These are the fields actually consumed by useDerivedStats on load.
  *
- * @param {import('./SkillTree').SkillTreeData|null} skillTreeData
+ * @param {{ activeStance: { id: string, mastery: number, keystoneUnlocked: boolean } }|null} stanceContext
  * @returns {MasteryShare|null}
  */
-export function createMasteryShare(skillTreeData) {
-  if (!skillTreeData) return null;
+export function createMasteryShare(stanceContext) {
+  const activeStance = stanceContext?.activeStance;
+  if (!activeStance?.id) return null;
 
-  const stances = skillTreeData.weaponStances || {};
-
-  // Pick the stance with the most skills as the active weapon type
-  const weaponType = Object.keys(stances).reduce(
-    (best, type) => {
-      const count = stances[type]?.skills?.length ?? 0;
-      return count > (stances[best]?.skills?.length ?? 0) ? type : best;
-    },
-    null
-  );
-
-  // Nothing to encode if no weapon stance and no keystones
-  const hasKeystones = skillTreeData.keystones?.length > 0;
-  if (!weaponType && !hasKeystones) return null;
-
-  const mastery = {
-    wt: encodeIdOrString(WEAPON_TYPE_DICT, weaponType || ''),
-  };
-
-  const activeStance = weaponType ? stances[weaponType] : null;
-  if (activeStance?.skills?.length > 0) {
-    mastery.ws = activeStance.skills.map(skill => [
-      encodeIdOrString(WEAPON_SKILL_DICT, skill.rowName),
-      skill.level,
-    ]);
-  }
-
-  if (hasKeystones) {
-    mastery.ks = skillTreeData.keystones.map(k =>
-      encodeIdOrString(KEYSTONE_DICT, typeof k === 'string' ? k : k.id)
-    );
-  }
-
-  return mastery;
+  const share = { wt: encodeIdOrString(WEAPON_TYPE_DICT, activeStance.id) };
+  if (activeStance.keystoneUnlocked) share.ku = 1;
+  if (activeStance.mastery > 0) share.pl = activeStance.mastery;
+  return share;
 }
 
 /**
- * Build a full character share payload from equipped items and optional mastery data.
+ * Build a full character share payload from equipped items and optional stanceContext.
  *
  * @param {import('./Item').Item[]} equippedItems
- * @param {import('./SkillTree').SkillTreeData|null} [skillTreeData]
+ * @param {{ activeStance: object }|null} [stanceContext]
  * @returns {CharacterSharePayload}
  */
-export function createCharacterSharePayload(equippedItems, skillTreeData = null) {
+export function createCharacterSharePayload(equippedItems, stanceContext = null) {
   const payload = { v: CHARACTER_SHARE_VERSION };
 
   if (equippedItems && equippedItems.length > 0) {
     payload.e = equippedItems.map(createItemShare);
   }
 
-  const mastery = createMasteryShare(skillTreeData);
+  const mastery = createMasteryShare(stanceContext);
   if (mastery) payload.sk = mastery;
 
   return payload;
@@ -228,10 +200,11 @@ export function itemShareToItem(share, index) {
 }
 
 /**
- * Reconstruct decoded mastery state from a MasteryShare.
+ * Reconstruct mastery state from a decoded MasteryShare.
+ * Returns the fields needed to reconstruct a stanceContext via convertMasteryToStanceContext.
  *
  * @param {MasteryShare|null} share
- * @returns {{ weaponType: string|null, weaponSkills: Array, keystones: string[] }|null}
+ * @returns {{ weaponType: string|null, keystoneUnlocked: boolean, paragonLevel: number }|null}
  */
 export function masteryShareToData(share) {
   if (!share) return null;
@@ -240,14 +213,9 @@ export function masteryShareToData(share) {
     ? decodeIdOrString(WEAPON_TYPE_DICT, share.wt) || null
     : null;
 
-  const weaponSkills = (share.ws || []).map(([enc, level]) => ({
-    rowName: decodeIdOrString(WEAPON_SKILL_DICT, enc) || String(enc),
-    level,
-  }));
-
-  const keystones = (share.ks || []).map(enc =>
-    decodeIdOrString(KEYSTONE_DICT, enc) || String(enc)
-  );
-
-  return { weaponType, weaponSkills, keystones };
+  return {
+    weaponType,
+    keystoneUnlocked: !!share.ku,
+    paragonLevel: share.pl || 0,
+  };
 }

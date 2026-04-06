@@ -11,7 +11,7 @@ const SKILL_KEY_TO_STANCE = {
   ScytheSkill: 'scythe',
 };
 
-const STANCE_DEFS = {
+export const STANCE_DEFS = {
   spear: {
     id: 'spear',
     name: 'Spear',
@@ -219,4 +219,29 @@ export function parseAllocatedAttributes(saveData) {
   return result;
 }
 
-export { STANCE_DEFS };
+/**
+ * Reconstruct a stanceContext from decoded share mastery data.
+ * Used by loadFromShare so useDerivedStats gets proper stance/mastery effects
+ * even when no save file is loaded.
+ *
+ * @param {{ weaponType: string|null, keystoneUnlocked: boolean, paragonLevel: number }|null} masteryData
+ * @returns {{ stances: object, activeStanceId: string, activeStance: object }|null}
+ */
+export function convertMasteryToStanceContext(masteryData) {
+  if (!masteryData?.weaponType) return null;
+  const def = STANCE_DEFS[masteryData.weaponType];
+  if (!def) return null;
+
+  const activeStance = {
+    ...def,
+    totalSkill: 0,
+    mastery: masteryData.paragonLevel || 0,
+    keystoneUnlocked: masteryData.keystoneUnlocked || false,
+  };
+
+  return {
+    stances: { [def.id]: activeStance },
+    activeStanceId: def.id,
+    activeStance,
+  };
+}

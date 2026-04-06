@@ -121,7 +121,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <h1>Dwarf Stats</h1>
+      <h1>[ALPHA] Dwarf Stats</h1>
 
       <StatusBar status={status} statusType={statusType} platform={platform} />
 

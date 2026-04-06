@@ -258,6 +258,19 @@ export const STAT_REGISTRY = {
     format: v => `+${(v * 100).toFixed(0)}%`,
     description: 'Damage Bonus',
   },
+  damageMultiplier: {
+    id: 'damageMultiplier',
+    name: 'Damage Multiplier',
+    category: 'offense',
+    patterns: [
+      'DamageMultiplier',
+    ],
+    canonical: 'DamageMultiplier',
+    isPercent: true,
+    format: v => `+${(v * 100).toFixed(0)}%`,
+    description: 'Generic damage multiplier (ability-specific variant unknown)',
+    displayOnly: true,
+  },
   critChance: {
     id: 'critChance',
     name: 'Critical Chance',

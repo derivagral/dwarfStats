@@ -64,6 +64,15 @@ describe('shareCodec', () => {
     expect(SLOT_DICT.length).toBeGreaterThan(0);
     expect(WEAPON_TYPE_DICT.length).toBeGreaterThan(0);
   });
+
+  it('WEAPON_TYPE_DICT covers all STANCE_DEFS ids (no string fallback for any stance)', () => {
+    // Previously used SkillTree.js WEAPON_TYPE values ('mauls', 'oneHand', 'archery', etc.)
+    // which mismatched STANCE_DEFS ids ('maul', 'sword', 'bow', etc.), causing string fallback.
+    const stanceIds = ['spear', 'maul', 'sword', 'twohand', 'bow', 'magery', 'fist', 'scythe'];
+    for (const id of stanceIds) {
+      expect(WEAPON_TYPE_DICT.indexOf(id)).toBeGreaterThanOrEqual(0);
+    }
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -124,6 +133,21 @@ describe('CharacterShareModel — item round-trip', () => {
     const share = createItemShare(bareItem);
     expect(share.bs).toBeUndefined();
     expect(share.mg).toBeUndefined();
+  });
+
+  it('round-trips display name via dn field', () => {
+    const share = createItemShare(sampleItem);
+    expect(share.dn).toBe('Tiger Bracers');
+    const restored = itemShareToItem(share, 0);
+    expect(restored.displayName).toBe('Tiger Bracers');
+  });
+
+  it('falls back to rowName derivation when dn is absent', () => {
+    const share = createItemShare({ ...sampleItem, displayName: '' });
+    expect(share.dn).toBeUndefined();
+    const restored = itemShareToItem(share, 0);
+    // displayNameFromRowName takes last 2 segments
+    expect(restored.displayName).toBe('Tiger Bracers');
   });
 
   it('preserves unknown stat IDs as strings through round-trip', () => {

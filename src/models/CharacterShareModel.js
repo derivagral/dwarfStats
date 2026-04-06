@@ -31,6 +31,7 @@ export const CHARACTER_SHARE_VERSION = 1;
  * @typedef {Object} EquippedItemShare
  * @property {number|string} sl - Slot (SLOT_DICT index or fallback string)
  * @property {string} rn - Row name (kept as string; too many to enumerate)
+ * @property {string} [dn] - Display name from save file (omitted if empty)
  * @property {number} [ra] - Rarity 0-4 (omitted if 0)
  * @property {number} [ti] - Tier (omitted if 0)
  * @property {Array<[number|string, number|null]>} [bs] - Base stats [[statEnc, value], ...]
@@ -70,6 +71,7 @@ export function createItemShare(item) {
     rn: item.rowName || '',
   };
 
+  if (item.displayName) share.dn = item.displayName;
   if (item.rarity) share.ra = item.rarity;
   if (item.tier) share.ti = item.tier;
 
@@ -190,7 +192,7 @@ export function itemShareToItem(share, index) {
     id: `share-${index}-${rowName}`,
     rowName,
     type: typeFromRowName(rowName),
-    displayName: displayNameFromRowName(rowName),
+    displayName: share.dn || displayNameFromRowName(rowName),
     slot,
     rarity: share.ra || 0,
     tier: share.ti || 0,

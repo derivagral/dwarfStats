@@ -17,7 +17,6 @@
 import { STAT_REGISTRY } from './statRegistry.js';
 import { MONOGRAM_REGISTRY } from './monogramRegistry.js';
 import { WEAPON_SKILL_REGISTRY, TREE_KEYSTONES } from './skillTreeRegistry.js';
-import { WEAPON_TYPE } from '../models/SkillTree.js';
 
 export const CODEC_VERSION = 1;
 
@@ -58,10 +57,15 @@ export const SLOT_DICT = Object.freeze([
 ]);
 
 /**
- * Weapon type values — ordered by insertion in WEAPON_TYPE enum (append-only)
+ * Weapon stance IDs — must match STANCE_DEFS keys in stanceSkills.js (append-only).
+ * Hard-coded to avoid a circular import through CharacterShareModel.
+ * These are the IDs used in stanceContext.activeStance.id, NOT the SkillTree WEAPON_TYPE enum
+ * values (which use different names: 'mauls', 'oneHand', 'archery', etc.).
  * @type {readonly string[]}
  */
-export const WEAPON_TYPE_DICT = Object.freeze(Object.values(WEAPON_TYPE));
+export const WEAPON_TYPE_DICT = Object.freeze([
+  'spear', 'maul', 'sword', 'twohand', 'bow', 'magery', 'fist', 'scythe',
+]);
 
 /**
  * Encode a string ID to its integer index in the given dictionary.

@@ -47,7 +47,8 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | File upload/processing | `src/hooks/useFileProcessor.js`, `src/utils/wasm.js` |
 | Item filtering logic | `src/utils/dwarfFilter.js`, `src/utils/itemFilter.js` |
 | Affix list for filters | `src/utils/affixList.js` |
-| URL sharing / encoding | `src/utils/shareUrl.js` |
+| URL sharing / encoding | `src/utils/shareUrl.js`, `src/utils/shareCodec.js` |
+| Character data sharing | `src/models/CharacterShareModel.js` |
 | Item data model | `src/models/Item.js`, `src/models/itemTransformer.js` |
 | Central item store | `src/hooks/useItemStore.js` |
 | Monogram/modifier registry | `src/utils/monogramRegistry.js` |
@@ -328,7 +329,8 @@ npm run test:coverage  # With coverage report
 - `test/derivedStats.test.js` - Calculation engine tests
 - `test/itemFilter.test.js` - Item filtering/scoring tests
 - `test/itemTransformer.test.js` - Save file parsing tests
-- `test/shareUrl.test.js` - URL sharing encode/decode tests
+- `test/shareUrl.test.js` - URL sharing encode/decode tests (filter)
+- `test/characterShare.test.js` - Character sharing codec/round-trip tests
 - `test/skillTreeParser.test.js` - Skill tree parsing/registry tests
 
 ### Key Testable Modules
@@ -337,7 +339,9 @@ npm run test:coverage  # With coverage report
 | `derivedStats.js` | `calculateDerivedStats()`, `getCalculationOrder()` | Layer-based calculations |
 | `itemFilter.js` | `filterInventoryItems()`, `scoreItemPools()` | Pattern matching |
 | `itemTransformer.js` | `transformItem()`, `transformAllItems()` | Save file parsing |
-| `shareUrl.js` | `encodeFilterShare()`, `decodeFilterShare()`, `parseShareFromHash()` | URL sharing |
+| `shareUrl.js` | `encodeFilterShare()`, `decodeFilterShare()`, `encodeCharacterShare()`, `decodeCharacterShare()` | URL sharing |
+| `shareCodec.js` | `encodeIdOrString()`, `decodeIdOrString()` | Dictionary compression |
+| `CharacterShareModel.js` | `createItemShare()`, `itemShareToItem()`, `createCharacterSharePayload()` | Character data round-trip |
 | `skillTreeParser.js` | `extractSkillTree()`, `categorizeSkill()` | Skill tree extraction |
 | `skillTreeRegistry.js` | `getWeaponSkillDef()`, `getCraftingSkillDef()`, `getCardDef()` | Skill/card/keystone lookups |
 
@@ -352,16 +356,34 @@ Located in `test/fixtures/`:
 
 ## URL Sharing
 
-Hash-based URL sharing for filter profiles (extensible to other share types).
+Hash-based URL sharing for filter profiles and character builds.
 
 ### Format
 ```
 https://derivagral.github.io/dwarfStats/#filter=<base64url-encoded-json>
+https://derivagral.github.io/dwarfStats/#character=<base64url-encoded-json>
 ```
 
-Each share type uses a separate hash key (`filter`, `character` in future), decoded independently in `App.jsx`.
+Each share type uses a separate hash key, decoded independently in `App.jsx` mount effect.
 
-### Compact Encoding
+### Share Codec (`src/utils/shareCodec.js`)
+
+String↔integer dictionary module that compresses known IDs to array indices for shorter URLs.
+Dictionaries are built from existing registries at import time:
+
+| Dictionary | Source Registry | Count |
+|-----------|----------------|-------|
+| `STAT_DICT` | `STAT_REGISTRY` (statRegistry.js) | ~88 |
+| `MONOGRAM_DICT` | `MONOGRAM_REGISTRY` (monogramRegistry.js) | ~175 |
+| `WEAPON_SKILL_DICT` | `WEAPON_SKILL_REGISTRY` (skillTreeRegistry.js) | ~94 |
+| `KEYSTONE_DICT` | `TREE_KEYSTONES` (skillTreeRegistry.js) | ~14 |
+| `SLOT_DICT` | Hard-coded (13 slots) | 13 |
+| `WEAPON_TYPE_DICT` | `WEAPON_TYPE` (SkillTree.js) | 8 |
+
+**Backwards compatibility:** Dictionary order = encoding. Source registries must be append-only (never reorder). `CODEC_VERSION` tracks breaking changes. Unknown IDs fall back to string storage for forward compatibility with new game content.
+
+### Filter Share Encoding
+
 `src/utils/shareUrl.js` encodes FilterModel into compact JSON with short keys, then base64url-encodes it:
 
 ```json
@@ -376,10 +398,51 @@ Each share type uses a separate hash key (`filter`, `character` in future), deco
 
 Options keys: `h`=minHitsPerPool, `c`=closeMinTotal, `w`=includeWeapons, `t`=minTotalMonograms.
 
+### Character Share Encoding
+
+`src/models/CharacterShareModel.js` converts equipped items + optional mastery data into a compact payload. Stat/monogram IDs are compressed to integers via `shareCodec.js`:
+
+```json
+{
+  "v": 1,                                          // schema version
+  "e": [                                           // equipped items
+    {
+      "sl": 0,                                     // slot (SLOT_DICT index)
+      "rn": "Armor_Head_Zone_4_Tiger_Helm",        // row name (string, too many to enumerate)
+      "ra": 3,                                     // rarity (omitted if 0)
+      "ti": 42,                                    // tier (omitted if 0)
+      "bs": [[0, 197.57], [16, 0.316]],            // baseStats [[statEnc, value], ...]
+      "mg": [[7, 1]]                               // monograms [[monogramEnc, value], ...]
+    }
+  ],
+  "sk": {                                          // mastery snapshot (omitted if none)
+    "wt": 0,                                       // weapon type (WEAPON_TYPE_DICT index)
+    "ws": [[0, 1], [8, 5]],                        // weapon skills [[skillEnc, level], ...]
+    "ks": [0, 2]                                   // keystones [keystoneEnc, ...]
+  }
+}
+```
+
+**Stat values:** Raw decimals from save file. Percentages are stored as decimals (0.316 = 31.6%). Flat stats as-is (Armor = 197.57). No conversion — `useDerivedStats` already handles the raw format.
+
+**URL size:** Full 17-item build ≈ 5,800 chars. Well within browser URL limits (~8KB safe, 2KB+ for older systems).
+
 ### Flow
-- **Share**: FilterConfig "Share" button → `encodeFilterShare()` → `buildShareUrl()` → clipboard
-- **Load**: App mount → `parseShareFromHash()` → `decodeFilterShare()` → passed to FilterTab as `sharedFilterModel` prop → consumed once, config panel auto-opens
+- **Filter Share**: FilterConfig "Share" button → `encodeFilterShare()` → `buildShareUrl('filter', ...)` → clipboard
+- **Filter Load**: App mount → `parseShareFromHash()` → `decodeFilterShare()` → passed to FilterTab as `sharedFilterModel` prop → consumed once, config panel auto-opens
+- **Character Share**: (UI button TBD) → `createCharacterSharePayload()` → `encodeCharacterShare()` → `buildCharacterShareUrl()` → clipboard
+- **Character Load**: App mount → `parseShareFromHash()` → `decodeCharacterShare()` → `itemStore.loadFromShare()` → navigates to Character tab
 - When a shared filter is loaded without save data, the Filter tab is enabled so users can see the configuration before uploading a save
+- When a shared character is loaded, only Character and Stats tabs are enabled (no inventory/filter data)
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `src/utils/shareCodec.js` | String↔int dictionaries, `encodeIdOrString`/`decodeIdOrString` |
+| `src/models/CharacterShareModel.js` | `createItemShare`, `itemShareToItem`, `createMasteryShare`, `masteryShareToData`, `createCharacterSharePayload` |
+| `src/utils/shareUrl.js` | `encodeCharacterShare`, `decodeCharacterShare`, `buildCharacterShareUrl`, plus existing filter functions |
+| `src/hooks/useItemStore.js` | `loadFromShare(itemShares, masteryData)` — populates store from decoded share |
 
 ### Adding a new share type
 1. Add encode/decode functions to `src/utils/shareUrl.js`

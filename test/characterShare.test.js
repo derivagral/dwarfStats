@@ -112,9 +112,9 @@ describe('CharacterShareModel — item round-trip', () => {
     expect(restored.tier).toBe(42);
 
     expect(restored.baseStats).toHaveLength(3);
-    expect(restored.baseStats[0]).toEqual({ stat: 'strength', value: 25 });
-    expect(restored.baseStats[1]).toEqual({ stat: 'critChance', value: 15 });
-    expect(restored.baseStats[2]).toEqual({ stat: 'armor', value: 200 });
+    expect(restored.baseStats[0]).toEqual({ stat: 'strength', value: 25, rawTag: 'Characteristics.Strength' });
+    expect(restored.baseStats[1]).toEqual({ stat: 'critChance', value: 15, rawTag: 'CriticalChance' });
+    expect(restored.baseStats[2]).toEqual({ stat: 'armor', value: 200, rawTag: 'Armor' });
 
     expect(restored.monograms).toHaveLength(2);
     expect(restored.monograms[0]).toEqual({ id: 'Bloodlust.Base', value: 1 });

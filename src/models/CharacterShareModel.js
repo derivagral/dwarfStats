@@ -18,6 +18,7 @@ import {
   SLOT_DICT, WEAPON_TYPE_DICT,
   encodeIdOrString, decodeIdOrString,
 } from '../utils/shareCodec.js';
+import { findStatForAttribute, getStatById } from '../utils/statRegistry.js';
 import { createEmptyItem } from './Item.js';
 
 export const CHARACTER_SHARE_VERSION = 1;
@@ -76,10 +77,16 @@ export function createItemShare(item) {
   if (item.tier) share.ti = item.tier;
 
   if (item.baseStats && item.baseStats.length > 0) {
-    share.bs = item.baseStats.map(s => [
-      encodeIdOrString(STAT_DICT, s.stat),
-      s.value ?? null,
-    ]);
+    share.bs = item.baseStats.map(s => {
+      // Resolve to registry ID via rawTag for ability-specific stats
+      // (e.g. rawTag "EasyRPG...EnemyDeath.DamageMultiplier" → registry ID "enemyDeathDamage")
+      const registryEntry = s.rawTag ? findStatForAttribute(s.rawTag) : null;
+      const statKey = registryEntry ? registryEntry.id : s.stat;
+      return [
+        encodeIdOrString(STAT_DICT, statKey),
+        s.value ?? null,
+      ];
+    });
   }
 
   if (item.monograms && item.monograms.length > 0) {
@@ -177,10 +184,15 @@ export function itemShareToItem(share, index) {
   const slot = decodeIdOrString(SLOT_DICT, share.sl) || 'unknown';
   const rowName = share.rn || '';
 
-  const baseStats = (share.bs || []).map(([enc, value]) => ({
-    stat: decodeIdOrString(STAT_DICT, enc) || String(enc),
-    value: value ?? null,
-  }));
+  const baseStats = (share.bs || []).map(([enc, value]) => {
+    const statId = decodeIdOrString(STAT_DICT, enc) || String(enc);
+    const registryEntry = getStatById(statId);
+    return {
+      stat: statId,
+      value: value ?? null,
+      rawTag: registryEntry?.canonical || statId,
+    };
+  });
 
   const monograms = (share.mg || []).map(([enc, value]) => ({
     id: decodeIdOrString(MONOGRAM_DICT, enc) || String(enc),

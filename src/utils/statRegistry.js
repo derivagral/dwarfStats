@@ -546,7 +546,7 @@ export const STAT_REGISTRY = {
 
   swordDamage: {
     id: 'swordDamage',
-    name: 'One-Handed Damage',
+    name: 'Swords Damage',
     category: 'stance',
     patterns: [
       'Damage.OneHanded%6',
@@ -561,11 +561,11 @@ export const STAT_REGISTRY = {
     canonical: 'Damage.OneHanded%6',
     isPercent: true,
     format: v => `+${(v * 100).toFixed(0)}%`,
-    description: 'Sword/One-Handed damage bonus',
+    description: 'Swords damage bonus',
   },
   swordCritDamage: {
     id: 'swordCritDamage',
-    name: 'One-Handed Critical Damage',
+    name: 'Swords Critical Damage',
     category: 'stance',
     patterns: [
       'Damage.OneHandCritcalDamage%6',  // Game typo: "Critcal" not "Critical"
@@ -584,11 +584,11 @@ export const STAT_REGISTRY = {
     canonical: 'Damage.OneHandCritcalDamage%6',
     isPercent: true,
     format: v => `+${(v * 100).toFixed(0)}%`,
-    description: 'Sword critical damage bonus',
+    description: 'Swords critical damage bonus',
   },
   swordCritChance: {
     id: 'swordCritChance',
-    name: 'One-Handed Critical Chance',
+    name: 'Swords Critical Chance',
     category: 'stance',
     patterns: [
       'Damage.OneHandedCritcalChance%6',  // Game typo: "Critcal" not "Critical"
@@ -607,7 +607,7 @@ export const STAT_REGISTRY = {
     canonical: 'Damage.OneHandedCritcalChance%6',
     isPercent: true,
     format: v => `${(v * 100).toFixed(1)}%`,
-    description: 'Sword critical chance bonus',
+    description: 'Swords critical chance bonus',
   },
 
   spearDamage: {
@@ -631,7 +631,7 @@ export const STAT_REGISTRY = {
   },
   spearCritDamage: {
     id: 'spearCritDamage',
-    name: 'Polearm Critical Damage',
+    name: 'Spear Critical Damage',
     category: 'stance',
     patterns: [
       'Damage.SpearCritcalDamage%6',  // Game typo: "Critcal" not "Critical"
@@ -643,8 +643,6 @@ export const STAT_REGISTRY = {
       'SpearCriticalDamage%6',
       'SpearCriticalDamage%',
       'SpearCritDamage',
-      'Damage.Spear%6',
-      'Spear%',
     ],
     canonical: 'Damage.SpearCritcalDamage%6',
     isPercent: true,
@@ -653,7 +651,7 @@ export const STAT_REGISTRY = {
   },
   spearCritChance: {
     id: 'spearCritChance',
-    name: 'Polearm Critical Chance',
+    name: 'Spear Critical Chance',
     category: 'stance',
     patterns: [
       'Damage.SpearCritcalChance%6',  // Game typo: "Critcal" not "Critical"
@@ -1614,7 +1612,24 @@ export function warnUnknownAttribute(attributeName) {
   }
 }
 
+/**
+ * Generate pattern → format function map from registry
+ * Parallel to DISPLAY_MAP but for value formatting
+ */
+export function generateFormatMap() {
+  const formatMap = {};
+  for (const stat of Object.values(STAT_REGISTRY)) {
+    if (stat.format) {
+      for (const pattern of stat.patterns) {
+        formatMap[pattern] = stat.format;
+      }
+    }
+  }
+  return formatMap;
+}
+
 // Pre-generated exports for convenience
 export const STAT_DEFINITIONS = generateStatDefinitions();
 export const STAT_TYPES = generateStatTypes();
 export const DISPLAY_MAP = generateDisplayMap();
+export const FORMAT_MAP = generateFormatMap();

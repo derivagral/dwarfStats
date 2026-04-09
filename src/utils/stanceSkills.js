@@ -33,7 +33,7 @@ export const STANCE_DEFS = {
   },
   sword: {
     id: 'sword',
-    name: 'One-Handed',
+    name: 'Swords',
     skillKey: 'OneHandSkill',
     damageStatId: 'swordDamage',
     keystoneAbility: 'Shroud',

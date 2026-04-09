@@ -311,7 +311,7 @@ describe('skillTreeRegistry', () => {
     it('should find known weapon skills', () => {
       expect(getWeaponSkillDef('PolearmDamage')).toBeDefined();
       expect(getWeaponSkillDef('PolearmDamage').type).toBe('paragon');
-      expect(getWeaponSkillDef('PolearmDamage').statId).toBe('maulDamage');
+      expect(getWeaponSkillDef('PolearmDamage').statId).toBe('spearDamage');
     });
 
     it('should identify ability nodes', () => {
@@ -343,7 +343,7 @@ describe('skillTreeRegistry', () => {
 
     it('getWeaponSkillsByType should filter correctly', () => {
       const spearSkills = getWeaponSkillsByType('spear');
-      expect(spearSkills).toHaveLength(14);
+      expect(spearSkills).toHaveLength(15);
       expect(spearSkills.every(s => s.weapon === 'spear')).toBe(true);
     });
   });

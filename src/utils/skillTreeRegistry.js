@@ -57,7 +57,7 @@ export const WEAPON_SKILL_REGISTRY = {
   'MacesCritEndGameBuff': { rowName: 'MacesCritEndGameBuff', name: 'Mauls Endgame Crit Buff', type: 'buff', statId: 'maulCritDamage', weapon: 'mauls' },
   'Mauls_HP_Energy_Regen': { rowName: 'Mauls_HP_Energy_Regen', name: 'Mauls HP/Energy Regen', type: 'utility', weapon: 'mauls' },
   'Mauls.EndGame.Bubble': { rowName: 'Mauls.EndGame.Bubble', name: 'Mauls Endgame Bubble', type: 'utility', weapon: 'mauls' },
-  'PolearmDamage': { rowName: 'PolearmDamage', name: 'Polearm Damage (Paragon)', type: 'paragon', statId: 'maulDamage', perLevel: true, weapon: 'mauls' },
+  'PolearmDamage': { rowName: 'PolearmDamage', name: 'Polearm Damage (Paragon)', type: 'paragon', statId: 'spearDamage', perLevel: true, weapon: 'spear' },
 
   // ---------------------------------------------------------------------------
   // ONE-HAND / SWORD (11 entries)

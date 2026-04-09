@@ -4,13 +4,14 @@
 // Display mappings are now generated from the unified stat registry.
 // To add new display names, update src/utils/statRegistry.js
 
-import { DISPLAY_MAP, warnUnknownAttribute } from './statRegistry.js';
+import { DISPLAY_MAP, FORMAT_MAP, warnUnknownAttribute } from './statRegistry.js';
 
 // Use the display map generated from the stat registry
 const ATTRIBUTE_DISPLAY_MAP = DISPLAY_MAP;
 
 // Pre-compute sorted patterns (longest first for better matching)
 const SORTED_PATTERNS = Object.keys(ATTRIBUTE_DISPLAY_MAP).sort((a, b) => b.length - a.length);
+const SORTED_FORMAT_PATTERNS = Object.keys(FORMAT_MAP).sort((a, b) => b.length - a.length);
 
 // Extract the most relevant part of an attribute name for fallback display
 function extractFallbackName(fullName) {
@@ -98,29 +99,48 @@ export function getDisplayName(attributeName) {
   return extractFallbackName(tail);
 }
 
+// Find the stat registry format function for an attribute name
+function findFormatFunction(attributeName) {
+  if (!attributeName) return null;
+
+  const tail = extractAttributeTail(attributeName);
+
+  // Try exact match on tail
+  if (FORMAT_MAP[tail]) return FORMAT_MAP[tail];
+
+  // Try pattern matching (longest first, same approach as getDisplayName)
+  for (const pattern of SORTED_FORMAT_PATTERNS) {
+    if (tail.endsWith(pattern)) return FORMAT_MAP[pattern];
+  }
+  for (const pattern of SORTED_FORMAT_PATTERNS) {
+    if (tail.includes(pattern)) return FORMAT_MAP[pattern];
+  }
+
+  return null;
+}
+
 // Format an attribute value for display
 export function formatAttributeValue(value, attributeName = '') {
   if (value === null || value === undefined) return '';
 
-  // If it's a percentage attribute, format with 1 decimal place
-  if (attributeName.includes('%') || attributeName.includes('Percent')) {
-    if (typeof value === 'number') {
-      // If value is between 0-1, treat as fraction and convert to percentage
+  if (typeof value === 'number') {
+    // Use stat registry format function if available (handles ability % stats
+    // like Death Blades, Electric Dragons that lack % in their raw tag)
+    const formatFn = findFormatFunction(attributeName);
+    if (formatFn) return formatFn(value);
+
+    // Fallback: percentage heuristic based on attribute name containing % or Percent
+    if (attributeName.includes('%') || attributeName.includes('Percent')) {
       if (value > 0 && value < 1) {
         return `${(value * 100).toFixed(1)}%`;
       }
-      // Otherwise it's already a percentage value
       return `${value.toFixed(1)}%`;
     }
-  }
 
-  // For regular numeric values
-  if (typeof value === 'number') {
-    // If it's a whole number, don't show decimals
+    // Regular numeric values
     if (Number.isInteger(value)) {
       return value.toString();
     }
-    // Otherwise show 1 decimal place
     return value.toFixed(1);
   }
 

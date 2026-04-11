@@ -1793,17 +1793,15 @@ export const DERIVED_STATS = {
     name: 'FLAT (Base Damage)',
     category: 'edps',
     layer: LAYERS.EDPS,
-    // paragon / mastery flat damage is folded into the `damage` base stat
-    // inside useDerivedStats (keystone + helmet monogram stacking), so
-    // totalDamage already reflects it. Do NOT add paragonDamageBonus here.
     dependencies: ['totalDamage', 'damageFromHealth',
-      'flatDamageMonogramBonus', 'noEnergyDamageBonus'],
+      'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'paragonDamageBonus'],
     calculate: (stats) => {
       const baseDamage = stats.totalDamage || 0;
       const healthDamage = stats.damageFromHealth || 0;
       const flatMono = stats.flatDamageMonogramBonus || 0;
       const noEnergyMono = stats.noEnergyDamageBonus || 0;
-      return Math.floor(baseDamage + healthDamage + flatMono + noEnergyMono);
+      const paragonDmg = stats.paragonDamageBonus || 0;
+      return Math.floor(baseDamage + healthDamage + flatMono + noEnergyMono + paragonDmg);
     },
     format: v => v.toFixed(0),
     description: 'Total flat damage: gear damage + health conversion + monogram flat bonuses',

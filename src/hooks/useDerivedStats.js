@@ -23,6 +23,52 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
 export function useDerivedStats(options = {}) {
   const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null } = options;
 
+  // Collect all applied monograms for config overrides
+  // Supports both formats:
+  //   - item.monograms (direct from Item model)
+  //   - item.model.monograms (nested model format)
+  const appliedMonograms = useMemo(() => {
+    const monograms = [];
+
+    for (const item of equippedItems) {
+      // Monograms from item (direct or nested model)
+      const itemMonograms = item?.monograms || item?.model?.monograms;
+      if (itemMonograms && Array.isArray(itemMonograms)) {
+        for (const mono of itemMonograms) {
+          monograms.push({
+            id: mono.id,
+            value: mono.value,
+            source: 'item',
+            itemSlot: item.slot,
+          });
+        }
+      }
+
+      // Added monograms from overrides
+      const slotKey = item?.slotKey || item?.slot || '';
+      const overrides = itemOverrides[slotKey] || {};
+      for (const mono of overrides.monograms || []) {
+        monograms.push({
+          id: mono.id,
+          value: mono.value || 1,
+          source: 'override',
+          itemSlot: item?.slot,
+        });
+      }
+    }
+
+    return monograms;
+  }, [equippedItems, itemOverrides]);
+
+  // Count how many instances of each monogram ID are applied
+  const monogramInstanceCounts = useMemo(() => {
+    const counts = {};
+    for (const mono of appliedMonograms) {
+      counts[mono.id] = (counts[mono.id] || 0) + 1;
+    }
+    return counts;
+  }, [appliedMonograms]);
+
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
   const aggregatedWithSources = useMemo(() => {
@@ -51,6 +97,41 @@ export function useDerivedStats(options = {}) {
         slot: 'stance',
         value,
       });
+    }
+
+    // Mastery flat damage: assume the melee/ranged mastery keystone is active
+    // on the skill tree (user-confirmed). Provides +2 flat damage per mastery
+    // level. Helmet paragon monograms (MeleeParagon.BaseDamage /
+    // RangedParagon.BaseDamage) stack additively: each instance adds another
+    // +2 per mastery on top of the keystone.
+    if (activeStance?.mastery > 0) {
+      const mastery = activeStance.mastery;
+      const flatPerMastery = 2;
+      const keystoneFlat = mastery * flatPerMastery;
+
+      const paragonMonogramId = activeStance.monogramFamily === 'ranged'
+        ? 'RangedParagon.BaseDamage'
+        : 'MeleeParagon.BaseDamage';
+      const paragonMonoCount = monogramInstanceCounts[paragonMonogramId] || 0;
+      const monogramFlat = paragonMonoCount * mastery * flatPerMastery;
+
+      if (!stats.damage) {
+        stats.damage = { total: 0, sources: [] };
+      }
+      stats.damage.total += keystoneFlat;
+      stats.damage.sources.push({
+        itemName: `${activeStance.monogramFamily === 'ranged' ? 'Ranged' : 'Melee'} Mastery Keystone (${mastery} × 2)`,
+        slot: 'stance',
+        value: keystoneFlat,
+      });
+      if (monogramFlat > 0) {
+        stats.damage.total += monogramFlat;
+        stats.damage.sources.push({
+          itemName: `${paragonMonogramId} × ${paragonMonoCount} (${mastery} × 2 × ${paragonMonoCount})`,
+          slot: 'head',
+          value: monogramFlat,
+        });
+      }
     }
 
     for (const item of equippedItems) {
@@ -103,7 +184,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return stats;
-  }, [equippedItems, itemOverrides, characterStats, stanceContext]);
+  }, [equippedItems, itemOverrides, characterStats, stanceContext, monogramInstanceCounts]);
 
   // Flatten to simple { [statId]: total } for backward compatibility
   const aggregatedBaseStats = useMemo(() => {
@@ -113,52 +194,6 @@ export function useDerivedStats(options = {}) {
     }
     return flat;
   }, [aggregatedWithSources]);
-
-  // Collect all applied monograms for config overrides
-  // Supports both formats:
-  //   - item.monograms (direct from Item model)
-  //   - item.model.monograms (nested model format)
-  const appliedMonograms = useMemo(() => {
-    const monograms = [];
-
-    for (const item of equippedItems) {
-      // Monograms from item (direct or nested model)
-      const itemMonograms = item?.monograms || item?.model?.monograms;
-      if (itemMonograms && Array.isArray(itemMonograms)) {
-        for (const mono of itemMonograms) {
-          monograms.push({
-            id: mono.id,
-            value: mono.value,
-            source: 'item',
-            itemSlot: item.slot,
-          });
-        }
-      }
-
-      // Added monograms from overrides
-      const slotKey = item?.slotKey || item?.slot || '';
-      const overrides = itemOverrides[slotKey] || {};
-      for (const mono of overrides.monograms || []) {
-        monograms.push({
-          id: mono.id,
-          value: mono.value || 1,
-          source: 'override',
-          itemSlot: item?.slot,
-        });
-      }
-    }
-
-    return monograms;
-  }, [equippedItems, itemOverrides]);
-
-  // Count how many instances of each monogram ID are applied
-  const monogramInstanceCounts = useMemo(() => {
-    const counts = {};
-    for (const mono of appliedMonograms) {
-      counts[mono.id] = (counts[mono.id] || 0) + 1;
-    }
-    return counts;
-  }, [appliedMonograms]);
 
   // Build config overrides from applied monograms
   // This maps monogram effects to calculation engine configs.

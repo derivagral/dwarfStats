@@ -389,10 +389,6 @@ export const STAT_REGISTRY = {
       'MaulsDamage%',
       'MaulDamage',
       'Mauls.Damage',
-      'Damage.PoleArm%6',  // PoleArm = Maul in game data
-      'Damage.PoleArm%',
-      'PoleArm%6',
-      'PoleArm%',
     ],
     canonical: 'Damage.Mauls.Damage%',
     isPercent: true,
@@ -408,13 +404,6 @@ export const STAT_REGISTRY = {
       'Mauls.CriticalDamage%',
       'MaulsCriticalDamage%',
       'MaulCritDamage',
-      'Damage.PoleArmCriticalDamage%6',  // PoleArm = Maul in game data
-      'Damage.PoleArmCriticalDamage%',
-      'PoleArmCriticalDamage%6',
-      'PoleArmCriticalDamage%',
-      'Damage.PoleArmCritcalDamage%6',  // Game typo: "Critcal" not "Critical"
-      'Damage.PoleArmCritcalDamage%',
-      'PoleArmCritcalDamage%',
     ],
     canonical: 'Damage.Mauls.CriticalDamage%',
     isPercent: true,
@@ -430,13 +419,6 @@ export const STAT_REGISTRY = {
       'Mauls.CriticalChance%',
       'MaulsCriticalChance%',
       'MaulCritChance',
-      'Damage.PoleArmCriticalChance%6',  // PoleArm = Maul in game data
-      'Damage.PoleArmCriticalChance%',
-      'PoleArmCriticalChance%6',
-      'PoleArmCriticalChance%',
-      'Damage.PoleArmCritcalChance%6',  // Game typo: "Critcal" not "Critical"
-      'Damage.PoleArmCritcalChance%',
-      'PoleArmCritcalChance%',
     ],
     canonical: 'Damage.Mauls.CriticalChance%',
     isPercent: true,
@@ -623,6 +605,10 @@ export const STAT_REGISTRY = {
       'SpearDamage%',
       'SpearDamage',
       'Spear.Damage',
+      'Damage.PoleArm%6',  // PoleArm = Spear in game data
+      'Damage.PoleArm%',
+      'PoleArm%6',
+      'PoleArm%',
     ],
     canonical: 'Damage.Spear%6',
     isPercent: true,
@@ -643,6 +629,13 @@ export const STAT_REGISTRY = {
       'SpearCriticalDamage%6',
       'SpearCriticalDamage%',
       'SpearCritDamage',
+      'Damage.PoleArmCriticalDamage%6',  // PoleArm = Spear in game data
+      'Damage.PoleArmCriticalDamage%',
+      'PoleArmCriticalDamage%6',
+      'PoleArmCriticalDamage%',
+      'Damage.PoleArmCritcalDamage%6',  // Game typo: "Critcal" not "Critical"
+      'Damage.PoleArmCritcalDamage%',
+      'PoleArmCritcalDamage%',
     ],
     canonical: 'Damage.SpearCritcalDamage%6',
     isPercent: true,
@@ -663,6 +656,13 @@ export const STAT_REGISTRY = {
       'SpearCriticalChance%6',
       'SpearCriticalChance%',
       'SpearCritChance',
+      'Damage.PoleArmCriticalChance%6',  // PoleArm = Spear in game data
+      'Damage.PoleArmCriticalChance%',
+      'PoleArmCriticalChance%6',
+      'PoleArmCriticalChance%',
+      'Damage.PoleArmCritcalChance%6',  // Game typo: "Critcal" not "Critical"
+      'Damage.PoleArmCritcalChance%',
+      'PoleArmCritcalChance%',
     ],
     canonical: 'Damage.SpearCritcalChance%6',
     isPercent: true,
@@ -722,7 +722,7 @@ export const STAT_REGISTRY = {
 
   twohandDamage: {
     id: 'twohandDamage',
-    name: 'Two-Handed Damage',
+    name: 'Axes Damage',
     category: 'stance',
     patterns: [
       'Damage.TwoHanded%6',
@@ -737,11 +737,11 @@ export const STAT_REGISTRY = {
     canonical: 'Damage.TwoHanded%6',
     isPercent: true,
     format: v => `+${(v * 100).toFixed(0)}%`,
-    description: 'Two-Handed/Axes damage bonus',
+    description: 'Axes damage bonus',
   },
   twohandCritDamage: {
     id: 'twohandCritDamage',
-    name: 'Two-Handed Critical Damage',
+    name: 'Axes Critical Damage',
     category: 'stance',
     patterns: [
       'Damage.TwoHandCritcalDamage%6',  // Game typo: "Critcal" not "Critical"
@@ -758,11 +758,11 @@ export const STAT_REGISTRY = {
     canonical: 'Damage.TwoHandCritcalDamage%6',
     isPercent: true,
     format: v => `+${(v * 100).toFixed(0)}%`,
-    description: 'Two-Handed critical damage bonus',
+    description: 'Axes critical damage bonus',
   },
   twohandCritChance: {
     id: 'twohandCritChance',
-    name: 'Two-Handed Critical Chance',
+    name: 'Axes Critical Chance',
     category: 'stance',
     patterns: [
       'Damage.TwoHandCritcalChance%6',  // Game typo: "Critcal" not "Critical"
@@ -779,7 +779,7 @@ export const STAT_REGISTRY = {
     canonical: 'Damage.TwoHandCritcalChance%6',
     isPercent: true,
     format: v => `${(v * 100).toFixed(1)}%`,
-    description: 'Two-Handed critical chance bonus',
+    description: 'Axes critical chance bonus',
   },
 
   // ---------------------------------------------------------------------------

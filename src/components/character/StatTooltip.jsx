@@ -1,6 +1,12 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+const formatBreakdownTerm = ({ value, fmt }) => {
+  if (value == null || Number.isNaN(value)) return '—';
+  if (fmt === 'pct') return `${(value * 100).toFixed(0)}%`;
+  return Math.floor(value).toLocaleString();
+};
+
 export function StatTooltip({
   stat,
   visible,
@@ -81,6 +87,7 @@ export function StatTooltip({
   if (typeof document === 'undefined') return null;
 
   const hasSources = stat.sources && stat.sources.length > 0;
+  const hasBreakdown = Array.isArray(stat.breakdown) && stat.breakdown.length > 0;
 
   // Format value for display in sources
   // Uses isPercent flag when available; falls back to value-size heuristic
@@ -120,6 +127,19 @@ export function StatTooltip({
         </div>
       )}
 
+      {hasBreakdown && (
+        <div className="stat-tooltip-formula">
+          <div className="stat-tooltip-section-title">Formula</div>
+          {stat.breakdown.map((term, i) => (
+            <div key={i} className="stat-tooltip-formula-row">
+              <span className="formula-op">{term.op}</span>
+              <span className="formula-label">{term.label}</span>
+              <span className="formula-value">{formatBreakdownTerm(term)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {hasSources && (
         <div className="stat-tooltip-breakdown">
           <div className="stat-tooltip-section-title">Sources</div>
@@ -132,7 +152,7 @@ export function StatTooltip({
         </div>
       )}
 
-      {!hasSources && (
+      {!hasSources && !hasBreakdown && (
         <div className="stat-tooltip-empty">
           No item sources found
         </div>

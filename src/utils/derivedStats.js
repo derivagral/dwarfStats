@@ -877,6 +877,31 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
+  // STAT DAMAGE FLAT (Ring Monogram)
+  // 15 flat damage per 150 of highest stat (feeds edpsFlat)
+  // ---------------------------------------------------------------------------
+  statDamageFlatBonus: {
+    id: 'statDamageFlatBonus',
+    name: 'Stat Damage (Flat)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      damagePerInterval: 15,
+      statInterval: 150,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.statDamageFlatBonus.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.damagePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: '+15 flat damage per 150 of highest stat',
+  },
+
+  // ---------------------------------------------------------------------------
   // SPAWN CHANCE DISPLAY (Amulet Monograms - display only, no calc chain)
   // ---------------------------------------------------------------------------
   eliteSpawnChance: {
@@ -1794,14 +1819,16 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: ['totalDamage', 'damageFromHealth',
-      'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'paragonDamageBonus'],
+      'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'paragonDamageBonus',
+      'statDamageFlatBonus'],
     calculate: (stats) => {
       const baseDamage = stats.totalDamage || 0;
       const healthDamage = stats.damageFromHealth || 0;
       const flatMono = stats.flatDamageMonogramBonus || 0;
       const noEnergyMono = stats.noEnergyDamageBonus || 0;
       const paragonDmg = stats.paragonDamageBonus || 0;
-      return Math.floor(baseDamage + healthDamage + flatMono + noEnergyMono + paragonDmg);
+      const statDmgFlat = stats.statDamageFlatBonus || 0;
+      return Math.floor(baseDamage + healthDamage + flatMono + noEnergyMono + paragonDmg + statDmgFlat);
     },
     format: v => v.toFixed(0),
     description: 'Total flat damage: gear damage + health conversion + monogram flat bonuses',
@@ -2115,6 +2142,72 @@ export const DERIVED_STATS = {
     },
     format: v => v.toLocaleString(),
     description: 'Boss DD × (AD + Affinity) × Elemental Damage',
+  },
+
+  /**
+   * Effective Damage (left click / Q / R) — headline stat.
+   * Defaults to boss damage; config.target flips to normal.
+   * Carries a `breakdown` function for rich tooltip rendering.
+   */
+  edpsEffective: {
+    id: 'edpsEffective',
+    name: 'Effective Damage',
+    category: 'edps-result',
+    layer: LAYERS.EDPS,
+    dependencies: ['edpsFlat', 'edpsAdditiveMulti', 'edpsSCHD', 'edpsWAD', 'edpsEMulti', 'edpsBD', 'edpsDDNormal', 'edpsDDBoss'],
+    config: { target: 'boss' },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsEffective.config;
+      return config.target === 'normal' ? (stats.edpsDDNormal || 0) : (stats.edpsDDBoss || 0);
+    },
+    format: v => v.toLocaleString(),
+    description: 'Full per-hit damage (boss by default; toggle in panel)',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsEffective.config;
+      const terms = [
+        { label: 'FLAT',          op: '=', value: stats.edpsFlat,          fmt: 'int' },
+        { label: '(CHD+DB+SD)',   op: '×', value: stats.edpsAdditiveMulti, fmt: 'pct' },
+        { label: 'SCHD',          op: '×', value: stats.edpsSCHD,          fmt: 'pct' },
+        { label: 'WAD',           op: '×', value: stats.edpsWAD,           fmt: 'pct' },
+        { label: 'EMulti',        op: '×', value: stats.edpsEMulti,        fmt: 'pct' },
+      ];
+      if (config.target === 'boss') {
+        terms.push({ label: 'BD', op: '×', value: stats.edpsBD, fmt: 'pct' });
+      }
+      const total = config.target === 'boss' ? stats.edpsDDBoss : stats.edpsDDNormal;
+      terms.push({ label: `Total (${config.target === 'boss' ? 'Boss' : 'Normal'})`, op: '=', value: total, fmt: 'int' });
+      return terms;
+    },
+  },
+
+  /**
+   * Effective Offhand Damage — headline stat for offhand procs.
+   * DD × (AD + Affinity) × ED, target configurable.
+   */
+  edpsEffectiveOffhand: {
+    id: 'edpsEffectiveOffhand',
+    name: 'Effective Damage (Offhand)',
+    category: 'edps-result',
+    layer: LAYERS.EDPS,
+    dependencies: ['edpsEffective', 'edpsDDNormal', 'edpsDDBoss', 'edpsAD', 'edpsED', 'edpsOffhandNormal', 'edpsOffhandBoss'],
+    config: { target: 'boss' },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsEffectiveOffhand.config;
+      return config.target === 'normal' ? (stats.edpsOffhandNormal || 0) : (stats.edpsOffhandBoss || 0);
+    },
+    format: v => v.toLocaleString(),
+    description: 'Offhand ability damage (boss by default)',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsEffectiveOffhand.config;
+      const dd = config.target === 'boss' ? stats.edpsDDBoss : stats.edpsDDNormal;
+      const total = config.target === 'boss' ? stats.edpsOffhandBoss : stats.edpsOffhandNormal;
+      return [
+        { label: 'DD',            op: '=', value: dd,            fmt: 'int' },
+        { label: '(AD+AFFIN)',    op: '×', value: stats.edpsAD,  fmt: 'pct' },
+        { label: 'ED',            op: '×', value: stats.edpsED,  fmt: 'pct' },
+        { label: `Total (${config.target === 'boss' ? 'Boss' : 'Normal'})`, op: '=', value: total, fmt: 'int' },
+      ];
+    },
   },
 };
 

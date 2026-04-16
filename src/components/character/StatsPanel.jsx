@@ -23,11 +23,16 @@ const categoryOrder = ['attributes', 'offense', 'stance', 'elemental', 'defense'
  * @param {Object} props.characterData - Character data with equipped items (may include modified items)
  */
 export function StatsPanel({ characterData }) {
-  const { categories } = useDerivedStats(characterData);
   const [hideZero, setHideZero] = useState(false);
+  const [edpsTarget, setEdpsTarget] = useState('boss');
+  const { categories } = useDerivedStats({ ...characterData, edpsTarget });
 
   const toggleHideZero = useCallback(() => {
     setHideZero(prev => !prev);
+  }, []);
+
+  const toggleEdpsTarget = useCallback(() => {
+    setEdpsTarget(prev => (prev === 'boss' ? 'normal' : 'boss'));
   }, []);
 
   if (!characterData) {
@@ -68,7 +73,17 @@ export function StatsPanel({ characterData }) {
           return (
             <div key={categoryKey} className="stats-category">
               <div className="category-header">
-                {categoryLabels[categoryKey] || categoryKey}
+                <span>{categoryLabels[categoryKey] || categoryKey}</span>
+                {categoryKey === 'edps' && (
+                  <button
+                    type="button"
+                    className="edps-target-toggle"
+                    onClick={toggleEdpsTarget}
+                    title="Toggle Effective Damage target"
+                  >
+                    vs {edpsTarget === 'boss' ? 'Boss' : 'Normal'}
+                  </button>
+                )}
               </div>
               <div className="category-stats">
                 {stats.map(stat => (

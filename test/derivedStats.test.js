@@ -511,5 +511,86 @@ describe('derivedStats', () => {
       expect(result.edpsDDNormal).toBe(200);
       expect(result.edpsOffhandNormal).toBe(800);
     });
+
+    it('should leave edpsFlat unchanged when Stat Damage ring is disabled', () => {
+      const baseStats = { damage: 100, strength: 300 };
+      const result = calculateDerivedStats(baseStats);
+      expect(result.statDamageFlatBonus).toBe(0);
+      expect(result.edpsFlat).toBe(100);
+    });
+
+    it('should add ring Stat Damage (+15 per 150 highest) into edpsFlat when enabled', () => {
+      const baseStats = { damage: 100, strength: 300 };
+      const config = {
+        statDamageFlatBonus: { enabled: true, damagePerInterval: 15, statInterval: 150 },
+      };
+      const result = calculateDerivedStats(baseStats, config);
+      // floor(300 / 150) * 15 = 30
+      expect(result.statDamageFlatBonus).toBe(30);
+      expect(result.edpsFlat).toBe(130);
+    });
+
+    it('should default edpsEffective to boss damage', () => {
+      const baseStats = {
+        damage: 100,
+        damageBonus: 0,
+        critDamage: 1.0,
+        bossBonus: 1.0,
+      };
+      const result = calculateDerivedStats(baseStats);
+      // Boss by default: equals edpsDDBoss
+      expect(result.edpsEffective).toBe(result.edpsDDBoss);
+      expect(result.edpsEffective).toBe(400);
+    });
+
+    it('should switch edpsEffective to normal damage when target=normal', () => {
+      const baseStats = {
+        damage: 100,
+        damageBonus: 0,
+        critDamage: 1.0,
+        bossBonus: 1.0,
+      };
+      const config = { edpsEffective: { target: 'normal' } };
+      const result = calculateDerivedStats(baseStats, config);
+      expect(result.edpsEffective).toBe(result.edpsDDNormal);
+      expect(result.edpsEffective).toBe(200);
+    });
+
+    it('should default edpsEffectiveOffhand to boss offhand damage', () => {
+      const baseStats = {
+        damage: 100,
+        damageBonus: 0,
+        critDamage: 1.0,
+        bossBonus: 1.0,
+        fireDamageBonus: 1.0,
+      };
+      const config = {
+        edpsAD: { abilityDamage: 1.5, affinityDamage: 0.5 },
+      };
+      const result = calculateDerivedStats(baseStats, config);
+      // OffhandBoss = edpsDDBoss(400) * AD(2.0) * ED(2.0) = 1600
+      expect(result.edpsEffectiveOffhand).toBe(result.edpsOffhandBoss);
+      expect(result.edpsEffectiveOffhand).toBe(1600);
+    });
+
+    it('should produce a breakdown with BD term for boss target and without for normal', () => {
+      const baseStats = {
+        damage: 100,
+        critDamage: 1.0,
+        bossBonus: 1.0,
+      };
+      const values = calculateDerivedStats(baseStats);
+
+      const bossBreakdown = DERIVED_STATS.edpsEffective.breakdown(values, { target: 'boss' });
+      const bossLabels = bossBreakdown.map(t => t.label);
+      expect(bossLabels).toContain('BD');
+      // Last term is Total
+      expect(bossBreakdown[bossBreakdown.length - 1].value).toBe(values.edpsDDBoss);
+
+      const normalBreakdown = DERIVED_STATS.edpsEffective.breakdown(values, { target: 'normal' });
+      const normalLabels = normalBreakdown.map(t => t.label);
+      expect(normalLabels).not.toContain('BD');
+      expect(normalBreakdown[normalBreakdown.length - 1].value).toBe(values.edpsDDNormal);
+    });
   });
 });

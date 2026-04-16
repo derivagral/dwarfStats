@@ -21,7 +21,7 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
  * @returns {Object} Aggregated and calculated stats
  */
 export function useDerivedStats(options = {}) {
-  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null } = options;
+  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, edpsTarget = 'boss' } = options;
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -227,15 +227,17 @@ export function useDerivedStats(options = {}) {
     return null;
   }, [equippedItems]);
 
-  // Merge stance detection into config overrides for eDPS
+  // Merge stance detection and boss/normal target into config overrides for eDPS
   const finalConfigOverrides = useMemo(() => {
-    if (!detectedStance) return configOverrides;
-    return {
-      ...configOverrides,
-      edpsAdditiveMulti: { stance: detectedStance },
-      edpsSCHD: { stance: detectedStance },
-    };
-  }, [configOverrides, detectedStance]);
+    const merged = { ...configOverrides };
+    if (detectedStance) {
+      merged.edpsAdditiveMulti = { stance: detectedStance };
+      merged.edpsSCHD = { stance: detectedStance };
+    }
+    merged.edpsEffective = { ...DERIVED_STATS.edpsEffective?.config, target: edpsTarget };
+    merged.edpsEffectiveOffhand = { ...DERIVED_STATS.edpsEffectiveOffhand?.config, target: edpsTarget };
+    return merged;
+  }, [configOverrides, detectedStance, edpsTarget]);
 
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {
@@ -418,14 +420,20 @@ export function useDerivedStats(options = {}) {
 
       const displayCategory = categoryMapping[stat.category] || stat.category || 'attributes';
       if (result[displayCategory]) {
-        result[displayCategory].push({
+        const record = {
           id: stat.id,
           name: stat.name,
           value: stat.value,
           formattedValue: stat.formattedValue,
           description: stat.description,
           layer: stat.layer,
-        });
+        };
+        const def = DERIVED_STATS[stat.id];
+        if (def?.breakdown) {
+          const cfg = finalConfigOverrides[stat.id] || def.config;
+          record.breakdown = def.breakdown(values, cfg);
+        }
+        result[displayCategory].push(record);
       }
     }
 
@@ -514,8 +522,21 @@ export function useDerivedStats(options = {}) {
       }
     }
 
+    // Pin eDPS headlines (Effective Damage / Offhand) to the top of the eDPS section
+    if (Array.isArray(result.edps)) {
+      const headlineIds = ['edpsEffective', 'edpsEffectiveOffhand'];
+      const headlines = [];
+      const rest = [];
+      for (const stat of result.edps) {
+        if (headlineIds.includes(stat.id)) headlines.push(stat);
+        else rest.push(stat);
+      }
+      headlines.sort((a, b) => headlineIds.indexOf(a.id) - headlineIds.indexOf(b.id));
+      result.edps = [...headlines, ...rest];
+    }
+
     return result;
-  }, [calculatedStats, aggregatedWithSources, stanceContext]);
+  }, [calculatedStats, aggregatedWithSources, stanceContext, finalConfigOverrides]);
 
   return {
     // For StatsPanel compatibility

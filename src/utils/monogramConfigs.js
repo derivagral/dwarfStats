@@ -662,12 +662,10 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   'DamageForStat.Highest': {
     displayName: 'Damage from Stats',
-    derivedStatId: 'monogramValueFromStrength',
-    config: {
-      sourceStat: 'highestAttribute',
-      ratio: 100,
-      baseValue: 5,
-    },
+    description: '+15 flat damage per 150 of highest stat',
+    effects: [
+      { derivedStatId: 'statDamageFlatBonus', config: { enabled: true, damagePerInterval: 15, statInterval: 150 } },
+    ],
   },
   'BonusDamage%ForEssence': {
     displayName: 'Damage from Essence',

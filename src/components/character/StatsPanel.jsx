@@ -15,8 +15,8 @@ const categoryLabels = {
   unmapped: 'Unmapped (Debug)',
 };
 
-// Attributes first, then combat stats, eDPS, then monograms at the end
-const categoryOrder = ['attributes', 'offense', 'stance', 'elemental', 'defense', 'edps', 'monograms', 'abilities', 'utility', 'unmapped'];
+// eDPS first so the damage headline is the user's landing spot; monograms last.
+const categoryOrder = ['edps', 'attributes', 'offense', 'stance', 'elemental', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
 
 /**
  * @param {Object} props
@@ -24,15 +24,10 @@ const categoryOrder = ['attributes', 'offense', 'stance', 'elemental', 'defense'
  */
 export function StatsPanel({ characterData }) {
   const [hideZero, setHideZero] = useState(false);
-  const [edpsTarget, setEdpsTarget] = useState('boss');
-  const { categories } = useDerivedStats({ ...characterData, edpsTarget });
+  const { categories } = useDerivedStats(characterData);
 
   const toggleHideZero = useCallback(() => {
     setHideZero(prev => !prev);
-  }, []);
-
-  const toggleEdpsTarget = useCallback(() => {
-    setEdpsTarget(prev => (prev === 'boss' ? 'normal' : 'boss'));
   }, []);
 
   if (!characterData) {
@@ -73,17 +68,7 @@ export function StatsPanel({ characterData }) {
           return (
             <div key={categoryKey} className="stats-category">
               <div className="category-header">
-                <span>{categoryLabels[categoryKey] || categoryKey}</span>
-                {categoryKey === 'edps' && (
-                  <button
-                    type="button"
-                    className="edps-target-toggle"
-                    onClick={toggleEdpsTarget}
-                    title="Toggle Effective Damage target"
-                  >
-                    vs {edpsTarget === 'boss' ? 'Boss' : 'Normal'}
-                  </button>
-                )}
+                {categoryLabels[categoryKey] || categoryKey}
               </div>
               <div className="category-stats">
                 {stats.map(stat => (

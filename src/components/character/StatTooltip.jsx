@@ -131,9 +131,15 @@ export function StatTooltip({
         <div className="stat-tooltip-formula">
           <div className="stat-tooltip-section-title">Formula</div>
           {stat.breakdown.map((term, i) => (
-            <div key={i} className="stat-tooltip-formula-row">
+            <div
+              key={i}
+              className={`stat-tooltip-formula-row${term.isSubtotal ? ' is-subtotal' : ''}${term.op === '=' && i === stat.breakdown.length - 1 ? ' is-total' : ''}`}
+            >
               <span className="formula-op">{term.op}</span>
-              <span className="formula-label">{term.label}</span>
+              <span className="formula-label">
+                <span className="formula-abbr" title={term.fullName || undefined}>{term.label}</span>
+                {term.fullName && <span className="formula-fullname">{term.fullName}</span>}
+              </span>
               <span className="formula-value">{formatBreakdownTerm(term)}</span>
             </div>
           ))}

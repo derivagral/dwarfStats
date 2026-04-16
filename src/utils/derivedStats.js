@@ -2145,69 +2145,31 @@ export const DERIVED_STATS = {
   },
 
   /**
-   * Effective Damage (left click / Q / R) — headline stat.
-   * Defaults to boss damage; config.target flips to normal.
-   * Carries a `breakdown` function for rich tooltip rendering.
+   * Effective Damage — headline stat merging the weapon hit and offhand proc.
+   * Final value is the per-hit boss offhand damage. Tooltip breakdown walks
+   * the full formula and surfaces the intermediate weapon hit as a subtotal.
    */
   edpsEffective: {
     id: 'edpsEffective',
     name: 'Effective Damage',
     category: 'edps-result',
     layer: LAYERS.EDPS,
-    dependencies: ['edpsFlat', 'edpsAdditiveMulti', 'edpsSCHD', 'edpsWAD', 'edpsEMulti', 'edpsBD', 'edpsDDNormal', 'edpsDDBoss'],
-    config: { target: 'boss' },
-    calculate: (stats, cfg) => {
-      const config = cfg || DERIVED_STATS.edpsEffective.config;
-      return config.target === 'normal' ? (stats.edpsDDNormal || 0) : (stats.edpsDDBoss || 0);
-    },
+    dependencies: ['edpsFlat', 'edpsAdditiveMulti', 'edpsSCHD', 'edpsWAD', 'edpsEMulti', 'edpsBD', 'edpsDDBoss', 'edpsAD', 'edpsED', 'edpsOffhandBoss'],
+    calculate: (stats) => stats.edpsOffhandBoss || 0,
     format: v => v.toLocaleString(),
-    description: 'Full per-hit damage (boss by default; toggle in panel)',
-    breakdown: (stats, cfg) => {
-      const config = cfg || DERIVED_STATS.edpsEffective.config;
-      const terms = [
-        { label: 'FLAT',          op: '=', value: stats.edpsFlat,          fmt: 'int' },
-        { label: '(CHD+DB+SD)',   op: '×', value: stats.edpsAdditiveMulti, fmt: 'pct' },
-        { label: 'SCHD',          op: '×', value: stats.edpsSCHD,          fmt: 'pct' },
-        { label: 'WAD',           op: '×', value: stats.edpsWAD,           fmt: 'pct' },
-        { label: 'EMulti',        op: '×', value: stats.edpsEMulti,        fmt: 'pct' },
-      ];
-      if (config.target === 'boss') {
-        terms.push({ label: 'BD', op: '×', value: stats.edpsBD, fmt: 'pct' });
-      }
-      const total = config.target === 'boss' ? stats.edpsDDBoss : stats.edpsDDNormal;
-      terms.push({ label: `Total (${config.target === 'boss' ? 'Boss' : 'Normal'})`, op: '=', value: total, fmt: 'int' });
-      return terms;
-    },
-  },
-
-  /**
-   * Effective Offhand Damage — headline stat for offhand procs.
-   * DD × (AD + Affinity) × ED, target configurable.
-   */
-  edpsEffectiveOffhand: {
-    id: 'edpsEffectiveOffhand',
-    name: 'Effective Damage (Offhand)',
-    category: 'edps-result',
-    layer: LAYERS.EDPS,
-    dependencies: ['edpsEffective', 'edpsDDNormal', 'edpsDDBoss', 'edpsAD', 'edpsED', 'edpsOffhandNormal', 'edpsOffhandBoss'],
-    config: { target: 'boss' },
-    calculate: (stats, cfg) => {
-      const config = cfg || DERIVED_STATS.edpsEffectiveOffhand.config;
-      return config.target === 'normal' ? (stats.edpsOffhandNormal || 0) : (stats.edpsOffhandBoss || 0);
-    },
-    format: v => v.toLocaleString(),
-    description: 'Offhand ability damage (boss by default)',
-    breakdown: (stats, cfg) => {
-      const config = cfg || DERIVED_STATS.edpsEffectiveOffhand.config;
-      const dd = config.target === 'boss' ? stats.edpsDDBoss : stats.edpsDDNormal;
-      const total = config.target === 'boss' ? stats.edpsOffhandBoss : stats.edpsOffhandNormal;
-      return [
-        { label: 'DD',            op: '=', value: dd,            fmt: 'int' },
-        { label: '(AD+AFFIN)',    op: '×', value: stats.edpsAD,  fmt: 'pct' },
-        { label: 'ED',            op: '×', value: stats.edpsED,  fmt: 'pct' },
-        { label: `Total (${config.target === 'boss' ? 'Boss' : 'Normal'})`, op: '=', value: total, fmt: 'int' },
-      ];
-    },
+    description: 'Boss offhand damage per hit (weapon hit shown in tooltip).',
+    breakdown: (stats) => [
+      { label: 'FLAT',         fullName: 'Base Damage',                   op: '=', value: stats.edpsFlat,          fmt: 'int' },
+      { label: 'CHD+DB+SD',    fullName: 'Crit + Dmg% + Stance Dmg%',     op: '×', value: stats.edpsAdditiveMulti, fmt: 'pct' },
+      { label: 'SCHD',         fullName: 'Stance Crit Hit Damage',        op: '×', value: stats.edpsSCHD,          fmt: 'pct' },
+      { label: 'WAD',          fullName: 'Weapon Ability Damage',         op: '×', value: stats.edpsWAD,           fmt: 'pct' },
+      { label: 'EMulti',       fullName: 'Enchant Multipliers',           op: '×', value: stats.edpsEMulti,        fmt: 'pct' },
+      { label: 'BD',           fullName: 'Boss Damage',                   op: '×', value: stats.edpsBD,            fmt: 'pct' },
+      { label: 'Weapon Hit',   fullName: 'Subtotal (DD) — per-hit damage', op: '=', value: stats.edpsDDBoss,        fmt: 'int', isSubtotal: true },
+      { label: 'AD+AFFIN',     fullName: 'Ability + Affinity Damage',     op: '×', value: stats.edpsAD,            fmt: 'pct' },
+      { label: 'ED',           fullName: 'Elemental Damage',              op: '×', value: stats.edpsED,            fmt: 'pct' },
+      { label: 'Offhand Hit',  fullName: 'Effective Damage (final)',      op: '=', value: stats.edpsOffhandBoss,   fmt: 'int' },
+    ],
   },
 };
 

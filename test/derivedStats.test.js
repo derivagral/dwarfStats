@@ -530,33 +530,7 @@ describe('derivedStats', () => {
       expect(result.edpsFlat).toBe(130);
     });
 
-    it('should default edpsEffective to boss damage', () => {
-      const baseStats = {
-        damage: 100,
-        damageBonus: 0,
-        critDamage: 1.0,
-        bossBonus: 1.0,
-      };
-      const result = calculateDerivedStats(baseStats);
-      // Boss by default: equals edpsDDBoss
-      expect(result.edpsEffective).toBe(result.edpsDDBoss);
-      expect(result.edpsEffective).toBe(400);
-    });
-
-    it('should switch edpsEffective to normal damage when target=normal', () => {
-      const baseStats = {
-        damage: 100,
-        damageBonus: 0,
-        critDamage: 1.0,
-        bossBonus: 1.0,
-      };
-      const config = { edpsEffective: { target: 'normal' } };
-      const result = calculateDerivedStats(baseStats, config);
-      expect(result.edpsEffective).toBe(result.edpsDDNormal);
-      expect(result.edpsEffective).toBe(200);
-    });
-
-    it('should default edpsEffectiveOffhand to boss offhand damage', () => {
+    it('should resolve edpsEffective to the boss offhand damage (merged headline)', () => {
       const baseStats = {
         damage: 100,
         damageBonus: 0,
@@ -568,29 +542,51 @@ describe('derivedStats', () => {
         edpsAD: { abilityDamage: 1.5, affinityDamage: 0.5 },
       };
       const result = calculateDerivedStats(baseStats, config);
-      // OffhandBoss = edpsDDBoss(400) * AD(2.0) * ED(2.0) = 1600
-      expect(result.edpsEffectiveOffhand).toBe(result.edpsOffhandBoss);
-      expect(result.edpsEffectiveOffhand).toBe(1600);
+      // DDBoss = 400, AD = 2.0, ED = 2.0 → OffhandBoss = 1600
+      expect(result.edpsEffective).toBe(result.edpsOffhandBoss);
+      expect(result.edpsEffective).toBe(1600);
     });
 
-    it('should produce a breakdown with BD term for boss target and without for normal', () => {
+    it('should produce a breakdown with weapon-hit subtotal and offhand total', () => {
       const baseStats = {
         damage: 100,
         critDamage: 1.0,
         bossBonus: 1.0,
+        fireDamageBonus: 1.0,
       };
-      const values = calculateDerivedStats(baseStats);
+      const config = {
+        edpsAD: { abilityDamage: 1.5, affinityDamage: 0.5 },
+      };
+      const values = calculateDerivedStats(baseStats, config);
 
-      const bossBreakdown = DERIVED_STATS.edpsEffective.breakdown(values, { target: 'boss' });
-      const bossLabels = bossBreakdown.map(t => t.label);
-      expect(bossLabels).toContain('BD');
-      // Last term is Total
-      expect(bossBreakdown[bossBreakdown.length - 1].value).toBe(values.edpsDDBoss);
+      const breakdown = DERIVED_STATS.edpsEffective.breakdown(values);
+      const labels = breakdown.map(t => t.label);
+      // Full formula including both weapon and offhand terms
+      expect(labels).toEqual([
+        'FLAT',
+        'CHD+DB+SD',
+        'SCHD',
+        'WAD',
+        'EMulti',
+        'BD',
+        'Weapon Hit',
+        'AD+AFFIN',
+        'ED',
+        'Offhand Hit',
+      ]);
 
-      const normalBreakdown = DERIVED_STATS.edpsEffective.breakdown(values, { target: 'normal' });
-      const normalLabels = normalBreakdown.map(t => t.label);
-      expect(normalLabels).not.toContain('BD');
-      expect(normalBreakdown[normalBreakdown.length - 1].value).toBe(values.edpsDDNormal);
+      // Each term carries a fullName for the acronym hover legend
+      for (const term of breakdown) {
+        expect(term.fullName).toBeTruthy();
+      }
+
+      // Weapon Hit subtotal equals edpsDDBoss; Offhand Hit total equals edpsOffhandBoss
+      const weaponHit = breakdown.find(t => t.label === 'Weapon Hit');
+      expect(weaponHit.value).toBe(values.edpsDDBoss);
+      expect(weaponHit.isSubtotal).toBe(true);
+
+      const offhandHit = breakdown[breakdown.length - 1];
+      expect(offhandHit.value).toBe(values.edpsOffhandBoss);
     });
   });
 });

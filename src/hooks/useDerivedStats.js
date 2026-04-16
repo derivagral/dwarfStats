@@ -21,7 +21,7 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
  * @returns {Object} Aggregated and calculated stats
  */
 export function useDerivedStats(options = {}) {
-  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, edpsTarget = 'boss' } = options;
+  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null } = options;
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -227,17 +227,15 @@ export function useDerivedStats(options = {}) {
     return null;
   }, [equippedItems]);
 
-  // Merge stance detection and boss/normal target into config overrides for eDPS
+  // Merge stance detection into config overrides for eDPS
   const finalConfigOverrides = useMemo(() => {
-    const merged = { ...configOverrides };
-    if (detectedStance) {
-      merged.edpsAdditiveMulti = { stance: detectedStance };
-      merged.edpsSCHD = { stance: detectedStance };
-    }
-    merged.edpsEffective = { ...DERIVED_STATS.edpsEffective?.config, target: edpsTarget };
-    merged.edpsEffectiveOffhand = { ...DERIVED_STATS.edpsEffectiveOffhand?.config, target: edpsTarget };
-    return merged;
-  }, [configOverrides, detectedStance, edpsTarget]);
+    if (!detectedStance) return configOverrides;
+    return {
+      ...configOverrides,
+      edpsAdditiveMulti: { stance: detectedStance },
+      edpsSCHD: { stance: detectedStance },
+    };
+  }, [configOverrides, detectedStance]);
 
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {
@@ -356,8 +354,20 @@ export function useDerivedStats(options = {}) {
 
     const processedIds = new Set();
 
+    // Intermediate eDPS result rows are already surfaced inside the
+    // Effective Damage tooltip breakdown, so we skip rendering them as
+    // separate lines to keep the section compact.
+    const EDPS_HIDDEN_RESULT_IDS = new Set([
+      'edpsDDNormal', 'edpsDDBoss',
+      'edpsOffhandNormal', 'edpsOffhandBoss',
+    ]);
+
     // Process calculated/derived stats first
     for (const stat of detailed) {
+      if (EDPS_HIDDEN_RESULT_IDS.has(stat.id)) {
+        processedIds.add(stat.id);
+        continue;
+      }
       // Route total stats to display categories with bonus% applied and source breakdown
       if (TOTAL_STAT_ROUTING[stat.id]) {
         const routing = TOTAL_STAT_ROUTING[stat.id];
@@ -522,17 +532,13 @@ export function useDerivedStats(options = {}) {
       }
     }
 
-    // Pin eDPS headlines (Effective Damage / Offhand) to the top of the eDPS section
+    // Pin Effective Damage headline to the top of the eDPS section.
     if (Array.isArray(result.edps)) {
-      const headlineIds = ['edpsEffective', 'edpsEffectiveOffhand'];
-      const headlines = [];
-      const rest = [];
-      for (const stat of result.edps) {
-        if (headlineIds.includes(stat.id)) headlines.push(stat);
-        else rest.push(stat);
+      const headlineIdx = result.edps.findIndex(s => s.id === 'edpsEffective');
+      if (headlineIdx > 0) {
+        const [headline] = result.edps.splice(headlineIdx, 1);
+        result.edps.unshift(headline);
       }
-      headlines.sort((a, b) => headlineIds.indexOf(a.id) - headlineIds.indexOf(b.id));
-      result.edps = [...headlines, ...rest];
     }
 
     return result;

@@ -1321,10 +1321,6 @@ h1::before {
 }
 
 .category-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -1375,22 +1371,6 @@ h1::before {
 /* Totals section consolidated display */
 .totals-category .category-header {
   color: var(--success, #22c55e);
-}
-
-.edps-target-toggle {
-  background: var(--bg-primary);
-  color: var(--accent);
-  border: 1px solid var(--border-color);
-  border-radius: 3px;
-  padding: 0.15rem 0.5rem;
-  font-size: 0.7rem;
-  text-transform: none;
-  letter-spacing: normal;
-  cursor: pointer;
-}
-
-.edps-target-toggle:hover {
-  background: var(--bg-secondary);
 }
 
 .totals-grid {
@@ -1557,6 +1537,7 @@ h1::before {
 
 .stat-tooltip-formula {
   margin-bottom: 0.75rem;
+  min-width: 18rem;
 }
 
 .stat-tooltip-formula-row {
@@ -1564,16 +1545,31 @@ h1::before {
   grid-template-columns: 1.2rem 1fr auto;
   gap: 0.5rem;
   align-items: baseline;
-  padding: 0.25rem 0;
+  padding: 0.3rem 0;
   font-size: 0.8rem;
   border-bottom: 1px dashed var(--border-color);
 }
 
 .stat-tooltip-formula-row:last-child {
   border-bottom: none;
-  font-weight: 600;
-  padding-top: 0.4rem;
-  margin-top: 0.1rem;
+}
+
+.stat-tooltip-formula-row.is-subtotal {
+  background: var(--bg-primary);
+  padding: 0.35rem 0.4rem;
+  margin: 0.1rem -0.4rem;
+  border-radius: 3px;
+  border-bottom: none;
+}
+
+.stat-tooltip-formula-row.is-subtotal .formula-value {
+  color: var(--accent);
+}
+
+.stat-tooltip-formula-row.is-total {
+  font-weight: 700;
+  padding-top: 0.45rem;
+  margin-top: 0.15rem;
   border-top: 1px solid var(--border-color);
 }
 
@@ -1585,6 +1581,30 @@ h1::before {
 
 .stat-tooltip-formula-row .formula-label {
   color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.stat-tooltip-formula-row .formula-abbr {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 600;
+  cursor: help;
+  text-decoration: underline dotted var(--border-color);
+  text-underline-offset: 2px;
+}
+
+.stat-tooltip-formula-row.is-subtotal .formula-abbr,
+.stat-tooltip-formula-row.is-total .formula-abbr {
+  text-decoration: none;
+  cursor: default;
+}
+
+.stat-tooltip-formula-row .formula-fullname {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  line-height: 1.2;
 }
 
 .stat-tooltip-formula-row .formula-value {

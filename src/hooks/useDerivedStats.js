@@ -34,7 +34,7 @@ export function useDerivedStats(options = {}) {
       const sourceName = rawValue?.sourceName || 'Character';
       stats[statId] = {
         total: value,
-        sources: [{ itemName: sourceName, slot: 'base', value }],
+        sources: [{ itemName: sourceName, slot: 'base', value, sourceType: 'item' }],
       };
     }
 
@@ -50,6 +50,7 @@ export function useDerivedStats(options = {}) {
         itemName: `${activeStance.id}.level.1`,
         slot: 'stance',
         value,
+        sourceType: 'item',
       });
     }
 
@@ -82,6 +83,7 @@ export function useDerivedStats(options = {}) {
             itemName,
             slot: slotKey,
             value: stat.value,
+            sourceType: 'item',
           });
         }
       });
@@ -97,6 +99,7 @@ export function useDerivedStats(options = {}) {
             itemName: `${itemName} (override)`,
             slot: slotKey,
             value: mod.value,
+            sourceType: 'item',
           });
         }
       }
@@ -285,11 +288,17 @@ export function useDerivedStats(options = {}) {
       totalStamina: { base: 'stamina', bonus: 'staminaBonus', category: 'attributes', name: 'Stamina' },
       totalArmor: { base: 'armor', bonus: 'armorBonus', category: 'defense', name: 'Armor' },
       totalHealth: { base: 'health', bonus: 'healthBonus', category: 'defense', name: 'Health' },
-      totalDamage: { base: 'damage', bonus: 'damageBonus', category: 'offense', name: 'Damage' },
+      // totalDamage is intentionally omitted from the display routing: the
+      // Effective Damage headline (edpsEffective) is the canonical damage
+      // number and its tooltip covers the full formula. totalDamage is still
+      // calculated and feeds into edpsFlat; its base/bonus affixes stay
+      // consumed by the set below so they don't surface as raw rows.
     };
 
-    // Base/bonus stat IDs consumed by total stats (don't show separately)
-    const consumedByTotals = new Set();
+    // Base/bonus stat IDs consumed by total stats (don't show separately).
+    // damage and damageBonus are consumed manually since totalDamage no longer
+    // owns them in the display routing above.
+    const consumedByTotals = new Set(['damage', 'damageBonus']);
     for (const info of Object.values(TOTAL_STAT_ROUTING)) {
       consumedByTotals.add(info.base);
       consumedByTotals.add(info.bonus);

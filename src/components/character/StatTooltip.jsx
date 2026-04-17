@@ -133,7 +133,7 @@ export function StatTooltip({
           {stat.breakdown.map((term, i) => (
             <div
               key={i}
-              className={`stat-tooltip-formula-row${term.isSubtotal ? ' is-subtotal' : ''}${term.op === '=' && i === stat.breakdown.length - 1 ? ' is-total' : ''}`}
+              className={`stat-tooltip-formula-row${term.isSubtotal ? ' is-subtotal' : ''}${term.op === '=' && i === stat.breakdown.length - 1 ? ' is-total' : ''}${term.isMonogram ? ' is-monogram' : ''}`}
             >
               <span className="formula-op">{term.op}</span>
               <span className="formula-label">
@@ -150,7 +150,7 @@ export function StatTooltip({
         <div className="stat-tooltip-breakdown">
           <div className="stat-tooltip-section-title">Sources</div>
           {stat.sources.map((source, i) => (
-            <div key={i} className="stat-tooltip-source">
+            <div key={i} className={`stat-tooltip-source${source.sourceType === 'monogram' ? ' is-monogram' : ''}`}>
               <span className="source-item">{source.itemName}</span>
               <span className="source-value">{formatSourceValue(source.value, source.isPercent)}</span>
             </div>

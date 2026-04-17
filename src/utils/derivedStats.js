@@ -33,6 +33,30 @@ export const LAYERS = {
 };
 
 // ============================================================================
+// BREAKDOWN HELPERS
+// ============================================================================
+
+const MONOGRAM_CATEGORIES = new Set(['monogram-buff', 'monogram-chain', 'monogram', 'chained']);
+
+/**
+ * Build a breakdown term for a derived stat's formula tooltip.
+ * Looks up the stat's display name and auto-tags monogram-sourced terms so the
+ * tooltip can style them distinctly.
+ */
+function term(stats, id, op, fmt, overrides = {}) {
+  const def = DERIVED_STATS[id];
+  return {
+    label: id,
+    fullName: def?.name || id,
+    op,
+    value: stats[id],
+    fmt,
+    isMonogram: MONOGRAM_CATEGORIES.has(def?.category),
+    ...overrides,
+  };
+}
+
+// ============================================================================
 // DERIVED STAT DEFINITIONS
 // ============================================================================
 
@@ -874,6 +898,31 @@ export const DERIVED_STATS = {
     },
     format: v => `+${v.toFixed(0)}%`,
     description: 'Damage bonus from highest stat (1% per 50)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // STAT DAMAGE FLAT (Ring Monogram)
+  // 15 flat damage per 150 of highest stat (feeds edpsFlat)
+  // ---------------------------------------------------------------------------
+  statDamageFlatBonus: {
+    id: 'statDamageFlatBonus',
+    name: 'Stat Damage (Flat)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      damagePerInterval: 15,
+      statInterval: 150,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.statDamageFlatBonus.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.damagePerInterval;
+    },
+    format: v => `+${v.toFixed(0)}`,
+    description: '+15 flat damage per 150 of highest stat',
   },
 
   // ---------------------------------------------------------------------------
@@ -1794,17 +1843,28 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: ['totalDamage', 'damageFromHealth',
-      'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'paragonDamageBonus'],
+      'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'paragonDamageBonus',
+      'statDamageFlatBonus'],
     calculate: (stats) => {
       const baseDamage = stats.totalDamage || 0;
       const healthDamage = stats.damageFromHealth || 0;
       const flatMono = stats.flatDamageMonogramBonus || 0;
       const noEnergyMono = stats.noEnergyDamageBonus || 0;
       const paragonDmg = stats.paragonDamageBonus || 0;
-      return Math.floor(baseDamage + healthDamage + flatMono + noEnergyMono + paragonDmg);
+      const statDmgFlat = stats.statDamageFlatBonus || 0;
+      return Math.floor(baseDamage + healthDamage + flatMono + noEnergyMono + paragonDmg + statDmgFlat);
     },
     format: v => v.toFixed(0),
     description: 'Total flat damage: gear damage + health conversion + monogram flat bonuses',
+    breakdown: (stats) => [
+      term(stats, 'totalDamage', '+', 'int'),
+      term(stats, 'damageFromHealth', '+', 'int'),
+      term(stats, 'flatDamageMonogramBonus', '+', 'int'),
+      term(stats, 'noEnergyDamageBonus', '+', 'int'),
+      term(stats, 'paragonDamageBonus', '+', 'int'),
+      term(stats, 'statDamageFlatBonus', '+', 'int'),
+      { label: 'FLAT', fullName: 'Base Damage (sum)', op: '=', value: stats.edpsFlat, fmt: 'int', isSubtotal: true },
+    ],
   },
 
   /**
@@ -1858,6 +1918,40 @@ export const DERIVED_STATS = {
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Additive bucket: Crit Damage + Damage Bonus% + Stance Damage% + monogram damage%',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsAdditiveMulti.config;
+      const STANCE_DMG_IDS = {
+        maul: 'maulDamage', sword: 'swordDamage', archery: 'archeryDamage',
+        magery: 'mageryDamage', unarmed: 'unarmedDamage', scythe: 'scytheDamage',
+        twohand: 'twohandDamage', spear: 'spearDamage',
+      };
+      let stanceId = null;
+      if (config.stance && STANCE_DMG_IDS[config.stance]) {
+        stanceId = STANCE_DMG_IDS[config.stance];
+      } else {
+        let best = 0;
+        for (const id of Object.values(STANCE_DMG_IDS)) {
+          if ((stats[id] || 0) > best) { best = stats[id]; stanceId = id; }
+        }
+      }
+      const monoPct = (id) => ((stats[id] || 0) / 100);
+      return [
+        term(stats, 'critDamage', '+', 'pct'),
+        term(stats, 'damageBonus', '+', 'pct'),
+        stanceId
+          ? term(stats, stanceId, '+', 'pct', { fullName: `Stance Damage (${config.stance || 'highest'})` })
+          : { label: 'stanceDamage', fullName: 'Stance Damage', op: '+', value: 0, fmt: 'pct' },
+        { label: 'phasingDamageBonus', fullName: DERIVED_STATS.phasingDamageBonus.name, op: '+', value: monoPct('phasingDamageBonus'), fmt: 'pct', isMonogram: true },
+        { label: 'shroudDamageBonus', fullName: DERIVED_STATS.shroudDamageBonus.name, op: '+', value: monoPct('shroudDamageBonus'), fmt: 'pct', isMonogram: true },
+        { label: 'bloodlustDrawBloodBonus', fullName: DERIVED_STATS.bloodlustDrawBloodBonus.name, op: '+', value: monoPct('bloodlustDrawBloodBonus'), fmt: 'pct', isMonogram: true },
+        { label: 'highestStatDamageBonus', fullName: DERIVED_STATS.highestStatDamageBonus.name, op: '+', value: monoPct('highestStatDamageBonus'), fmt: 'pct', isMonogram: true },
+        { label: 'damagePercentForStat2', fullName: DERIVED_STATS.damagePercentForStat2.name, op: '+', value: monoPct('damagePercentForStat2'), fmt: 'pct', isMonogram: true },
+        { label: 'colossusDamageBonus', fullName: DERIVED_STATS.colossusDamageBonus.name, op: '+', value: monoPct('colossusDamageBonus'), fmt: 'pct', isMonogram: true },
+        { label: 'damageNoPotionBonus', fullName: DERIVED_STATS.damageNoPotionBonus.name, op: '+', value: monoPct('damageNoPotionBonus'), fmt: 'pct', isMonogram: true },
+        { label: 'invSlotDamageBonus', fullName: DERIVED_STATS.invSlotDamageBonus.name, op: '+', value: monoPct('invSlotDamageBonus'), fmt: 'pct', isMonogram: true },
+        { label: 'CHD+DB+SD', fullName: 'Additive Multiplier (sum)', op: '=', value: stats.edpsAdditiveMulti, fmt: 'pct', isSubtotal: true },
+      ];
+    },
   },
 
   /**
@@ -1896,6 +1990,32 @@ export const DERIVED_STATS = {
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Stance Crit Hit Damage multiplier (standalone since S4.0)',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsSCHD.config;
+      const STANCE_CRIT_IDS = {
+        maul: 'maulCritDamage', sword: 'swordCritDamage', archery: 'archeryCritDamage',
+        magery: 'mageryCritDamage', unarmed: 'unarmedCritDamage', scythe: 'scytheCritDamage',
+        twohand: 'twohandCritDamage', spear: 'spearCritDamage',
+      };
+      let stanceId = null;
+      if (config.stance && STANCE_CRIT_IDS[config.stance]) {
+        stanceId = STANCE_CRIT_IDS[config.stance];
+      } else {
+        let best = 0;
+        for (const id of Object.values(STANCE_CRIT_IDS)) {
+          if ((stats[id] || 0) > best) { best = stats[id]; stanceId = id; }
+        }
+      }
+      return [
+        { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
+        stanceId
+          ? term(stats, stanceId, '+', 'pct', { fullName: `Stance Crit Damage (${config.stance || 'highest'})` })
+          : { label: 'stanceCritDamage', fullName: 'Stance Crit Damage', op: '+', value: 0, fmt: 'pct' },
+        { label: 'bloodlustCritDamageBonus', fullName: DERIVED_STATS.bloodlustCritDamageBonus.name, op: '+', value: (stats.bloodlustCritDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'critDamageFromArmor', fullName: DERIVED_STATS.critDamageFromArmor.name, op: '+', value: (stats.critDamageFromArmor || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'SCHD', fullName: 'Stance Crit Hit Damage', op: '=', value: stats.edpsSCHD, fmt: 'pct', isSubtotal: true },
+      ];
+    },
   },
 
   /**
@@ -1923,6 +2043,17 @@ export const DERIVED_STATS = {
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Weapon Ability Damage: primary 200%, Q/R 400% + monogram bonuses',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsWAD.config;
+      const base = config.useSecondary ? config.secondaryBase : config.primaryBase;
+      const baseLabel = config.useSecondary ? 'secondaryBase' : 'primaryBase';
+      const baseName = config.useSecondary ? 'Q/R base (400%)' : 'Left Click base (200%)';
+      return [
+        { label: baseLabel, fullName: baseName, op: '=', value: base, fmt: 'pct' },
+        { label: 'wadBonus', fullName: 'WAD monogram/tree bonuses', op: '+', value: config.wadBonus || 0, fmt: 'pct', isMonogram: true },
+        { label: 'WAD', fullName: 'Weapon Ability Damage', op: '=', value: stats.edpsWAD, fmt: 'pct', isSubtotal: true },
+      ];
+    },
   },
 
   /**
@@ -1967,6 +2098,21 @@ export const DERIVED_STATS = {
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Independent multipliers: class weapon, distance procs, shroud flat%',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsEMulti.config;
+      const distFar = stats.distanceProcsDamageBonus || 0;
+      const distNear = stats.distanceProcsNearDamageBonus || 0;
+      const dist = Math.max(distFar, distNear);
+      const useNear = distNear >= distFar && distNear > 0;
+      const distLabel = useNear ? 'distanceProcsNearDamageBonus' : 'distanceProcsDamageBonus';
+      const distName = useNear ? DERIVED_STATS.distanceProcsNearDamageBonus.name : DERIVED_STATS.distanceProcsDamageBonus.name;
+      return [
+        { label: 'classWeaponBonus', fullName: 'Class Weapon Bonus (manual)', op: '×', value: 1 + (config.classWeaponBonus || 0), fmt: 'pct' },
+        { label: distLabel, fullName: distName, op: '×', value: 1 + dist / 100, fmt: 'pct', isMonogram: true },
+        { label: 'shroudFlatDamageBonus', fullName: DERIVED_STATS.shroudFlatDamageBonus.name, op: '×', value: 1 + (stats.shroudFlatDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'EMulti', fullName: 'Enchant Multipliers (product)', op: '=', value: stats.edpsEMulti, fmt: 'pct', isSubtotal: true },
+      ];
+    },
   },
 
   /**
@@ -1985,6 +2131,12 @@ export const DERIVED_STATS = {
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Boss/Elite damage multiplier',
+    breakdown: (stats) => [
+      { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
+      term(stats, 'bossBonus', '+', 'pct'),
+      { label: 'phasingBossDamageBonus', fullName: DERIVED_STATS.phasingBossDamageBonus.name, op: '+', value: (stats.phasingBossDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'BD', fullName: 'Boss Damage', op: '=', value: stats.edpsBD, fmt: 'pct', isSubtotal: true },
+    ],
   },
 
   /**
@@ -2012,6 +2164,17 @@ export const DERIVED_STATS = {
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Elemental damage multiplier (all sources additive)',
+    breakdown: (stats) => [
+      { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
+      term(stats, 'fireDamageBonus', '+', 'pct'),
+      term(stats, 'arcaneDamageBonus', '+', 'pct'),
+      term(stats, 'lightningDamageBonus', '+', 'pct'),
+      { label: 'elementFromCritChance', fullName: DERIVED_STATS.elementFromCritChance.name, op: '+', value: (stats.elementFromCritChance || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'arcaneMineBonus', fullName: DERIVED_STATS.arcaneMineBonus.name, op: '+', value: (stats.arcaneMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'fireMineBonus', fullName: DERIVED_STATS.fireMineBonus.name, op: '+', value: (stats.fireMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'lightningMineBonus', fullName: DERIVED_STATS.lightningMineBonus.name, op: '+', value: (stats.lightningMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'ED', fullName: 'Elemental Damage', op: '=', value: stats.edpsED, fmt: 'pct', isSubtotal: true },
+    ],
   },
 
   /**
@@ -2035,6 +2198,14 @@ export const DERIVED_STATS = {
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Offhand ability damage + skill tree affinity',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsAD.config;
+      return [
+        { label: 'abilityDamage', fullName: 'Ability Damage (gear skill%)', op: '=', value: config.abilityDamage, fmt: 'pct' },
+        { label: 'affinityDamage', fullName: 'Affinity Damage (skill tree)', op: '+', value: config.affinityDamage, fmt: 'pct' },
+        { label: 'AD+AFFIN', fullName: 'Ability + Affinity', op: '=', value: stats.edpsAD, fmt: 'pct', isSubtotal: true },
+      ];
+    },
   },
 
   /**
@@ -2115,6 +2286,34 @@ export const DERIVED_STATS = {
     },
     format: v => v.toLocaleString(),
     description: 'Boss DD × (AD + Affinity) × Elemental Damage',
+  },
+
+  /**
+   * Effective Damage — headline stat merging the weapon hit and offhand proc.
+   * Final value is the per-hit boss offhand damage. Tooltip breakdown walks
+   * the full formula and surfaces the intermediate weapon hit as a subtotal.
+   */
+  edpsEffective: {
+    id: 'edpsEffective',
+    name: 'Effective Damage',
+    category: 'edps-result',
+    layer: LAYERS.EDPS,
+    dependencies: ['edpsFlat', 'edpsAdditiveMulti', 'edpsSCHD', 'edpsWAD', 'edpsEMulti', 'edpsBD', 'edpsDDBoss', 'edpsAD', 'edpsED', 'edpsOffhandBoss'],
+    calculate: (stats) => stats.edpsOffhandBoss || 0,
+    format: v => v.toLocaleString(),
+    description: 'Boss offhand damage per hit (weapon hit shown in tooltip).',
+    breakdown: (stats) => [
+      { label: 'FLAT',         fullName: 'Base Damage',                   op: '=', value: stats.edpsFlat,          fmt: 'int' },
+      { label: 'CHD+DB+SD',    fullName: 'Crit + Dmg% + Stance Dmg%',     op: '×', value: stats.edpsAdditiveMulti, fmt: 'pct' },
+      { label: 'SCHD',         fullName: 'Stance Crit Hit Damage',        op: '×', value: stats.edpsSCHD,          fmt: 'pct' },
+      { label: 'WAD',          fullName: 'Weapon Ability Damage',         op: '×', value: stats.edpsWAD,           fmt: 'pct' },
+      { label: 'EMulti',       fullName: 'Enchant Multipliers',           op: '×', value: stats.edpsEMulti,        fmt: 'pct' },
+      { label: 'BD',           fullName: 'Boss Damage',                   op: '×', value: stats.edpsBD,            fmt: 'pct' },
+      { label: 'Weapon Hit',   fullName: 'Subtotal (DD) — per-hit damage', op: '=', value: stats.edpsDDBoss,        fmt: 'int', isSubtotal: true },
+      { label: 'AD+AFFIN',     fullName: 'Ability + Affinity Damage',     op: '×', value: stats.edpsAD,            fmt: 'pct' },
+      { label: 'ED',           fullName: 'Elemental Damage',              op: '×', value: stats.edpsED,            fmt: 'pct' },
+      { label: 'Offhand Hit',  fullName: 'Effective Damage (final)',      op: '=', value: stats.edpsOffhandBoss,   fmt: 'int' },
+    ],
   },
 };
 

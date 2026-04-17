@@ -511,5 +511,82 @@ describe('derivedStats', () => {
       expect(result.edpsDDNormal).toBe(200);
       expect(result.edpsOffhandNormal).toBe(800);
     });
+
+    it('should leave edpsFlat unchanged when Stat Damage ring is disabled', () => {
+      const baseStats = { damage: 100, strength: 300 };
+      const result = calculateDerivedStats(baseStats);
+      expect(result.statDamageFlatBonus).toBe(0);
+      expect(result.edpsFlat).toBe(100);
+    });
+
+    it('should add ring Stat Damage (+15 per 150 highest) into edpsFlat when enabled', () => {
+      const baseStats = { damage: 100, strength: 300 };
+      const config = {
+        statDamageFlatBonus: { enabled: true, damagePerInterval: 15, statInterval: 150 },
+      };
+      const result = calculateDerivedStats(baseStats, config);
+      // floor(300 / 150) * 15 = 30
+      expect(result.statDamageFlatBonus).toBe(30);
+      expect(result.edpsFlat).toBe(130);
+    });
+
+    it('should resolve edpsEffective to the boss offhand damage (merged headline)', () => {
+      const baseStats = {
+        damage: 100,
+        damageBonus: 0,
+        critDamage: 1.0,
+        bossBonus: 1.0,
+        fireDamageBonus: 1.0,
+      };
+      const config = {
+        edpsAD: { abilityDamage: 1.5, affinityDamage: 0.5 },
+      };
+      const result = calculateDerivedStats(baseStats, config);
+      // DDBoss = 400, AD = 2.0, ED = 2.0 → OffhandBoss = 1600
+      expect(result.edpsEffective).toBe(result.edpsOffhandBoss);
+      expect(result.edpsEffective).toBe(1600);
+    });
+
+    it('should produce a breakdown with weapon-hit subtotal and offhand total', () => {
+      const baseStats = {
+        damage: 100,
+        critDamage: 1.0,
+        bossBonus: 1.0,
+        fireDamageBonus: 1.0,
+      };
+      const config = {
+        edpsAD: { abilityDamage: 1.5, affinityDamage: 0.5 },
+      };
+      const values = calculateDerivedStats(baseStats, config);
+
+      const breakdown = DERIVED_STATS.edpsEffective.breakdown(values);
+      const labels = breakdown.map(t => t.label);
+      // Full formula including both weapon and offhand terms
+      expect(labels).toEqual([
+        'FLAT',
+        'CHD+DB+SD',
+        'SCHD',
+        'WAD',
+        'EMulti',
+        'BD',
+        'Weapon Hit',
+        'AD+AFFIN',
+        'ED',
+        'Offhand Hit',
+      ]);
+
+      // Each term carries a fullName for the acronym hover legend
+      for (const term of breakdown) {
+        expect(term.fullName).toBeTruthy();
+      }
+
+      // Weapon Hit subtotal equals edpsDDBoss; Offhand Hit total equals edpsOffhandBoss
+      const weaponHit = breakdown.find(t => t.label === 'Weapon Hit');
+      expect(weaponHit.value).toBe(values.edpsDDBoss);
+      expect(weaponHit.isSubtotal).toBe(true);
+
+      const offhandHit = breakdown[breakdown.length - 1];
+      expect(offhandHit.value).toBe(values.edpsOffhandBoss);
+    });
   });
 });

@@ -15,16 +15,16 @@ const categoryLabels = {
   unmapped: 'Unmapped (Debug)',
 };
 
-// Attributes first, then combat stats, eDPS, then monograms at the end
-const categoryOrder = ['attributes', 'offense', 'stance', 'elemental', 'defense', 'edps', 'monograms', 'abilities', 'utility', 'unmapped'];
+// eDPS first so the damage headline is the user's landing spot; monograms last.
+const categoryOrder = ['edps', 'attributes', 'offense', 'stance', 'elemental', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
 
 /**
  * @param {Object} props
  * @param {Object} props.characterData - Character data with equipped items (may include modified items)
  */
 export function StatsPanel({ characterData }) {
-  const { categories } = useDerivedStats(characterData);
   const [hideZero, setHideZero] = useState(false);
+  const { categories } = useDerivedStats(characterData);
 
   const toggleHideZero = useCallback(() => {
     setHideZero(prev => !prev);

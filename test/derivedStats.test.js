@@ -473,5 +473,59 @@ describe('derivedStats', () => {
       expect(r.edpsElemPrimary).toBeGreaterThan(0);
     });
   });
+
+  describe('eDPS update: attack speed, elemental crit, essence, conversions', () => {
+    it('effectiveAttackSpeed applies 50% effectiveness and caps at 300%', () => {
+      // Below cap: raw 5.0 × 0.5 = 2.5
+      expect(calculateDerivedStats({ attackSpeed: 5.0 }).effectiveAttackSpeed).toBeCloseTo(2.5, 2);
+      // Above cap: raw 8.0 × 0.5 = 4.0 → capped at 3.0
+      expect(calculateDerivedStats({ attackSpeed: 8.0 }).effectiveAttackSpeed).toBeCloseTo(3.0, 2);
+    });
+
+    it('elemental crit bucket folds regular + stance crit damage into the elemental line', () => {
+      const base = { elementalDamage: 100, fireDamageBonus: 1.0, critDamage: 1.0, archeryCritDamage: 0.5 };
+      const r = calculateDerivedStats(base);
+      // ElemCrit = 1 + crit(1.0) + archeryStanceCrit(0.5) = 2.5
+      expect(r.edpsElemCrit).toBeCloseTo(2.5, 2);
+      // Left elemental = 100 × (0 + 2.0) × ED(2.0) × ElemCrit(2.5) = 1000
+      expect(r.edpsElemPrimary).toBe(1000);
+    });
+
+    it('damageFromEssence (2% per 10 essence) feeds the both-types bucket via Dark Essence', () => {
+      const r = calculateDerivedStats(
+        { strength: 400, critDamage: 0 },
+        {
+          darkEssenceStacks: { enabled: true, maxStacks: 500, currentStacks: 500 },
+          damageFromEssence: { enabled: true, percentPerInterval: 2, essenceInterval: 10 },
+        }
+      );
+      expect(r.essence).toBe(500);                 // highest(400) × 1.25
+      expect(r.damageFromEssence).toBe(100);       // floor(500/10) × 2
+      expect(r.edpsBothTypesDamageBonus).toBeCloseTo(1.0, 2);
+    });
+
+    it('elemental→physical FLAT conversion adds 75% of elemental flat and disables elemental', () => {
+      const base = { damage: 100, elementalDamage: 80, fireDamageBonus: 1.0, critDamage: 1.0 };
+      const r = calculateDerivedStats(base, {
+        edpsPhysFlat: { elemToPhysFlatRatio: 0.75 },
+        elementalDisabled: { enabled: true },
+      });
+      expect(r.edpsPhysFlat).toBe(160);            // floor(100 + 0.75 × 80)
+      expect(r.edpsElemPrimary).toBe(0);           // elemental disabled
+      expect(r.edpsElemFlat).toBe(80);             // raw pool still computed (read by conversion)
+    });
+
+    it('elemental→physical BONUS conversion folds 75% of (ED − 1) into physical additive', () => {
+      const base = { damage: 100, elementalDamage: 80, fireDamageBonus: 1.0, critDamage: 1.0 };
+      const r = calculateDerivedStats(base, {
+        edpsPhysAdditive: { elemBonusToPhysRatio: 0.75 },
+        elementalDisabled: { enabled: true },
+      });
+      // ED = 1 + fire(1.0) = 2.0 → (ED−1)=1.0 → +0.75 into physical additive
+      // additive = crit(1.0) + converted(0.75) = 1.75 (no stance crit in base)
+      expect(r.edpsPhysAdditive).toBeCloseTo(1.75, 2);
+      expect(r.edpsElemPrimary).toBe(0);
+    });
+  });
 });
 

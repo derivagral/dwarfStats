@@ -671,7 +671,10 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
   'BonusDamage%ForEssence': {
     displayName: 'Damage from Essence',
-    effects: [],
+    description: '+2% damage (both types) per 10 essence (lose 20% essence as HP/sec)',
+    effects: [
+      { derivedStatId: 'damageFromEssence', config: { enabled: true, percentPerInterval: 2, essenceInterval: 10 } },
+    ],
   },
   'MaxHp%ForStat.Highest': {
     displayName: 'HP from Stats',
@@ -798,6 +801,38 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+1% damage (both types) per 10s of phasing',
     effects: [
       { derivedStatId: 'phasingDurationDamage', config: { enabled: true, percentPer10s: 1 } },
+    ],
+  },
+
+  // Elemental → Physical FLAT conversion: gain 75% of elemental damage as
+  // physical damage; can no longer deal elemental damage.
+  'ElementalToPhysical.Flat': {
+    displayName: 'Elemental→Physical (Flat)',
+    description: 'Gain 75% of elemental damage as physical; elemental disabled',
+    effects: [
+      { derivedStatId: 'edpsPhysFlat', config: { elemToPhysFlatRatio: 0.75 } },
+      { derivedStatId: 'elementalDisabled', config: { enabled: true } },
+    ],
+  },
+
+  // Elemental → Physical BONUS conversion: gain 75% of elemental damage bonus
+  // as physical damage bonus; can no longer deal elemental damage.
+  'ElementalToPhysical.Bonus': {
+    displayName: 'Elemental→Physical (Bonus)',
+    description: 'Gain 75% of elemental damage bonus as physical damage bonus; elemental disabled',
+    effects: [
+      { derivedStatId: 'edpsPhysAdditive', config: { elemBonusToPhysRatio: 0.75 } },
+      { derivedStatId: 'elementalDisabled', config: { enabled: true } },
+    ],
+  },
+
+  // Essence damage drain variant (lose 20% essence as HP/sec). Damage portion
+  // shares the damageFromEssence derived stat.
+  'Damage%ForEssence.HealthDrain': {
+    displayName: 'Essence Damage (Health Drain)',
+    description: '+2% damage (both types) per 10 essence; lose 20% essence as HP/sec',
+    effects: [
+      { derivedStatId: 'damageFromEssence', config: { enabled: true, percentPerInterval: 2, essenceInterval: 10 } },
     ],
   },
 };

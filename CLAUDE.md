@@ -251,18 +251,38 @@ Key structural points (vs the pre-split single-line model):
 | BaseElem | `edpsElemFlat` | `elementalDamage` + damageFromHealth + statDamageFlat + paragon + energy→elem + essence→elem |
 | Phys bucket | `edpsPhysAdditive` | StanceCrit + Crit + PhysDmg% + StanceDmg + bloodlust/armor crit + phys monograms + both-types |
 | Elem bucket | `edpsElemAdditive` | item offhand% + affinity + both-types (skill mult added per skill) |
-| both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + dmgPerStat2 + phasingDuration |
+| both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + dmgPerStat2 + phasingDuration + essence(2%/10) |
 | ED | `edpsED` | fire + arcane + lightning + elemFromCrit + mines + new elemental monograms |
+| ElemCrit | `edpsElemCrit` | 1 + regular crit dmg + stance crit dmg (provisional elemental crit bucket) |
 | BD | `edpsBD` | bossBonus (gear) + phasing boss dmg |
 | EMulti | `edpsEMulti` | classWeapon × distance procs × shroud flat% (physical line) |
 | OffhandMods | `edpsOffhandMods` | skill-specific extra multiplier (default 1) |
+
+Elemental on-hit now multiplies through `edpsElemCrit` as well:
+`BaseElem × (ElemBucket + SkillMult) × ED × ElemCrit × OffhandMods`. The crit
+bucket exists because offhand abilities can now crit at 10% of crit chance; the
+exact weighting is unconfirmed, so `edpsElemCrit.offhandCritFactor` (default 1)
+is the hook for it.
+
+**Elemental→Physical conversion monograms** ("gain 75% of elemental … as physical
+… you can no longer deal elemental damage"):
+- `edpsPhysFlat.elemToPhysFlatRatio` adds that fraction of `edpsElemFlat` into physical flat.
+- `edpsPhysAdditive.elemBonusToPhysRatio` adds that fraction of `(edpsED − 1)` into physical additive.
+- `elementalDisabled` (set by the same monograms) forces the elemental on-hit results to 0.
+  Raw `edpsElemFlat`/`edpsED` still compute so the conversion can read pre-disable values.
+
+**Attack speed:** `effectiveAttackSpeed` (display only — eDPS stays IAS-independent)
+applies the new rule: all AS bonuses at 50% effectiveness, capped at 300%. Prior
+cap was a logarithmic ~79%; the new IAS→DPS curve is unconfirmed so it does not
+fold into eDPS yet.
 
 **Result Stats (per-skill on-hit, normal value; boss in tooltip):**
 - `edpsPhysPrimary` / `edpsPhysQ` / `edpsPhysR` — physical on-hit (Left/Q/R)
 - `edpsElemPrimary` / `edpsElemQ` / `edpsElemR` — elemental on-hit (Left/Q/R)
 
 **Configurable via overrides:** result-stat `multiplier` (skill %), `edpsElemAdditive`
-(offhandItemBonus + affinity), `edpsEMulti` (classWeaponBonus), `edpsOffhandMods` (multiplier).
+(offhandItemBonus + affinity), `edpsEMulti` (classWeaponBonus), `edpsOffhandMods` (multiplier),
+`edpsElemCrit` (offhandCritFactor), `edpsPhysFlat`/`edpsPhysAdditive` (elem→phys conversion ratios).
 
 **Stance detection:** `inferWeaponStance(rowName)` in `equipmentParser.js` maps weapon keywords to stance prefixes. `useDerivedStats` auto-detects stance from the equipped weapon's row name and passes it to eDPS calcs via config override. Falls back to highest-stat heuristic if no weapon detected.
 
@@ -478,6 +498,36 @@ GitHub Actions workflow in `.github/workflows/static.yml`:
 Push to `main` triggers deployment automatically.
 
 ## Integration TODOs
+
+### Unconfirmed monogram save-tag IDs (engine wired, off by default)
+These derived stats are implemented and unit-tested, but their real
+`EasyRPG.Items.Modifiers.*` save-tag suffixes haven't been observed yet, so the
+`MONOGRAM_CALC_CONFIGS` keys are descriptive placeholders. Rename the keys once a
+save with the items is parsed; the calc wiring stays put. Append confirmed
+mappings here as they land.
+
+| Placeholder key | Derived stat(s) | Effect |
+|-----------------|-----------------|--------|
+| `BerserkerFury.ElementalForHighest` | `berserkerElementalFromHighest` | +5% elem per 30 highest (Berserker Fury) |
+| `BerserkerFury.MaxDrDamage` | `berserkerMaxDrFlatDamage` | +100 physical at max DR |
+| `ElementalDamage%ForEssence` | `elementalFromEssence` | +2% elem per 10 essence |
+| `ElementalFlatForEssence` | `elementalFlatFromEssence` | +1.5 flat elem per 20 essence |
+| `ElementalDamage%ForHighest` | `elementalFromHighest` | +1% elem per 40 highest |
+| `Shroud.ElementalForHighest` | `shroudElementalFromHighest` | +0.15% elem per stack per 50 highest |
+| `Phasing.DurationDamage` | `phasingDurationDamage` | +1% damage (both) per 10s phasing |
+| `BonusDamage%ForEssence` / `Damage%ForEssence.HealthDrain` | `damageFromEssence` | +2% damage (both) per 10 essence |
+| `ElementalToPhysical.Flat` | `edpsPhysFlat.elemToPhysFlatRatio` + `elementalDisabled` | 75% of elem flat → physical; elemental off |
+| `ElementalToPhysical.Bonus` | `edpsPhysAdditive.elemBonusToPhysRatio` + `elementalDisabled` | 75% of elem bonus → physical; elemental off |
+
+### Attack Speed (IAS) curve
+- New rule: AS bonuses at 50% effectiveness, hard cap 300% (prior cap ~79% logarithmic).
+- `effectiveAttackSpeed` surfaces the capped value but eDPS still ignores IAS — the
+  IAS→DPS relationship is unknown. Fold into eDPS once the curve is confirmed.
+
+### Elemental crit weighting
+- Offhand abilities crit at 10% of crit chance. `edpsElemCrit` currently bakes the
+  two crit-damage stats into a flat multiplier (`offhandCritFactor` default 1).
+  Replace with the proper `0.1 × critChance` expected-value weighting once confirmed.
 
 ### Skill Tree / Affinity Data
 - **AFFIN** (affinity damage from skill tree): Currently manual config in `edpsAD`. Need to parse skill tree data from save or provide UI input.

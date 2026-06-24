@@ -241,6 +241,10 @@ export function useDerivedStats(options = {}) {
         ...(configOverrides.edpsPhysAdditive || {}),
         stance: detectedStance,
       },
+      edpsElemCrit: {
+        ...(configOverrides.edpsElemCrit || {}),
+        stance: detectedStance,
+      },
     };
   }, [configOverrides, detectedStance]);
 

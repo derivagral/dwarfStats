@@ -1,0 +1,514 @@
+{
+  "source": "chaos_r100_dual_bow",
+  "note": "Extracted equipped items (dual-bow, has both Base.Damage and Base.ElementalDamage flats)",
+  "equipped": [
+    {
+      "slot": "head",
+      "rowName": "Armor_Underworld_Plate_Helmet",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 25.347319
+        },
+        {
+          "stat": "CooldownReduction%",
+          "rawTag": "EasyRPG.Attributes.CooldownReduction%",
+          "value": 0.03
+        },
+        {
+          "stat": "DamageMultiplier",
+          "rawTag": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.DamageMultiplier",
+          "value": 0.05
+        },
+        {
+          "stat": "Luck",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 5.8055263
+        }
+      ],
+      "monograms": [
+        {
+          "id": "Bloodlust.Base",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "slot": "chest",
+      "rowName": "Armor_Epic_Plate_Chest_End_Game",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 77.079185
+        },
+        {
+          "stat": "CriticalChance",
+          "rawTag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.05214861
+        },
+        {
+          "stat": "CriticalDamage",
+          "rawTag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.30732802
+        },
+        {
+          "stat": "Stamina",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 9.964382
+        },
+        {
+          "stat": "EnergyRegeneration",
+          "rawTag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 10.292361
+        },
+        {
+          "stat": "Stamina%",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.104545794
+        }
+      ],
+      "monograms": []
+    },
+    {
+      "slot": "pants",
+      "rowName": "Armor_Epic_Plate_Pants_End_Game",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 35.071087
+        },
+        {
+          "stat": "CriticalChance",
+          "rawTag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.027675252
+        },
+        {
+          "stat": "CriticalDamage",
+          "rawTag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1659087
+        },
+        {
+          "stat": "Strength",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 5.657201
+        },
+        {
+          "stat": "EnergyRegeneration",
+          "rawTag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 5.7206182
+        },
+        {
+          "stat": "Strength%",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.056020234
+        }
+      ],
+      "monograms": []
+    },
+    {
+      "slot": "hands",
+      "rowName": "Armor_Epic_Plate_Gloves_End_Game",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 35.243385
+        },
+        {
+          "stat": "DamageMultiplier",
+          "rawTag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+          "value": 0.20638777
+        },
+        {
+          "stat": "CriticalChance",
+          "rawTag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.033054844
+        },
+        {
+          "stat": "CriticalDamage",
+          "rawTag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1980099
+        },
+        {
+          "stat": "Dexterity",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 7.031703
+        },
+        {
+          "stat": "EnergyRegeneration",
+          "rawTag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 6.788971
+        },
+        {
+          "stat": "Dexterity%",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.06913944
+        }
+      ],
+      "monograms": []
+    },
+    {
+      "slot": "boots",
+      "rowName": "Armor_Thunderbringer_Plate_Boots",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 30
+        },
+        {
+          "stat": "PoleArmCriticalDamage%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.14258978
+        },
+        {
+          "stat": "CriticalDamage%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.068
+        },
+        {
+          "stat": "CriticalDamage%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.068
+        }
+      ],
+      "monograms": [
+        {
+          "id": "ChanceToSpawnContainer",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "slot": "relic",
+      "rowName": "Shield_Relic_End_Game_2",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 12
+        },
+        {
+          "stat": "EnergyRegeneration",
+          "rawTag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 2.939216
+        },
+        {
+          "stat": "Damage%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.05
+        },
+        {
+          "stat": "Boss%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.014301536
+        }
+      ],
+      "monograms": [
+        {
+          "id": "ArmorForPotions",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "slot": "ring",
+      "rowName": "Jewlery_Ring_Generic_Base_End_Game_1",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 24
+        },
+        {
+          "stat": "DamageMultiplier",
+          "rawTag": "EasyRPG.Attributes.Abilities.StaticCharge.DamageMultiplier",
+          "value": 0.15401883
+        },
+        {
+          "stat": "Wisdom%",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.019
+        },
+        {
+          "stat": "Dexterity",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 4.6
+        }
+      ],
+      "monograms": [
+        {
+          "id": "DamageForStat.Highest",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "slot": "ring",
+      "rowName": "Jewlery_Ring_Generic_Base_End_Game_1",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 20
+        },
+        {
+          "stat": "Lightning%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.1
+        },
+        {
+          "stat": "Fire%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.1
+        },
+        {
+          "stat": "AttackSpeed",
+          "rawTag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 45
+        }
+      ],
+      "monograms": [
+        {
+          "id": "DamageForStat.Highest",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "slot": "neck",
+      "rowName": "Jewlery_Amulet_7_Snow_Damage",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 46.14589
+        },
+        {
+          "stat": "CriticalChance%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalChance%",
+          "value": 0.028
+        },
+        {
+          "stat": "EnergyRegeneration",
+          "rawTag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 2.35
+        },
+        {
+          "stat": "TwoHandCritcalChance%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.050888103
+        }
+      ],
+      "monograms": [
+        {
+          "id": "DamageBonusAnd51Damage",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "slot": "bracer",
+      "rowName": "Armor_Bracers_Zone_2_Wolf_Bracers",
+      "baseStats": [
+        {
+          "stat": "Armor",
+          "rawTag": "EasyRPG.Attributes.Base.Armor",
+          "value": 30
+        },
+        {
+          "stat": "MaxHealth",
+          "rawTag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 28
+        },
+        {
+          "stat": "PoleArmCriticalDamage%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.068
+        },
+        {
+          "stat": "DamageMultiplier",
+          "rawTag": "EasyRPG.Attributes.Abilities.ArcaneTotem.DamageMultiplier",
+          "value": 0.09
+        }
+      ],
+      "monograms": [
+        {
+          "id": "CritChanceForEnergyRegen",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "slot": "fossil",
+      "rowName": "Equipment_Dwarven_Heart",
+      "baseStats": [
+        {
+          "stat": "AttackSpeed",
+          "rawTag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 50
+        },
+        {
+          "stat": "Boss%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.05
+        },
+        {
+          "stat": "Damage%",
+          "rawTag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "stat": "XPBonus",
+          "rawTag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.05
+        },
+        {
+          "stat": "Armor%",
+          "rawTag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.05
+        }
+      ],
+      "monograms": []
+    },
+    {
+      "slot": "offhand",
+      "rowName": "None",
+      "baseStats": [],
+      "monograms": []
+    },
+    {
+      "slot": "offhand",
+      "rowName": "HornLightning",
+      "baseStats": [
+        {
+          "stat": "ProcChance",
+          "rawTag": "EasyRPG.Attributes.Abilities.Vortex.ProcChance",
+          "value": 1
+        },
+        {
+          "stat": "DamageMultiplier",
+          "rawTag": "EasyRPG.Attributes.Abilities.Vortex.DamageMultiplier",
+          "value": 0.053664662
+        },
+        {
+          "stat": "StackBuff",
+          "rawTag": "EasyRPG.Attributes.Abilities.Vortex.Modifier.StackBuff",
+          "value": 1
+        }
+      ],
+      "monograms": []
+    },
+    {
+      "slot": "offhand",
+      "rowName": "TrinketFire",
+      "baseStats": [
+        {
+          "stat": "ProcChance",
+          "rawTag": "EasyRPG.Attributes.Abilities.BurningShield.ProcChance",
+          "value": 1
+        },
+        {
+          "stat": "DamageMultiplier",
+          "rawTag": "EasyRPG.Attributes.Abilities.BurningShield.DamageMultiplier",
+          "value": 0.051361736
+        },
+        {
+          "stat": "LegendaryShield",
+          "rawTag": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.LegendaryShield",
+          "value": 1
+        }
+      ],
+      "monograms": []
+    },
+    {
+      "slot": "dragon",
+      "rowName": "Equipment_Pet_Fire",
+      "baseStats": [
+        {
+          "stat": "GlobalLoot",
+          "rawTag": "EasyRPG.Attributes.GlobalModifiers.GlobalLoot",
+          "value": 1
+        },
+        {
+          "stat": "ToFire",
+          "rawTag": "EasyRPG.Attributes.GlobalModifiers.Arcane.ToFire",
+          "value": 1
+        }
+      ],
+      "monograms": []
+    },
+    {
+      "slot": "offhand",
+      "rowName": "BeltFire",
+      "baseStats": [
+        {
+          "stat": "ProcChance",
+          "rawTag": "EasyRPG.Attributes.Abilities.BurningShield.ProcChance",
+          "value": 1
+        },
+        {
+          "stat": "DamageMultiplier",
+          "rawTag": "EasyRPG.Attributes.Abilities.BurningShield.DamageMultiplier",
+          "value": 0.051719412
+        },
+        {
+          "stat": "LegendaryShield",
+          "rawTag": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.LegendaryShield",
+          "value": 1
+        }
+      ],
+      "monograms": []
+    },
+    {
+      "slot": "weapon",
+      "rowName": "Weapon_Bow_Epic_Masters",
+      "baseStats": [
+        {
+          "stat": "ElementalDamage",
+          "rawTag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 37.20058
+        },
+        {
+          "stat": "Damage",
+          "rawTag": "EasyRPG.Attributes.Base.Damage",
+          "value": 31.612751
+        },
+        {
+          "stat": "DamageMultiplier",
+          "rawTag": "EasyRPG.Attributes.Abilities.BloodDragons.DamageMultiplier",
+          "value": 0.15522096
+        },
+        {
+          "stat": "Dexterity",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 5.353815
+        },
+        {
+          "stat": "CriticalChance%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalChance%",
+          "value": 0.050196555
+        },
+        {
+          "stat": "CriticalDamage%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.10113114
+        },
+        {
+          "stat": "Damage%",
+          "rawTag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.10135115
+        },
+        {
+          "stat": "Dexterity%",
+          "rawTag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.051191673
+        }
+      ],
+      "monograms": []
+    }
+  ]
+}

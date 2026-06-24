@@ -9,7 +9,9 @@ import {
   getDependencyChain,
 } from '../src/utils/derivedStats.js';
 import { extractEquippedItems, inferWeaponStance } from '../src/utils/equipmentParser.js';
+import { findStatForAttribute } from '../src/utils/statRegistry.js';
 import fixtureData from './fixtures/dr-full-inventory.json';
+import dualBowFixture from './fixtures/chaos-dual-bow-equipped.json';
 
 describe('derivedStats', () => {
   describe('LAYERS', () => {
@@ -434,6 +436,41 @@ describe('derivedStats', () => {
       expect(normal.value).toBe(values.edpsPhysPrimary);
       expect(boss.value).toBe(Math.floor(values.edpsPhysPrimary * values.edpsBD));
       for (const term of breakdown) expect(term.fullName).toBeTruthy();
+    });
+  });
+
+  describe('ele/phys flat resolution (regex guard + real save)', () => {
+    it('resolves Base.ElementalDamage to elementalDamage, NOT the generic damage stat', () => {
+      // Guard against the `Damage$` regex on the generic `damage` stat claiming
+      // `...ElementalDamage` (which also ends in "Damage").
+      expect(findStatForAttribute('EasyRPG.Attributes.Base.ElementalDamage').id).toBe('elementalDamage');
+      expect(findStatForAttribute('Base.ElementalDamage').id).toBe('elementalDamage');
+      expect(findStatForAttribute('ElementalDamage').id).toBe('elementalDamage');
+      // And the physical flat still resolves to `damage`.
+      expect(findStatForAttribute('EasyRPG.Attributes.Base.Damage').id).toBe('damage');
+    });
+
+    it('dual-bow save populates BOTH physical and elemental flat pools', () => {
+      // Aggregate equipped base stats through the registry resolver — the same
+      // path that would mis-bucket elemental flat if the regex guard regressed.
+      const base = {};
+      for (const item of dualBowFixture.equipped) {
+        for (const s of item.baseStats || []) {
+          const def = findStatForAttribute(s.rawTag || s.stat || '');
+          if (!def) continue;
+          base[def.id] = (base[def.id] || 0) + (s.value || 0);
+        }
+      }
+      // Both flats present on equipped gear for this build.
+      expect(base.damage).toBeGreaterThan(0);
+      expect(base.elementalDamage).toBeGreaterThan(0);
+
+      const r = calculateDerivedStats(base);
+      // Both pipelines produce output, and they draw from their own flat pools.
+      expect(r.edpsPhysFlat).toBe(Math.floor(base.damage));
+      expect(r.edpsElemFlat).toBe(Math.floor(base.elementalDamage));
+      expect(r.edpsPhysPrimary).toBeGreaterThan(0);
+      expect(r.edpsElemPrimary).toBeGreaterThan(0);
     });
   });
 });

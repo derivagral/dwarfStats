@@ -367,12 +367,11 @@ npm run test:coverage  # With coverage report
 
 ## Test Fixtures
 
-Located in `test/fixtures/`:
-- `monograms_data.json` - Sample monogram data from save files
-- `learned_ring_monograms.json` - Ring modifier data (LearnedRingModifiers_0)
-- `dr-full-inventory.json` - Complete parsed save file (~7.8MB) with full character data
-- `dr-extracted-items.json` - Focused fixture with 16 equipped, 1 hotbar, 50 inventory items
+Located in `test/fixtures/`. Kept lean — fixtures back current-season tests, not a
+lifetime archive. Old unreferenced save dumps were pruned.
+- `dr-full-inventory.json` - Complete parsed save file (~7.8MB) with full character data (parsing/extract/share/stance tests)
 - `dr-character-skills.json` - CharacterSkills array + metadata (381 skills, weapon XP, skill points)
+- `chaos-dual-bow-equipped.json` - Slim extracted equipped items from a dual-bow build; has both `Base.Damage` and `Base.ElementalDamage` flats (ele/phys split regression test)
 
 ## URL Sharing
 

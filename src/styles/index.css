@@ -10,6 +10,7 @@
   --success: #2aa745;
   --warning: #e0a000;
   --danger: #d33;
+  --monogram-purple: #b57bff;
   --card-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
@@ -21,6 +22,7 @@
     --border-color: #ddd;
     --text-primary: #333;
     --text-secondary: #666;
+    --monogram-purple: #7c3aed;
     --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
 }
@@ -1533,6 +1535,93 @@ h1::before {
   text-align: center;
   padding: 0.5rem;
   font-style: italic;
+}
+
+.stat-tooltip-formula {
+  margin-bottom: 0.75rem;
+  min-width: 18rem;
+}
+
+.stat-tooltip-formula-row {
+  display: grid;
+  grid-template-columns: 1.2rem 1fr auto;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.3rem 0;
+  font-size: 0.8rem;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.stat-tooltip-formula-row:last-child {
+  border-bottom: none;
+}
+
+.stat-tooltip-formula-row.is-subtotal {
+  background: var(--bg-primary);
+  padding: 0.35rem 0.4rem;
+  margin: 0.1rem -0.4rem;
+  border-radius: 3px;
+  border-bottom: none;
+}
+
+.stat-tooltip-formula-row.is-subtotal .formula-value {
+  color: var(--accent);
+}
+
+.stat-tooltip-formula-row.is-total {
+  font-weight: 700;
+  padding-top: 0.45rem;
+  margin-top: 0.15rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.stat-tooltip-formula-row .formula-op {
+  color: var(--text-secondary);
+  text-align: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.stat-tooltip-formula-row .formula-label {
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.stat-tooltip-formula-row .formula-abbr {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 600;
+  cursor: help;
+  text-decoration: underline dotted var(--border-color);
+  text-underline-offset: 2px;
+}
+
+.stat-tooltip-formula-row.is-subtotal .formula-abbr,
+.stat-tooltip-formula-row.is-total .formula-abbr {
+  text-decoration: none;
+  cursor: default;
+}
+
+.stat-tooltip-formula-row .formula-fullname {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  line-height: 1.2;
+}
+
+.stat-tooltip-formula-row .formula-value {
+  color: var(--success);
+  font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: nowrap;
+}
+
+/* Monogram-sourced terms and source entries use a purple accent so they're
+   visually distinguishable from item-affix contributions. */
+.stat-tooltip-formula-row.is-monogram .formula-abbr,
+.stat-tooltip-formula-row.is-monogram .formula-fullname,
+.stat-tooltip-source.is-monogram .source-item {
+  color: var(--monogram-purple, #b57bff);
 }
 
 .stat-tooltip-footer {

@@ -34,7 +34,7 @@ export function useDerivedStats(options = {}) {
       const sourceName = rawValue?.sourceName || 'Character';
       stats[statId] = {
         total: value,
-        sources: [{ itemName: sourceName, slot: 'base', value }],
+        sources: [{ itemName: sourceName, slot: 'base', value, sourceType: 'item' }],
       };
     }
 
@@ -50,6 +50,7 @@ export function useDerivedStats(options = {}) {
         itemName: `${activeStance.id}.level.1`,
         slot: 'stance',
         value,
+        sourceType: 'item',
       });
     }
 
@@ -82,6 +83,7 @@ export function useDerivedStats(options = {}) {
             itemName,
             slot: slotKey,
             value: stat.value,
+            sourceType: 'item',
           });
         }
       });
@@ -97,6 +99,7 @@ export function useDerivedStats(options = {}) {
             itemName: `${itemName} (override)`,
             slot: slotKey,
             value: mod.value,
+            sourceType: 'item',
           });
         }
       }
@@ -285,11 +288,17 @@ export function useDerivedStats(options = {}) {
       totalStamina: { base: 'stamina', bonus: 'staminaBonus', category: 'attributes', name: 'Stamina' },
       totalArmor: { base: 'armor', bonus: 'armorBonus', category: 'defense', name: 'Armor' },
       totalHealth: { base: 'health', bonus: 'healthBonus', category: 'defense', name: 'Health' },
-      totalDamage: { base: 'damage', bonus: 'damageBonus', category: 'offense', name: 'Damage' },
+      // totalDamage is intentionally omitted from the display routing: the
+      // Effective Damage headline (edpsEffective) is the canonical damage
+      // number and its tooltip covers the full formula. totalDamage is still
+      // calculated and feeds into edpsFlat; its base/bonus affixes stay
+      // consumed by the set below so they don't surface as raw rows.
     };
 
-    // Base/bonus stat IDs consumed by total stats (don't show separately)
-    const consumedByTotals = new Set();
+    // Base/bonus stat IDs consumed by total stats (don't show separately).
+    // damage and damageBonus are consumed manually since totalDamage no longer
+    // owns them in the display routing above.
+    const consumedByTotals = new Set(['damage', 'damageBonus']);
     for (const info of Object.values(TOTAL_STAT_ROUTING)) {
       consumedByTotals.add(info.base);
       consumedByTotals.add(info.bonus);
@@ -354,8 +363,20 @@ export function useDerivedStats(options = {}) {
 
     const processedIds = new Set();
 
+    // Intermediate eDPS result rows are already surfaced inside the
+    // Effective Damage tooltip breakdown, so we skip rendering them as
+    // separate lines to keep the section compact.
+    const EDPS_HIDDEN_RESULT_IDS = new Set([
+      'edpsDDNormal', 'edpsDDBoss',
+      'edpsOffhandNormal', 'edpsOffhandBoss',
+    ]);
+
     // Process calculated/derived stats first
     for (const stat of detailed) {
+      if (EDPS_HIDDEN_RESULT_IDS.has(stat.id)) {
+        processedIds.add(stat.id);
+        continue;
+      }
       // Route total stats to display categories with bonus% applied and source breakdown
       if (TOTAL_STAT_ROUTING[stat.id]) {
         const routing = TOTAL_STAT_ROUTING[stat.id];
@@ -418,14 +439,20 @@ export function useDerivedStats(options = {}) {
 
       const displayCategory = categoryMapping[stat.category] || stat.category || 'attributes';
       if (result[displayCategory]) {
-        result[displayCategory].push({
+        const record = {
           id: stat.id,
           name: stat.name,
           value: stat.value,
           formattedValue: stat.formattedValue,
           description: stat.description,
           layer: stat.layer,
-        });
+        };
+        const def = DERIVED_STATS[stat.id];
+        if (def?.breakdown) {
+          const cfg = finalConfigOverrides[stat.id] || def.config;
+          record.breakdown = def.breakdown(values, cfg);
+        }
+        result[displayCategory].push(record);
       }
     }
 
@@ -514,8 +541,17 @@ export function useDerivedStats(options = {}) {
       }
     }
 
+    // Pin Effective Damage headline to the top of the eDPS section.
+    if (Array.isArray(result.edps)) {
+      const headlineIdx = result.edps.findIndex(s => s.id === 'edpsEffective');
+      if (headlineIdx > 0) {
+        const [headline] = result.edps.splice(headlineIdx, 1);
+        result.edps.unshift(headline);
+      }
+    }
+
     return result;
-  }, [calculatedStats, aggregatedWithSources, stanceContext]);
+  }, [calculatedStats, aggregatedWithSources, stanceContext, finalConfigOverrides]);
 
   return {
     // For StatsPanel compatibility

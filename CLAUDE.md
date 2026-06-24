@@ -212,37 +212,57 @@ Layer 4: TERTIARY     - Final chains (life from element, damage from life)
 Layer 5: EDPS         - eDPS calculation buckets and final damage numbers
 ```
 
-### eDPS Calculation (Layer 5)
+### eDPS Calculation (Layer 5) — Ele/Phys Split
 
-Effective DPS calculation assuming 100% crit, ignoring IAS. Stats in `derivedStats.js` with `category: 'edps'`/`'edps-result'`, displayed in StatsPanel under "eDPS".
+Effective on-hit calculation assuming 100% crit, ignoring IAS. Since the
+ele/phys damage split, damage is **two independent pipelines** — physical and
+elemental — each starting from its own flat base pool. Stats in `derivedStats.js`
+with `category: 'edps'`/`'edps-result'`, displayed in StatsPanel under "eDPS".
 
-**Formula (Left Click / Q / R):**
+**Formulae:**
 ```
-Normal:  FLAT × (CHD + DB + SD) × SCHD × WAD × EMulti = DD
-Boss:    DD × BD
-Offhand: DD × (AD + AFFIN) × ED
+Physical  = BasePhys × (StanceCritDmg + CritDmg + PhysDmgBonus + StanceDmg + both-types%) × SkillMult × EMulti  (× BD for boss)
+Elemental = BaseElem × (OffhandItemBonus + SkillMult + Affinity + both-types%) × ED × OffhandMods             (× BD for boss)
 ```
+
+Key structural points (vs the pre-split single-line model):
+- **Flat is split**: `edpsPhysFlat` (raw `Base.Damage`) vs `edpsElemFlat`
+  (`Base.ElementalDamage`, new stat). Both roll on items now. Physical flat uses
+  the RAW `damage` stat, not `totalDamage`, because the damage bonus% lives in the
+  additive bucket (using `totalDamage` would double-count it).
+- **SCHD is merged** into the physical additive bucket (`edpsPhysAdditive`) — no
+  standalone stance-crit multiplier anymore.
+- **Elemental is fully independent** — it does NOT multiply through the physical
+  hit. It starts from `edpsElemFlat`.
+- **Skill multipliers** default per-skill: Left/Primary 200%, Q 150%, R 200%
+  (config `multiplier` on each result stat).
+- **"Both damage types"** monogram bonuses feed `edpsBothTypesDamageBonus`, which
+  is added into BOTH additive buckets.
+- **Fire/Arcane/Lightning%** stay elemental-only (`edpsED`).
+- **OffhandMods** (`edpsOffhandMods`, skill-specific extra multipliers) defaults to 1.
+- **OffhandItemBonus** = total offhand/ability damage% from items (auto from
+  `damageMultiplier` aggregate + manual `offhandItemBonus` config).
 
 **Stat IDs → Formula Terms:**
 
-| Term | Stat ID | Source | Notes |
-|------|---------|--------|-------|
-| FLAT | `edpsFlat` | totalDamage + damageFromHealth + monograms | Primary attributes do NOT feed flat damage |
-| CHD + DB + SD | `edpsAdditiveMulti` | critDamage + damageBonus + auto-detected stance + monogram dmg% | Auto-picks highest stance; S3.5 additive bucket |
-| SCHD | `edpsSCHD` | Auto-detected stance crit damage + bloodlust crit + crit from armor | Standalone multiplier since S4.0 |
-| WAD | `edpsWAD` | Config: primary=200%, secondary=400% | `useSecondary` toggle; `wadBonus` for monogram additions |
-| EMulti | `edpsEMulti` | classWeaponBonus (manual) × distance procs × shroud flat% | Independent multipliers multiply together |
-| BD | `edpsBD` | bossBonus (gear) + phasing boss dmg | Separate boss/elite multiplier |
-| ED | `edpsED` | fire + arcane + lightning + elemFromCrit + mine monograms | All sources additive then applied as multiplier |
-| AD + AFFIN | `edpsAD` | Config: abilityDamage (skill%), affinityDamage (tree) | Manual input until skill tree data available |
+| Term | Stat ID | Source |
+|------|---------|--------|
+| BasePhys | `edpsPhysFlat` | raw `damage` + damageFromHealth + statDamageFlat + paragon + flat monograms |
+| BaseElem | `edpsElemFlat` | `elementalDamage` + damageFromHealth + statDamageFlat + paragon + energy→elem + essence→elem |
+| Phys bucket | `edpsPhysAdditive` | StanceCrit + Crit + PhysDmg% + StanceDmg + bloodlust/armor crit + phys monograms + both-types |
+| Elem bucket | `edpsElemAdditive` | item offhand% + affinity + both-types (skill mult added per skill) |
+| both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + dmgPerStat2 + phasingDuration |
+| ED | `edpsED` | fire + arcane + lightning + elemFromCrit + mines + new elemental monograms |
+| BD | `edpsBD` | bossBonus (gear) + phasing boss dmg |
+| EMulti | `edpsEMulti` | classWeapon × distance procs × shroud flat% (physical line) |
+| OffhandMods | `edpsOffhandMods` | skill-specific extra multiplier (default 1) |
 
-**Result Stats:**
-- `edpsDDNormal` — Hit damage vs normal mobs
-- `edpsDDBoss` — Hit damage vs boss/elite
-- `edpsOffhandNormal` — Offhand damage vs normal
-- `edpsOffhandBoss` — Offhand damage vs boss
+**Result Stats (per-skill on-hit, normal value; boss in tooltip):**
+- `edpsPhysPrimary` / `edpsPhysQ` / `edpsPhysR` — physical on-hit (Left/Q/R)
+- `edpsElemPrimary` / `edpsElemQ` / `edpsElemR` — elemental on-hit (Left/Q/R)
 
-**Configurable via overrides:** `edpsWAD` (primary/secondary toggle, wadBonus), `edpsAD` (ability + affinity), `edpsEMulti` (classWeaponBonus).
+**Configurable via overrides:** result-stat `multiplier` (skill %), `edpsElemAdditive`
+(offhandItemBonus + affinity), `edpsEMulti` (classWeaponBonus), `edpsOffhandMods` (multiplier).
 
 **Stance detection:** `inferWeaponStance(rowName)` in `equipmentParser.js` maps weapon keywords to stance prefixes. `useDerivedStats` auto-detects stance from the equipped weapon's row name and passes it to eDPS calcs via config override. Falls back to highest-stat heuristic if no weapon detected.
 

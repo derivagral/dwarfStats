@@ -258,6 +258,21 @@ export const STAT_REGISTRY = {
     format: v => `+${(v * 100).toFixed(0)}%`,
     description: 'Damage Bonus',
   },
+  elementalDamage: {
+    id: 'elementalDamage',
+    name: 'Elemental Damage (Flat)',
+    category: 'offense',
+    patterns: [
+      'Base.ElementalDamage',
+      'ElementalDamage',
+    ],
+    canonical: 'Base.ElementalDamage',
+    isPercent: false,
+    format: v => `+${v.toFixed(0)}`,
+    description: 'Flat base elemental damage (split from physical Base.Damage)',
+    // Anchored so the generic `damage` regex (Damage$) can never claim this.
+    regexPatterns: ['ElementalDamage$', '\\.ElementalDamage$'],
+  },
   damageMultiplier: {
     id: 'damageMultiplier',
     name: 'Damage Multiplier',

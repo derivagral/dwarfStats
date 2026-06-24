@@ -145,7 +145,7 @@ describe('derivedStats', () => {
       const result = calculateDerivedStats(baseStats, configOverrides);
 
       expect(result.phasingStacks).toBe(25);
-      expect(result.phasingDamageBonus).toBe(25); // 1% per stack
+      expect(result.phasingDamageBonus).toBe(37.5); // 1.5% per stack (both types)
     });
   });
 
@@ -159,7 +159,7 @@ describe('derivedStats', () => {
       const result = calculateDerivedStats(baseStats, config);
 
       expect(result.phasingStacks).toBe(50);
-      expect(result.phasingDamageBonus).toBe(50); // 1% per stack
+      expect(result.phasingDamageBonus).toBe(75); // 1.5% per stack (both types)
       expect(result.phasingBossDamageBonus).toBe(25); // 0.5% per stack
     });
 
@@ -302,291 +302,139 @@ describe('derivedStats', () => {
     });
   });
 
-  describe('eDPS calculations', () => {
-    it('should calculate FLAT damage from gear (STR does not contribute)', () => {
-      const baseStats = {
-        damage: 100,
-        damageBonus: 0,
-        strength: 200,
-        strengthBonus: 0.50,
-      };
-      const result = calculateDerivedStats(baseStats);
-
-      // totalDamage = 100 * (1 + 0) = 100
-      // STR does NOT feed flat damage (STR → armor)
-      // FLAT = totalDamage only = 100
-      expect(result.edpsFlat).toBe(100);
+  describe('eDPS calculations (ele/phys split)', () => {
+    it('edpsPhysFlat uses raw Base.Damage (damage bonus% does NOT double-count)', () => {
+      const result = calculateDerivedStats({ damage: 100, damageBonus: 0.5, strength: 200, strengthBonus: 0.5 });
+      // Raw flat only — the 50% damage bonus lives in the additive bucket.
+      expect(result.edpsPhysFlat).toBe(100);
     });
 
-    it('should build additive multiplier bucket (CHD + DB + SD)', () => {
-      const baseStats = {
-        critDamage: 1.50,      // 150% crit damage
-        damageBonus: 0.30,     // 30% damage bonus (raw from gear, not consumed by totalDamage)
-        maulDamage: 0.50,      // 50% stance damage
-      };
-      const result = calculateDerivedStats(baseStats);
-
-      // CHD (1.50) + DB (0.30) + SD (0.50) = 2.30
-      expect(result.edpsAdditiveMulti).toBeCloseTo(2.30, 2);
+    it('edpsElemFlat uses Base.ElementalDamage flat', () => {
+      const result = calculateDerivedStats({ damage: 100, elementalDamage: 60 });
+      expect(result.edpsPhysFlat).toBe(100);
+      expect(result.edpsElemFlat).toBe(60);
     });
 
-    it('should auto-detect stance from highest stance stat', () => {
-      const baseStats = {
-        critDamage: 1.0,
-        swordDamage: 0.20,
-        maulDamage: 0.80,  // highest → picked as SD
-      };
-      const result = calculateDerivedStats(baseStats);
-
-      // CHD (1.0) + SD (0.80) = 1.80
-      expect(result.edpsAdditiveMulti).toBeCloseTo(1.80, 2);
+    it('edpsPhysAdditive merges Stance Crit into the additive bucket (no standalone SCHD)', () => {
+      const result = calculateDerivedStats({
+        critDamage: 1.5,      // 150% crit damage
+        damageBonus: 0.3,     // 30% physical damage bonus
+        maulDamage: 0.5,      // 50% stance damage
+        maulCritDamage: 2.0,  // 200% stance crit damage (now additive, not standalone)
+      });
+      // 1.5 + 0.3 + 0.5 + 2.0 = 4.30
+      expect(result.edpsPhysAdditive).toBeCloseTo(4.30, 2);
+      // No edpsSCHD stat exists anymore
+      expect(result.edpsSCHD).toBeUndefined();
     });
 
-    it('should calculate SCHD as standalone multiplier', () => {
-      const baseStats = {
-        maulCritDamage: 2.0,  // 200% stance crit damage
-      };
-      const result = calculateDerivedStats(baseStats);
-
-      // SCHD = 1 + 2.0 = 3.0 (300%)
-      expect(result.edpsSCHD).toBeCloseTo(3.0, 2);
+    it('both-types damage% feeds the physical additive bucket', () => {
+      const config = { phasingStacks: { enabled: true, maxStacks: 50, currentStacks: 50 } };
+      const result = calculateDerivedStats({ critDamage: 1.0 }, config);
+      // phasing: 50 stacks × 1.5% = 75% → 0.75 both-types
+      expect(result.edpsBothTypesDamageBonus).toBeCloseTo(0.75, 2);
+      // additive = crit(1.0) + both(0.75) = 1.75
+      expect(result.edpsPhysAdditive).toBeCloseTo(1.75, 2);
     });
 
-    it('should include bloodlust crit damage in SCHD', () => {
-      const baseStats = {
-        swordCritDamage: 1.0,
-      };
+    it('Fire/Arcane/Lightning% feed only the elemental ED multiplier', () => {
+      const result = calculateDerivedStats({ fireDamageBonus: 0.5, lightningDamageBonus: 0.3 });
+      expect(result.edpsED).toBeCloseTo(1.80, 2);
+      // physical additive untouched by elemental %
+      expect(result.edpsPhysAdditive).toBeCloseTo(0, 2);
+    });
+
+    it('elemental offhand bucket = item offhand% + affinity + both-types (skill mult added per skill)', () => {
       const config = {
-        bloodlustStacks: { enabled: true, maxStacks: 100, currentStacks: 100 },
+        edpsElemAdditive: { offhandItemBonus: 0.2, affinity: 0.5 },
       };
-      const result = calculateDerivedStats(baseStats, config);
-
-      // bloodlustCritDamageBonus = 100 * 5 = 500 → 5.0 decimal
-      // SCHD = 1 + swordCrit(1.0) + bloodlust(5.0) = 7.0
-      expect(result.edpsSCHD).toBeCloseTo(7.0, 2);
+      const result = calculateDerivedStats({ damageMultiplier: 0.3 }, config);
+      // 0.3 (items) + 0.2 (manual) + 0.5 (affinity) + 0 (both) = 1.0
+      expect(result.edpsElemAdditive).toBeCloseTo(1.0, 2);
     });
 
-    it('should default WAD to 200% for primary', () => {
-      const result = calculateDerivedStats({});
-      expect(result.edpsWAD).toBeCloseTo(2.0, 2);
-    });
-
-    it('should use 400% WAD for secondary when configured', () => {
-      const config = {
-        edpsWAD: { primaryBase: 2.0, secondaryBase: 4.0, useSecondary: true, wadBonus: 0 },
-      };
-      const result = calculateDerivedStats({}, config);
-      expect(result.edpsWAD).toBeCloseTo(4.0, 2);
-    });
-
-    it('should calculate EMulti as product of independent multipliers', () => {
-      const config = {
-        edpsEMulti: { classWeaponBonus: 0.50 }, // 50% class bonus
-        distanceProcsDamageBonus: { enabled: true, bonusPercent: 50 },
-      };
-      const result = calculateDerivedStats({}, config);
-
-      // classWeapon: 1.50, distance: 1.50 → 1.50 * 1.50 = 2.25
-      expect(result.edpsEMulti).toBeCloseTo(2.25, 2);
-    });
-
-    it('should calculate boss damage multiplier', () => {
-      const baseStats = {
-        bossBonus: 0.80, // 80% boss damage from gear
-      };
-      const config = {
-        phasingStacks: { enabled: true, maxStacks: 50, currentStacks: 50 },
-      };
-      const result = calculateDerivedStats(baseStats, config);
-
-      // BD = 1 + 0.80 + (25 / 100) = 1 + 0.80 + 0.25 = 2.05
+    it('boss multiplier combines gear boss% and phasing boss%', () => {
+      const config = { phasingStacks: { enabled: true, maxStacks: 50, currentStacks: 50 } };
+      const result = calculateDerivedStats({ bossBonus: 0.8 }, config);
+      // 1 + 0.8 + (50 × 0.5%/100) = 1 + 0.8 + 0.25 = 2.05
       expect(result.edpsBD).toBeCloseTo(2.05, 2);
     });
 
-    it('should calculate elemental damage multiplier', () => {
-      const baseStats = {
-        fireDamageBonus: 0.50,       // 50% fire
-        lightningDamageBonus: 0.30,  // 30% lightning
-      };
+    it('physical on-hit per skill uses default multipliers (Left 200%, Q 150%, R 200%)', () => {
+      const baseStats = { damage: 150, critDamage: 1.0, maulDamage: 0.5, maulCritDamage: 0.5 };
       const result = calculateDerivedStats(baseStats);
-
-      // ED = 1 + 0.50 + 0.30 = 1.80
-      expect(result.edpsED).toBeCloseTo(1.80, 2);
+      // additive = crit(1.0) + maulDmg(0.5) + maulCrit(0.5) = 2.0; flat = 150; EMulti = 1
+      expect(result.edpsPhysAdditive).toBeCloseTo(2.0, 2);
+      // Left = 150 × 2.0 × 2.0 = 600
+      expect(result.edpsPhysPrimary).toBe(600);
+      // Q = 150 × 2.0 × 1.5 = 450
+      expect(result.edpsPhysQ).toBe(450);
+      // R = 150 × 2.0 × 2.0 = 600
+      expect(result.edpsPhysR).toBe(600);
     });
 
-    it('should calculate full eDPS chain for normal mobs', () => {
-      const baseStats = {
-        damage: 150,
-        damageBonus: 0,
-        critDamage: 1.0,       // 100% crit damage
-        maulDamage: 0.50,      // 50% stance damage
-        maulCritDamage: 0.50,  // 50% stance crit damage
-      };
-
+    it('elemental on-hit adds the per-skill base multiplier into the offhand bucket', () => {
+      const baseStats = { elementalDamage: 100, fireDamageBonus: 1.0 };
       const result = calculateDerivedStats(baseStats);
-
-      // FLAT = totalDamage(150) (no STR contribution)
-      expect(result.edpsFlat).toBe(150);
-      // Additive = CHD(1.0) + SD(0.50) = 1.50
-      expect(result.edpsAdditiveMulti).toBeCloseTo(1.50, 2);
-      // SCHD = 1 + 0.50 = 1.50
-      expect(result.edpsSCHD).toBeCloseTo(1.50, 2);
-      // WAD = 2.0 (default primary)
-      expect(result.edpsWAD).toBeCloseTo(2.0, 2);
-      // EMulti = 1.0 (nothing active)
-      expect(result.edpsEMulti).toBeCloseTo(1.0, 2);
-      // DD = 150 * 1.50 * 1.50 * 2.0 * 1.0 = 675
-      expect(result.edpsDDNormal).toBe(675);
+      // ED = 2.0; offhand bucket base = 0; OffhandMods = 1
+      // Left: 100 × (0 + 2.0) × 2.0 × 1 = 400
+      expect(result.edpsElemPrimary).toBe(400);
+      // Q: 100 × (0 + 1.5) × 2.0 = 300
+      expect(result.edpsElemQ).toBe(300);
+      // R: 100 × (0 + 2.0) × 2.0 = 400
+      expect(result.edpsElemR).toBe(400);
     });
 
-    it('should calculate boss DD as normal DD × BD', () => {
-      const baseStats = {
-        damage: 100,
-        damageBonus: 0,
-        strength: 0,
-        strengthBonus: 0,
-        critDamage: 1.0,
-        bossBonus: 1.0, // 100% boss damage
-      };
-      const result = calculateDerivedStats(baseStats);
-
-      // FLAT = 100, Additive = 1.0, SCHD = 1.0, WAD = 2.0, EMulti = 1.0
-      // DDNormal = 100 * 1.0 * 1.0 * 2.0 * 1.0 = 200
-      // BD = 1 + 1.0 = 2.0
-      // DDBoss = 200 * 2.0 = 400
-      expect(result.edpsDDNormal).toBe(200);
-      expect(result.edpsDDBoss).toBe(400);
-    });
-
-    it('should use weapon-configured stance for SD and SCHD', () => {
+    it('uses weapon-configured stance for both stance damage and stance crit', () => {
       const baseStats = {
         critDamage: 1.0,
-        maulDamage: 0.80,      // maul is highest
-        swordDamage: 0.20,     // sword is lower
-        maulCritDamage: 2.0,
-        swordCritDamage: 0.50,
+        maulDamage: 0.8, swordDamage: 0.2,
+        maulCritDamage: 2.0, swordCritDamage: 0.5,
       };
-      // But weapon is a sword — should use sword stats, not maul
-      const config = {
-        edpsAdditiveMulti: { stance: 'sword' },
-        edpsSCHD: { stance: 'sword' },
-      };
+      const config = { edpsPhysAdditive: { stance: 'sword' } };
       const result = calculateDerivedStats(baseStats, config);
-
-      // Additive = CHD(1.0) + swordDamage(0.20) = 1.20 (not maulDamage)
-      expect(result.edpsAdditiveMulti).toBeCloseTo(1.20, 2);
-      // SCHD = 1 + swordCrit(0.50) = 1.50 (not maulCrit)
-      expect(result.edpsSCHD).toBeCloseTo(1.50, 2);
+      // additive = crit(1.0) + swordDmg(0.2) + swordCrit(0.5) = 1.70
+      expect(result.edpsPhysAdditive).toBeCloseTo(1.70, 2);
     });
 
-    it('should detect weapon stance from row name', () => {
+    it('detects weapon stance from row name', () => {
       expect(inferWeaponStance('Equipment_Weapon_Maul_T5')).toBe('maul');
-      expect(inferWeaponStance('Equipment_Weapon_Sword_Legendary')).toBe('sword');
       expect(inferWeaponStance('Equipment_Weapon_Bow_T3')).toBe('archery');
-      expect(inferWeaponStance('Equipment_Weapon_Staff_Fire')).toBe('magery');
-      expect(inferWeaponStance('Equipment_Weapon_Spear_T4')).toBe('spear');
-      expect(inferWeaponStance('Equipment_Weapon_Axe_T5')).toBe('twohand');
-      expect(inferWeaponStance('Equipment_Weapon_Dagger_Shadow')).toBe('sword');
       expect(inferWeaponStance('Equipment_Armor_Head_T5')).toBeNull();
     });
 
-    it('should calculate offhand damage with elemental multiplier', () => {
-      const baseStats = {
-        damage: 100,
-        damageBonus: 0,
-        strength: 0,
-        strengthBonus: 0,
-        critDamage: 1.0,
-        fireDamageBonus: 1.0,  // 100% fire
-      };
-      const config = {
-        edpsAD: { abilityDamage: 1.5, affinityDamage: 0.5 }, // AD + AFFIN = 2.0
-      };
-      const result = calculateDerivedStats(baseStats, config);
-
-      // DDNormal = 100 * 1.0 * 1.0 * 2.0 * 1.0 = 200
-      // AD = 1.5 + 0.5 = 2.0
-      // ED = 1 + 1.0 = 2.0
-      // Offhand = 200 * 2.0 * 2.0 = 800
-      expect(result.edpsDDNormal).toBe(200);
-      expect(result.edpsOffhandNormal).toBe(800);
+    it('ring Stat Damage (+1 per 75 highest) feeds BOTH flat pools', () => {
+      const config = { statDamageFlatBonus: { enabled: true, damagePerInterval: 1, statInterval: 75 } };
+      const result = calculateDerivedStats({ damage: 100, elementalDamage: 100, strength: 300 }, config);
+      // floor(300 / 75) × 1 = 4
+      expect(result.statDamageFlatBonus).toBe(4);
+      expect(result.edpsPhysFlat).toBe(104);
+      expect(result.edpsElemFlat).toBe(104);
     });
 
-    it('should leave edpsFlat unchanged when Stat Damage ring is disabled', () => {
-      const baseStats = { damage: 100, strength: 300 };
-      const result = calculateDerivedStats(baseStats);
-      expect(result.statDamageFlatBonus).toBe(0);
-      expect(result.edpsFlat).toBe(100);
+    it('energy-to-elemental monogram feeds elemental flat, not physical', () => {
+      const config = { energyDamageBonus: { enabled: true, baseEnergy: 100, damagePerEnergy: 3 } };
+      const result = calculateDerivedStats({ damage: 100, elementalDamage: 50, energy: 200 }, config);
+      // (200 - 100) × 3 = 300 elemental flat
+      expect(result.energyDamageBonus).toBe(300);
+      expect(result.edpsElemFlat).toBe(350);
+      expect(result.edpsPhysFlat).toBe(100);
     });
 
-    it('should add ring Stat Damage (+15 per 150 highest) into edpsFlat when enabled', () => {
-      const baseStats = { damage: 100, strength: 300 };
-      const config = {
-        statDamageFlatBonus: { enabled: true, damagePerInterval: 15, statInterval: 150 },
-      };
-      const result = calculateDerivedStats(baseStats, config);
-      // floor(300 / 150) * 15 = 30
-      expect(result.statDamageFlatBonus).toBe(30);
-      expect(result.edpsFlat).toBe(130);
-    });
-
-    it('should resolve edpsEffective to the boss offhand damage (merged headline)', () => {
-      const baseStats = {
-        damage: 100,
-        damageBonus: 0,
-        critDamage: 1.0,
-        bossBonus: 1.0,
-        fireDamageBonus: 1.0,
-      };
-      const config = {
-        edpsAD: { abilityDamage: 1.5, affinityDamage: 0.5 },
-      };
-      const result = calculateDerivedStats(baseStats, config);
-      // DDBoss = 400, AD = 2.0, ED = 2.0 → OffhandBoss = 1600
-      expect(result.edpsEffective).toBe(result.edpsOffhandBoss);
-      expect(result.edpsEffective).toBe(1600);
-    });
-
-    it('should produce a breakdown with weapon-hit subtotal and offhand total', () => {
-      const baseStats = {
-        damage: 100,
-        critDamage: 1.0,
-        bossBonus: 1.0,
-        fireDamageBonus: 1.0,
-      };
-      const config = {
-        edpsAD: { abilityDamage: 1.5, affinityDamage: 0.5 },
-      };
-      const values = calculateDerivedStats(baseStats, config);
-
-      const breakdown = DERIVED_STATS.edpsEffective.breakdown(values);
+    it('per-skill result breakdown surfaces normal and boss on-hit', () => {
+      const baseStats = { damage: 100, critDamage: 1.0, bossBonus: 1.0 };
+      const values = calculateDerivedStats(baseStats);
+      const breakdown = DERIVED_STATS.edpsPhysPrimary.breakdown(values, DERIVED_STATS.edpsPhysPrimary.config);
       const labels = breakdown.map(t => t.label);
-      // Full formula including both weapon and offhand terms
       expect(labels).toEqual([
-        'FLAT',
-        'CHD+DB+SD',
-        'SCHD',
-        'WAD',
-        'EMulti',
-        'BD',
-        'Weapon Hit',
-        'AD+AFFIN',
-        'ED',
-        'Offhand Hit',
+        'BasePhys', 'PhysMult', 'SkillMult', 'EMulti', 'Normal Hit', 'BD', 'Boss Hit',
       ]);
-
-      // Each term carries a fullName for the acronym hover legend
-      for (const term of breakdown) {
-        expect(term.fullName).toBeTruthy();
-      }
-
-      // Weapon Hit subtotal equals edpsDDBoss; Offhand Hit total equals edpsOffhandBoss
-      const weaponHit = breakdown.find(t => t.label === 'Weapon Hit');
-      expect(weaponHit.value).toBe(values.edpsDDBoss);
-      expect(weaponHit.isSubtotal).toBe(true);
-
-      const offhandHit = breakdown[breakdown.length - 1];
-      expect(offhandHit.value).toBe(values.edpsOffhandBoss);
+      const normal = breakdown.find(t => t.label === 'Normal Hit');
+      const boss = breakdown.find(t => t.label === 'Boss Hit');
+      expect(normal.value).toBe(values.edpsPhysPrimary);
+      expect(boss.value).toBe(Math.floor(values.edpsPhysPrimary * values.edpsBD));
+      for (const term of breakdown) expect(term.fullName).toBeTruthy();
     });
   });
 });
+

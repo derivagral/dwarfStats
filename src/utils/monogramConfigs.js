@@ -238,9 +238,9 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   'HighestStatForDamage': {
     displayName: 'Highest Stat Damage',
-    description: '+1% damage per 50 of highest stat',
+    description: '+1% damage per 30 of highest stat (both damage types)',
     effects: [
-      { derivedStatId: 'highestStatDamageBonus', config: { enabled: true, damagePerInterval: 1, statInterval: 50 } },
+      { derivedStatId: 'highestStatDamageBonus', config: { enabled: true, damagePerInterval: 1, statInterval: 30 } },
     ],
   },
 
@@ -291,10 +291,10 @@ export const MONOGRAM_CALC_CONFIGS = {
   // 2 flat damage per energy over base 100
   // ===========================================================================
   'ExtraEnergyAddDamage': {
-    displayName: 'Energy to Damage',
-    description: '+2 flat damage per energy over base 100',
+    displayName: 'Energy to Elemental Damage',
+    description: '+3 flat elemental damage per energy over base 100 (was 2 physical)',
     effects: [
-      { derivedStatId: 'energyDamageBonus', config: { enabled: true, baseEnergy: 100, damagePerEnergy: 2 } },
+      { derivedStatId: 'energyDamageBonus', config: { enabled: true, baseEnergy: 100, damagePerEnergy: 3 } },
     ],
   },
 
@@ -401,11 +401,13 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   'Shroud': {
     displayName: 'Shroud',
-    description: '+5% damage + 1% flat damage (separate mult.) per stack (50 max)',
+    description: '+5% damage (both types) + 1% flat damage + 3% elemental per stack (50 max)',
     effects: [
       { derivedStatId: 'shroudStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
       { derivedStatId: 'shroudDamageBonus', config: { damagePerStack: 5 } },
       { derivedStatId: 'shroudFlatDamageBonus', config: { flatDamagePerStack: 1 } },
+      // Dark Shroud now also grants +3% elemental damage per stack
+      { derivedStatId: 'shroudElementalBonus', config: { elementalPerStack: 3 } },
     ],
   },
 
@@ -485,9 +487,9 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ---------------------------------------------------------------------------
   'Damage%ForStat2.Highest': {
     displayName: 'Stat Damage% II',
-    description: '+1% damage per 50 of highest stat',
+    description: '+1% damage per 30 of highest stat (both damage types)',
     effects: [
-      { derivedStatId: 'damagePercentForStat2', config: { enabled: true, damagePerInterval: 1, statInterval: 50 } },
+      { derivedStatId: 'damagePercentForStat2', config: { enabled: true, damagePerInterval: 1, statInterval: 30 } },
     ],
   },
 
@@ -495,10 +497,10 @@ export const MONOGRAM_CALC_CONFIGS = {
   // DAMAGE% NO POTION (Bracer - 5% per slot, cannot use potions)
   // ---------------------------------------------------------------------------
   'Damage%NoPotion': {
-    displayName: 'No Potion Damage',
-    description: '+5% damage per potion slot (cannot use potions)',
+    displayName: 'No Potion Elemental Damage',
+    description: '+15% elemental damage per potion slot (potions no longer heal)',
     effects: [
-      { derivedStatId: 'damageNoPotionBonus', config: { enabled: true, damagePerSlot: 5, basePotionSlots: 3 } },
+      { derivedStatId: 'damageNoPotionBonus', config: { enabled: true, damagePerSlot: 15, basePotionSlots: 3 } },
     ],
   },
 
@@ -662,9 +664,9 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   'DamageForStat.Highest': {
     displayName: 'Damage from Stats',
-    description: '+15 flat damage per 150 of highest stat',
+    description: '+1 flat damage per 75 of highest stat (both damage types)',
     effects: [
-      { derivedStatId: 'statDamageFlatBonus', config: { enabled: true, damagePerInterval: 15, statInterval: 150 } },
+      { derivedStatId: 'statDamageFlatBonus', config: { enabled: true, damagePerInterval: 1, statInterval: 75 } },
     ],
   },
   'BonusDamage%ForEssence': {
@@ -723,6 +725,80 @@ export const MONOGRAM_CALC_CONFIGS = {
       ratio: 1,
       baseValue: 5,  // 5% damage per available potion slot
     },
+  },
+
+  // ===========================================================================
+  // ELEMENTAL-SPLIT MONOGRAMS (post ele/phys split)
+  //
+  // NOTE: The save-data tag IDs for several of these new/reworked monograms are
+  // not yet confirmed from a fresh save. The keys below are descriptive
+  // placeholders so the calc wiring is in place; they should be renamed to the
+  // real `EasyRPG.Items.Modifiers.*` suffixes once observed in save data. They
+  // are off by default and only activate when matched, so unmatched keys are
+  // harmless.
+  // ===========================================================================
+
+  // Berserker Fury: +5% elemental per 30 of highest stat (was per-element /40)
+  'BerserkerFury.ElementalForHighest': {
+    displayName: 'Berserker Elemental',
+    description: '+5% elemental damage per 30 of highest stat (Berserker Fury)',
+    effects: [
+      { derivedStatId: 'berserkerElementalFromHighest', config: { enabled: true, percentPerInterval: 5, statInterval: 30 } },
+    ],
+  },
+
+  // Berserker Fury: +100 physical damage at max stacking damage reduction
+  'BerserkerFury.MaxDrDamage': {
+    displayName: 'Berserker Max-DR Damage',
+    description: '+100 physical damage at max damage reduction (Berserker Fury)',
+    effects: [
+      { derivedStatId: 'berserkerMaxDrFlatDamage', config: { enabled: true, flatDamage: 100 } },
+    ],
+  },
+
+  // +2% elemental per 10 essence (was 1.5%)
+  'ElementalDamage%ForEssence': {
+    displayName: 'Elemental from Essence',
+    description: '+2% elemental damage per 10 essence',
+    effects: [
+      { derivedStatId: 'elementalFromEssence', config: { enabled: true, percentPerInterval: 2, essenceInterval: 10 } },
+    ],
+  },
+
+  // +1.5 flat elemental per 20 essence (new)
+  'ElementalFlatForEssence': {
+    displayName: 'Elemental Flat from Essence',
+    description: '+1.5 flat elemental damage per 20 essence',
+    effects: [
+      { derivedStatId: 'elementalFlatFromEssence', config: { enabled: true, flatPerInterval: 1.5, essenceInterval: 20 } },
+    ],
+  },
+
+  // +1% elemental per 40 of highest stat (was per 50)
+  'ElementalDamage%ForHighest': {
+    displayName: 'Elemental from Stats',
+    description: '+1% elemental damage per 40 of highest stat',
+    effects: [
+      { derivedStatId: 'elementalFromHighest', config: { enabled: true, percentPerInterval: 1, statInterval: 40 } },
+    ],
+  },
+
+  // Dark Shroud: +0.15% elemental per stack per 50 of highest stat (was 1.5%)
+  'Shroud.ElementalForHighest': {
+    displayName: 'Shroud Elemental (Highest)',
+    description: '+0.15% elemental per Dark Shroud stack per 50 of highest stat',
+    effects: [
+      { derivedStatId: 'shroudElementalFromHighest', config: { enabled: true, percentPerStackPer50: 0.15 } },
+    ],
+  },
+
+  // Phasing: +1% damage (both types) per 10 seconds of phasing
+  'Phasing.DurationDamage': {
+    displayName: 'Phasing Duration Damage',
+    description: '+1% damage (both types) per 10s of phasing',
+    effects: [
+      { derivedStatId: 'phasingDurationDamage', config: { enabled: true, percentPer10s: 1 } },
+    ],
   },
 };
 

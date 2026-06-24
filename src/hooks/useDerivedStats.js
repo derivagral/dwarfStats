@@ -230,13 +230,17 @@ export function useDerivedStats(options = {}) {
     return null;
   }, [equippedItems]);
 
-  // Merge stance detection into config overrides for eDPS
+  // Merge stance detection into config overrides for eDPS.
+  // Post ele/phys split, stance feeds the single physical additive bucket
+  // (SCHD is merged in — no separate standalone multiplier).
   const finalConfigOverrides = useMemo(() => {
     if (!detectedStance) return configOverrides;
     return {
       ...configOverrides,
-      edpsAdditiveMulti: { stance: detectedStance },
-      edpsSCHD: { stance: detectedStance },
+      edpsPhysAdditive: {
+        ...(configOverrides.edpsPhysAdditive || {}),
+        stance: detectedStance,
+      },
     };
   }, [configOverrides, detectedStance]);
 
@@ -363,13 +367,10 @@ export function useDerivedStats(options = {}) {
 
     const processedIds = new Set();
 
-    // Intermediate eDPS result rows are already surfaced inside the
-    // Effective Damage tooltip breakdown, so we skip rendering them as
-    // separate lines to keep the section compact.
-    const EDPS_HIDDEN_RESULT_IDS = new Set([
-      'edpsDDNormal', 'edpsDDBoss',
-      'edpsOffhandNormal', 'edpsOffhandBoss',
-    ]);
+    // Post ele/phys split, the eDPS section surfaces the per-skill on-hit rows
+    // (physical + elemental, Left/Q/R) directly; their boss values live in each
+    // row's tooltip breakdown. Nothing is hidden here.
+    const EDPS_HIDDEN_RESULT_IDS = new Set();
 
     // Process calculated/derived stats first
     for (const stat of detailed) {
@@ -541,13 +542,21 @@ export function useDerivedStats(options = {}) {
       }
     }
 
-    // Pin Effective Damage headline to the top of the eDPS section.
+    // Pin the per-skill on-hit results to the top of the eDPS section so the
+    // damage headlines are the user's landing spot, ahead of the buckets.
     if (Array.isArray(result.edps)) {
-      const headlineIdx = result.edps.findIndex(s => s.id === 'edpsEffective');
-      if (headlineIdx > 0) {
-        const [headline] = result.edps.splice(headlineIdx, 1);
-        result.edps.unshift(headline);
-      }
+      const RESULT_ORDER = [
+        'edpsPhysPrimary', 'edpsPhysQ', 'edpsPhysR',
+        'edpsElemPrimary', 'edpsElemQ', 'edpsElemR',
+      ];
+      result.edps.sort((a, b) => {
+        const ai = RESULT_ORDER.indexOf(a.id);
+        const bi = RESULT_ORDER.indexOf(b.id);
+        if (ai === -1 && bi === -1) return 0;
+        if (ai === -1) return 1;
+        if (bi === -1) return -1;
+        return ai - bi;
+      });
     }
 
     return result;

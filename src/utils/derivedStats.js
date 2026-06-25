@@ -1998,6 +1998,75 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
+  // ESSENCE → DAMAGE (Dark Essence monogram chain)
+  // +2% Damage per 10 essence available (both damage types).
+  // Drawback (lose 20% essence as health/sec) has no calc impact.
+  // ---------------------------------------------------------------------------
+  damageFromEssence: {
+    id: 'damageFromEssence',
+    name: 'Damage% (Essence)',
+    category: 'monogram-buff',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['essence'],
+    config: {
+      enabled: false,
+      percentPerInterval: 2,
+      essenceInterval: 10,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damageFromEssence.config;
+      if (!config.enabled) return 0;
+      const essence = stats.essence || 0;
+      return Math.floor(essence / config.essenceInterval) * config.percentPerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: '+2% damage (both types) per 10 essence available',
+  },
+
+  // ---------------------------------------------------------------------------
+  // ATTACK SPEED (display only — eDPS assumes IAS-independent on-hit)
+  // New rule: max Attack Speed capped at 300%, and all AS bonuses apply at 50%
+  // effectiveness. Prior cap was a logarithmic ~79%. Exact IAS→DPS curve is
+  // still unknown, so this is informational and does NOT fold into eDPS yet.
+  // ---------------------------------------------------------------------------
+  effectiveAttackSpeed: {
+    id: 'effectiveAttackSpeed',
+    name: 'Effective Attack Speed',
+    category: 'offense',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['bloodlustAttackSpeedBonus', 'eliteAttackSpeedBonus'],
+    config: {
+      cap: 3.0,           // 300% hard cap
+      effectiveness: 0.5, // all AS bonuses at 50% effectiveness
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.effectiveAttackSpeed.config;
+      const gear = stats.attackSpeed || 0;                          // decimal from items
+      const bloodlust = (stats.bloodlustAttackSpeedBonus || 0) / 100;
+      const elite = (stats.eliteAttackSpeedBonus || 0) / 100;
+      const raw = gear + bloodlust + elite;
+      return Math.min(config.cap, raw * config.effectiveness);
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Attack speed after 50% effectiveness, capped at 300%',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.effectiveAttackSpeed.config;
+      const gear = stats.attackSpeed || 0;
+      const bloodlust = (stats.bloodlustAttackSpeedBonus || 0) / 100;
+      const elite = (stats.eliteAttackSpeedBonus || 0) / 100;
+      const raw = gear + bloodlust + elite;
+      return [
+        { label: 'attackSpeed', fullName: 'Gear Attack Speed', op: '+', value: gear, fmt: 'pct' },
+        { label: 'bloodlustAttackSpeedBonus', fullName: DERIVED_STATS.bloodlustAttackSpeedBonus.name, op: '+', value: bloodlust, fmt: 'pct', isMonogram: true },
+        { label: 'eliteAttackSpeedBonus', fullName: DERIVED_STATS.eliteAttackSpeedBonus.name, op: '+', value: elite, fmt: 'pct', isMonogram: true },
+        { label: 'raw', fullName: 'Raw AS (sum)', op: '=', value: raw, fmt: 'pct', isSubtotal: true },
+        { label: 'effectiveness', fullName: 'Effectiveness ×0.5', op: '×', value: config.effectiveness, fmt: 'pct' },
+        { label: 'cap', fullName: `Capped at ${(config.cap * 100).toFixed(0)}%`, op: '=', value: stats.effectiveAttackSpeed, fmt: 'pct', isSubtotal: true },
+      ];
+    },
+  },
+
+  // ---------------------------------------------------------------------------
   // eDPS LAYER: Two independent pipelines (physical + elemental)
   //
   // Post ele/phys-split formulae:
@@ -2033,8 +2102,15 @@ export const DERIVED_STATS = {
     layer: LAYERS.EDPS,
     dependencies: ['damageFromHealth', 'statDamageFlatBonus',
       'paragonDamageBonus', 'flatDamageMonogramBonus', 'noEnergyDamageBonus',
-      'berserkerMaxDrFlatDamage'],
-    calculate: (stats) => {
+      'berserkerMaxDrFlatDamage', 'edpsElemFlat'],
+    config: {
+      // Conversion monogram: gain this fraction of elemental flat as physical
+      // flat ("Gain 75% of your elemental damage as Physical damage"). When set,
+      // the matching monogram also disables elemental (see elementalDisabled).
+      elemToPhysFlatRatio: 0,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsPhysFlat.config;
       const base = stats.damage || 0;                      // raw flat Base.Damage
       const fromHealth = stats.damageFromHealth || 0;      // both types
       const statFlat = stats.statDamageFlatBonus || 0;     // both types (1 per 75)
@@ -2042,20 +2118,26 @@ export const DERIVED_STATS = {
       const flatMono = stats.flatDamageMonogramBonus || 0; // physical
       const noEnergy = stats.noEnergyDamageBonus || 0;     // physical
       const berserker = stats.berserkerMaxDrFlatDamage || 0; // physical
-      return Math.floor(base + fromHealth + statFlat + paragon + flatMono + noEnergy + berserker);
+      const converted = (config.elemToPhysFlatRatio || 0) * (stats.edpsElemFlat || 0);
+      return Math.floor(base + fromHealth + statFlat + paragon + flatMono + noEnergy + berserker + converted);
     },
     format: v => v.toFixed(0),
-    description: 'Physical base damage: raw gear Base.Damage + flat monograms (both-types + physical)',
-    breakdown: (stats) => [
-      { label: 'damage', fullName: 'Gear Physical Damage (flat)', op: '+', value: stats.damage || 0, fmt: 'int' },
-      term(stats, 'damageFromHealth', '+', 'int'),
-      term(stats, 'statDamageFlatBonus', '+', 'int'),
-      term(stats, 'paragonDamageBonus', '+', 'int'),
-      term(stats, 'flatDamageMonogramBonus', '+', 'int'),
-      term(stats, 'noEnergyDamageBonus', '+', 'int'),
-      term(stats, 'berserkerMaxDrFlatDamage', '+', 'int'),
-      { label: 'BasePhys', fullName: 'Base Physical Damage (sum)', op: '=', value: stats.edpsPhysFlat, fmt: 'int', isSubtotal: true },
-    ],
+    description: 'Physical base damage: raw gear Base.Damage + flat monograms (both-types + physical) + converted elemental',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsPhysFlat.config;
+      const converted = (config.elemToPhysFlatRatio || 0) * (stats.edpsElemFlat || 0);
+      return [
+        { label: 'damage', fullName: 'Gear Physical Damage (flat)', op: '+', value: stats.damage || 0, fmt: 'int' },
+        term(stats, 'damageFromHealth', '+', 'int'),
+        term(stats, 'statDamageFlatBonus', '+', 'int'),
+        term(stats, 'paragonDamageBonus', '+', 'int'),
+        term(stats, 'flatDamageMonogramBonus', '+', 'int'),
+        term(stats, 'noEnergyDamageBonus', '+', 'int'),
+        term(stats, 'berserkerMaxDrFlatDamage', '+', 'int'),
+        { label: 'elemConverted', fullName: `Elemental→Physical (${((config.elemToPhysFlatRatio || 0) * 100).toFixed(0)}% of elem flat)`, op: '+', value: Math.floor(converted), fmt: 'int', isMonogram: true },
+        { label: 'BasePhys', fullName: 'Base Physical Damage (sum)', op: '=', value: stats.edpsPhysFlat, fmt: 'int', isSubtotal: true },
+      ];
+    },
   },
 
   /**
@@ -2101,14 +2183,15 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: ['phasingDamageBonus', 'shroudDamageBonus', 'highestStatDamageBonus',
-      'damagePercentForStat2', 'phasingDurationDamage'],
+      'damagePercentForStat2', 'phasingDurationDamage', 'damageFromEssence'],
     calculate: (stats) => {
       const phasing = (stats.phasingDamageBonus || 0) / 100;     // 1.5%/stack, both
       const shroud = (stats.shroudDamageBonus || 0) / 100;       // both (Shroud Master)
       const highest = (stats.highestStatDamageBonus || 0) / 100; // 1%/30, both
       const perStat2 = (stats.damagePercentForStat2 || 0) / 100; // 1%/30, both
       const phaseDur = (stats.phasingDurationDamage || 0) / 100;  // 1%/10s, both
-      return phasing + shroud + highest + perStat2 + phaseDur;
+      const essence = (stats.damageFromEssence || 0) / 100;       // 2%/10 essence, both
+      return phasing + shroud + highest + perStat2 + phaseDur + essence;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Damage% bonuses applying to both physical and elemental lines',
@@ -2118,6 +2201,7 @@ export const DERIVED_STATS = {
       { label: 'highestStatDamageBonus', fullName: DERIVED_STATS.highestStatDamageBonus.name, op: '+', value: (stats.highestStatDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'damagePercentForStat2', fullName: DERIVED_STATS.damagePercentForStat2.name, op: '+', value: (stats.damagePercentForStat2 || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'phasingDurationDamage', fullName: DERIVED_STATS.phasingDurationDamage.name, op: '+', value: (stats.phasingDurationDamage || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'damageFromEssence', fullName: DERIVED_STATS.damageFromEssence.name, op: '+', value: (stats.damageFromEssence || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'Both', fullName: 'Both-types Damage% (sum)', op: '=', value: stats.edpsBothTypesDamageBonus, fmt: 'pct', isSubtotal: true },
     ],
   },
@@ -2133,8 +2217,14 @@ export const DERIVED_STATS = {
     name: 'Physical Multiplier',
     category: 'edps',
     layer: LAYERS.EDPS,
-    dependencies: ['edpsBothTypesDamageBonus'],
-    config: { stance: null },
+    dependencies: ['edpsBothTypesDamageBonus', 'edpsED'],
+    config: {
+      stance: null,
+      // Conversion monogram: gain this fraction of the elemental damage bonus
+      // (edpsED − 1) as physical damage bonus. Set by the matching monogram,
+      // which also disables elemental output.
+      elemBonusToPhysRatio: 0,
+    },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsPhysAdditive.config;
       const critDmg = stats.critDamage || 0;
@@ -2165,8 +2255,10 @@ export const DERIVED_STATS = {
       const colossus = (stats.colossusDamageBonus || 0) / 100;
       const invSlot = (stats.invSlotDamageBonus || 0) / 100;
       const bothTypes = stats.edpsBothTypesDamageBonus || 0;
+      // Converted elemental damage bonus (edpsED − 1) folded in as physical
+      const elemConverted = (config.elemBonusToPhysRatio || 0) * Math.max(0, (stats.edpsED || 1) - 1);
       return critDmg + physBonus + stanceDmg + stanceCrit + bloodlustCrit + critFromArmor
-        + drawBlood + colossus + invSlot + bothTypes;
+        + drawBlood + colossus + invSlot + bothTypes + elemConverted;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Physical additive bucket: StanceCrit + Crit + PhysDmg% + StanceDmg% + both-types',
@@ -2203,6 +2295,7 @@ export const DERIVED_STATS = {
         { label: 'colossusDamageBonus', fullName: DERIVED_STATS.colossusDamageBonus.name, op: '+', value: (stats.colossusDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'invSlotDamageBonus', fullName: DERIVED_STATS.invSlotDamageBonus.name, op: '+', value: (stats.invSlotDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'edpsBothTypesDamageBonus', fullName: 'Damage% (Both Types)', op: '+', value: stats.edpsBothTypesDamageBonus || 0, fmt: 'pct', isMonogram: true },
+        { label: 'elemBonusConverted', fullName: `Elemental→Physical bonus (${((config.elemBonusToPhysRatio || 0) * 100).toFixed(0)}% of ED)`, op: '+', value: (config.elemBonusToPhysRatio || 0) * Math.max(0, (stats.edpsED || 1) - 1), fmt: 'pct', isMonogram: true },
         { label: 'PhysMult', fullName: 'Physical Multiplier (sum)', op: '=', value: stats.edpsPhysAdditive, fmt: 'pct', isSubtotal: true },
       ];
     },
@@ -2295,6 +2388,84 @@ export const DERIVED_STATS = {
       { label: 'damageNoPotionBonus', fullName: DERIVED_STATS.damageNoPotionBonus.name, op: '+', value: (stats.damageNoPotionBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'ED', fullName: 'Elemental Damage', op: '=', value: stats.edpsED, fmt: 'pct', isSubtotal: true },
     ],
+  },
+
+  /**
+   * edpsElemCrit — elemental crit multiplier (provisional).
+   * Offhand abilities can now critically strike at 10% of your Critical Strike
+   * Chance. The exact bucket/weighting is still unconfirmed, so for now this
+   * collects the two crit-damage stats (regular + stance) into a standalone
+   * multiplier on the elemental line, mirroring how physical bakes crit into
+   * its additive bucket. `offhandCritFactor` (default 1) is the hook for the
+   * eventual "10% of crit chance" weighting.
+   */
+  edpsElemCrit: {
+    id: 'edpsElemCrit',
+    name: 'Elemental Crit',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: [],
+    config: { stance: null, offhandCritFactor: 1 },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsElemCrit.config;
+      const STANCE_CRIT_IDS = {
+        maul: 'maulCritDamage', sword: 'swordCritDamage', archery: 'archeryCritDamage',
+        magery: 'mageryCritDamage', unarmed: 'unarmedCritDamage', scythe: 'scytheCritDamage',
+        twohand: 'twohandCritDamage', spear: 'spearCritDamage',
+      };
+      let stanceCrit = 0;
+      if (config.stance && STANCE_CRIT_IDS[config.stance]) {
+        stanceCrit = stats[STANCE_CRIT_IDS[config.stance]] || 0;
+      } else {
+        for (const id of Object.values(STANCE_CRIT_IDS)) if ((stats[id] || 0) > stanceCrit) stanceCrit = stats[id];
+      }
+      const critDmg = stats.critDamage || 0;
+      const factor = config.offhandCritFactor ?? 1;
+      return 1 + factor * (critDmg + stanceCrit);
+    },
+    format: v => `${(v * 100).toFixed(0)}%`,
+    description: 'Elemental crit multiplier (regular + stance crit damage; provisional bucket)',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsElemCrit.config;
+      const STANCE_CRIT_IDS = {
+        maul: 'maulCritDamage', sword: 'swordCritDamage', archery: 'archeryCritDamage',
+        magery: 'mageryCritDamage', unarmed: 'unarmedCritDamage', scythe: 'scytheCritDamage',
+        twohand: 'twohandCritDamage', spear: 'spearCritDamage',
+      };
+      let scId = null, best = 0;
+      if (config.stance && STANCE_CRIT_IDS[config.stance]) scId = STANCE_CRIT_IDS[config.stance];
+      else for (const id of Object.values(STANCE_CRIT_IDS)) if ((stats[id] || 0) > best) { best = stats[id]; scId = id; }
+      const factor = config.offhandCritFactor ?? 1;
+      return [
+        { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
+        term(stats, 'critDamage', '+', 'pct'),
+        scId ? term(stats, scId, '+', 'pct', { fullName: `Stance Crit Damage (${config.stance || 'highest'})` })
+             : { label: 'stanceCritDamage', fullName: 'Stance Crit Damage', op: '+', value: 0, fmt: 'pct' },
+        { label: 'offhandCritFactor', fullName: 'Offhand crit weighting (TODO: 10% of crit chance)', op: '×', value: factor, fmt: 'pct' },
+        { label: 'ElemCrit', fullName: 'Elemental Crit (multiplier)', op: '=', value: stats.edpsElemCrit, fmt: 'pct', isSubtotal: true },
+      ];
+    },
+  },
+
+  /**
+   * elementalDisabled — flag set by the elemental→physical conversion monograms
+   * ("you can no longer deal elemental damage"). When 1, the elemental on-hit
+   * results return 0. The raw edpsElemFlat/edpsED still compute so the physical
+   * conversion can read their pre-disable values.
+   */
+  elementalDisabled: {
+    id: 'elementalDisabled',
+    name: 'Elemental Disabled',
+    category: 'edps',
+    layer: LAYERS.EDPS,
+    dependencies: [],
+    config: { enabled: false },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.elementalDisabled.config;
+      return config.enabled ? 1 : 0;
+    },
+    format: v => (v ? 'Yes' : 'No'),
+    description: 'Whether elemental damage is disabled (elemental→physical conversion active)',
   },
 
   /**
@@ -2438,12 +2609,13 @@ export const DERIVED_STATS = {
     name: 'Elemental Hit (Left)',
     category: 'edps-result',
     layer: LAYERS.EDPS,
-    dependencies: ['edpsElemFlat', 'edpsElemAdditive', 'edpsED', 'edpsOffhandMods', 'edpsBD'],
+    dependencies: ['edpsElemFlat', 'edpsElemAdditive', 'edpsED', 'edpsElemCrit', 'edpsOffhandMods', 'edpsBD', 'elementalDisabled'],
     config: { multiplier: 2.0 },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsElemPrimary.config;
       const bucket = (stats.edpsElemAdditive || 0) + (config.multiplier || 0);
-      return Math.floor((stats.edpsElemFlat || 0) * bucket * (stats.edpsED || 1) * (stats.edpsOffhandMods || 1));
+      const disabled = stats.elementalDisabled ? 0 : 1;
+      return Math.floor((stats.edpsElemFlat || 0) * bucket * (stats.edpsED || 1) * (stats.edpsElemCrit || 1) * (stats.edpsOffhandMods || 1) * disabled);
     },
     format: v => v.toLocaleString(),
     description: 'Elemental on-hit (Left Click, 200%) vs normal mobs',
@@ -2454,12 +2626,13 @@ export const DERIVED_STATS = {
     name: 'Elemental Hit (Q)',
     category: 'edps-result',
     layer: LAYERS.EDPS,
-    dependencies: ['edpsElemFlat', 'edpsElemAdditive', 'edpsED', 'edpsOffhandMods', 'edpsBD'],
+    dependencies: ['edpsElemFlat', 'edpsElemAdditive', 'edpsED', 'edpsElemCrit', 'edpsOffhandMods', 'edpsBD', 'elementalDisabled'],
     config: { multiplier: 1.5 },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsElemQ.config;
       const bucket = (stats.edpsElemAdditive || 0) + (config.multiplier || 0);
-      return Math.floor((stats.edpsElemFlat || 0) * bucket * (stats.edpsED || 1) * (stats.edpsOffhandMods || 1));
+      const disabled = stats.elementalDisabled ? 0 : 1;
+      return Math.floor((stats.edpsElemFlat || 0) * bucket * (stats.edpsED || 1) * (stats.edpsElemCrit || 1) * (stats.edpsOffhandMods || 1) * disabled);
     },
     format: v => v.toLocaleString(),
     description: 'Elemental on-hit (Q, 150% default) vs normal mobs',
@@ -2470,12 +2643,13 @@ export const DERIVED_STATS = {
     name: 'Elemental Hit (R)',
     category: 'edps-result',
     layer: LAYERS.EDPS,
-    dependencies: ['edpsElemFlat', 'edpsElemAdditive', 'edpsED', 'edpsOffhandMods', 'edpsBD'],
+    dependencies: ['edpsElemFlat', 'edpsElemAdditive', 'edpsED', 'edpsElemCrit', 'edpsOffhandMods', 'edpsBD', 'elementalDisabled'],
     config: { multiplier: 2.0 },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsElemR.config;
       const bucket = (stats.edpsElemAdditive || 0) + (config.multiplier || 0);
-      return Math.floor((stats.edpsElemFlat || 0) * bucket * (stats.edpsED || 1) * (stats.edpsOffhandMods || 1));
+      const disabled = stats.elementalDisabled ? 0 : 1;
+      return Math.floor((stats.edpsElemFlat || 0) * bucket * (stats.edpsED || 1) * (stats.edpsElemCrit || 1) * (stats.edpsOffhandMods || 1) * disabled);
     },
     format: v => v.toLocaleString(),
     description: 'Elemental on-hit (R, 200% default) vs normal mobs',
@@ -2506,15 +2680,22 @@ function elemResultBreakdown(stats, cfg, id) {
   const bucket = (stats.edpsElemAdditive || 0) + mult;
   const normal = stats[id] || 0;
   const boss = Math.floor(normal * (stats.edpsBD || 1));
-  return [
+  const rows = [
     { label: 'BaseElem', fullName: 'Base Elemental Damage', op: '=', value: stats.edpsElemFlat, fmt: 'int' },
     { label: 'ElemBucket', fullName: 'Offhand bucket + Skill Multiplier', op: '×', value: bucket, fmt: 'pct' },
     { label: 'ED', fullName: 'Elemental Damage (Fire/Arc/Ltng)', op: '×', value: stats.edpsED, fmt: 'pct' },
+    { label: 'ElemCrit', fullName: 'Elemental Crit (provisional)', op: '×', value: stats.edpsElemCrit, fmt: 'pct' },
     { label: 'OffhandMods', fullName: 'Offhand Mods', op: '×', value: stats.edpsOffhandMods, fmt: 'pct' },
+  ];
+  if (stats.elementalDisabled) {
+    rows.push({ label: 'elementalDisabled', fullName: 'Elemental disabled (converted to physical)', op: '×', value: 0, fmt: 'pct', isMonogram: true });
+  }
+  rows.push(
     { label: 'Normal Hit', fullName: 'On-hit vs normal', op: '=', value: normal, fmt: 'int', isSubtotal: true },
     { label: 'BD', fullName: 'Boss Damage', op: '×', value: stats.edpsBD, fmt: 'pct' },
     { label: 'Boss Hit', fullName: 'On-hit vs boss/elite', op: '=', value: boss, fmt: 'int' },
-  ];
+  );
+  return rows;
 }
 
 // ============================================================================

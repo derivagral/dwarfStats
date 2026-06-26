@@ -8,10 +8,13 @@ import {
   createItemShare,
   createMasteryShare,
   createCharacterSharePayload,
+  createAllocatedAttributesShare,
+  allocatedAttributesShareToData,
   itemShareToItem,
   masteryShareToData,
   CHARACTER_SHARE_VERSION,
 } from '../src/models/CharacterShareModel.js';
+import { calculateDerivedStats } from '../src/utils/derivedStats.js';
 import {
   encodeId, decodeId, encodeIdOrString, decodeIdOrString,
   STAT_DICT, MONOGRAM_DICT, KEYSTONE_DICT,
@@ -535,5 +538,67 @@ describe('CharacterShareModel — real-world fixture round-trip', () => {
     expect(encoded.length).toBeLessThan(8192);
     // Log actual size for visibility
     console.log(`Full build payload size: ${encoded.length} chars (${equipped.length} items)`);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Allocated attributes (base attribute pool) round-trip
+// ---------------------------------------------------------------------------
+describe('CharacterShareModel — allocated attributes', () => {
+  const allocated = {
+    luck: { value: 535, sourceName: 'Allocated Points' },
+    strength: { value: 420, sourceName: 'Allocated Points' },
+  };
+
+  it('createAllocatedAttributesShare compresses stat IDs and skips zeros', () => {
+    const at = createAllocatedAttributesShare({
+      ...allocated,
+      dexterity: { value: 0 }, // zero → skipped to keep URLs short
+    });
+    expect(at).toEqual([
+      [encodeIdOrString(STAT_DICT, 'luck'), 535],
+      [encodeIdOrString(STAT_DICT, 'strength'), 420],
+    ]);
+  });
+
+  it('returns null for empty / missing allocated attributes', () => {
+    expect(createAllocatedAttributesShare(null)).toBeNull();
+    expect(createAllocatedAttributesShare({})).toBeNull();
+    expect(createAllocatedAttributesShare({ luck: { value: 0 } })).toBeNull();
+  });
+
+  it('round-trips allocated attributes through the full payload + URL codec', () => {
+    const payload = createCharacterSharePayload([], null, allocated);
+    expect(payload.at).toBeTruthy();
+
+    const decoded = decodeCharacterShare(encodeCharacterShare(payload));
+    const restored = allocatedAttributesShareToData(decoded.at);
+
+    expect(restored.luck.value).toBe(535);
+    expect(restored.strength.value).toBe(420);
+    expect(restored.luck.sourceName).toBe('Allocated Points');
+  });
+
+  it('omits `at` when no allocated attributes are provided (backward compatible)', () => {
+    const payload = createCharacterSharePayload([], null, null);
+    expect(payload.at).toBeUndefined();
+    // Old links (no `at`) decode to an empty pool, not a crash.
+    expect(allocatedAttributesShareToData(undefined)).toEqual({});
+  });
+
+  it('feature parity: shared totals include the base pool (the luck-977 regression)', () => {
+    // Before this fix the share carried only gear (~100 luck); the allocated
+    // pool (~535) was dropped. Verify aggregating restored allocated + gear
+    // reproduces the in-game total under the same luckBonus.
+    const restored = allocatedAttributesShareToData(
+      createCharacterSharePayload([], null, allocated).at
+    );
+    const gearLuck = 60.94;   // sum of equipped luck affixes
+    const luckBonus = 0.6397; // sum of luckBonus affixes (~64%)
+    const baseLuck = restored.luck.value + gearLuck;
+    const r = calculateDerivedStats({ luck: baseLuck, luckBonus });
+    // floor((535 + 60.94) × 1.6397) ≈ 977 — matches the save, not ~100.
+    expect(r.totalLuck).toBe(Math.floor(baseLuck * (1 + luckBonus)));
+    expect(r.totalLuck).toBeGreaterThan(900);
   });
 });

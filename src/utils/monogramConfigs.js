@@ -133,12 +133,14 @@ export const MONOGRAM_CALC_CONFIGS = {
 
   // ===========================================================================
   // GAIN DAMAGE FOR HP LOSE ARMOR (Bracer Monogram)
-  // 1% of total life as flat damage
+  // Gain base Damage equal to 1% of max Health (both damage types).
+  // Feeds edpsPhysFlat + edpsElemFlat via damageFromHealth. (Previously wired
+  // to damageFromLife, which the flat pools never read — so it never populated.)
   // ===========================================================================
   'GainDamageForHPLoseArmor': {
-    displayName: 'Damage from Life',
+    displayName: 'Damage from Health',
     effects: [
-      { derivedStatId: 'damageFromLife', config: { enabled: true, lifePercent: 1 } },
+      { derivedStatId: 'damageFromHealth', config: { enabled: true, sourceStat: 'totalHealth', percentage: 1 } },
     ],
   },
 
@@ -709,6 +711,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Circle Damage from HP',
     derivedStatId: 'damageFromHealth',
     config: {
+      enabled: true,
       sourceStat: 'totalHealth',
       percentage: 1,
     },

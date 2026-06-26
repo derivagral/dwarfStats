@@ -10,7 +10,7 @@ import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 import { useItemStore } from './hooks/useItemStore';
 import { parseShareFromHash, decodeFilterShare, decodeCharacterShare } from './utils/shareUrl';
-import { masteryShareToData } from './models/CharacterShareModel';
+import { masteryShareToData, allocatedAttributesShareToData } from './models/CharacterShareModel';
 
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
@@ -74,7 +74,8 @@ export default function App() {
       const decoded = decodeCharacterShare(parsed.data);
       if (decoded) {
         const masteryData = masteryShareToData(decoded.sk ?? null);
-        itemStore.loadFromShare(decoded.e ?? [], masteryData);
+        const allocatedAttributes = allocatedAttributesShareToData(decoded.at ?? null);
+        itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes);
         setActiveTab('character');
         log('Loaded shared character build');
       }

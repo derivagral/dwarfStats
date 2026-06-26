@@ -222,16 +222,18 @@ export const DERIVED_STATS = {
     layer: LAYERS.PRIMARY_DERIVED,
     dependencies: ['totalHealth'],
     config: {
+      enabled: false, // gated by the "1% of max Health as damage" monogram
       sourceStat: 'totalHealth',
-      percentage: 1,  // 1% of health as damage
+      percentage: 1,  // 1% of max health as flat damage (both types)
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.damageFromHealth.config;
+      if (!config.enabled) return 0;
       const source = stats[config.sourceStat] || 0;
       return Math.floor(source * (config.percentage / 100));
     },
     format: v => `+${v.toFixed(0)}`,
-    description: 'Flat damage gained from percentage of total health',
+    description: 'Flat damage from 1% of max health (both types; monogram-gated)',
   },
 
   /**

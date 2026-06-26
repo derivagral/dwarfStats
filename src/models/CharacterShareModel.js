@@ -54,6 +54,11 @@ export const CHARACTER_SHARE_VERSION = 1;
  * @property {number} v - Schema version
  * @property {EquippedItemShare[]} [e] - Equipped items (omitted if none)
  * @property {MasteryShare} [sk] - Mastery snapshot (omitted if none)
+ * @property {Array<[number|string, number]>} [at] - Allocated attribute points
+ *   [[statEnc, value], ...] (omitted if none). These are the character's base
+ *   attribute pool from the save's Attributes_21_* block — NOT on any item, so
+ *   without this a shared build under-counts totals (e.g. luck) and every
+ *   highestAttribute-driven derived stat.
  */
 
 // ---------------------------------------------------------------------------
@@ -118,13 +123,54 @@ export function createMasteryShare(stanceContext) {
 }
 
 /**
- * Build a full character share payload from equipped items and optional stanceContext.
+ * Convert the character's allocated attribute pool to compact share form.
+ * Input shape matches parseAllocatedAttributes(): { statId: { value, sourceName } }.
+ * Plain numeric values are also accepted.
+ *
+ * @param {Object<string, {value:number}|number>|null} allocatedAttributes
+ * @returns {Array<[number|string, number]>|null} [[statEnc, value], ...] or null if empty
+ */
+export function createAllocatedAttributesShare(allocatedAttributes) {
+  if (!allocatedAttributes) return null;
+  const entries = Object.entries(allocatedAttributes);
+  if (entries.length === 0) return null;
+
+  const out = [];
+  for (const [statId, raw] of entries) {
+    const value = typeof raw === 'number' ? raw : Number(raw?.value ?? 0);
+    if (!value) continue; // skip zeros to keep URLs short
+    out.push([encodeIdOrString(STAT_DICT, statId), value]);
+  }
+  return out.length > 0 ? out : null;
+}
+
+/**
+ * Reconstruct the allocated attribute pool from a decoded `at` array.
+ * Returns the same shape parseAllocatedAttributes() produces so it can be
+ * dropped straight into itemStore.metadata.allocatedAttributes.
+ *
+ * @param {Array<[number|string, number]>|null|undefined} at
+ * @returns {Object<string, {value:number, sourceName:string}>}
+ */
+export function allocatedAttributesShareToData(at) {
+  const result = {};
+  for (const [enc, value] of at || []) {
+    const statId = decodeIdOrString(STAT_DICT, enc) || String(enc);
+    result[statId] = { value: value ?? 0, sourceName: 'Allocated Points' };
+  }
+  return result;
+}
+
+/**
+ * Build a full character share payload from equipped items, optional
+ * stanceContext, and the character's allocated attribute pool.
  *
  * @param {import('./Item').Item[]} equippedItems
  * @param {{ activeStance: object }|null} [stanceContext]
+ * @param {Object<string, {value:number}|number>|null} [allocatedAttributes]
  * @returns {CharacterSharePayload}
  */
-export function createCharacterSharePayload(equippedItems, stanceContext = null) {
+export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null) {
   const payload = { v: CHARACTER_SHARE_VERSION };
 
   if (equippedItems && equippedItems.length > 0) {
@@ -133,6 +179,9 @@ export function createCharacterSharePayload(equippedItems, stanceContext = null)
 
   const mastery = createMasteryShare(stanceContext);
   if (mastery) payload.sk = mastery;
+
+  const at = createAllocatedAttributesShare(allocatedAttributes);
+  if (at) payload.at = at;
 
   return payload;
 }

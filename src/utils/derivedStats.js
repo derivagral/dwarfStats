@@ -225,11 +225,14 @@ export const DERIVED_STATS = {
       enabled: false, // gated by the "1% of max Health as damage" monogram
       sourceStat: 'totalHealth',
       percentage: 1,  // 1% of max health as flat damage (both types)
+      maxHealth: 0,   // real max health from save/share; preferred over totalHealth
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.damageFromHealth.config;
       if (!config.enabled) return 0;
-      const source = stats[config.sourceStat] || 0;
+      // Prefer the character's real max health (from save/share) — the
+      // gear-summed totalHealth misses base/VIT-derived health entirely.
+      const source = config.maxHealth || stats[config.sourceStat] || 0;
       return Math.floor(source * (config.percentage / 100));
     },
     format: v => `+${v.toFixed(0)}`,

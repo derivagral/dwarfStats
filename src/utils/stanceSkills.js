@@ -224,6 +224,28 @@ export function parseAllocatedAttributes(saveData) {
 }
 
 /**
+ * Read the character's max health from save player data.
+ *
+ * The 1%-of-max-Health monogram needs the real total health, which is NOT
+ * derivable from gear (it comes mostly from base/VIT). The save stores the
+ * player's health as a Double in `Health_29_*`. NOTE: this is current health,
+ * which equals max at full HP — there is no separate stored max, so this is the
+ * best available proxy.
+ *
+ * @param {Object} saveData
+ * @returns {number} Max health (0 if unavailable)
+ */
+export function parseMaxHealth(saveData) {
+  const hostPlayerStruct = findHostPlayerStruct(saveData);
+  if (!hostPlayerStruct) return 0;
+  const key = Object.keys(hostPlayerStruct).find(k => k.startsWith('Health_'));
+  if (!key) return 0;
+  const node = hostPlayerStruct[key];
+  const value = node?.Double ?? node?.Float ?? null;
+  return typeof value === 'number' ? value : 0;
+}
+
+/**
  * Reconstruct a stanceContext from decoded share mastery data.
  * Used by loadFromShare so useDerivedStats gets proper stance/mastery effects
  * even when no save file is loaded.

@@ -5,6 +5,7 @@ import {
   isItemStruct,
   isWeaponType,
   WEAPON_PATTERNS,
+  normalizeStatValue,
 } from '../src/models/itemTransformer.js';
 import { Rarity } from '../src/models/Item.js';
 
@@ -427,6 +428,27 @@ describe('itemTransformer', () => {
 
       expect(result.totalCount).toBe(1);
       expect(result.items[0].displayName).toBe('Chest Piece');
+    });
+  });
+
+  describe('normalizeStatValue (attack speed scale)', () => {
+    const TAG = 'EasyRPG.Attributes.Base.AttackSpeed';
+
+    it('divides percent-points attack speed (>=10) onto the decimal scale', () => {
+      // Fossil stores 454.12 (game shows +454.12) — must become 4.5412 so the
+      // x100 display formatting yields ~454%, not 45412%.
+      expect(normalizeStatValue(TAG, 454.12)).toBeCloseTo(4.5412, 4);
+    });
+
+    it('leaves normal decimal attack speed untouched', () => {
+      expect(normalizeStatValue(TAG, 0.01)).toBe(0.01); // stones = 1%
+      expect(normalizeStatValue(TAG, 0.1)).toBe(0.1);   // = 10%
+      expect(normalizeStatValue(TAG, 3.0)).toBe(3.0);   // 300% cap region, still decimal
+    });
+
+    it('never touches non-attack-speed stats or non-numbers', () => {
+      expect(normalizeStatValue('EasyRPG.Attributes.Base.Armor%', 434)).toBe(434);
+      expect(normalizeStatValue(TAG, null)).toBe(null);
     });
   });
 });

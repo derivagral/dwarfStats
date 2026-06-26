@@ -586,6 +586,15 @@ describe('CharacterShareModel — allocated attributes', () => {
     expect(allocatedAttributesShareToData(undefined)).toEqual({});
   });
 
+  it('carries character max health (hp) for the 1%-health monogram', () => {
+    const payload = createCharacterSharePayload([], null, null, 5977.49);
+    expect(payload.hp).toBe(5977); // rounded
+    const decoded = decodeCharacterShare(encodeCharacterShare(payload));
+    expect(decoded.hp).toBe(5977);
+    // Omitted when 0 (backward compatible).
+    expect(createCharacterSharePayload([], null, null, 0).hp).toBeUndefined();
+  });
+
   it('feature parity: shared totals include the base pool (the luck-977 regression)', () => {
     // Before this fix the share carried only gear (~100 luck); the allocated
     // pool (~535) was dropped. Verify aggregating restored allocated + gear

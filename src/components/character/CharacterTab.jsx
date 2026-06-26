@@ -15,6 +15,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     timestamp: itemStore.metadata.loadedAt,
     stanceContext: itemStore.metadata.stanceContext,
     characterStats: itemStore.metadata.allocatedAttributes,
+    maxHealth: itemStore.metadata.maxHealth,
   } : saveData ? {
     filename: saveData.filename,
     equippedItems: saveData.equippedItems || [],
@@ -25,7 +26,8 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     const payload = createCharacterSharePayload(
       itemStore.equipped,
       characterData?.stanceContext ?? null,
-      itemStore.metadata?.allocatedAttributes ?? null
+      itemStore.metadata?.allocatedAttributes ?? null,
+      itemStore.metadata?.maxHealth ?? 0
     );
     const url = buildCharacterShareUrl(payload);
     try {

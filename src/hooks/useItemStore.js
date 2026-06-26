@@ -66,8 +66,9 @@ export function useItemStore() {
    *
    * @param {import('../models/CharacterShareModel').EquippedItemShare[]} itemShares
    * @param {Object|null} [masteryData] - Decoded mastery data (stored in metadata for downstream use)
+   * @param {Object<string, {value:number}>} [allocatedAttributes] - Decoded base attribute pool
    */
-  const loadFromShare = useCallback((itemShares, masteryData = null) => {
+  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}) => {
     const equippedItems = (itemShares || []).map((share, i) => itemShareToItem(share, i));
 
     setEquipped(equippedItems);
@@ -77,7 +78,7 @@ export function useItemStore() {
       filename: 'Shared Build',
       loadedAt: new Date().toISOString(),
       stanceContext: convertMasteryToStanceContext(masteryData),
-      allocatedAttributes: {},
+      allocatedAttributes: allocatedAttributes || {},
       sharedMastery: masteryData,
     });
   }, []);

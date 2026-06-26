@@ -24,7 +24,8 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
   const handleShare = useCallback(async () => {
     const payload = createCharacterSharePayload(
       itemStore.equipped,
-      characterData?.stanceContext ?? null
+      characterData?.stanceContext ?? null,
+      itemStore.metadata?.allocatedAttributes ?? null
     );
     const url = buildCharacterShareUrl(payload);
     try {

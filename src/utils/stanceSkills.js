@@ -95,7 +95,11 @@ export const STANCE_KEYSTONE_BREAKPOINT = 5000;
 export const STANCE_MASTERY_STEP = 350;
 
 function findHostPlayerStruct(saveData) {
-  return saveData?.root?.properties?.HostPlayerData_0?.Struct?.Struct || null;
+  // WASM `to_json()` output is root-wrapped; some converters emit `properties`
+  // at the top level. Handle both so allocated attributes / stance data parse
+  // regardless of the save's outer shape.
+  const props = saveData?.root?.properties || saveData?.properties;
+  return props?.HostPlayerData_0?.Struct?.Struct || null;
 }
 
 export function inferWeaponStance(equippedItems = []) {

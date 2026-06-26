@@ -321,7 +321,7 @@ Key monogram chains:
 - **Life Buff** (amulet, 100 stacks): +1% life per stack
 - **ElementForCritChance** (helmet): +3% element per 1% crit over 100%
 - **ElementalToHp%.Fire** (ring): +2% life per 30% fire damage
-- **GainDamageForHPLoseArmor** (bracer): +1% life as flat damage
+- **GainDamageForHPLoseArmor** (bracer): +1% of max Health as flat damage (both types; enables `damageFromHealth`, which feeds `edpsPhysFlat` + `edpsElemFlat`)
 
 ### Slot monogram pools
 Defined in `SLOT_MONOGRAMS` in `src/utils/monogramRegistry.js`:

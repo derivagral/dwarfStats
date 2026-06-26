@@ -526,6 +526,22 @@ describe('derivedStats', () => {
       expect(r.edpsPhysAdditive).toBeCloseTo(1.75, 2);
       expect(r.edpsElemPrimary).toBe(0);
     });
+
+    it('1% max-health-as-damage monogram is gated and populates BOTH flat pools', () => {
+      const base = { damage: 100, elementalDamage: 50, health: 10000 };
+      // Off by default — no phantom health contribution to flat damage.
+      const off = calculateDerivedStats(base);
+      expect(off.damageFromHealth).toBe(0);
+      expect(off.edpsPhysFlat).toBe(100);
+      expect(off.edpsElemFlat).toBe(50);
+      // When the monogram enables it: +1% of totalHealth (100) into both pools.
+      const on = calculateDerivedStats(base, {
+        damageFromHealth: { enabled: true, sourceStat: 'totalHealth', percentage: 1 },
+      });
+      expect(on.damageFromHealth).toBe(100);
+      expect(on.edpsPhysFlat).toBe(200);
+      expect(on.edpsElemFlat).toBe(150);
+    });
   });
 });
 

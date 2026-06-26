@@ -65,6 +65,22 @@ describe('shareCodec', () => {
     expect(WEAPON_TYPE_DICT.length).toBeGreaterThan(0);
   });
 
+  it('STAT_DICT is append-only: legacy wire-format indices are pinned', () => {
+    // STAT_DICT = Object.keys(STAT_REGISTRY), so registry order IS the character
+    // share wire format. Inserting a stat mid-registry shifts every later index
+    // and corrupts previously-generated share links. These pins fail loudly if
+    // that ever happens again (regression: elementalDamage was inserted at 16,
+    // shifting armor 45→46 and mis-decoding old links).
+    expect(STAT_DICT[0]).toBe('strength');
+    expect(STAT_DICT[14]).toBe('damage');
+    expect(STAT_DICT[15]).toBe('damageBonus');
+    expect(STAT_DICT[45]).toBe('armor');
+    expect(STAT_DICT[78]).toBe('ferocityOfWolvesDamage');
+    // New stats must be appended after the historical ability block.
+    expect(STAT_DICT.indexOf('elementalDamage'))
+      .toBeGreaterThan(STAT_DICT.indexOf('lightningPlasmaDamage'));
+  });
+
   it('WEAPON_TYPE_DICT covers all STANCE_DEFS ids (no string fallback for any stance)', () => {
     // Previously used SkillTree.js WEAPON_TYPE values ('mauls', 'oneHand', 'archery', etc.)
     // which mismatched STANCE_DEFS ids ('maul', 'sword', 'bow', etc.), causing string fallback.

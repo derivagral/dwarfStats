@@ -59,6 +59,8 @@ export const CHARACTER_SHARE_VERSION = 1;
  *   attribute pool from the save's Attributes_21_* block — NOT on any item, so
  *   without this a shared build under-counts totals (e.g. luck) and every
  *   highestAttribute-driven derived stat.
+ * @property {number} [hp] - Character max health (omitted if 0). Not derivable
+ *   from gear; needed by the 1%-of-max-Health monogram.
  */
 
 // ---------------------------------------------------------------------------
@@ -170,7 +172,7 @@ export function allocatedAttributesShareToData(at) {
  * @param {Object<string, {value:number}|number>|null} [allocatedAttributes]
  * @returns {CharacterSharePayload}
  */
-export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null) {
+export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null, maxHealth = 0) {
   const payload = { v: CHARACTER_SHARE_VERSION };
 
   if (equippedItems && equippedItems.length > 0) {
@@ -182,6 +184,10 @@ export function createCharacterSharePayload(equippedItems, stanceContext = null,
 
   const at = createAllocatedAttributesShare(allocatedAttributes);
   if (at) payload.at = at;
+
+  // Character max health (for the 1%-of-max-Health monogram); not derivable
+  // from gear. Rounded to keep the URL short.
+  if (maxHealth > 0) payload.hp = Math.round(maxHealth);
 
   return payload;
 }

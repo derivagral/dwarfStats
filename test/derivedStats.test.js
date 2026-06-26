@@ -542,6 +542,18 @@ describe('derivedStats', () => {
       expect(on.edpsPhysFlat).toBe(200);
       expect(on.edpsElemFlat).toBe(150);
     });
+
+    it('health monogram prefers real max health (from save/share) over gear-summed totalHealth', () => {
+      // Gear health is only 69 here; the character's real max health is 5977.
+      const base = { damage: 100, elementalDamage: 50, health: 69 };
+      const r = calculateDerivedStats(base, {
+        damageFromHealth: { enabled: true, sourceStat: 'totalHealth', percentage: 1, maxHealth: 5977 },
+      });
+      // 1% of 5977 = 59 (not 1% of gear 69 = 0)
+      expect(r.damageFromHealth).toBe(59);
+      expect(r.edpsPhysFlat).toBe(159);
+      expect(r.edpsElemFlat).toBe(109);
+    });
   });
 });
 

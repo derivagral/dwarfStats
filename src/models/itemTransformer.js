@@ -216,6 +216,29 @@ function extractTagFromGameplayTag(obj) {
 }
 
 /**
+ * Normalize stat values whose stored scale is inconsistent across sources.
+ *
+ * Attack speed is normally stored as a decimal fraction (0.01 = 1%, 0.10 = 10%),
+ * but some items (notably fossils) store it as already-multiplied percent-points
+ * (e.g. 454.12 = 454%). Left raw, the latter renders 100x too large (45412%) and
+ * blows past the 300% cap. Since a real attack-speed decimal never approaches the
+ * cap-region needed to exceed ~6, any value >= 10 is treated as percent-points
+ * and divided by 100 to bring it onto the decimal scale everything else expects.
+ *
+ * @param {string} rawTag - Full attribute tag path
+ * @param {number|null} value - Raw stored value
+ * @returns {number|null} Normalized value
+ */
+const ATTACK_SPEED_PERCENT_POINTS_THRESHOLD = 10;
+export function normalizeStatValue(rawTag, value) {
+  if (typeof value === 'number' && /AttackSpeed/i.test(rawTag || '') &&
+      Math.abs(value) >= ATTACK_SPEED_PERCENT_POINTS_THRESHOLD) {
+    return value / 100;
+  }
+  return value;
+}
+
+/**
  * Check if a tag is a monogram (modifier) rather than a regular stat
  * @param {string} rawTag - Full tag path
  * @returns {boolean}
@@ -281,7 +304,7 @@ function extractStatsAndMonograms(node) {
           // Regular stat
           stats.push({
             stat: tagInfo.stat,
-            value: value,
+            value: normalizeStatValue(tagInfo.rawTag, value),
             rawTag: tagInfo.rawTag,
           });
         }

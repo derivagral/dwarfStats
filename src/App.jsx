@@ -75,7 +75,7 @@ export default function App() {
       if (decoded) {
         const masteryData = masteryShareToData(decoded.sk ?? null);
         const allocatedAttributes = allocatedAttributesShareToData(decoded.at ?? null);
-        itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes);
+        itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes, decoded.hp ?? 0);
         setActiveTab('character');
         log('Loaded shared character build');
       }

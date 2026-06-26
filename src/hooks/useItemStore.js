@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
-import { parseStanceContext, parseAllocatedAttributes, convertMasteryToStanceContext } from '../utils/stanceSkills';
+import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, convertMasteryToStanceContext } from '../utils/stanceSkills';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -45,6 +45,7 @@ export function useItemStore() {
     const equippedItems = extractEquippedItems(saveJson);
     const stanceContext = parseStanceContext(saveJson, equippedItems);
     const allocatedAttributes = parseAllocatedAttributes(saveJson);
+    const maxHealth = parseMaxHealth(saveJson);
 
     // Extract all inventory items using unified Item model
     const { items: inventoryItems, totalCount } = transformAllItems(saveJson);
@@ -57,6 +58,7 @@ export function useItemStore() {
       loadedAt: new Date().toISOString(),
       stanceContext,
       allocatedAttributes,
+      maxHealth,
     });
   }, []);
 
@@ -68,7 +70,7 @@ export function useItemStore() {
    * @param {Object|null} [masteryData] - Decoded mastery data (stored in metadata for downstream use)
    * @param {Object<string, {value:number}>} [allocatedAttributes] - Decoded base attribute pool
    */
-  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}) => {
+  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}, maxHealth = 0) => {
     const equippedItems = (itemShares || []).map((share, i) => itemShareToItem(share, i));
 
     setEquipped(equippedItems);
@@ -79,6 +81,7 @@ export function useItemStore() {
       loadedAt: new Date().toISOString(),
       stanceContext: convertMasteryToStanceContext(masteryData),
       allocatedAttributes: allocatedAttributes || {},
+      maxHealth: maxHealth || 0,
       sharedMastery: masteryData,
     });
   }, []);

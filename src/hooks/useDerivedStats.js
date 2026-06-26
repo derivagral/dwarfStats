@@ -21,7 +21,7 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
  * @returns {Object} Aggregated and calculated stats
  */
 export function useDerivedStats(options = {}) {
-  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null } = options;
+  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, maxHealth = 0 } = options;
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -234,19 +234,21 @@ export function useDerivedStats(options = {}) {
   // Post ele/phys split, stance feeds the single physical additive bucket
   // (SCHD is merged in — no separate standalone multiplier).
   const finalConfigOverrides = useMemo(() => {
-    if (!detectedStance) return configOverrides;
-    return {
-      ...configOverrides,
-      edpsPhysAdditive: {
-        ...(configOverrides.edpsPhysAdditive || {}),
-        stance: detectedStance,
-      },
-      edpsElemCrit: {
-        ...(configOverrides.edpsElemCrit || {}),
-        stance: detectedStance,
-      },
-    };
-  }, [configOverrides, detectedStance]);
+    const merged = { ...configOverrides };
+
+    if (detectedStance) {
+      merged.edpsPhysAdditive = { ...(configOverrides.edpsPhysAdditive || {}), stance: detectedStance };
+      merged.edpsElemCrit = { ...(configOverrides.edpsElemCrit || {}), stance: detectedStance };
+    }
+
+    // The 1%-of-max-Health monogram needs real max health (gear can't supply it).
+    // Inject it into the damageFromHealth override the monogram already created.
+    if (maxHealth > 0 && merged.damageFromHealth) {
+      merged.damageFromHealth = { ...merged.damageFromHealth, maxHealth };
+    }
+
+    return merged;
+  }, [configOverrides, detectedStance, maxHealth]);
 
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {

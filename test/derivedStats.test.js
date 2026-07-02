@@ -554,6 +554,22 @@ describe('derivedStats', () => {
       expect(r.edpsPhysFlat).toBe(159);
       expect(r.edpsElemFlat).toBe(109);
     });
+
+    it('health monogram applies temporary life bonuses on top of saved max health', () => {
+      // Saved max health bakes in permanent flat×% (gear/tree/cards) but NOT
+      // temporary buffs. With Bloodlust DrawLife (+1% life/stack, 100 stacks)
+      // and MoreLife.Highest (0.1%/stack per 50 highest) active:
+      const r = calculateDerivedStats({ strength: 1000 }, {
+        damageFromHealth: { enabled: true, sourceStat: 'totalHealth', percentage: 1, maxHealth: 5977 },
+        lifeBuffStacks: { enabled: true, maxStacks: 100, currentStacks: 100 },
+        bloodlustLifeBonus: { enabled: true, lifePerStackPer50: 0.1 },
+      });
+      // lifeBuffBonus = 100%; bloodlustLifeBonus = 100 × 0.1 × (1000/50) = 200%
+      expect(r.lifeBuffBonus).toBe(100);
+      expect(r.bloodlustLifeBonus).toBeCloseTo(200, 1);
+      // damageFromHealth = floor(5977 × (1 + 3.0) × 1%) = floor(239.08) = 239
+      expect(r.damageFromHealth).toBe(239);
+    });
   });
 });
 

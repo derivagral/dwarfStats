@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
-import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, convertMasteryToStanceContext } from '../utils/stanceSkills';
+import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, parseStatusEffects, convertMasteryToStanceContext } from '../utils/stanceSkills';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -46,6 +46,7 @@ export function useItemStore() {
     const stanceContext = parseStanceContext(saveJson, equippedItems);
     const allocatedAttributes = parseAllocatedAttributes(saveJson);
     const maxHealth = parseMaxHealth(saveJson);
+    const statusEffects = parseStatusEffects(saveJson);
 
     // Extract all inventory items using unified Item model
     const { items: inventoryItems, totalCount } = transformAllItems(saveJson);
@@ -59,6 +60,7 @@ export function useItemStore() {
       stanceContext,
       allocatedAttributes,
       maxHealth,
+      statusEffects,
     });
   }, []);
 

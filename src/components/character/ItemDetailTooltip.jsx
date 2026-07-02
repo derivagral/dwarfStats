@@ -46,7 +46,7 @@ function getEffectSummary(statId, config) {
     critChanceFromEssence: '+1% crit per 20 essence',
     elementFromCritChance: `+3% ${config?.elementType || 'element'} per 1% crit>100`,
     lifeFromElement: '+2% life per 30% element',
-    damageFromLife: '+1% life as flat damage',
+    damageFromHealth: '+1% of max health as flat damage (both types)',
   };
 
   return summaryMap[statId] || null;

@@ -246,6 +246,48 @@ export function parseMaxHealth(saveData) {
 }
 
 /**
+ * Read active status effects (buffs) from save player data.
+ *
+ * Located at AbilitySystemSaveData_73 → StatusEffects_75: an array of
+ * DT_StatusEffects row handles with current Stack and TimeRemaining. This is
+ * where transient buffs live (e.g. Buff_Bloodlust with Stack 100) — their
+ * health/damage contributions are NOT baked into the saved Health value.
+ * Currently informational: stored in metadata for future buff-stack seeding.
+ *
+ * @param {Object} saveData
+ * @returns {Array<{id: string, stacks: number, timeRemaining: number}>}
+ */
+export function parseStatusEffects(saveData) {
+  const hostPlayerStruct = findHostPlayerStruct(saveData);
+  if (!hostPlayerStruct) return [];
+
+  const asKey = Object.keys(hostPlayerStruct).find(k => k.startsWith('AbilitySystemSaveData_'));
+  const asStruct = hostPlayerStruct[asKey]?.Struct?.Struct;
+  if (!asStruct) return [];
+
+  const seKey = Object.keys(asStruct).find(k => k.startsWith('StatusEffects_'));
+  const entries = asStruct[seKey]?.Array?.Struct?.value;
+  if (!Array.isArray(entries)) return [];
+
+  const result = [];
+  for (const entry of entries) {
+    const structData = entry?.Struct;
+    if (!structData) continue;
+    const handleKey = Object.keys(structData).find(k => k.startsWith('EffectHandle_'));
+    const stackKey = Object.keys(structData).find(k => k.startsWith('Stack_'));
+    const timeKey = Object.keys(structData).find(k => k.startsWith('TimeRemaining_'));
+    const id = structData[handleKey]?.Struct?.Struct?.RowName_0?.Name;
+    if (!id) continue;
+    result.push({
+      id,
+      stacks: structData[stackKey]?.Int ?? 0,
+      timeRemaining: structData[timeKey]?.Float ?? 0,
+    });
+  }
+  return result;
+}
+
+/**
  * Reconstruct a stanceContext from decoded share mastery data.
  * Used by loadFromShare so useDerivedStats gets proper stance/mastery effects
  * even when no save file is loaded.

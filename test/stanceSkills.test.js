@@ -5,6 +5,7 @@ import {
   parseStanceContext,
   inferWeaponStance,
   parseAllocatedAttributes,
+  parseStatusEffects,
   STANCE_KEYSTONE_BREAKPOINT,
   STANCE_MASTERY_STEP,
 } from '../src/utils/stanceSkills.js';
@@ -156,5 +157,59 @@ describe('allocated attributes parsing', () => {
     const attrs = parseAllocatedAttributes(save);
     expect(attrs.strength).toEqual({ value: 200, sourceName: 'Allocated Points' });
     expect(attrs.dexterity).toEqual({ value: 100, sourceName: 'Allocated Points' });
+  });
+});
+
+describe('status effects (buffs) parsing', () => {
+  it('extracts buff row names with stacks and time remaining', () => {
+    const save = {
+      root: {
+        properties: {
+          HostPlayerData_0: {
+            Struct: {
+              Struct: {
+                'AbilitySystemSaveData_73_TEST_0': {
+                  Struct: {
+                    Struct: {
+                      'StatusEffects_75_TEST_0': {
+                        Array: {
+                          Struct: {
+                            value: [
+                              {
+                                Struct: {
+                                  'EffectHandle_34_TEST_0': {
+                                    Struct: {
+                                      Struct: {
+                                        RowName_0: { Name: 'Buff_Bloodlust' },
+                                      },
+                                    },
+                                  },
+                                  'Stack_32_TEST_0': { Int: 100 },
+                                  'TimeRemaining_33_TEST_0': { Float: 1 },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    expect(parseStatusEffects(save)).toEqual([
+      { id: 'Buff_Bloodlust', stacks: 100, timeRemaining: 1 },
+    ]);
+  });
+
+  it('returns empty array when save data or block is missing', () => {
+    expect(parseStatusEffects(null)).toEqual([]);
+    expect(parseStatusEffects({})).toEqual([]);
+    expect(parseStatusEffects(fixtureData)).toBeInstanceOf(Array);
   });
 });

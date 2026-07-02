@@ -219,8 +219,11 @@ export const DERIVED_STATS = {
     id: 'damageFromHealth',
     name: 'Damage from Health',
     category: 'conversion',
-    layer: LAYERS.PRIMARY_DERIVED,
-    dependencies: ['totalHealth'],
+    // TERTIARY so the temporary life-bonus chain (life buffs, shroud, circle,
+    // overcrit, life-from-element) is computed before this reads it.
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['totalHealth', 'lifeBuffBonus', 'bloodlustLifeBonus', 'shroudLifeBonus',
+      'damageCircleLifeBonus', 'lifeBonusFromCritChance', 'lifeFromElement'],
     config: {
       enabled: false, // gated by the "1% of max Health as damage" monogram
       sourceStat: 'totalHealth',
@@ -230,13 +233,38 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.damageFromHealth.config;
       if (!config.enabled) return 0;
-      // Prefer the character's real max health (from save/share) — the
-      // gear-summed totalHealth misses base/VIT-derived health entirely.
-      const source = config.maxHealth || stats[config.sourceStat] || 0;
-      return Math.floor(source * (config.percentage / 100));
+      // Base: the character's saved max health. It already bakes in permanent
+      // flat × health% from gear/tree/cards (which the tool can't reconstruct
+      // — tree and cards aren't tracked), so it's the right prior. Falls back
+      // to gear-summed totalHealth when no save/share health is available.
+      const base = config.maxHealth || stats[config.sourceStat] || 0;
+      // Temporary life bonuses are NOT in the saved health (buffs expire /
+      // aren't active at save time) — apply them on top. All are percent
+      // numbers (100 = +100%) and monogram-gated (0 unless equipped).
+      const tempLifePct = (stats.lifeBuffBonus || 0)
+        + (stats.bloodlustLifeBonus || 0)
+        + (stats.shroudLifeBonus || 0)
+        + (stats.damageCircleLifeBonus || 0)
+        + (stats.lifeBonusFromCritChance || 0)
+        + (stats.lifeFromElement || 0);
+      const effectiveMax = base * (1 + tempLifePct / 100);
+      return Math.floor(effectiveMax * (config.percentage / 100));
     },
     format: v => `+${v.toFixed(0)}`,
-    description: 'Flat damage from 1% of max health (both types; monogram-gated)',
+    description: 'Flat damage from 1% of max health × temp life buffs (both types; monogram-gated)',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.damageFromHealth.config;
+      const base = config.maxHealth || stats[config.sourceStat] || 0;
+      const tempLifePct = (stats.lifeBuffBonus || 0) + (stats.bloodlustLifeBonus || 0)
+        + (stats.shroudLifeBonus || 0) + (stats.damageCircleLifeBonus || 0)
+        + (stats.lifeBonusFromCritChance || 0) + (stats.lifeFromElement || 0);
+      return [
+        { label: 'maxHealth', fullName: config.maxHealth ? 'Max Health (save)' : 'Health (gear only — load a save for accuracy)', op: '=', value: base, fmt: 'int' },
+        { label: 'tempLife', fullName: 'Temp life bonuses (buff monograms)', op: '×', value: 1 + tempLifePct / 100, fmt: 'pct', isMonogram: true },
+        { label: 'pct', fullName: `${config.percentage}% of effective max health`, op: '×', value: config.percentage / 100, fmt: 'pct' },
+        { label: 'damageFromHealth', fullName: 'Flat damage (both types)', op: '=', value: stats.damageFromHealth, fmt: 'int', isSubtotal: true },
+      ];
+    },
   },
 
   /**
@@ -292,12 +320,13 @@ export const DERIVED_STATS = {
   /**
    * Final damage combining all flat damage sources
    * totalDamage + damageFromHealth + other conversion sources
+   * TERTIARY because damageFromHealth now waits on the temp life-buff chain.
    */
   finalDamage: {
     id: 'finalDamage',
     name: 'Final Damage',
     category: 'final',
-    layer: LAYERS.SECONDARY_DERIVED,
+    layer: LAYERS.TERTIARY_DERIVED,
     dependencies: ['totalDamage', 'damageFromHealth'],
     calculate: (stats) => {
       const baseDamage = stats.totalDamage || 0;
@@ -1394,34 +1423,9 @@ export const DERIVED_STATS = {
     description: 'Life bonus from elemental damage (2% per 30% element)',
   },
 
-  // ---------------------------------------------------------------------------
-  // GAIN DAMAGE FOR HP LOSE ARMOR (Bracer Monogram)
-  // 1% of total life added as Flat Damage
-  // ---------------------------------------------------------------------------
-  damageFromLife: {
-    id: 'damageFromLife',
-    name: 'Damage (Life)',
-    category: 'monogram-chain',
-    layer: LAYERS.TERTIARY_DERIVED,
-    dependencies: ['totalHealth', 'lifeBuffBonus', 'lifeFromElement'],
-    config: {
-      enabled: false,
-      lifePercent: 1, // 1% of total life
-    },
-    calculate: (stats, cfg) => {
-      const config = cfg || DERIVED_STATS.damageFromLife.config;
-      if (!config.enabled) return 0;
-      // Calculate total life with all bonuses
-      const baseHealth = stats.totalHealth || 0;
-      const lifeBuffPct = stats.lifeBuffBonus || 0;
-      const lifeFromElemPct = stats.lifeFromElement || 0;
-      const totalLifeBonus = lifeBuffPct + lifeFromElemPct;
-      const totalLife = Math.floor(baseHealth * (1 + totalLifeBonus / 100));
-      return Math.floor(totalLife * (config.lifePercent / 100));
-    },
-    format: v => `+${v.toFixed(0)}`,
-    description: 'Flat damage from total life (1% of life)',
-  },
+  // NOTE: the former `damageFromLife` stat (temp-life-aware 1%-of-life damage)
+  // was folded into `damageFromHealth`, which now applies the full temporary
+  // life-bonus chain on top of the character's saved max health.
 
   // ===========================================================================
   // BRACER MONOGRAM STATS

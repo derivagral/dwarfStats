@@ -321,7 +321,7 @@ Key monogram chains:
 - **Life Buff** (amulet, 100 stacks): +1% life per stack
 - **ElementForCritChance** (helmet): +3% element per 1% crit over 100%
 - **ElementalToHp%.Fire** (ring): +2% life per 30% fire damage
-- **GainDamageForHPLoseArmor** (bracer): +1% of max Health as flat damage (both types; enables `damageFromHealth`, which feeds `edpsPhysFlat` + `edpsElemFlat`)
+- **GainDamageForHPLoseArmor** (bracer): +1% of max Health as flat damage (both types; enables `damageFromHealth`, which feeds `edpsPhysFlat` + `edpsElemFlat`). Base = saved max health (`Health_29`, bakes in permanent flat×% incl. untracked tree/cards) × (1 + temp life bonuses: DrawLife, MoreLife.Highest, Shroud, circle, overcrit, life-from-element) — temp buffs are NOT in the saved value. Active buffs (row/stacks/time) are parsed from `AbilitySystemSaveData → StatusEffects` via `parseStatusEffects` into `metadata.statusEffects` (informational for now).
 
 ### Slot monogram pools
 Defined in `SLOT_MONOGRAMS` in `src/utils/monogramRegistry.js`:

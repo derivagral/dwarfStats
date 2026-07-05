@@ -271,6 +271,74 @@ export const CARD_REGISTRY = {
   'CARD17_4': { rowName: 'CARD17_4', family: 17, variant: 4, name: 'Card 17-4', maxLevel: 6, effects: [] },
 };
 
+// =============================================================================
+// CARD ARCHETYPES — known in-game effect templates (values per level 1)
+// =============================================================================
+// The in-game card VALUES are known; which CARD{N}_{variant} ID maps to which
+// archetype is NOT yet — fill CARD_ID_TO_ARCHETYPE as mappings are verified.
+//
+// Level scaling: cards have discrete levels and each level adds the base again,
+// so effect = base × level. The final upgrade doubles L3 (saves observed so far
+// store it as level 6; if a format stores 4, treat ≥4 as the 6× tier).
+//
+// Value conventions match statRegistry (percents as decimals). "stat" means one
+// specific primary attribute per card (one card per attribute); "element" means
+// one of fire/arcane/lightning per card. The `param`/`paramBonus` placeholders
+// resolve against the mapping's concrete attribute/element statId.
+
+export const CARD_ARCHETYPES = {
+  // --- ATTRIBUTE CARDS (param: attribute statId, e.g. 'luck') ---
+  'stat+health':      { name: '+15 stat / +50 health', effects: [{ statId: 'param', value: 15 }, { statId: 'health', value: 50 }] },
+  'stat+physBonus':   { name: '+15 stat / +5% physical damage', effects: [{ statId: 'param', value: 15 }, { statId: 'damageBonus', value: 0.05 }] },
+  'stat+critChance':  { name: '+15 stat / +1% crit chance', effects: [{ statId: 'param', value: 15 }, { statId: 'critChance', value: 0.01 }] },
+  'stat+critDamage':  { name: '+15 stat / +5% crit damage', effects: [{ statId: 'param', value: 15 }, { statId: 'critDamage', value: 0.05 }] },
+  'stat+energy':      { name: '+15 stat / +5 max energy', effects: [{ statId: 'param', value: 15 }, { statId: 'maxEnergy', value: 5 }] },
+  'stat+attackSpeed': { name: '+15 stat / +75 attack speed', effects: [{ statId: 'param', value: 15 }, { statId: 'attackSpeed', value: 0.75 }] },
+  'statBonus+xp':     { name: '+10% stat / +1% experience', effects: [{ statId: 'paramBonus', value: 0.10 }, { statId: 'xpBonus', value: 0.01 }] },
+  'statBonus+health': { name: '+5% stat / +50 health', effects: [{ statId: 'paramBonus', value: 0.05 }, { statId: 'health', value: 50 }] },
+
+  // --- ELEMENTAL CARDS (param: fireDamageBonus / arcaneDamageBonus / lightningDamageBonus) ---
+  'element+physFlat': { name: '+10% element / +10 physical damage', effects: [{ statId: 'param', value: 0.10 }, { statId: 'damage', value: 10 }] },
+  'element+armor':    { name: '+5% element / +150 armor', effects: [{ statId: 'param', value: 0.05 }, { statId: 'armor', value: 150 }] },
+  'element+invSlots': { name: '+10% element / +4 inventory slots', effects: [{ statId: 'param', value: 0.10 }, { statId: 'inventorySlots', value: 4 }] },
+
+  // --- REMAINS ---
+  'triStat':          { name: '+15 STR/AGI/STA', effects: [{ statId: 'strength', value: 15 }, { statId: 'agility', value: 15 }, { statId: 'stamina', value: 15 }] },
+  'healthBonus':      { name: '+10% health', effects: [{ statId: 'healthBonus', value: 0.10 }] },
+  'physFlat':         { name: '+20 physical damage', effects: [{ statId: 'damage', value: 20 }] },
+  'dr+physFlat':      { name: '+1% DR / +10 physical damage', effects: [{ statId: 'damageReduction', value: 0.01 }, { statId: 'damage', value: 10 }] },
+  'dr+armor':         { name: '+1% DR / +150 armor', effects: [{ statId: 'damageReduction', value: 0.01 }, { statId: 'armor', value: 150 }] },
+  'boss+physFlat':    { name: '+10% boss / +10 physical damage', effects: [{ statId: 'bossBonus', value: 0.10 }, { statId: 'damage', value: 10 }] },
+  'physBonus+health': { name: '+10% physical damage / +75 health', effects: [{ statId: 'damageBonus', value: 0.10 }, { statId: 'health', value: 75 }] },
+};
+
+/**
+ * CARD ID → archetype mapping. TODO: verify in-game per season. Each entry:
+ * { archetype: keyof CARD_ARCHETYPES, param?: string } where param is the
+ * concrete attribute/element statId for parametric archetypes.
+ * Unmapped cards implicitly contribute via the external-bonuses residual.
+ */
+export const CARD_ID_TO_ARCHETYPE = {};
+
+/**
+ * Resolve a card's concrete effects at a given level, if its ID is mapped.
+ *
+ * @param {string} rowName - e.g. 'CARD3_2'
+ * @param {number} level - Stored card level (acts as the multiplier: L3 = 3×, L6 = 6×)
+ * @returns {Array<{statId: string, value: number}>|null} Scaled effects, or null if unmapped
+ */
+export function getCardEffects(rowName, level = 1) {
+  const mapping = CARD_ID_TO_ARCHETYPE[rowName];
+  if (!mapping) return null;
+  const archetype = CARD_ARCHETYPES[mapping.archetype];
+  if (!archetype) return null;
+  return archetype.effects.map(e => ({
+    statId: e.statId === 'param' ? mapping.param
+      : e.statId === 'paramBonus' ? `${mapping.param}Bonus`
+      : e.statId,
+    value: e.value * level,
+  }));
+}
 
 // =============================================================================
 // MAIN TREE KEYSTONES (manually curated checklist for user input)

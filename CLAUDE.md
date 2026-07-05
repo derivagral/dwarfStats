@@ -353,8 +353,25 @@ Opaque node IDs can't be auto-detected. `TREE_KEYSTONES` provides a checklist of
 - Fire/Arcane/Lightning Affinity (CDR ~35%, damage ~100% additive)
 - Extra inventory slots, extra potions
 
-### TODO: Card registry
-Card effects need population. Cards have L1/L2/L3 base stats; L6 doubles L3 and removes from further choice. Currently stored as skeleton entries with empty effects arrays.
+### Card registry: archetypes known, ID mapping TBD
+`CARD_ARCHETYPES` in `skillTreeRegistry.js` holds the known in-game effect
+templates (attribute cards, elemental cards, remains) with per-level-1 values in
+registry conventions. Level scaling: effect = base × stored level (final upgrade
+doubles L3, stored as level 6). `CARD_ID_TO_ARCHETYPE` maps `CARD{N}_{variant}`
+IDs to `{ archetype, param }` (param = concrete attribute/element statId) — this
+mapping is the remaining per-season verification work; `getCardEffects(rowName,
+level)` returns scaled effects or null when unmapped. Unmapped cards implicitly
+contribute through the external-bonuses residual.
+
+### External bonuses (catch-all for untracked tree/cards)
+`src/utils/externalBonuses.js` + `itemStore.externalBonuses`. Character-wide
+per-stat bucket outside any item: `{ statId: { value, sourceName } }`, merged
+into aggregation by `useDerivedStats` (source label shows in tooltips), carried
+in character shares (`xb`), editable via `itemStore.setExternalBonus`. Seeded at
+load: the flat-health residual `savedHealth / (1 + gear health%) − gear flat`
+attributes the untracked levelup-tree/card health so `totalHealth` matches the
+save — this backs the 1%-of-max-Health monogram. As card/tree mappings land,
+parsed contributions shrink the seeded residual instead of changing totals.
 
 ## Testing
 
@@ -458,9 +475,14 @@ Options keys: `h`=minHitsPerPool, `c`=closeMinTotal, `w`=includeWeapons, `t`=min
     "wt": 0,                                       // weapon type (WEAPON_TYPE_DICT index)
     "ws": [[0, 1], [8, 5]],                        // weapon skills [[skillEnc, level], ...]
     "ks": [0, 2]                                   // keystones [keystoneEnc, ...]
-  }
+  },
+  "at": [[6, 535]],                                // allocated attributes [[statEnc, value], ...] (omitted if none)
+  "xb": [[44, 5908]]                               // external bonuses (untracked tree/cards) [[statEnc, value], ...] (omitted if none)
 }
 ```
+
+Legacy field: `hp` (raw max health) is no longer written; old links carrying it
+seed the health residual at decode instead.
 
 **Stat values:** Raw decimals from save file. Percentages are stored as decimals (0.316 = 31.6%). Flat stats as-is (Armor = 197.57). No conversion — `useDerivedStats` already handles the raw format.
 
@@ -481,7 +503,8 @@ Options keys: `h`=minHitsPerPool, `c`=closeMinTotal, `w`=includeWeapons, `t`=min
 | `src/utils/shareCodec.js` | String↔int dictionaries, `encodeIdOrString`/`decodeIdOrString` |
 | `src/models/CharacterShareModel.js` | `createItemShare`, `itemShareToItem`, `createMasteryShare`, `masteryShareToData`, `createCharacterSharePayload` |
 | `src/utils/shareUrl.js` | `encodeCharacterShare`, `decodeCharacterShare`, `buildCharacterShareUrl`, plus existing filter functions |
-| `src/hooks/useItemStore.js` | `loadFromShare(itemShares, masteryData)` — populates store from decoded share |
+| `src/hooks/useItemStore.js` | `loadFromShare(itemShares, masteryData, allocated, externalBonuses, legacyHp)` — populates store from decoded share |
+| `src/utils/externalBonuses.js` | `seedExternalBonuses`, `computeHealthResidual` — catch-all bucket seeding |
 
 ### Adding a new share type
 1. Add encode/decode functions to `src/utils/shareUrl.js`

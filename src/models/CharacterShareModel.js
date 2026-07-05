@@ -59,8 +59,12 @@ export const CHARACTER_SHARE_VERSION = 1;
  *   attribute pool from the save's Attributes_21_* block — NOT on any item, so
  *   without this a shared build under-counts totals (e.g. luck) and every
  *   highestAttribute-driven derived stat.
- * @property {number} [hp] - Character max health (omitted if 0). Not derivable
- *   from gear; needed by the 1%-of-max-Health monogram.
+ * @property {Array<[number|string, number]>} [xb] - External bonuses
+ *   [[statEnc, value], ...] (omitted if none). Catch-all for character-wide
+ *   stats outside any item (untracked tree/cards); includes the auto-seeded
+ *   flat-health residual so the 1%-of-max-Health monogram works from shares.
+ * @property {number} [hp] - LEGACY (no longer written): character max health
+ *   from older links; decoded into a seeded health residual.
  */
 
 // ---------------------------------------------------------------------------
@@ -164,15 +168,43 @@ export function allocatedAttributesShareToData(at) {
 }
 
 /**
+ * Convert the external-bonuses bucket to compact share form.
+ * Same wire format as allocated attributes: [[statEnc, value], ...].
+ *
+ * @param {Object<string, {value:number}|number>|null} externalBonuses
+ * @returns {Array<[number|string, number]>|null}
+ */
+export function createExternalBonusesShare(externalBonuses) {
+  return createAllocatedAttributesShare(externalBonuses);
+}
+
+/**
+ * Reconstruct the external-bonuses bucket from a decoded `xb` array.
+ *
+ * @param {Array<[number|string, number]>|null|undefined} xb
+ * @returns {Object<string, {value:number, sourceName:string}>}
+ */
+export function externalBonusesShareToData(xb) {
+  const result = {};
+  for (const [enc, value] of xb || []) {
+    const statId = decodeIdOrString(STAT_DICT, enc) || String(enc);
+    result[statId] = { value: value ?? 0, sourceName: 'Shared build' };
+  }
+  return result;
+}
+
+/**
  * Build a full character share payload from equipped items, optional
- * stanceContext, and the character's allocated attribute pool.
+ * stanceContext, the character's allocated attribute pool, and the
+ * external-bonuses bucket.
  *
  * @param {import('./Item').Item[]} equippedItems
  * @param {{ activeStance: object }|null} [stanceContext]
  * @param {Object<string, {value:number}|number>|null} [allocatedAttributes]
+ * @param {Object<string, {value:number}|number>|null} [externalBonuses]
  * @returns {CharacterSharePayload}
  */
-export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null, maxHealth = 0) {
+export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null, externalBonuses = null) {
   const payload = { v: CHARACTER_SHARE_VERSION };
 
   if (equippedItems && equippedItems.length > 0) {
@@ -185,9 +217,8 @@ export function createCharacterSharePayload(equippedItems, stanceContext = null,
   const at = createAllocatedAttributesShare(allocatedAttributes);
   if (at) payload.at = at;
 
-  // Character max health (for the 1%-of-max-Health monogram); not derivable
-  // from gear. Rounded to keep the URL short.
-  if (maxHealth > 0) payload.hp = Math.round(maxHealth);
+  const xb = createExternalBonusesShare(externalBonuses);
+  if (xb) payload.xb = xb;
 
   return payload;
 }

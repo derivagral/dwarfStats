@@ -228,16 +228,13 @@ export const DERIVED_STATS = {
       enabled: false, // gated by the "1% of max Health as damage" monogram
       sourceStat: 'totalHealth',
       percentage: 1,  // 1% of max health as flat damage (both types)
-      maxHealth: 0,   // real max health from save/share; preferred over totalHealth
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.damageFromHealth.config;
       if (!config.enabled) return 0;
-      // Base: the character's saved max health. It already bakes in permanent
-      // flat × health% from gear/tree/cards (which the tool can't reconstruct
-      // — tree and cards aren't tracked), so it's the right prior. Falls back
-      // to gear-summed totalHealth when no save/share health is available.
-      const base = config.maxHealth || stats[config.sourceStat] || 0;
+      // Base: totalHealth. Accurate when the external-bonuses bucket carries
+      // the untracked (tree/cards) flat-health residual seeded from the save.
+      const base = stats[config.sourceStat] || 0;
       // Temporary life bonuses are NOT in the saved health (buffs expire /
       // aren't active at save time) — apply them on top. All are percent
       // numbers (100 = +100%) and monogram-gated (0 unless equipped).
@@ -254,12 +251,12 @@ export const DERIVED_STATS = {
     description: 'Flat damage from 1% of max health × temp life buffs (both types; monogram-gated)',
     breakdown: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.damageFromHealth.config;
-      const base = config.maxHealth || stats[config.sourceStat] || 0;
+      const base = stats[config.sourceStat] || 0;
       const tempLifePct = (stats.lifeBuffBonus || 0) + (stats.bloodlustLifeBonus || 0)
         + (stats.shroudLifeBonus || 0) + (stats.damageCircleLifeBonus || 0)
         + (stats.lifeBonusFromCritChance || 0) + (stats.lifeFromElement || 0);
       return [
-        { label: 'maxHealth', fullName: config.maxHealth ? 'Max Health (save)' : 'Health (gear only — load a save for accuracy)', op: '=', value: base, fmt: 'int' },
+        term(stats, 'totalHealth', '=', 'int', { fullName: 'Total Health (incl. untracked residual)' }),
         { label: 'tempLife', fullName: 'Temp life bonuses (buff monograms)', op: '×', value: 1 + tempLifePct / 100, fmt: 'pct', isMonogram: true },
         { label: 'pct', fullName: `${config.percentage}% of effective max health`, op: '×', value: config.percentage / 100, fmt: 'pct' },
         { label: 'damageFromHealth', fullName: 'Flat damage (both types)', op: '=', value: stats.damageFromHealth, fmt: 'int', isSubtotal: true },

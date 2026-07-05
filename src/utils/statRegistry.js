@@ -825,7 +825,8 @@ export const STAT_REGISTRY = {
     isPercent: false,
     format: v => `+${v.toFixed(0)}`,
     description: 'Maximum health points',
-    regexPatterns: ['MaxHealth', 'Health$', '\\.Health$'],
+    // Anchored so a hypothetical MaxHealth% tag can't be claimed as flat health.
+    regexPatterns: ['MaxHealth$', '\\.MaxHealth$', 'Health$', '\\.Health$'],
   },
   healthBonus: {
     id: 'healthBonus',

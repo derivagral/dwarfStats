@@ -10,6 +10,7 @@ import {
   createCharacterSharePayload,
   createAllocatedAttributesShare,
   allocatedAttributesShareToData,
+  externalBonusesShareToData,
   itemShareToItem,
   masteryShareToData,
   CHARACTER_SHARE_VERSION,
@@ -586,13 +587,20 @@ describe('CharacterShareModel — allocated attributes', () => {
     expect(allocatedAttributesShareToData(undefined)).toEqual({});
   });
 
-  it('carries character max health (hp) for the 1%-health monogram', () => {
-    const payload = createCharacterSharePayload([], null, null, 5977.49);
-    expect(payload.hp).toBe(5977); // rounded
+  it('carries external bonuses (xb) — e.g. the seeded health residual', () => {
+    const external = { health: { value: 5908, sourceName: 'Untracked (tree/cards) — auto' } };
+    const payload = createCharacterSharePayload([], null, null, external);
+    expect(payload.xb).toEqual([[encodeIdOrString(STAT_DICT, 'health'), 5908]]);
+    // hp is legacy — no longer written
+    expect(payload.hp).toBeUndefined();
+
     const decoded = decodeCharacterShare(encodeCharacterShare(payload));
-    expect(decoded.hp).toBe(5977);
-    // Omitted when 0 (backward compatible).
-    expect(createCharacterSharePayload([], null, null, 0).hp).toBeUndefined();
+    const restored = externalBonusesShareToData(decoded.xb);
+    expect(restored.health.value).toBe(5908);
+
+    // Omitted when empty (backward compatible); old links without xb decode to {}
+    expect(createCharacterSharePayload([], null, null, null).xb).toBeUndefined();
+    expect(externalBonusesShareToData(undefined)).toEqual({});
   });
 
   it('feature parity: shared totals include the base pool (the luck-977 regression)', () => {

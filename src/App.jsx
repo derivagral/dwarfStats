@@ -10,7 +10,7 @@ import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 import { useItemStore } from './hooks/useItemStore';
 import { parseShareFromHash, decodeFilterShare, decodeCharacterShare } from './utils/shareUrl';
-import { masteryShareToData, allocatedAttributesShareToData } from './models/CharacterShareModel';
+import { masteryShareToData, allocatedAttributesShareToData, externalBonusesShareToData } from './models/CharacterShareModel';
 
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
@@ -75,7 +75,9 @@ export default function App() {
       if (decoded) {
         const masteryData = masteryShareToData(decoded.sk ?? null);
         const allocatedAttributes = allocatedAttributesShareToData(decoded.at ?? null);
-        itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes, decoded.hp ?? 0);
+        const externalBonuses = externalBonusesShareToData(decoded.xb ?? null);
+        // decoded.hp: legacy links carried raw max health; seeds the residual instead
+        itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes, externalBonuses, decoded.hp ?? 0);
         setActiveTab('character');
         log('Loaded shared character build');
       }

@@ -15,7 +15,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     timestamp: itemStore.metadata.loadedAt,
     stanceContext: itemStore.metadata.stanceContext,
     characterStats: itemStore.metadata.allocatedAttributes,
-    maxHealth: itemStore.metadata.maxHealth,
+    externalBonuses: itemStore.externalBonuses,
   } : saveData ? {
     filename: saveData.filename,
     equippedItems: saveData.equippedItems || [],
@@ -27,7 +27,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
       itemStore.equipped,
       characterData?.stanceContext ?? null,
       itemStore.metadata?.allocatedAttributes ?? null,
-      itemStore.metadata?.maxHealth ?? 0
+      itemStore.externalBonuses ?? null
     );
     const url = buildCharacterShareUrl(payload);
     try {
@@ -39,7 +39,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     }
     if (onLog) onLog('Share link copied to clipboard');
     setTimeout(() => setShareFeedback(null), 2000);
-  }, [itemStore.equipped, characterData?.stanceContext, onLog]);
+  }, [itemStore.equipped, itemStore.externalBonuses, itemStore.metadata?.allocatedAttributes, characterData?.stanceContext, onLog]);
 
   return (
     <div className="tab-content active">

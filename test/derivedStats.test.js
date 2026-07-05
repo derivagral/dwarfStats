@@ -543,24 +543,26 @@ describe('derivedStats', () => {
       expect(on.edpsElemFlat).toBe(150);
     });
 
-    it('health monogram prefers real max health (from save/share) over gear-summed totalHealth', () => {
-      // Gear health is only 69 here; the character's real max health is 5977.
-      const base = { damage: 100, elementalDamage: 50, health: 69 };
+    it('health monogram reads totalHealth including the untracked residual', () => {
+      // Gear health is only 69; the external-bonuses bucket carries the
+      // untracked (tree/cards) residual of 5908 seeded from the save, so
+      // totalHealth = 69 + 5908 = 5977 (the hook aggregates both into `health`).
+      const base = { damage: 100, elementalDamage: 50, health: 69 + 5908 };
       const r = calculateDerivedStats(base, {
-        damageFromHealth: { enabled: true, sourceStat: 'totalHealth', percentage: 1, maxHealth: 5977 },
+        damageFromHealth: { enabled: true, sourceStat: 'totalHealth', percentage: 1 },
       });
-      // 1% of 5977 = 59 (not 1% of gear 69 = 0)
+      // 1% of 5977 = 59
       expect(r.damageFromHealth).toBe(59);
       expect(r.edpsPhysFlat).toBe(159);
       expect(r.edpsElemFlat).toBe(109);
     });
 
-    it('health monogram applies temporary life bonuses on top of saved max health', () => {
-      // Saved max health bakes in permanent flat×% (gear/tree/cards) but NOT
+    it('health monogram applies temporary life bonuses on top of total health', () => {
+      // Total health (gear + residual) bakes in permanent flat×% but NOT
       // temporary buffs. With Bloodlust DrawLife (+1% life/stack, 100 stacks)
       // and MoreLife.Highest (0.1%/stack per 50 highest) active:
-      const r = calculateDerivedStats({ strength: 1000 }, {
-        damageFromHealth: { enabled: true, sourceStat: 'totalHealth', percentage: 1, maxHealth: 5977 },
+      const r = calculateDerivedStats({ strength: 1000, health: 5977 }, {
+        damageFromHealth: { enabled: true, sourceStat: 'totalHealth', percentage: 1 },
         lifeBuffStacks: { enabled: true, maxStacks: 100, currentStacks: 100 },
         bloodlustLifeBonus: { enabled: true, lifePerStackPer50: 0.1 },
       });

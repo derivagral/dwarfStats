@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
 import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, parseStatusEffects, convertMasteryToStanceContext } from '../utils/stanceSkills';
+import { seedExternalBonuses, MANUAL_SOURCE } from '../utils/externalBonuses';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -33,6 +34,11 @@ export function useItemStore() {
     allocatedAttributes: {},
   });
 
+  // External bonuses: catch-all for character-wide stats outside any item
+  // (untracked tree/cards). Seeded at load (health residual), user-editable.
+  // Shape: { [statId]: { value, sourceName } }
+  const [externalBonuses, setExternalBonuses] = useState({});
+
   /**
    * Load items from parsed save data
    * Extracts equipped items and inventory from the save file JSON
@@ -54,6 +60,7 @@ export function useItemStore() {
     setEquipped(equippedItems);
     setInventory(inventoryItems);
     setTotalInventoryCount(totalCount);
+    setExternalBonuses(seedExternalBonuses(equippedItems, maxHealth));
     setMetadata({
       filename,
       loadedAt: new Date().toISOString(),
@@ -71,9 +78,17 @@ export function useItemStore() {
    * @param {import('../models/CharacterShareModel').EquippedItemShare[]} itemShares
    * @param {Object|null} [masteryData] - Decoded mastery data (stored in metadata for downstream use)
    * @param {Object<string, {value:number}>} [allocatedAttributes] - Decoded base attribute pool
+   * @param {Object<string, {value:number, sourceName:string}>} [sharedExternalBonuses] - Decoded external bonuses (xb)
+   * @param {number} [legacyMaxHealth] - `hp` from older share links; used to seed
+   *   the health residual when the share predates the external-bonuses field
    */
-  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}, maxHealth = 0) => {
+  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}, sharedExternalBonuses = {}, legacyMaxHealth = 0) => {
     const equippedItems = (itemShares || []).map((share, i) => itemShareToItem(share, i));
+
+    const hasShared = sharedExternalBonuses && Object.keys(sharedExternalBonuses).length > 0;
+    setExternalBonuses(hasShared
+      ? sharedExternalBonuses
+      : seedExternalBonuses(equippedItems, legacyMaxHealth));
 
     setEquipped(equippedItems);
     setInventory([]);
@@ -83,7 +98,6 @@ export function useItemStore() {
       loadedAt: new Date().toISOString(),
       stanceContext: convertMasteryToStanceContext(masteryData),
       allocatedAttributes: allocatedAttributes || {},
-      maxHealth: maxHealth || 0,
       sharedMastery: masteryData,
     });
   }, []);
@@ -95,10 +109,29 @@ export function useItemStore() {
     setEquipped([]);
     setInventory([]);
     setTotalInventoryCount(0);
+    setExternalBonuses({});
     setMetadata({
       filename: null,
       loadedAt: null,
       stanceContext: null,
+    });
+  }, []);
+
+  /**
+   * Set (or update) an external bonus entry. Value 0/null removes the entry.
+   * User edits are labeled MANUAL_SOURCE; the seeded residual keeps its label
+   * until edited.
+   *
+   * @param {string} statId - Registry stat ID
+   * @param {number|null} value - New value (falsy removes)
+   * @param {string} [sourceName] - Source label (defaults to Manual)
+   */
+  const setExternalBonus = useCallback((statId, value, sourceName = MANUAL_SOURCE) => {
+    setExternalBonuses(prev => {
+      const next = { ...prev };
+      if (!value) delete next[statId];
+      else next[statId] = { value, sourceName };
+      return next;
     });
   }, []);
 
@@ -232,6 +265,7 @@ export function useItemStore() {
     totalInventoryCount,
     metadata,
     hasItems,
+    externalBonuses,
 
     // Slot access
     equippedSlotMap,
@@ -242,6 +276,7 @@ export function useItemStore() {
     loadFromSave,
     loadFromShare,
     clear,
+    setExternalBonus,
   };
 }
 

@@ -21,7 +21,7 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
  * @returns {Object} Aggregated and calculated stats
  */
 export function useDerivedStats(options = {}) {
-  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, maxHealth = 0 } = options;
+  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, externalBonuses = {} } = options;
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -36,6 +36,19 @@ export function useDerivedStats(options = {}) {
         total: value,
         sources: [{ itemName: sourceName, slot: 'base', value, sourceType: 'item' }],
       };
+    }
+
+    // External bonuses: catch-all character-wide stats outside any item
+    // (untracked tree/cards; seeded health residual). Additive with the above.
+    for (const [statId, rawValue] of Object.entries(externalBonuses || {})) {
+      const value = typeof rawValue === 'number' ? rawValue : Number(rawValue?.value || 0);
+      if (!value) continue;
+      const sourceName = rawValue?.sourceName || 'External';
+      if (!stats[statId]) {
+        stats[statId] = { total: 0, sources: [] };
+      }
+      stats[statId].total += value;
+      stats[statId].sources.push({ itemName: sourceName, slot: 'external', value, sourceType: 'item' });
     }
 
     // Active stance mastery defaults: +1% stance-specific damage per mastery level
@@ -106,7 +119,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return stats;
-  }, [equippedItems, itemOverrides, characterStats, stanceContext]);
+  }, [equippedItems, itemOverrides, characterStats, stanceContext, externalBonuses]);
 
   // Flatten to simple { [statId]: total } for backward compatibility
   const aggregatedBaseStats = useMemo(() => {
@@ -233,22 +246,17 @@ export function useDerivedStats(options = {}) {
   // Merge stance detection into config overrides for eDPS.
   // Post ele/phys split, stance feeds the single physical additive bucket
   // (SCHD is merged in — no separate standalone multiplier).
+  // Merge stance detection into config overrides for eDPS. The health-based
+  // monogram reads totalHealth directly — accurate now that the external
+  // bonuses bucket carries the untracked (tree/cards) flat-health residual.
   const finalConfigOverrides = useMemo(() => {
-    const merged = { ...configOverrides };
-
-    if (detectedStance) {
-      merged.edpsPhysAdditive = { ...(configOverrides.edpsPhysAdditive || {}), stance: detectedStance };
-      merged.edpsElemCrit = { ...(configOverrides.edpsElemCrit || {}), stance: detectedStance };
-    }
-
-    // The 1%-of-max-Health monogram needs real max health (gear can't supply it).
-    // Inject it into the damageFromHealth override the monogram already created.
-    if (maxHealth > 0 && merged.damageFromHealth) {
-      merged.damageFromHealth = { ...merged.damageFromHealth, maxHealth };
-    }
-
-    return merged;
-  }, [configOverrides, detectedStance, maxHealth]);
+    if (!detectedStance) return configOverrides;
+    return {
+      ...configOverrides,
+      edpsPhysAdditive: { ...(configOverrides.edpsPhysAdditive || {}), stance: detectedStance },
+      edpsElemCrit: { ...(configOverrides.edpsElemCrit || {}), stance: detectedStance },
+    };
+  }, [configOverrides, detectedStance]);
 
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {

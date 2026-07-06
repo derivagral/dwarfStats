@@ -587,6 +587,29 @@ describe('CharacterShareModel — allocated attributes', () => {
     expect(allocatedAttributesShareToData(undefined)).toEqual({});
   });
 
+  it('preserves duplicate monogram instances (additive stacking) through round-trip', () => {
+    // Within one item (boots roll the same monogram twice) and across items
+    // (two MoreLife rings) — instance counts drive additive stacking, so the
+    // share must keep every copy, not a deduped set.
+    const items = [
+      {
+        slot: 'boots', rowName: 'Boots_Test', baseStats: [],
+        monograms: [
+          { id: 'BonusCritDamage%ForEssence', value: 1 },
+          { id: 'BonusCritDamage%ForEssence', value: 1 },
+        ],
+      },
+      { slot: 'ring', rowName: 'Ring_A', baseStats: [], monograms: [{ id: 'Bloodlust.MoreLife.Highest', value: 1 }] },
+      { slot: 'ring', rowName: 'Ring_B', baseStats: [], monograms: [{ id: 'Bloodlust.MoreLife.Highest', value: 1 }] },
+    ];
+    const decoded = decodeCharacterShare(encodeCharacterShare(createCharacterSharePayload(items)));
+    const restored = (decoded.e || []).map((s, i) => itemShareToItem(s, i));
+    const counts = {};
+    for (const it of restored) for (const m of it.monograms || []) counts[m.id] = (counts[m.id] || 0) + 1;
+    expect(counts['BonusCritDamage%ForEssence']).toBe(2);
+    expect(counts['Bloodlust.MoreLife.Highest']).toBe(2);
+  });
+
   it('carries external bonuses (xb) — e.g. the seeded health residual', () => {
     const external = { health: { value: 5908, sourceName: 'Untracked (tree/cards) — auto' } };
     const payload = createCharacterSharePayload([], null, null, external);

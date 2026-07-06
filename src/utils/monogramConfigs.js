@@ -93,13 +93,22 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
 
   // ===========================================================================
-  // ESSENCE → CRIT CHAIN
-  // 1% crit per 20 essence
+  // ESSENCE → CRIT CHAINS (stack additively per instance)
+  // Pants: 1.5% crit CHANCE per 20 essence (incl. Dark Essence)
+  // Boots: crit DAMAGE per 20 essence (value TBD; rolls multiple times)
   // ===========================================================================
-  'BonusCritDamage%ForEssence': {
-    displayName: 'Crit from Essence',
+  'BonusCritChance%ForEssence': {
+    displayName: 'Crit Chance from Essence',
+    description: '+1.5% crit chance per 20 essence (per instance)',
     effects: [
-      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20 } },
+      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20, critPerInterval: 1.5 } },
+    ],
+  },
+  'BonusCritDamage%ForEssence': {
+    displayName: 'Crit Damage from Essence',
+    description: 'Crit damage per 20 essence (per instance; value TBD)',
+    effects: [
+      { derivedStatId: 'critDamageFromEssence', config: { enabled: true, essencePerInterval: 20, critDamagePerInterval: 1.5 } },
     ],
   },
   'GainCritChanceForHighest': {
@@ -336,11 +345,13 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   'Juggernaut': {
     displayName: 'Juggernaut',
-    description: '+40% MS, +25% crit, 2x crit damage (fist pinnacle, single instance)',
+    description: '+40% MS, +25% crit, 2x crit damage; buildup stacks grant +3% elemental each (fist keystone)',
     effects: [
       { derivedStatId: 'juggernautMoveSpeed', config: { enabled: true, moveSpeedBonus: 40 } },
       { derivedStatId: 'juggernautCritChance', config: { enabled: true, critChanceBonus: 25 } },
       { derivedStatId: 'juggernautCritDamage', config: { enabled: true, critDamageMultiplier: 2 } },
+      // Buildup elemental: stack count at full buildup unconfirmed (default 0)
+      { derivedStatId: 'juggernautElementalBonus', config: { enabled: true, elementalPerStack: 3, currentStacks: 0 } },
     ],
   },
 
@@ -552,6 +563,18 @@ export const MONOGRAM_CALC_CONFIGS = {
     effects: [
       { derivedStatId: 'lightningMineBonus', config: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } },
     ],
+  },
+
+  // ---------------------------------------------------------------------------
+  // VEIL (Relic - defensive, no offense calc impact)
+  // 1% DR per second while moving, up to 50 stacks; 50% DR against a single
+  // hit. Some monograms key off losing veil stacks, but the mechanic isn't
+  // calc-relevant for eDPS.
+  // ---------------------------------------------------------------------------
+  'Veil': {
+    displayName: 'Veil',
+    description: '50% DR vs one hit at 50 stacks (1%/sec moving; defensive, no eDPS impact)',
+    effects: [],
   },
 
   // ---------------------------------------------------------------------------

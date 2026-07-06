@@ -245,7 +245,8 @@ export const DERIVED_STATS = {
         + (stats.lifeBonusFromCritChance || 0)
         + (stats.lifeFromElement || 0);
       const effectiveMax = base * (1 + tempLifePct / 100);
-      return Math.floor(effectiveMax * (config.percentage / 100));
+      // Duplicate monogram instances stack additively (N × 1% of max health)
+      return Math.floor(effectiveMax * (config.percentage / 100) * (config.instanceCount || 1));
     },
     format: v => `+${v.toFixed(0)}`,
     description: 'Flat damage from 1% of max health × temp life buffs (both types; monogram-gated)',
@@ -304,10 +305,11 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.potionSlotsFromAttributes.config;
       const highest = stats.highestAttribute || 0;
-      return Math.floor(highest / config.ratio);
+      // Duplicate monogram instances stack additively
+      return Math.floor(highest / config.ratio) * (config.instanceCount || 1);
     },
     format: v => v.toFixed(0),
-    description: 'Additional potion slots from highest attribute (1 per 50)',
+    description: 'Additional potion slots from highest attribute (1 per 50, per instance)',
   },
 
   // ---------------------------------------------------------------------------
@@ -608,14 +610,16 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.essence.config;
       const stacks = stats.darkEssenceStacks || 0;
+      // Duplicate Dark Essence monograms stack additively: N instances = N × total essence
+      const instances = config.instanceCount || 1;
       if (stacks < config.thresholdStacks) {
         // Partial effect? Or none until max? Let's do proportional
-        return Math.floor((stacks / config.thresholdStacks) * (stats.highestAttribute || 0) * config.multiplier);
+        return Math.floor((stacks / config.thresholdStacks) * (stats.highestAttribute || 0) * config.multiplier * instances);
       }
-      return Math.floor((stats.highestAttribute || 0) * config.multiplier);
+      return Math.floor((stats.highestAttribute || 0) * config.multiplier * instances);
     },
     format: v => v.toFixed(0),
-    description: 'Essence value from Dark Essence (highestStat × 1.25 at 500 stacks)',
+    description: 'Essence value from Dark Essence (highestStat × 1.25 at 500 stacks; stacks per instance)',
   },
 
   // ---------------------------------------------------------------------------
@@ -679,11 +683,12 @@ export const DERIVED_STATS = {
       if (!config.enabled) return 0;
       const stacks = stats.lifeBuffStacks || 0;
       const highest = stats.highestAttribute || 0;
-      // Formula: stacks * lifePerStackPer50 * (highest / 50)
-      return stacks * config.lifePerStackPer50 * (highest / 50);
+      // Formula: stacks * lifePerStackPer50 * (highest / 50); duplicate rings
+      // stack additively (2 rings = 2×, up to 6× with 3× rolls on each)
+      return stacks * config.lifePerStackPer50 * (highest / 50) * (config.instanceCount || 1);
     },
     format: v => `+${v.toFixed(0)}%`,
-    description: 'Life bonus from Bloodlust stacks scaling with highest attribute',
+    description: 'Life bonus from Bloodlust stacks scaling with highest attribute (per instance)',
   },
 
   // ---------------------------------------------------------------------------
@@ -1325,16 +1330,96 @@ export const DERIVED_STATS = {
     dependencies: ['essence'],
     config: {
       enabled: false, // Enabled by monogram
-      essencePerCrit: 20, // 20 essence = 1% crit
+      essencePerCrit: 20,   // 20 essence per interval
+      critPerInterval: 1.5, // 1.5% crit chance per interval (pants monogram)
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.critChanceFromEssence.config;
       if (!config.enabled) return 0;
       const essence = stats.essence || 0;
-      return Math.floor(essence / config.essencePerCrit);
+      // Duplicate monogram instances stack additively
+      return Math.floor(essence / config.essencePerCrit) * (config.critPerInterval ?? 1.5) * (config.instanceCount || 1);
+    },
+    format: v => `+${v.toFixed(1)}%`,
+    description: 'Critical chance from Essence (1.5% per 20 essence, per instance)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // CRIT DAMAGE FROM ESSENCE (Boots Monogram — BonusCritDamage%ForEssence)
+  // Crit DAMAGE per 20 essence; rolls multiple times (observed ×2 on one pair
+  // of boots) and stacks additively. Per-interval value unconfirmed — using
+  // 1.5% to match the crit-chance sibling until verified.
+  // ---------------------------------------------------------------------------
+  critDamageFromEssence: {
+    id: 'critDamageFromEssence',
+    name: 'Crit Damage (Essence)',
+    category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['essence'],
+    config: {
+      enabled: false,
+      essencePerInterval: 20,
+      critDamagePerInterval: 1.5, // TODO: verify in-game value
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.critDamageFromEssence.config;
+      if (!config.enabled) return 0;
+      const essence = stats.essence || 0;
+      return Math.floor(essence / config.essencePerInterval) * config.critDamagePerInterval * (config.instanceCount || 1);
+    },
+    format: v => `+${v.toFixed(1)}%`,
+    description: 'Critical damage from Essence (per 20 essence, per instance; value TBD)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // STATIC CHARGE (Lightning offhand set — StaticCharge.Buff)
+  // +1% lightning damage per stack (100 stacks max). Feeds edpsED.
+  // Enabled via config until offhand-set detection is wired.
+  // ---------------------------------------------------------------------------
+  staticChargeLightningBonus: {
+    id: 'staticChargeLightningBonus',
+    name: 'Static Charge Lightning%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      lightningPerStack: 1,
+      maxStacks: 100,
+      currentStacks: 100,
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.staticChargeLightningBonus.config;
+      if (!config.enabled) return 0;
+      return Math.min(config.currentStacks, config.maxStacks) * config.lightningPerStack;
     },
     format: v => `+${v.toFixed(0)}%`,
-    description: 'Critical chance from Essence (1% per 20 essence)',
+    description: 'Lightning damage from Static Charge stacks (1% per stack, 100 max)',
+  },
+
+  // ---------------------------------------------------------------------------
+  // JUGGERNAUT ELEMENTAL BUILDUP (Helm/Fist keystone)
+  // The buildup stacks grant instances of +3% elemental damage. Stack count at
+  // full buildup unconfirmed — defaults to 0 until configured. Feeds edpsED.
+  // ---------------------------------------------------------------------------
+  juggernautElementalBonus: {
+    id: 'juggernautElementalBonus',
+    name: 'Juggernaut Elem%',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: [],
+    config: {
+      enabled: false,
+      elementalPerStack: 3,
+      currentStacks: 0, // TODO: buildup stack count unconfirmed
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.juggernautElementalBonus.config;
+      if (!config.enabled) return 0;
+      return (config.currentStacks || 0) * config.elementalPerStack;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Elemental damage from Juggernaut buildup stacks (3% per stack; count TBD)',
   },
 
   // ---------------------------------------------------------------------------
@@ -1361,10 +1446,11 @@ export const DERIVED_STATS = {
       const essenceCrit = stats.critChanceFromEssence || 0;
       const totalCrit = baseCrit + essenceCrit;
       const excessCrit = Math.max(0, totalCrit - config.critThreshold);
-      return excessCrit * config.elementPerCrit;
+      // Duplicate monogram instances stack additively
+      return excessCrit * config.elementPerCrit * (config.instanceCount || 1);
     },
     format: v => `+${v.toFixed(0)}%`,
-    description: 'Elemental damage from crit over 100% (3% per 1% crit)',
+    description: 'Elemental damage from crit over 100% (3% per 1% crit, per instance)',
   },
 
   // ---------------------------------------------------------------------------
@@ -1444,10 +1530,11 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.bloodlustDrawBloodBonus.config;
       const stacks = stats.bloodlustStacks || 0;
-      return stacks * config.damagePerStack;
+      // Bracer + blood ring instances stack additively
+      return stacks * config.damagePerStack * (config.instanceCount || 1);
     },
     format: v => `+${v.toFixed(0)}%`,
-    description: 'Damage bonus from Draw Blood (1% per bloodlust stack)',
+    description: 'Damage bonus from Draw Blood (1% per bloodlust stack, per instance)',
   },
 
   // ---------------------------------------------------------------------------
@@ -2256,6 +2343,7 @@ export const DERIVED_STATS = {
       // Stance-crit-merged sources (formerly the standalone SCHD multiplier)
       const bloodlustCrit = (stats.bloodlustCritDamageBonus || 0) / 100;
       const critFromArmor = (stats.critDamageFromArmor || 0) / 100;
+      const critFromEssence = (stats.critDamageFromEssence || 0) / 100;
       // Physical-only monogram damage%
       const drawBlood = (stats.bloodlustDrawBloodBonus || 0) / 100;
       const colossus = (stats.colossusDamageBonus || 0) / 100;
@@ -2264,7 +2352,7 @@ export const DERIVED_STATS = {
       // Converted elemental damage bonus (edpsED − 1) folded in as physical
       const elemConverted = (config.elemBonusToPhysRatio || 0) * Math.max(0, (stats.edpsED || 1) - 1);
       return critDmg + physBonus + stanceDmg + stanceCrit + bloodlustCrit + critFromArmor
-        + drawBlood + colossus + invSlot + bothTypes + elemConverted;
+        + critFromEssence + drawBlood + colossus + invSlot + bothTypes + elemConverted;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Physical additive bucket: StanceCrit + Crit + PhysDmg% + StanceDmg% + both-types',
@@ -2297,6 +2385,7 @@ export const DERIVED_STATS = {
              : { label: 'stanceDamage', fullName: 'Stance Damage', op: '+', value: 0, fmt: 'pct' },
         { label: 'bloodlustCritDamageBonus', fullName: DERIVED_STATS.bloodlustCritDamageBonus.name, op: '+', value: (stats.bloodlustCritDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'critDamageFromArmor', fullName: DERIVED_STATS.critDamageFromArmor.name, op: '+', value: (stats.critDamageFromArmor || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'critDamageFromEssence', fullName: DERIVED_STATS.critDamageFromEssence.name, op: '+', value: (stats.critDamageFromEssence || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'bloodlustDrawBloodBonus', fullName: DERIVED_STATS.bloodlustDrawBloodBonus.name, op: '+', value: (stats.bloodlustDrawBloodBonus || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'colossusDamageBonus', fullName: DERIVED_STATS.colossusDamageBonus.name, op: '+', value: (stats.colossusDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'invSlotDamageBonus', fullName: DERIVED_STATS.invSlotDamageBonus.name, op: '+', value: (stats.invSlotDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
@@ -2354,7 +2443,8 @@ export const DERIVED_STATS = {
     layer: LAYERS.EDPS,
     dependencies: ['elementFromCritChance', 'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
       'elementalFromEssence', 'elementalFromHighest', 'berserkerElementalFromHighest',
-      'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus'],
+      'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus',
+      'staticChargeLightningBonus', 'juggernautElementalBonus'],
     calculate: (stats) => {
       const fire = stats.fireDamageBonus || 0;
       const arcane = stats.arcaneDamageBonus || 0;
@@ -2371,8 +2461,11 @@ export const DERIVED_STATS = {
       const shroudElemHi = (stats.shroudElementalFromHighest || 0) / 100;
       const phasingElem = (stats.phasingElementalBonus || 0) / 100;
       const noPotionElem = (stats.damageNoPotionBonus || 0) / 100; // now elemental (15%/slot)
+      const staticCharge = (stats.staticChargeLightningBonus || 0) / 100;
+      const juggernautElem = (stats.juggernautElementalBonus || 0) / 100;
       return 1 + fire + arcane + lightning + elemFromCrit + arcMine + fireMine + ltngMine
-        + essenceElem + highestElem + berserkerElem + shroudElem + shroudElemHi + phasingElem + noPotionElem;
+        + essenceElem + highestElem + berserkerElem + shroudElem + shroudElemHi + phasingElem
+        + noPotionElem + staticCharge + juggernautElem;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Elemental damage multiplier (Fire/Arcane/Lightning + elemental monograms, additive)',
@@ -2392,6 +2485,8 @@ export const DERIVED_STATS = {
       { label: 'shroudElementalFromHighest', fullName: DERIVED_STATS.shroudElementalFromHighest.name, op: '+', value: (stats.shroudElementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'phasingElementalBonus', fullName: DERIVED_STATS.phasingElementalBonus.name, op: '+', value: (stats.phasingElementalBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'damageNoPotionBonus', fullName: DERIVED_STATS.damageNoPotionBonus.name, op: '+', value: (stats.damageNoPotionBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'staticChargeLightningBonus', fullName: DERIVED_STATS.staticChargeLightningBonus.name, op: '+', value: (stats.staticChargeLightningBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'juggernautElementalBonus', fullName: DERIVED_STATS.juggernautElementalBonus.name, op: '+', value: (stats.juggernautElementalBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'ED', fullName: 'Elemental Damage', op: '=', value: stats.edpsED, fmt: 'pct', isSubtotal: true },
     ],
   },

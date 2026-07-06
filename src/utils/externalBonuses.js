@@ -72,19 +72,22 @@ export function computeSaveTimeTempLifePct(items, allocatedAttributes, statusEff
     }
   }
 
-  // Enable monogram-driven configs from equipped gear (theorycraft defaults)...
-  const overrides = {};
-  const seen = new Set();
+  // Enable monogram-driven configs from equipped gear (theorycraft defaults).
+  // Duplicate monograms stack additively — count instances first (mirrors
+  // useDerivedStats) so e.g. two MoreLife rings double the divisor too.
+  const instanceCounts = {};
   for (const item of items || []) {
     for (const m of item?.monograms || []) {
-      if (seen.has(m.id)) continue;
-      seen.add(m.id);
-      const mc = MONOGRAM_CALC_CONFIGS[m.id];
-      if (!mc?.effects) continue;
-      for (const e of mc.effects) {
-        if (e.derivedStatId && e.config) {
-          overrides[e.derivedStatId] = { ...DERIVED_STATS[e.derivedStatId]?.config, ...e.config };
-        }
+      instanceCounts[m.id] = (instanceCounts[m.id] || 0) + 1;
+    }
+  }
+  const overrides = {};
+  for (const [monoId, instanceCount] of Object.entries(instanceCounts)) {
+    const mc = MONOGRAM_CALC_CONFIGS[monoId];
+    if (!mc?.effects) continue;
+    for (const e of mc.effects) {
+      if (e.derivedStatId && e.config) {
+        overrides[e.derivedStatId] = { ...DERIVED_STATS[e.derivedStatId]?.config, ...e.config, instanceCount };
       }
     }
   }

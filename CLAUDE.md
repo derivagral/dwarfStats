@@ -303,6 +303,16 @@ fold into eDPS yet.
 2. Specify `layer`, `dependencies`, `calculate()`, and `format()`
 3. If triggered by monogram, add entry to `MONOGRAM_CALC_CONFIGS` in `src/hooks/useDerivedStats.js`
 
+### Monogram instance stacking
+Duplicate copies of many monograms stack ADDITIVELY (verified in-game). The hook
+counts instances per monogram ID and passes `instanceCount` into the effect
+config; stats that stack multiply by it. Currently instance-scaled:
+`bloodlustLifeBonus` (MoreLife rings), `damageFromHealth` (N × 1% health),
+`essence` (N × Dark Essence), `potionSlotsFromAttributes`,
+`elementFromCritChance` (ele per overcrit), `critChanceFromEssence`,
+`critDamageFromEssence`, `bloodlustDrawBloodBonus` (bracer + blood ring).
+`computeSaveTimeTempLifePct` mirrors the same counting for residual seeding.
+
 ### Monogram calculation configs
 Located in `src/hooks/useDerivedStats.js` - `MONOGRAM_CALC_CONFIGS`:
 

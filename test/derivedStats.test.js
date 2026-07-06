@@ -204,8 +204,8 @@ describe('derivedStats', () => {
       // essence = highestAttribute * 1.25 at 500 stacks
       expect(result.essence).toBe(1250);
 
-      // critChanceFromEssence = essence / 20 = 62%
-      expect(result.critChanceFromEssence).toBe(62);
+      // critChanceFromEssence = floor(essence / 20) × 1.5%/interval = 93%
+      expect(result.critChanceFromEssence).toBe(93);
     });
 
     it('should return 0 for disabled monograms', () => {

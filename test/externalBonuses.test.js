@@ -83,6 +83,23 @@ describe('external bonuses — buff-aware residual (saved health includes active
     });
     expect(residual).toBe(1900);
   });
+
+  it('duplicate monogram instances stack additively in the save-time divisor', () => {
+    // Two MoreLife rings: 0.1%/stack per 50 highest, ×2 instances.
+    // With 1000 highest and Buff_Life at 100 stacks: 2 × (100 × 0.1 × 20) = 400%.
+    const twoRings = [
+      { baseStats: [], monograms: [{ id: 'Bloodlust.MoreLife.Highest', value: 1 }] },
+      { baseStats: [], monograms: [{ id: 'Bloodlust.MoreLife.Highest', value: 1 }] },
+      { baseStats: [], monograms: [{ id: 'Bloodlust.DrawLife', value: 1 }] },
+    ];
+    const pct = computeSaveTimeTempLifePct(
+      twoRings,
+      { strength: { value: 1000 } },
+      [{ id: 'Buff_Life', stacks: 100 }]
+    );
+    // DrawLife 100% + MoreLife ×2 400% = 500%
+    expect(pct).toBeCloseTo(5.0, 2);
+  });
 });
 
 describe('card archetypes', () => {

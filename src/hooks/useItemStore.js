@@ -60,7 +60,7 @@ export function useItemStore() {
     setEquipped(equippedItems);
     setInventory(inventoryItems);
     setTotalInventoryCount(totalCount);
-    setExternalBonuses(seedExternalBonuses(equippedItems, maxHealth));
+    setExternalBonuses(seedExternalBonuses(equippedItems, maxHealth, { allocatedAttributes, statusEffects }));
     setMetadata({
       filename,
       loadedAt: new Date().toISOString(),

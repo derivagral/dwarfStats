@@ -13,6 +13,18 @@
  * @module utils/monogramConfigs
  */
 
+/**
+ * Save buff row (DT_StatusEffects RowName) → engine stack-stat ID.
+ * Used to reconstruct which stack-based buffs were ACTIVE at save time — the
+ * saved Health value includes their contributions, so residual seeding must
+ * divide them out. Only observed rows are listed; append as new ones show up.
+ */
+export const BUFF_STACK_MAP = {
+  'Buff_Bloodlust': 'bloodlustStacks',
+  'Buff_Life': 'lifeBuffStacks',        // Bloodlust.DrawLife life stacks
+  'Buff_DarkEssence': 'darkEssenceStacks',
+};
+
 export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   // PHASING (Helmet Monogram - 50 stacks)

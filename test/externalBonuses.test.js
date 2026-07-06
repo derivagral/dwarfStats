@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   computeHealthResidual,
+  computeSaveTimeTempLifePct,
   seedExternalBonuses,
   RESIDUAL_SOURCE,
 } from '../src/utils/externalBonuses.js';
@@ -45,6 +46,42 @@ describe('external bonuses — health residual', () => {
     const seeded = seedExternalBonuses(gearItems, 5977.49);
     expect(seeded.health).toEqual({ value: 5908, sourceName: RESIDUAL_SOURCE });
     expect(seedExternalBonuses(gearItems, 0)).toEqual({});
+  });
+});
+
+describe('external bonuses — buff-aware residual (saved health includes active buffs)', () => {
+  // Amulet with the DrawLife monogram (life buff chain equipped)
+  const buffGear = [
+    {
+      baseStats: [{ rawTag: 'EasyRPG.Attributes.Base.MaxHealth', value: 100 }],
+      monograms: [{ id: 'Bloodlust.DrawLife', value: 1 }],
+    },
+  ];
+
+  it('computes save-time temp life% from StatusEffects stacks', () => {
+    // Buff_Life at 50 stacks → DrawLife +1%/stack = +50%
+    const pct = computeSaveTimeTempLifePct(buffGear, {}, [{ id: 'Buff_Life', stacks: 50 }]);
+    expect(pct).toBeCloseTo(0.5, 3);
+    // No buffs at save → 0 even though the monogram is equipped
+    expect(computeSaveTimeTempLifePct(buffGear, {}, [])).toBe(0);
+  });
+
+  it('divides active temp life buffs out of the saved health', () => {
+    // Unbuffed base 2000 (100 gear + 1900 untracked); saved at full Buff_Life
+    // (100 stacks → ×2.0): saved = 4000
+    const residual = computeHealthResidual(buffGear, 4000, {
+      allocatedAttributes: {},
+      statusEffects: [{ id: 'Buff_Life', stacks: 100 }],
+    });
+    expect(residual).toBe(1900);
+  });
+
+  it('unbuffed saves are unaffected (no life buff in StatusEffects)', () => {
+    const residual = computeHealthResidual(buffGear, 2000, {
+      allocatedAttributes: {},
+      statusEffects: [{ id: 'Buff_Bloodlust', stacks: 100 }], // bloodlust ≠ life
+    });
+    expect(residual).toBe(1900);
   });
 });
 

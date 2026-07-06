@@ -368,10 +368,18 @@ contribute through the external-bonuses residual.
 per-stat bucket outside any item: `{ statId: { value, sourceName } }`, merged
 into aggregation by `useDerivedStats` (source label shows in tooltips), carried
 in character shares (`xb`), editable via `itemStore.setExternalBonus`. Seeded at
-load: the flat-health residual `savedHealth / (1 + gear health%) − gear flat`
-attributes the untracked levelup-tree/card health so `totalHealth` matches the
-save — this backs the 1%-of-max-Health monogram. As card/tree mappings land,
-parsed contributions shrink the seeded residual instead of changing totals.
+load: the flat-health residual
+`savedHealth / ((1 + gear health%) × (1 + save-time temp life%)) − gear flat`
+attributes the untracked levelup-tree/card health so unbuffed `totalHealth`
+matches the save — this backs the 1%-of-max-Health monogram.
+
+IMPORTANT (verified on a fully-buffed save): `Health_29` INCLUDES buffs active
+at save time. `computeSaveTimeTempLifePct` reruns the engine with stack counts
+pinned from `StatusEffects` (`BUFF_STACK_MAP` in monogramConfigs: Buff_Bloodlust
+/ Buff_Life / Buff_DarkEssence) to divide them out; a buff absent from
+StatusEffects contributes 0. At full buff the monogram value equals exactly
+1% × saved health (division and re-multiplication cancel). As card/tree mappings
+land, parsed contributions shrink the seeded residual instead of changing totals.
 
 ## Testing
 

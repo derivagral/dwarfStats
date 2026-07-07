@@ -1,0 +1,129 @@
+/**
+ * Skill Effect Aggregator
+ *
+ * Converts a parsed skill tree (extractSkillTree) into flat stat
+ * contributions using generated game data:
+ * - Crystal cards: per-level {tag, value} effects × card level
+ * - Weapon stance skills: per-level effects × skill level (covers paragon
+ *   nodes, which scale linearly to their game max level)
+ * - Weapon skill buffs: force-enabled at max stacks (temporal buff state is
+ *   not stored in saves; per-stack customization is a post-launch concern)
+ *
+ * Main passive tree and crafting/elven tree are intentionally NOT handled
+ * here (opaque node IDs / separate effort).
+ *
+ * Output values are raw save-format decimals (0.05 = 5%), matching item
+ * baseStats, so useDerivedStats can aggregate them through the same path.
+ *
+ * @module utils/skillEffectAggregator
+ */
+
+import cardsGenerated from '../data/cards.generated.json';
+import weaponSkillsGenerated from '../data/weaponSkills.generated.json';
+import { findStatForAttribute } from './statRegistry.js';
+
+const GENERATED_CARDS = cardsGenerated.cards || {};
+const GENERATED_WEAPON_SKILLS = weaponSkillsGenerated.weaponSkills || {};
+
+// UE row names (FNames) are case-insensitive: saves contain e.g.
+// "Spear_Crit_Damage_buff" while the DataTable row is "Spear_Crit_Damage_Buff".
+// Index both maps by lowercase for tolerant lookup.
+function lowerIndex(map) {
+  const idx = {};
+  for (const [key, value] of Object.entries(map)) idx[key.toLowerCase()] = value;
+  return idx;
+}
+const CARDS_LOWER = lowerIndex(GENERATED_CARDS);
+const WEAPON_SKILLS_LOWER = lowerIndex(GENERATED_WEAPON_SKILLS);
+
+function lookupCard(rowName) {
+  return GENERATED_CARDS[rowName] ?? CARDS_LOWER[rowName?.toLowerCase()] ?? null;
+}
+
+function lookupWeaponSkill(rowName) {
+  return GENERATED_WEAPON_SKILLS[rowName] ?? WEAPON_SKILLS_LOWER[rowName?.toLowerCase()] ?? null;
+}
+
+// Only stat-granting tags flow into the calc engine. Cards/skills can also
+// grant modifier tags (e.g. EasyRPG.Items.Modifiers.AdditionalPotionSlots.1)
+// — those are behavior grants, not aggregatable stats.
+const ATTR_PREFIX = 'EasyRPG.Attributes.';
+
+/**
+ * @typedef {Object} SkillContribution
+ * @property {string} tag - Full game attribute tag
+ * @property {string|null} statId - Resolved STAT_REGISTRY id (null if unknown)
+ * @property {number} value - Total contribution (per-level value × level/stacks)
+ * @property {string} source - Human-readable origin ("Card 3-2 (L6)")
+ * @property {'card'|'weaponSkill'|'buff'} kind
+ */
+
+function pushEffects(contributions, effects, multiplier, source, kind) {
+  for (const eff of effects ?? []) {
+    if (!eff.tag?.startsWith(ATTR_PREFIX)) continue;
+    if (!eff.value) continue;
+    contributions.push({
+      tag: eff.tag,
+      statId: findStatForAttribute(eff.tag)?.id ?? null,
+      value: eff.value * multiplier,
+      source,
+      kind,
+    });
+  }
+}
+
+/**
+ * Aggregate all skill-based stat contributions from a parsed skill tree.
+ *
+ * @param {Object|null} skillTree - Result of extractSkillTree(saveData)
+ * @param {Object} [options]
+ * @param {boolean} [options.includeBuffs=true] - Force-enable weapon skill
+ *   buffs at max stacks
+ * @returns {SkillContribution[]}
+ */
+export function aggregateSkillEffects(skillTree, options = {}) {
+  const { includeBuffs = true } = options;
+  const contributions = [];
+  if (!skillTree) return contributions;
+
+  // --- Crystal cards: effects scale linearly with card level -------------
+  for (const card of skillTree.cards ?? []) {
+    const gen = lookupCard(card.rowName);
+    const level = card.level || 0;
+    if (!gen || level <= 0) continue;
+    pushEffects(contributions, gen.effects, level, `${card.rowName} (L${level})`, 'card');
+  }
+
+  // --- Weapon stance skills: effects scale with skill level --------------
+  for (const stance of Object.values(skillTree.weaponStances ?? {})) {
+    for (const skill of stance.skills ?? []) {
+      const gen = lookupWeaponSkill(skill.rowName);
+      if (!gen) continue;
+      const level = skill.level || 1;
+      pushEffects(contributions, gen.effects, level, `${skill.rowName} (L${level})`, 'weaponSkill');
+
+      // Buffs: no save-side state, so force-on at max stacks
+      if (includeBuffs && gen.buff) {
+        const stacks = Math.max(1, gen.buff.maxStack || 1);
+        const label = gen.buff.name || skill.rowName;
+        pushEffects(contributions, gen.buff.effects, stacks, `${label} (buff ×${stacks})`, 'buff');
+      }
+    }
+  }
+
+  return contributions;
+}
+
+/**
+ * Whether the skill tree has any weapon skill data. Used by useDerivedStats
+ * to decide between real paragon effects and the legacy +1%/mastery-level
+ * approximation (still needed for shared builds, which carry no skill tree).
+ *
+ * @param {Object|null} skillTree
+ * @returns {boolean}
+ */
+export function hasWeaponSkillData(skillTree) {
+  if (!skillTree) return false;
+  return Object.values(skillTree.weaponStances ?? {})
+    .some(stance => (stance.skills ?? []).length > 0);
+}

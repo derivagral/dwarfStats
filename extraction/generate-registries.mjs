@@ -191,6 +191,9 @@ const WEAPON_TABLES = {
 
 function generateWeaponSkills(statusEffects) {
   const skills = {};
+  const statusEffectsLower = Object.fromEntries(
+    Object.entries(statusEffects).map(([k, v]) => [k.toLowerCase(), v]),
+  );
   for (const [fileName, weapon] of Object.entries(WEAPON_TABLES)) {
     let rows;
     try {
@@ -212,8 +215,12 @@ function generateWeaponSkills(statusEffects) {
         effects: effectList(prop(levels[0] ?? {}, 'BonusAttributes')),
       };
 
-      // Join buff magnitudes from the status-effect lexicon (same rowName)
-      const status = statusEffects[rowName];
+      // Join buff magnitudes from the status-effect lexicon (same rowName).
+      // UE row names are case-insensitive and the tables disagree on casing
+      // (skill row "Spear_Crit_Damage_Buff" vs status row
+      // "Spear_Crit_Damage_buff"), so match lowercased.
+      const status = statusEffects[rowName]
+        ?? statusEffectsLower[rowName.toLowerCase()];
       if (status && (status.effects.length || status.duration)) {
         entry.buff = {
           ...(status.name ? { name: status.name } : {}),

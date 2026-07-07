@@ -58,6 +58,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Attribute display names | `src/utils/attributeDisplay.js` |
 | Skill tree data model | `src/models/SkillTree.js` |
 | Skill tree extraction | `src/utils/skillTreeParser.js` |
+| Skill→stat contributions (cards/skills/buffs) | `src/utils/skillEffectAggregator.js` |
 | Skill/card/keystone registry | `src/utils/skillTreeRegistry.js` |
 | Styling/theming | `src/styles/index.css` |
 
@@ -87,7 +88,8 @@ App.jsx (state holder)
 │   ├── equipped[]        → Item model format
 │   ├── inventory[]       → All items from save
 │   ├── equippedSlotMap   → Items by slot key
-│   └── metadata          → Filename, load time
+│   └── metadata          → Filename, load time, stanceContext,
+│                           allocatedAttributes, maxHealth, skillTree
 ├── sharedFilterModel → Decoded filter from URL hash (consumed once)
 ├── status/statusType → UI feedback messages
 ├── logs            → Debug log buffer
@@ -285,6 +287,31 @@ fold into eDPS yet.
 `edpsElemCrit` (offhandCritFactor), `edpsPhysFlat`/`edpsPhysAdditive` (elem→phys conversion ratios).
 
 **Stance detection:** `inferWeaponStance(rowName)` in `equipmentParser.js` maps weapon keywords to stance prefixes. `useDerivedStats` auto-detects stance from the equipped weapon's row name and passes it to eDPS calcs via config override. Falls back to highest-stat heuristic if no weapon detected.
+
+**Skill tree contributions:** `useItemStore.loadFromSave()` runs `extractSkillTree()`
+and stores the result in `metadata.skillTree`; `useDerivedStats` feeds it through
+`src/utils/skillEffectAggregator.js`, which converts skills into flat stat
+contributions using generated game data:
+- **Cards**: per-level `{tag, value}` effects × card level
+- **Weapon skills**: per-level effects × skill level (paragon nodes included —
+  melee paragons also grant regen/lifesteal/armor per level)
+- **Weapon buffs**: force-enabled at max stacks (buff state isn't in saves;
+  per-stack customization is post-launch). Disable via
+  `aggregateSkillEffects(tree, { includeBuffs: false })`.
+Contributions enter the same BASE-layer aggregation as item stats
+(`sourceType: 'skill'` in breakdowns). When real skill data is present the
+legacy "+1% stance damage per mastery level" approximation is skipped; shared
+builds (no skill tree in the payload) still use it. Main passive tree and
+crafting tree are NOT aggregated yet (opaque node IDs — next MR).
+Row-name lookups are case-insensitive (UE FNames: save `Spear_Crit_Damage_buff`
+vs table `Spear_Crit_Damage_Buff`).
+
+**PoleArm = Mauls:** the game's `DamageSystem.Damage.PoleArm%` tags (and Crit
+variants) belong to the MAULS stance — `DT_Skills_Mauls` nodes and the
+`MaulsDamage%` affix row all grant them. `statRegistry` previously mapped them
+to spear; they now resolve to `maulDamage`/`maulCritDamage`/`maulCritChance`.
+(Weapon *item* naming still routes `weapon_polearm` row names to spear stance
+in `inferWeaponStance` — that's a separate, item-side convention.)
 
 **Primary Attribute Mappings (NOT balanced, do not assume 1:1):**
 | Attribute | Known Effect | Status |

@@ -19,6 +19,16 @@ import weaponSkillsGenerated from '../data/weaponSkills.generated.json';
 const GENERATED_CARDS = cardsGenerated.cards || {};
 const GENERATED_WEAPON_SKILLS = weaponSkillsGenerated.weaponSkills || {};
 
+// UE row names are case-insensitive (saves: "Spear_Crit_Damage_buff";
+// DataTable: "Spear_Crit_Damage_Buff") — index lowercase for lookups.
+function lowerIndex(map) {
+  const idx = {};
+  for (const [key, value] of Object.entries(map)) idx[key.toLowerCase()] = value;
+  return idx;
+}
+const GENERATED_CARDS_LOWER = lowerIndex(GENERATED_CARDS);
+const GENERATED_WEAPON_SKILLS_LOWER = lowerIndex(GENERATED_WEAPON_SKILLS);
+
 // =============================================================================
 // WEAPON STANCE SKILL REGISTRY
 // =============================================================================
@@ -429,7 +439,8 @@ export const TREE_KEYSTONES = {
  */
 export function getWeaponSkillDef(rowName) {
   const curated = WEAPON_SKILL_REGISTRY[rowName] || null;
-  const gen = GENERATED_WEAPON_SKILLS[rowName];
+  const gen = GENERATED_WEAPON_SKILLS[rowName]
+    ?? GENERATED_WEAPON_SKILLS_LOWER[rowName?.toLowerCase()];
   if (!gen) return curated;
 
   const merged = curated ?? {
@@ -469,7 +480,8 @@ export function getCraftingSkillDef(rowName) {
  */
 export function getCardDef(rowName) {
   const curated = CARD_REGISTRY[rowName] || null;
-  const gen = GENERATED_CARDS[rowName];
+  const gen = GENERATED_CARDS[rowName]
+    ?? GENERATED_CARDS_LOWER[rowName?.toLowerCase()];
   if (!gen) return curated;
 
   const family = gen.family ?? curated?.family ?? null;

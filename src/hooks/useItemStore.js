@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
 import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, convertMasteryToStanceContext } from '../utils/stanceSkills';
+import { extractSkillTree } from '../utils/skillTreeParser';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -46,6 +47,9 @@ export function useItemStore() {
     const stanceContext = parseStanceContext(saveJson, equippedItems);
     const allocatedAttributes = parseAllocatedAttributes(saveJson);
     const maxHealth = parseMaxHealth(saveJson);
+    // Parsed skill tree (cards + weapon skills with levels) — feeds
+    // skillEffectAggregator via useDerivedStats
+    const skillTree = extractSkillTree(saveJson);
 
     // Extract all inventory items using unified Item model
     const { items: inventoryItems, totalCount } = transformAllItems(saveJson);
@@ -59,6 +63,7 @@ export function useItemStore() {
       stanceContext,
       allocatedAttributes,
       maxHealth,
+      skillTree,
     });
   }, []);
 

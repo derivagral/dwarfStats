@@ -4,6 +4,7 @@ import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY } from '../utils/statRegistry.js';
 import { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
 import { inferWeaponStance } from '../utils/equipmentParser.js';
+import { aggregateSkillEffects, hasWeaponSkillData } from '../utils/skillEffectAggregator.js';
 
 // Re-export for backward compatibility
 export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
@@ -21,7 +22,7 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
  * @returns {Object} Aggregated and calculated stats
  */
 export function useDerivedStats(options = {}) {
-  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, maxHealth = 0 } = options;
+  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, maxHealth = 0, skillTree = null } = options;
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -38,9 +39,31 @@ export function useDerivedStats(options = {}) {
       };
     }
 
-    // Active stance mastery defaults: +1% stance-specific damage per mastery level
+    // Skill tree contributions: cards × level, weapon skills × level, and
+    // weapon buffs force-enabled at max stacks (buff state isn't in saves).
+    const useRealSkillData = hasWeaponSkillData(skillTree);
+    if (skillTree) {
+      for (const contrib of aggregateSkillEffects(skillTree)) {
+        const statId = contrib.statId || resolveStatId(contrib.tag);
+        if (!statId) continue;
+        if (!stats[statId]) {
+          stats[statId] = { total: 0, sources: [] };
+        }
+        stats[statId].total += contrib.value;
+        stats[statId].sources.push({
+          itemName: contrib.source,
+          slot: 'skill',
+          value: contrib.value,
+          sourceType: 'skill',
+        });
+      }
+    }
+
+    // Active stance mastery approximation: +1% stance damage per mastery
+    // level. Only used when real skill data is unavailable (shared builds) —
+    // otherwise the paragon node's actual per-level effects cover it.
     const activeStance = stanceContext?.activeStance;
-    if (activeStance?.damageStatId && activeStance.mastery > 0) {
+    if (!useRealSkillData && activeStance?.damageStatId && activeStance.mastery > 0) {
       const value = activeStance.mastery * 0.01;
       if (!stats[activeStance.damageStatId]) {
         stats[activeStance.damageStatId] = { total: 0, sources: [] };
@@ -106,7 +129,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return stats;
-  }, [equippedItems, itemOverrides, characterStats, stanceContext]);
+  }, [equippedItems, itemOverrides, characterStats, stanceContext, skillTree]);
 
   // Flatten to simple { [statId]: total } for backward compatibility
   const aggregatedBaseStats = useMemo(() => {

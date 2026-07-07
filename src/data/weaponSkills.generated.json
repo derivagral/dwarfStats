@@ -131,7 +131,18 @@
           "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
           "value": 0.1
         }
-      ]
+      ],
+      "buff": {
+        "name": "Spartan Spirit",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
     },
     "SpearMajor": {
       "weapon": "spear",

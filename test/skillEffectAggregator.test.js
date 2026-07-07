@@ -32,7 +32,7 @@ describe('skillEffectAggregator', () => {
       expect(card).toBeDefined();
       expect(card.tag).toBe('EasyRPG.Attributes.Base.MaxHealth%');
       expect(card.value).toBeCloseTo(0.2);
-      expect(card.statId).toBeTruthy();
+      expect(card.statId).toBe('healthBonus'); // percent — not flat health
     });
 
     it('handles max-level (L6) cards', () => {

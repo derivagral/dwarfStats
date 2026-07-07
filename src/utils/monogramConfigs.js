@@ -174,14 +174,14 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   'DistanceProcsDamage': {
     displayName: 'Distance Procs',
-    description: '+50% damage (own additive bucket, exclusive with Near)',
+    description: 'Attacks hitting further than 6m gain +50% damage (exclusive with Near)',
     effects: [
       { derivedStatId: 'distanceProcsDamageBonus', config: { enabled: true, bonusPercent: 50 } },
     ],
   },
   'DistanceProcsDamage_Near': {
     displayName: 'Distance Procs (Near)',
-    description: '+50% damage (own additive bucket, exclusive with Far)',
+    description: 'Attacks hitting within 5m gain +50% damage (exclusive with Far)',
     effects: [
       { derivedStatId: 'distanceProcsNearDamageBonus', config: { enabled: true, bonusPercent: 50 } },
     ],
@@ -699,9 +699,13 @@ export const MONOGRAM_CALC_CONFIGS = {
       { derivedStatId: 'elementalFlatFromEssence', config: { enabled: true, flatPerInterval: 1.5, essenceInterval: 20 } },
     ],
   },
+  // Same effect text as Health%ForHighest (game data duplicate)
   'MaxHp%ForStat.Highest': {
     displayName: 'HP from Stats',
-    effects: [],
+    description: '+1% max health per 50 of highest stat',
+    effects: [
+      { derivedStatId: 'healthPercentFromHighest', config: { enabled: true, percentPerInterval: 1, statInterval: 50 } },
+    ],
   },
   'DamageReduction%ForStat.Highest': {
     displayName: 'DR from Stats',
@@ -734,14 +738,13 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   // OTHER MONOGRAM CONFIGS
   // ===========================================================================
+  // "Gain 1% maximum Health for every 50 your highest stat." — percent bonus
   'Health%ForHighest': {
     displayName: 'Health from Stats',
-    derivedStatId: 'chainedHealthBonus',
-    config: {
-      sourceStat: 'highestAttribute',
-      ratio: 50,
-      baseValue: 1,
-    },
+    description: '+1% max health per 50 of highest stat',
+    effects: [
+      { derivedStatId: 'healthPercentFromHighest', config: { enabled: true, percentPerInterval: 1, statInterval: 50 } },
+    ],
   },
   // Game text: "gain 2% damage reduction each time you're hit. Upon reaching
   // maximum damage reduction, gain +100 Physical damage."
@@ -845,6 +848,34 @@ export const MONOGRAM_CALC_CONFIGS = {
     ],
   },
 };
+
+/**
+ * Mutually exclusive derived-stat pairs from monogram effects.
+ * Each entry is [winner, loser]: when both are enabled by equipped monograms,
+ * the loser's override is dropped so only one applies. The winner choice
+ * matches the eDPS EMulti breakdown tie-break (Near preferred).
+ *
+ * Distance procs: you attack from ONE distance at a time — near (≤5m) and far
+ * (>6m) bonuses can never be active together.
+ */
+export const EXCLUSIVE_MONOGRAM_STATS = [
+  ['distanceProcsNearDamageBonus', 'distanceProcsDamageBonus'],
+];
+
+/**
+ * Enforce monogram exclusivity on a config-overrides map (mutates and
+ * returns it). Called by useDerivedStats after collecting monogram effects.
+ * @param {Object} overrides - { [derivedStatId]: config }
+ * @returns {Object} The same overrides object
+ */
+export function applyExclusiveMonogramRules(overrides) {
+  for (const [winner, loser] of EXCLUSIVE_MONOGRAM_STATS) {
+    if (overrides[winner]?.enabled && overrides[loser]?.enabled) {
+      delete overrides[loser];
+    }
+  }
+  return overrides;
+}
 
 /**
  * Get effect summary text for a monogram

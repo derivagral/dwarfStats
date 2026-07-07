@@ -702,19 +702,19 @@ export const MONOGRAM_REGISTRY = {
     id: 'GainDamageForHPLoseArmor',
     name: 'Glass Cannon',
     category: 'damage',
-    description: 'Trade armor for damage and HP',
+    description: 'Gain base damage equal to 1% of your maximum Health',
   },
   'DistanceProcsDamage': {
     id: 'DistanceProcsDamage',
     name: 'Distance Damage',
     category: 'damage',
-    description: '+50% damage proc (own additive bucket, exclusive with Near)',
+    description: 'Attacks hitting further than 6m gain +50% damage (exclusive with Close Range)',
   },
   'DistanceProcsDamage_Near': {
     id: 'DistanceProcsDamage_Near',
     name: 'Close Range Damage',
     category: 'damage',
-    description: '+50% damage proc (own additive bucket, exclusive with Far)',
+    description: 'Attacks hitting within 5m gain +50% damage (exclusive with Distance)',
   },
   'ProcsTake100EnergyHighDamage': {
     id: 'ProcsTake100EnergyHighDamage',

@@ -634,6 +634,33 @@ export const DERIVED_STATS = {
   },
 
   // ---------------------------------------------------------------------------
+  // HEALTH% FROM HIGHEST STAT (Health%ForHighest / MaxHp%ForStat.Highest)
+  // Game text: "Gain 1% maximum Health for every 50 of your highest stat."
+  // Percent bonus — formerly misrouted through chainedHealthBonus, which
+  // computed and displayed it as FLAT health.
+  // ---------------------------------------------------------------------------
+  healthPercentFromHighest: {
+    id: 'healthPercentFromHighest',
+    name: 'Health% (Highest Stat)',
+    category: 'monogram-buff',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['highestAttribute'],
+    config: {
+      enabled: false,
+      percentPerInterval: 1, // 1% max health
+      statInterval: 50,      // per 50 highest stat
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.healthPercentFromHighest.config;
+      if (!config.enabled) return 0;
+      const highest = stats.highestAttribute || 0;
+      return Math.floor(highest / config.statInterval) * config.percentPerInterval;
+    },
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Max health bonus from highest stat (1% per 50)',
+  },
+
+  // ---------------------------------------------------------------------------
   // BLOODLUST LIFE (Ring Monogram - Bloodlust.MoreLife.Highest)
   // 0.1% life bonus per life stack per 50 of highest attribute
   // At 100 stacks: 10% life per 50 highest attribute
@@ -1403,7 +1430,7 @@ export const DERIVED_STATS = {
     name: 'Damage (Life)',
     category: 'monogram-chain',
     layer: LAYERS.TERTIARY_DERIVED,
-    dependencies: ['totalHealth', 'lifeBuffBonus', 'lifeFromElement'],
+    dependencies: ['totalHealth', 'lifeBuffBonus', 'lifeFromElement', 'healthPercentFromHighest'],
     config: {
       enabled: false,
       lifePercent: 1, // 1% of total life
@@ -1415,7 +1442,8 @@ export const DERIVED_STATS = {
       const baseHealth = stats.totalHealth || 0;
       const lifeBuffPct = stats.lifeBuffBonus || 0;
       const lifeFromElemPct = stats.lifeFromElement || 0;
-      const totalLifeBonus = lifeBuffPct + lifeFromElemPct;
+      const healthFromHighestPct = stats.healthPercentFromHighest || 0;
+      const totalLifeBonus = lifeBuffPct + lifeFromElemPct + healthFromHighestPct;
       const totalLife = Math.floor(baseHealth * (1 + totalLifeBonus / 100));
       return Math.floor(totalLife * (config.lifePercent / 100));
     },

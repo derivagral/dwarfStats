@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LAYERS } from '../utils/derivedStats.js';
 import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY } from '../utils/statRegistry.js';
-import { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
+import { MONOGRAM_CALC_CONFIGS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
 import { inferWeaponStance } from '../utils/equipmentParser.js';
 import { aggregateSkillEffects, hasWeaponSkillData } from '../utils/skillEffectAggregator.js';
 
@@ -237,6 +237,10 @@ export function useDerivedStats(options = {}) {
         level: activeStance.mastery,
       };
     }
+
+    // Enforce mutually exclusive monogram effects (e.g. near/far distance
+    // procs can never be active together)
+    applyExclusiveMonogramRules(overrides);
 
     return overrides;
   }, [appliedMonograms, monogramInstanceCounts, stanceContext]);

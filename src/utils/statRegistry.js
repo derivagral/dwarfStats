@@ -829,7 +829,8 @@ export const STAT_REGISTRY = {
     isPercent: false,
     format: v => `+${v.toFixed(0)}`,
     description: 'Maximum health points',
-    regexPatterns: ['MaxHealth', 'Health$', '\\.Health$'],
+    // Anchored so the % variants (MaxHealth%) fall through to healthBonus
+    regexPatterns: ['MaxHealth$', 'Health$', '\\.Health$'],
   },
   healthBonus: {
     id: 'healthBonus',
@@ -840,12 +841,18 @@ export const STAT_REGISTRY = {
       'Health%',
       'Life%6',
       'Life%',
+      // Cards grant EasyRPG.Attributes.Base.MaxHealth% (e.g. CARD3_2) — must
+      // resolve as percent, not flat health
+      'Base.MaxHealth%6',
+      'Base.MaxHealth%',
+      'MaxHealth%6',
+      'MaxHealth%',
     ],
     canonical: 'Health%6',
     isPercent: true,
     format: v => `+${(v * 100).toFixed(0)}%`,
     description: 'Maximum health bonus',
-    regexPatterns: ['Health%6', 'Health%', '\\.Health%6', '\\.Health%', 'Life%6', 'Life%'],
+    regexPatterns: ['MaxHealth%6', 'MaxHealth%', 'Health%6', 'Health%', '\\.Health%6', '\\.Health%', 'Life%6', 'Life%'],
   },
   healthRegen: {
     id: 'healthRegen',

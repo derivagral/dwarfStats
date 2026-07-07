@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getDisplayName, formatAttributeValue } from '../../utils/attributeDisplay';
-import { getMonogramName, isKnownMonogram, MONOGRAM_REGISTRY } from '../../utils/monogramRegistry';
+import { getMonogramName, getMonogramById, isKnownMonogram, MONOGRAM_REGISTRY } from '../../utils/monogramRegistry';
 import { MONOGRAM_CALC_CONFIGS, getMonogramEffectSummary as getConfigEffectSummary } from '../../utils/monogramConfigs';
 
 /**
@@ -211,7 +211,11 @@ export function ItemDetailTooltip({
           {itemData.monograms.map((mono, i) => {
             const monoName = getMonogramName(mono.id);
             const hasCalcEffect = !!MONOGRAM_CALC_CONFIGS[mono.id];
-            const effectSummary = getMonogramEffectSummary(mono.id);
+            // Prefer calc-config summary; fall back to the registry/game-data
+            // description so monograms without calc wiring still get helper text
+            const effectSummary = getMonogramEffectSummary(mono.id)
+              ?? getMonogramById(mono.id)?.description
+              ?? null;
 
             return (
               <div key={i} className={`tooltip-monogram ${hasCalcEffect ? 'has-calc-effect' : ''}`}>

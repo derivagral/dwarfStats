@@ -1,0 +1,936 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_Skills_TwoHand",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_SkillInstance'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Structures/STR_SkillInstance.0"
+      }
+    },
+    "Rows": {
+      "TwoHandsQ": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "TwoHandsQ"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills",
+          "Key": "EAD660EF47469448FC76698AD7E631AF",
+          "SourceString": "TwoHandsQ",
+          "LocalizedString": "TwoHandsQ"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Berserker's Wrath ",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "8FCB39E84ED66F137334549967695908",
+          "SourceString": "Channeling fury and rage hardens your willpower, providing lasting resilience",
+          "LocalizedString": "Channeling fury and rage hardens your willpower, providing lasting resilience"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Energy_01'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Energy_01.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.TwoHandedQ"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 50.0
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "2H_PreMajor_DmgArmor": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "2H_PreMajor_DmgArmor"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "2H_PreMajor_DmgArmor_Name",
+          "SourceString": "2H_PreMajor_DmgArmor",
+          "LocalizedString": "2H_PreMajor_DmgArmor"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Arms Warrior",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "5D8A7B444CFF1A23678FB99B40452CD8",
+          "SourceString": "Gain Critical Damage and Survivability with Axes",
+          "LocalizedString": "Gain Critical Damage and Survivability with Axes"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_03'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_03.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.2H_PreMajor_DmgArmor"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 1,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "TwoHandedMajor": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "TwoHandedMajor"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "TwoHandedMajor_Name",
+          "SourceString": "TwoHandedMajor",
+          "LocalizedString": "TwoHandedMajor"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Axes Oathkeeper",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "47A6CB524A5C659126CFD19070C7AD84",
+          "SourceString": "Swear a solemn vow to Axes warfare, permanently amplifying your Critical damage and Energy regeneration.",
+          "LocalizedString": "Swear a solemn vow to Axes warfare, permanently amplifying your Critical damage and Energy regeneration."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Fire_22'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Fire_22.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.TwoHandedMajor"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.EnergyRegeneration%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "TwoHandedQBaseDamage": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "TwoHandedQBaseDamage"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "TwoHandedQBaseDamage_Name",
+          "SourceString": "TwoHandedQBaseDamage",
+          "LocalizedString": "TwoHandedQBaseDamage"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Axes Acolyte",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "1F12ECB64FF7A69FD5E566BF7AE27BB7",
+          "SourceString": "Dedicate yourself to the path of Axes mastery, enhancing your damage-dealing prowess.",
+          "LocalizedString": "Dedicate yourself to the path of Axes mastery, enhancing your damage-dealing prowess."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_BloodCombat_47'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_BloodCombat_47.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.TwoHandedQBaseDamage"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases damage with two handed weapons by 10%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "TwoHandedRBaseDamage": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "TwoHandedRBaseDamage"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "TwoHandedRBaseDamage_Name",
+          "SourceString": "TwoHandedRBaseDamage",
+          "LocalizedString": "TwoHandedRBaseDamage"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Axes Master",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "7AAFBB924B76F50B2BAB099CC1918BA5",
+          "SourceString": "Attain supreme proficiency with Axes, drastically improving critical damage.",
+          "LocalizedString": "Attain supreme proficiency with Axes, drastically improving critical damage."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Energy_10'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Energy_10.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.TwoHandedRBaseCritDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 1,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "TwoHandsR": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "TwoHandsR"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills",
+          "Key": "E87ED0CF491A7A588C150EACA4AD3AA5",
+          "SourceString": "TwoHandsR",
+          "LocalizedString": "TwoHandsR"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Rune of the Ancients ",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "A6AC0D584074E9B4A558D5A3CEF9A779",
+          "SourceString": "Inscribe ancient runes on your Axes, enhancing its ability to land critical strikes.",
+          "LocalizedString": "Inscribe ancient runes on your Axes, enhancing its ability to land critical strikes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_07'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_07.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.TwoHandedR"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "TwoHandedMediumCritDmg": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "TwoHandedMediumCritDmg"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "TwoHandedMediumCritDmg_Name",
+          "SourceString": "TwoHandedMediumCritDmg",
+          "LocalizedString": "TwoHandedMediumCritDmg"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Axes Grandmaster",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "0B8164AC46B0580687E6938D41E3C564",
+          "SourceString": "Gain critical damage with Axes",
+          "LocalizedString": "Gain critical damage with Axes"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_93'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_93.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.TwoHandedMediumCritDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases critical damage with two handed weapons by 3%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "TwoHandedMediumDmg": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "TwoHandedMediumDmg"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "TwoHandedMediumDmg_Name",
+          "SourceString": "TwoHandedMediumDmg",
+          "LocalizedString": "TwoHandedMediumDmg"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Axes Loremaster",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "2BA97768490473561C3905919F453330",
+          "SourceString": "Gain Damage with Axes",
+          "LocalizedString": "Gain Damage with Axes"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_93'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Unholy_93.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.TwoHandedMediumDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases damage with two handed weapons by 3%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "2H_Dmg_Buff": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "2H_Dmg_Buff"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "2H_Dmg_Buff_Name",
+          "SourceString": "2H_Dmg_Buff",
+          "LocalizedString": "2H_Dmg_Buff"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Blade Fury",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "D64F70644336A82907CC6DAA985766CD",
+          "SourceString": "Gain Critical damage with Axes",
+          "LocalizedString": "Gain Critical damage with Axes"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_107'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_107.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.2H_Dmg_Buff"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "2H_Crit_Buff": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "2H_Crit_Buff"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "2H_Crit_Buff_Name",
+          "SourceString": "2H_Crit_Buff",
+          "LocalizedString": "2H_Crit_Buff"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Blade Sentinel",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "067E75D343A803BEA2F084B1E6E4CD2D",
+          "SourceString": "Gain damage with Axes",
+          "LocalizedString": "Gain damage with Axes"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_99'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_99.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.2H_Crit_Buff"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "2H_Dmg_Buff_EndGame": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "2H_Dmg_Buff_EndGame"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "2H_Dmg_Buff_EndGame_Name",
+          "SourceString": "2H_Dmg_Buff_EndGame",
+          "LocalizedString": "2H_Dmg_Buff_EndGame"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Blade Frenzy",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "6FF009E74CF2A8E9BA76479D749FBF0A",
+          "SourceString": "You are a force to be reckoned with in battle, intimidating the fiercest of foes.",
+          "LocalizedString": "You are a force to be reckoned with in battle, intimidating the fiercest of foes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_107'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_107.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.2H_Dmg_Buff_EndGame"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Boss%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "2H_Crit_Buff_EndGame": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "2H_Crit_Buff_EndGame"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "2H_Crit_Buff_EndGame_Name",
+          "SourceString": "2H_Crit_Buff_EndGame",
+          "LocalizedString": "2H_Crit_Buff_EndGame"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Eternal Blade Sentinel",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "5373183A43739047536A3FA91E7F12B3",
+          "SourceString": "Gain critical damage with Axes",
+          "LocalizedString": "Gain critical damage with Axes"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_99'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_99.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.2H_Crit_Buff_EndGame"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "2H.ExtendedWhirlwind": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "2H.ExtendedWhirlwind"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "2H.ExtendedWhirlwind_Name",
+          "SourceString": "2H.ExtendedWhirlwind",
+          "LocalizedString": "2H.ExtendedWhirlwind"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Berserker Fury",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "52AB44754E368478CC98048342B4EEC5",
+          "SourceString": "Summons the sword of the Ancient Berserker. Standing in range when the sword hits the ground causes you to enter a state that reduces all offhand cooldowns by 50%.",
+          "LocalizedString": "Summons the sword of the Ancient Berserker. Standing in range when the sword hits the ground causes you to enter a state that reduces all offhand cooldowns by 50%."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Energy_13'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Energy_13.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.2H.ExtendedWhirlwind"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "TwoHandDamage": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_TwoHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_TwoHand.0"
+          },
+          "RowName": "TwoHandDamage"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_TwoHand",
+          "Key": "TwoHandDamage_Name",
+          "SourceString": "TwoHandDamage",
+          "LocalizedString": "TwoHandDamage"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Axe Mastery",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "0E3D3B894F620A86BB622D8FD2FB30E2",
+          "SourceString": "Perfect the art of devastating blows, increasing the crushing power of your Axes attacks.",
+          "LocalizedString": "Perfect the art of devastating blows, increasing the crushing power of your Axes attacks."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_BloodCombat_71'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_BloodCombat_71.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.TwoHandDamage"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 5000,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases your damage with two handed weapons by 1%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.01
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.HealthRegeneration%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.001
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0001
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.Armor"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.5
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      }
+    }
+  }
+]

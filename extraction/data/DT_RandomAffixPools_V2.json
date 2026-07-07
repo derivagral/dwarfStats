@@ -1,0 +1,254 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_RandomAffixPools_V2",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_RandomAffixPools_V2",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_DataTableRowHandleArrayDouble'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/STR_DataTableRowHandleArrayDouble.0"
+      }
+    },
+    "Rows": {
+      "RandomStat": {
+        "Handles_5_B84509384511266D83E53B9120512E08": [
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Strength"
+              },
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Strength%"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Agility"
+              },
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Agility%"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Dexterity"
+              },
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Dexterity%"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Wisdom"
+              },
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Wisdom%"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Luck"
+              },
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Luck%"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Stamina"
+              },
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Stamina%"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Endurance"
+              },
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Endurance%"
+              }
+            ]
+          }
+        ]
+      },
+      "RandomFlatStat": {
+        "Handles_5_B84509384511266D83E53B9120512E08": [
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Strength"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Agility"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Dexterity"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Wisdom"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Luck"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Stamina"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Endurance"
+              }
+            ]
+          }
+        ]
+      },
+      "RandomDamage": {
+        "Handles_5_B84509384511266D83E53B9120512E08": [
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "Damage"
+              }
+            ]
+          },
+          {
+            "Handles_4_861963F94DFE6D28004FE5BDA9BBA2A6": [
+              {
+                "DataTable": {
+                  "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+                  "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+                },
+                "RowName": "EasyRPG.Attributes.Base.ElementalDamage"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+]

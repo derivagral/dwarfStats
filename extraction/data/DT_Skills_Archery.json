@@ -1,0 +1,918 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_Skills_Archery",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_SkillInstance'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Structures/STR_SkillInstance.0"
+      }
+    },
+    "Rows": {
+      "Archery.CritDamage.LEVEL1": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.CritDamage.LEVEL1"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "7BD0DB1E479B0CA4CAD267AE947A0B6E",
+          "SourceString": "Archery.ArcaneArrow",
+          "LocalizedString": "Archery.ArcaneArrow"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Quiver of the Phoenix ",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "A1B04CFF4C73C58642C5E8BA8199908A",
+          "SourceString": "Steady aim and battlefield awareness fortify your endurance, granting a lasting boost to health.",
+          "LocalizedString": "Steady aim and battlefield awareness fortify your endurance, granting a lasting boost to health."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Arcane_96'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Arcane_96.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.ArcaneArrow"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 50.0
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.Buff.Crit.LEVEL2": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.Buff.Crit.LEVEL2"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "7C464922431AA96CA4C4ABAF2172EC28",
+          "SourceString": "Archery.Buff.Crit.LEVEL2",
+          "LocalizedString": "Archery.Buff.Crit.LEVEL2"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Greater Touch of the Kabarian Hunter",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "F21503E34339120A86E5C9B3AE001F1A",
+          "SourceString": "Gain critical damage and survivability with Archery",
+          "LocalizedString": "Gain critical damage and survivability with Archery"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Nature_109'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Nature_109.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.Buff.Crit.LEVEL2"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.Major": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.Major"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "97C9E69E4114880180DD5495FF67BA9C",
+          "SourceString": "Archery.Major",
+          "LocalizedString": "Archery.Major"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Archery Oathkeeper",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "0460A70042D09BB1C0749689A375A76F",
+          "SourceString": "Swear a solemn vow to the bow, significantly boosting both critical damage and Energy regeneration.",
+          "LocalizedString": "Swear a solemn vow to the bow, significantly boosting both critical damage and Energy regeneration."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_45'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_45.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.Major"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.EnergyRegeneration%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.ArcaneArrow": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.ArcaneArrow"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "7D52631C4AA84380649CABB7DBF608D8",
+          "SourceString": "Archery.CritDamage.LEVEL1",
+          "LocalizedString": "Archery.CritDamage.LEVEL1"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Eagle's Precision",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "2B15AF0842039A281DA5D3A240643818",
+          "SourceString": "Channel the spirit of the eagle into your bow, enhancing the precision and power of each shot.",
+          "LocalizedString": "Channel the spirit of the eagle into your bow, enhancing the precision and power of each shot."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Arcane_37'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Arcane_37.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.CritDamage.LEVEL1"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.Damage.LEVEL1": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.Damage.LEVEL1"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "C538503B46A7B3377D8030863198CF49",
+          "SourceString": "Archery.Damage.LEVEL1",
+          "LocalizedString": "Archery.Damage.LEVEL1"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Tough Strings",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "3CC755CF4A53EB1A2E991AA9659FB5D9",
+          "SourceString": "Reinforce your bowstring with mystical fibers, increasing the overall damage of your arrows.",
+          "LocalizedString": "Reinforce your bowstring with mystical fibers, increasing the overall damage of your arrows."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Frost_14'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Frost_14.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.Damage.LEVEL1"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.RainOfArrows": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.RainOfArrows"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "16B55A034DF911141686A18D73F29D42",
+          "SourceString": "Archery.RainOfArrows",
+          "LocalizedString": "Archery.RainOfArrows"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Windwalker's Grace",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "E440FFF240487E97B4412383B8887CD8",
+          "SourceString": "Harness the whispers of the wind, enhancing your arrows' damage with critical hits.",
+          "LocalizedString": "Harness the whispers of the wind, enhancing your arrows' damage with critical hits."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_42'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_42.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.RainOfArrows"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.Buff.Damage.LEVEL1": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.Buff.Damage.LEVEL1"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "0BE2A38740E46CFB006FC48DC21401C2",
+          "SourceString": "Archery.Buff.Damage.LEVEL1",
+          "LocalizedString": "Archery.Buff.Damage.LEVEL1"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Harmoniyan Discipline",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "E5227CB3412D4D63251DC1BDEEF5C518",
+          "SourceString": "Increased Archery damage.",
+          "LocalizedString": "Increased Archery damage."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_BloodCombat_11'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_BloodCombat_11.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.Buff.Damage.LEVEL1"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.Buff.Crit.LEVEL1": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.Buff.Crit.LEVEL1"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "94E4E7A74D283F5F9651149789152CE3",
+          "SourceString": "Archery.Buff.Crit.LEVEL1",
+          "LocalizedString": "Archery.Buff.Crit.LEVEL1"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Touch of the Kabarian Hunter",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "4EA9BCAA4EE287B0A5E76BA7CD788033",
+          "SourceString": "Gain Critical damage with Archery",
+          "LocalizedString": "Gain Critical damage with Archery"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Nature_109'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Nature_109.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.Buff.Crit.LEVEL1"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.CritChance": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.CritChance"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "0B23BA7F4B1905D84FAEFC9F9607A00B",
+          "SourceString": "Archery.CritChance",
+          "LocalizedString": "Archery.CritChance"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Force of the Eagle",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "E878CB80467C1B870CF35098DCD3E40D",
+          "SourceString": "Infuse your shots with the keen sight of eagles, increasing your critical damage",
+          "LocalizedString": "Infuse your shots with the keen sight of eagles, increasing your critical damage"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Energy_40'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Energy_40.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.CritChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.Damage.LEVEL2": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.Damage.LEVEL2"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "23ADD1644204B0D67DD7D0998CAE4955",
+          "SourceString": "Archery.Damage.LEVEL2",
+          "LocalizedString": "Archery.Damage.LEVEL2"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Steel Strings",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "460BD34E4B6C2CC1455209BD4B9DF574",
+          "SourceString": "Forge your bowstring from enchanted steel, significantly amplifying arrow damage.",
+          "LocalizedString": "Forge your bowstring from enchanted steel, significantly amplifying arrow damage."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Frost_14'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Frost_14.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.Damage.LEVEL2"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.CritDamage.LEVEL2": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.CritDamage.LEVEL2"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "9186D94F4823DFA7EF77CC9515A04221",
+          "SourceString": "Archery.CritDamage.LEVEL2",
+          "LocalizedString": "Archery.CritDamage.LEVEL2"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Extreme Precision",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "AFE934054BD2465E164E84A95F371B2F",
+          "SourceString": "Achieve unparalleled accuracy, greatly increasing your damage aginst fearsome opponents.",
+          "LocalizedString": "Achieve unparalleled accuracy, greatly increasing your damage aginst fearsome opponents."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Arcane_96'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Arcane_96.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.CritDamage.LEVEL2"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Boss%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.Buff.Damage.LEVEL2": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.Buff.Damage.LEVEL2"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "26FB50D14B8C9B82B319249564C574E1",
+          "SourceString": "Archery.Buff.Damage.LEVEL2",
+          "LocalizedString": "Archery.Buff.Damage.LEVEL2"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Harmoniyan Discipline of Great Magnitude",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "E5227CB3412D4D63251DC1BDEEF5C518",
+          "SourceString": "Increased Archery damage.",
+          "LocalizedString": "Increased Archery damage."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_BloodCombat_11'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_BloodCombat_11.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.Buff.Damage.LEVEL2"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Archery.PhantasmArcher": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.PhantasmArcher"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "3F05B27F404202BFF373909EB11B95E9",
+          "SourceString": "Archery.PhantasmArcher",
+          "LocalizedString": "Archery.PhantasmArcher"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Phantasm Archer",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "B486658D4EE509B488D55480582F3E90",
+          "SourceString": "Spawn Phantom Archers to fight alongside you.",
+          "LocalizedString": "Spawn Phantom Archers to fight alongside you."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Arcane_33'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Arcane_33.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.PhantasmArcher"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": true
+      },
+      "Archery.Paragorn": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Archery'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Archery.0"
+          },
+          "RowName": "Archery.Paragorn"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "B6AF17D04F49C00D3A2E77A85B840D27",
+          "SourceString": "Archery.Paragorn",
+          "LocalizedString": "Archery.Paragorn"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Archery Mastery",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "E5923AFE40F759D578A602B488825D55",
+          "SourceString": "Earn renown as the realm's finest Archer, increasing your overall Archery damage.",
+          "LocalizedString": "Earn renown as the realm's finest Archer, increasing your overall Archery damage."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Energy_52'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Energy_52.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Archery.Paragorn"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 5000,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.01
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      }
+    }
+  }
+]

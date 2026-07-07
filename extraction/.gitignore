@@ -1,0 +1,7 @@
+# Probe reports and generated data stay local — commit only derived registry
+# code after review, never raw game exports.
+out/
+*.uasset
+*.uexp
+*.locres
+*.usmap

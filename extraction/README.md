@@ -46,7 +46,7 @@ Paste the report (or the interesting sections) back into a Claude session to pla
 1. Download FModel (fmodel.app). Add directory: `...\Dwarven Realms\ProjectAlpha\Content\Paks`
 2. Settings → UE Versions → pick the version matching the exe (e.g. `GAME_UE5_3`).
 3. If assets fail to deserialize with "mappings" errors, the game uses unversioned
-   properties: dump a `.usmap` with Dumper-7 (via UE4SS injection, offline), then
+   properties: dump a `.usmap` with UE4SS (see "Dumping a .usmap" below), then
    point FModel at it (Settings → Mapping file path).
 4. If the pak listing itself fails, an AES key is required (uncommon for indie
    titles) — FModel's AES tab; keys are usually community-known if needed.
@@ -55,6 +55,43 @@ Paste the report (or the interesting sections) back into a Claude session to pla
 
 Exports land in FModel's `Output/Exports/...` folder. Copy the JSONs somewhere
 handy (NOT into the repo; they're raw game data).
+
+### Dumping a .usmap with UE4SS
+
+Confirmed needed for Dwarven Realms: the packages have unversioned properties
+and no `.usmap` ships with the game. The exe is
+`ProjectAlpha\Binaries\Win64\ProjectAlpha-Win64-Shipping.exe` and appears to be
+UE ~5.5, so use a **recent experimental UE4SS build** — the old stable (v3.0.1)
+predates 5.4/5.5 support and will likely crash on inject.
+
+1. Download the latest **experimental** release zip from
+   https://github.com/UE4SS-RE/RE-UE4SS/releases (the `UE4SS_v...` /
+   `zDEV-UE4SS` standard zip, not the source).
+2. Extract it next to the shipping exe:
+   `...\Dwarven Realms\ProjectAlpha\Binaries\Win64\`
+   (you should end up with `dwmapi.dll` and a `ue4ss\` folder beside
+   `ProjectAlpha-Win64-Shipping.exe`).
+3. In `ue4ss\UE4SS-settings.ini`, set under `[Debug]`:
+   `ConsoleEnabled = 0`, `GuiConsoleEnabled = 1`, `GuiConsoleVisible = 1`.
+4. Launch the game (Steam offline mode is a reasonable precaution; it's a
+   single-player title). A separate UE4SS debug window opens alongside the game.
+5. In that window: **Dumpers tab → "Generate .usmap file"**. The file lands as
+   `Mappings.usmap` next to the exe (or inside the `ue4ss\` folder, depending
+   on build).
+6. In FModel: Settings → set **Mappings file path** to that `Mappings.usmap`,
+   restart/reload the archive, and the DataTables will deserialize.
+7. Cleanup: delete `dwmapi.dll` and the `ue4ss\` folder to restore a vanilla
+   install.
+
+Troubleshooting: if the game crashes on launch with UE4SS installed, try a
+newer/older experimental build first; failing that set
+`bUseUObjectArrayCache = false` in `UE4SS-settings.ini`.
+
+Known asset path for the card table (from FModel browsing):
+`ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Crystal_Cards_Skills.uasset`
+— note the base pack is **EasySurvivalRPG**, so sibling folders under
+`EasySurvivalRPG/Blueprints/DataTables/` are where the other registries'
+tables (skill tree, item modifiers/monograms) will live.
 
 ### Step 2 — Inspect an export
 
@@ -77,6 +114,28 @@ Writes:
 - `extraction/out/cardRegistry.draft.js` — draft `CARD_REGISTRY` entries in the
   shape `src/utils/skillTreeRegistry.js` expects (name/description auto-filled
   where the table provides them; `effects` mapping is the follow-up step)
+
+## Handing data back to a remote Claude session
+
+Remote sessions can't see your filesystem — use the branch as the transport:
+
+1. Run the transform locally (step 3). Review `extraction/out/cards.extracted.json`
+   — it should contain only row names, effect ids/tags, numbers, and display
+   strings (derived facts, fine to commit).
+2. Copy it into the committed data directory and push:
+
+   ```
+   copy extraction\out\cards.extracted.json extraction\data\
+   git add extraction/data/cards.extracted.json
+   git commit -m "Add extracted card data"
+   git push
+   ```
+
+3. Tell the session it's there — it can then design the effects mapping and
+   regenerate `CARD_REGISTRY`.
+
+`extraction/out/` stays gitignored (raw FModel exports, probe reports);
+`extraction/data/` is the reviewed, committable subset.
 
 ## Follow-ups once exports exist
 

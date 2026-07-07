@@ -1,0 +1,918 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_Skills_Scythe",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_SkillInstance'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Structures/STR_SkillInstance.0"
+      }
+    },
+    "Rows": {
+      "Scythe_3": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_3"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "74DFDAA149C90D909166EEB2F9F8044E",
+          "SourceString": "graves_warden ",
+          "LocalizedString": "graves_warden "
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Grave's Warden",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "E2FD5509438DFCFCEB55D590BFE4D2D6",
+          "SourceString": "Endure beyond the grave, you are hardened by the will to return - improving your survivability in the thick of combat.",
+          "LocalizedString": "Endure beyond the grave, you are hardened by the will to return - improving your survivability in the thick of combat."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_156'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_156.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.3"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 50.0
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_11": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_11"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "A1EF655442BAC21ADC3669885B5418E0",
+          "SourceString": "cycle_of_culling",
+          "LocalizedString": "cycle_of_culling"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Cycle of Culling",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "796D052C4766CB793B3283B4B02032EE",
+          "SourceString": "Your resolve has reached untold heights, and with it comes ghastly resolve. ",
+          "LocalizedString": "Your resolve has reached untold heights, and with it comes ghastly resolve. "
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Shadow_01'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Shadow_01.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.11"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_12": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_12"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "609630A542F77013A476A586300F60E4",
+          "SourceString": "severance_rite",
+          "LocalizedString": "severance_rite"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Severance Rite",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "43F2970F419A9734F54CADB68E7EE1EC",
+          "SourceString": "Channel the art of separation, striking with precision while regaining your flow",
+          "LocalizedString": "Channel the art of separation, striking with precision while regaining your flow"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_151'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_151.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.12"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.EnergyRegeneration%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_1": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_1"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills",
+          "Key": "98E4A3704BE82E6881310697C8AF2F30",
+          "SourceString": "reapers_step",
+          "LocalizedString": "reapers_step"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Reaper's Step",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "E3F104674F7C421A73BB61ADA5524F6F",
+          "SourceString": "Embrace the silent art of harvesting life, increasing your base damage with Scythes.",
+          "LocalizedString": "Embrace the silent art of harvesting life, increasing your base damage with Scythes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_188'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_188.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.1"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_2": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_2"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "6442A3BB4436C3A23AD6E599D3590AEB",
+          "SourceString": "moonlit_blades",
+          "LocalizedString": "moonlit_blades"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Moonlit Blades",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "B1D1DF5245DDD81AA9625B8805E92008",
+          "SourceString": "In shadow or moonlight, your precision is unmatched, dealing increased damage with Scythes.",
+          "LocalizedString": "In shadow or moonlight, your precision is unmatched, dealing increased damage with Scythes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_102'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_102.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.2"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_4": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_4"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "C60E8A564A8C858BA16CC7ACAB74E6C5",
+          "SourceString": "kiss_of_death",
+          "LocalizedString": "kiss_of_death"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Kiss of Death",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "EF7E50904B3A8A23689A23AD32618AC2",
+          "SourceString": "Perfect the flowing form of the scythe, striking true with devastating critical strikes.",
+          "LocalizedString": "Perfect the flowing form of the scythe, striking true with devastating critical strikes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_124'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_124.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.4"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_5": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_5"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "B76E6C2443B397352BD8F2AACF05FC2F",
+          "SourceString": "gallows_technique",
+          "LocalizedString": "gallows_technique"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Gallows Technique",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "425DA3EA406EDC7E583DAE839F9BD927",
+          "SourceString": "Even the lightest cut begins the harvesting of souls.",
+          "LocalizedString": "Even the lightest cut begins the harvesting of souls."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_171'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_171.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.5"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_6": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_6"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "1A4B41B440E26E262D5621881664381F",
+          "SourceString": "deathbloom",
+          "LocalizedString": "deathbloom"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Deathbloom",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "7E91C3B54206F7BE01DF2C83CD7099DE",
+          "SourceString": "Your critical strikes with the scythe hit with finality—leaving no room for doubt",
+          "LocalizedString": "Your critical strikes with the scythe hit with finality—leaving no room for doubt"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_183'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_183.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.6"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_7": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_7"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "50A552A643BA2D8278920EAE78D18755",
+          "SourceString": "sliver_of_death",
+          "LocalizedString": "sliver_of_death"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Sliver of Death",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "1640689C4679A69A2740EA9737232B97",
+          "SourceString": "You channel ancient necrotic rituals through the curve of your blade, increasing Critical Chance with Scythes.",
+          "LocalizedString": "You channel ancient necrotic rituals through the curve of your blade, increasing Critical Chance with Scythes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_157'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_157.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.7"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_8": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_8"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "18E809114451C9B8900EAD8554C7C037",
+          "SourceString": "hallow_bond",
+          "LocalizedString": "hallow_bond"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Hallow Bond",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "0BDAF2194C20494DF80BD698B90376EB",
+          "SourceString": "Your bond with the blade is sacred. Deal increased damage with Scythes.",
+          "LocalizedString": "Your bond with the blade is sacred. Deal increased damage with Scythes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_172'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_172.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.8"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_9": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_9"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "DAC63E16445D4F204667CEBFE7EA10EF",
+          "SourceString": "reaper_of_fates",
+          "LocalizedString": "reaper_of_fates"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Reaper of Fates",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "46D1EB524266AC21D0C13A8D6EC47659",
+          "SourceString": "Your tether to mortality is obscured, your Scythe carves through even the mightiest foes.",
+          "LocalizedString": "Your tether to mortality is obscured, your Scythe carves through even the mightiest foes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Shadow_71'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Shadow_71.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.9"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Boss%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_10": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_10"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "12BB6128410639758A03EA987774F945",
+          "SourceString": "cruel_elegance",
+          "LocalizedString": "cruel_elegance"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Cruel Elegance",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "837AF4A94727C24DDE28628A0F58D287",
+          "SourceString": "Increases your Critical Damage with Scythes",
+          "LocalizedString": "Increases your Critical Damage with Scythes"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Shadow_09'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Shadow_09.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.10"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_13": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_13"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "EAE72C974F8FDFFA24BCE7AD6753CC25",
+          "SourceString": "macabre_incarnation ",
+          "LocalizedString": "macabre_incarnation "
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Harbringer of Doom",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "517B37824B35C356BD3FC697C36D15CA",
+          "SourceString": "Mastering the art of death magic, you bind a powerful entity to fight along side you. Whenever Harbringer of Doom cast a spell, it will trigger your offhand on itself, and you Gain a stack of Dark Oath. ",
+          "LocalizedString": "Mastering the art of death magic, you bind a powerful entity to fight along side you. Whenever Harbringer of Doom cast a spell, it will trigger your offhand on itself, and you Gain a stack of Dark Oath. "
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_118'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_118.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.13"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Scythe_14": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Scythe'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Scythe.0"
+          },
+          "RowName": "Scythe_14"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "",
+          "Key": "2A4CD149471366F1C4C9348E3C39F35C",
+          "SourceString": "deaths_calling",
+          "LocalizedString": "deaths_calling"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Scythe Mastery",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "A4F35CD946CEB21CFB0A759562BABF11",
+          "SourceString": "Each swing brings you closer to perfection, as death itself guides your hand.",
+          "LocalizedString": "Each swing brings you closer to perfection, as death itself guides your hand."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_172'",
+          "ObjectPath": "ProjectAlpha/Content/NhanceSpellIconsMegaBundle/Textures/T_Icon_Unholy_172.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Scythe.14"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 5000,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Adds 1 damage",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.01
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      }
+    }
+  }
+]

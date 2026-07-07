@@ -1,0 +1,677 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_Yellow_Orange_Modifiers",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Yellow_Orange_Modifiers",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_Item_Attributes_Collections'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/STR_Item_Attributes_Collections.0"
+      }
+    },
+    "Rows": {
+      "BaseModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "Agility"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "Endurance"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "Luck"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "Stamina"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "Strength"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "Wisdom"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "Dexterity"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "CriticalChance"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "CriticalDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "MaxHealth"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "HealthRegeneration"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "EnergyRegeneration"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "MaxEnergy"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "LifeSteal"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "LifeStealAmount"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "BossDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FireDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcaneDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "LightningDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "AttackSpeed"
+          }
+        ]
+      },
+      "MaulsModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "MaulsDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "MaulsCriticalDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "MaulsCriticalChance%"
+          }
+        ]
+      },
+      "SpearsModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SpearsDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SpearsCriticalDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SpearsCriticalChance%"
+          }
+        ]
+      },
+      "OneHandModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "OneHandDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "OneHandCriticalDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "OneHandCriticalChance%"
+          }
+        ]
+      },
+      "TwoHandModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "TwoHandDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "TwoHandCriticalDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "TwoHandCriticalChance%"
+          }
+        ]
+      },
+      "ArcheryModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcheryDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcheryCriticalDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcheryCriticalChance%"
+          }
+        ]
+      },
+      "MageryModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "MageryDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "MageryCriticalDamage%"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "MageryCriticalChance%"
+          }
+        ]
+      },
+      "Tier1AbilityDamageModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SpinningBladeDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "PoisonCloudDamage"
+          }
+        ]
+      },
+      "Tier2AbilityDamageModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SpinningBladeDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "PoisonCloudDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ChainLightningDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FlameShowerDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SparkDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "VortexDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "EyeOfTheStormDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "EnemyDeathDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "CarnageOfFireDamage"
+          }
+        ]
+      },
+      "Tier3AbilityDamageModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SpinningBladeDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "PoisonCloudDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ChainLightningDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FlameShowerDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SparkDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "VortexDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "EyeOfTheStormDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "EnemyDeathDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "CarnageOfFireDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FerocityOfWolvesDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "LightningStrikeDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcaneOrbDamageDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "StaticChargeDamage"
+          }
+        ]
+      },
+      "Tier4AbilityDamageModifiers": {
+        "AttributesAbilityHandles_7_1B86703F484B853CBCA2DC8B9264467F": [
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SpinningBladeDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "PoisonCloudDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ChainLightningDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FlameShowerDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "SparkDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "VortexDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "EyeOfTheStormDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "EnemyDeathDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "CarnageOfFireDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FerocityOfWolvesDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcaneOrbDamageDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "StaticChargeDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "StarBladesDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "BloodDragonsDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcaneApocalypseDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FieryTotemDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "DelusionOfZelkorsDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ElectricDragonsDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "BurningShieldDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "LightningTotemDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcaneTotemDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FireAtomDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "LightningPlasmaDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "ArcaneSeedDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "FireBeamDamage"
+          },
+          {
+            "DataTable": {
+              "ObjectName": "DataTable'DT_Base_Item_Attributes'",
+              "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/GeneratedItems/DT_Base_Item_Attributes.0"
+            },
+            "RowName": "DragonFlameDamage"
+          }
+        ]
+      }
+    }
+  }
+]

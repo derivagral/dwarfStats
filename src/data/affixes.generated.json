@@ -1,0 +1,2957 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "affixes": {
+    "Damage": {
+      "tag": "EasyRPG.Attributes.Base.Damage",
+      "value": 6,
+      "valuePerLevel": 1,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Armor": {
+      "tag": "EasyRPG.Attributes.Base.Armor",
+      "value": 3,
+      "valuePerLevel": 1,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "MaxHealth": {
+      "tag": "EasyRPG.Attributes.Base.MaxHealth",
+      "value": 4,
+      "valuePerLevel": 2,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "MaxEnergy": {
+      "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+      "value": 1,
+      "valuePerLevel": 0.4,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "HealthRegeneration": {
+      "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "EnergyRegeneration": {
+      "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+      "value": 1,
+      "valuePerLevel": 0.15,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "AttackSpeed": {
+      "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+      "value": 10,
+      "valuePerLevel": 5,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "CriticalChance": {
+      "tag": "EasyRPG.Attributes.Base.CriticalChance",
+      "value": 0.005,
+      "valuePerLevel": 0.003,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "LifeSteal": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeStealChance%",
+      "value": 0.003,
+      "valuePerLevel": 0.001,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "LifeStealAmount": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+      "value": 0.001,
+      "valuePerLevel": 0.0005,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "LifeStealRawAmount": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal",
+      "value": 1,
+      "valuePerLevel": 0.3,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "CriticalDamage": {
+      "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+      "value": 0.03,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ArcaneDamage": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+      "value": 0.03,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "LightningDamage": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+      "value": 0.03,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "FireDamage": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+      "value": 0.03,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "BossDamage": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Strength": {
+      "tag": "EasyRPG.Attributes.Characteristics.Strength",
+      "value": 1,
+      "valuePerLevel": 0.4,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Strength%": {
+      "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+      "value": 0.01,
+      "valuePerLevel": 0.001,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Agility": {
+      "tag": "EasyRPG.Attributes.Characteristics.Agility",
+      "value": 1,
+      "valuePerLevel": 0.4,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Agility%": {
+      "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+      "value": 0.01,
+      "valuePerLevel": 0.001,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Stamina": {
+      "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+      "value": 1,
+      "valuePerLevel": 0.4,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Stamina%": {
+      "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+      "value": 0.01,
+      "valuePerLevel": 0.001,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Luck": {
+      "tag": "EasyRPG.Attributes.Characteristics.Luck",
+      "value": 1,
+      "valuePerLevel": 0.4,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Luck%": {
+      "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+      "value": 0.01,
+      "valuePerLevel": 0.001,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Endurance": {
+      "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+      "value": 1,
+      "valuePerLevel": 0.4,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Endurance%": {
+      "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+      "value": 0.01,
+      "valuePerLevel": 0.001,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Dexterity": {
+      "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+      "value": 1,
+      "valuePerLevel": 0.4,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Dexterity%": {
+      "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+      "value": 0.01,
+      "valuePerLevel": 0.001,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Wisdom": {
+      "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+      "value": 1,
+      "valuePerLevel": 0.4,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "Wisdom%": {
+      "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+      "value": 0.01,
+      "valuePerLevel": 0.001,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "RandomFlatStat": {
+      "tag": "None",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "RandomStat": {
+      "tag": "None",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "RandomStat%": {
+      "tag": "None",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "OneHandDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+      "value": 0.02,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Sword"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "OneHandCriticalDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+      "value": 0.02,
+      "valuePerLevel": 0.004,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Sword"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "OneHandCriticalChance%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandedCritcalChance%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Sword"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "TwoHandDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+      "value": 0.02,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Items.Stance.TwoHanded"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "TwoHandCriticalDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+      "value": 0.02,
+      "valuePerLevel": 0.004,
+      "itemTags": [
+        "EasyRPG.Items.Stance.TwoHanded"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "TwoHandCriticalChance%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Items.Stance.TwoHanded"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "MaulsDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+      "value": 0.02,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Polearm"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "MaulsCriticalDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+      "value": 0.02,
+      "valuePerLevel": 0.004,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Polearm"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "MaulsCriticalChance%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Polearm"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "SpearsDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+      "value": 0.02,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Spear"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "SpearsCriticalDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+      "value": 0.02,
+      "valuePerLevel": 0.004,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Spear"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "SpearsCriticalChance%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalChance%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Spear"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ArcheryDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+      "value": 0.02,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Bow"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ArcheryCriticalDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+      "value": 0.02,
+      "valuePerLevel": 0.004,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Bow"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ArcheryCriticalChance%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalChance%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Bow"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "MageryDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+      "value": 0.02,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Magic"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "MageryCriticalDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+      "value": 0.02,
+      "valuePerLevel": 0.004,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Magic"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "MageryCriticalChance%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalChance%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Magic"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "SpinningBladeDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.SpinningBlade.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "PoisonCloudDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.PoisonCloud.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ChainLightningDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.ChainLightning.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "FlameShowerDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "SparkDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.Spark.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "VortexDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.Vortex.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "EyeOfTheStormDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 5
+    },
+    "EnemyDeathDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.EnemyDeath.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "CarnageOfFireDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.CarnageOfFire.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "FerocityOfWolvesDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.FerocityOfWolves.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ArcaneOrbDamageDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.ArcaneOrb.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "StaticChargeDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.StaticCharge.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "StarBladesDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.StarBlades.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "BloodDragonsDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.BloodDragons.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ArcaneApocalypseDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "FieryTotemDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.FieryTotem.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "DelusionOfZelkorsDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ElectricDragonsDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "BurningShieldDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.BurningShield.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "FireBeamDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.FireBeam.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "DragonFlameDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.DragonFlame.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ArcaneTotemDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.ArcaneTotem.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "LightningTotemDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.LightningTotem.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "FireAtomDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.FireAtom.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "LightningPlasmaDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.LightningPlasma.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ArcaneSeedDamage": {
+      "tag": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.DamageMultiplier",
+      "value": 0.03,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Items.Equipment.Trinket"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "CombatRating": {
+      "tag": "EasyRPG.Attributes.Base.CombatRating",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "DamageReductionBonus": {
+      "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "xperienceBonus": {
+      "tag": "EasyRPG.Attributes.Base.XPBonus",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "MaxHealthBonus": {
+      "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AdditionalPotionSlot": {
+      "tag": "EasyRPG.Items.Modifiers.AdditionalPotionSlots.1",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "DamageBonus%": {
+      "tag": "EasyRPG.Attributes.Base.Damage%",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "InventorySlots": {
+      "tag": "EasyRPG.Attributes.Base.InventorySlots",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "ArmorBonus": {
+      "tag": "EasyRPG.Attributes.Base.Armor%",
+      "value": 3,
+      "valuePerLevel": 1,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "HealthRegenerationBonus": {
+      "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Dragon_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Dragon.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Dragon_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Dragon_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Creatue_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Creature.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Creatue_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Creatue_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Sky_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Sky.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Sky_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Sky_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Explosion_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Explosion.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Explosion_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Explosion_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Projectile_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Projectile.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Projectile_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Projectile_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Ground_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Ground.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Ground_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Ground_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Orbit_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Orbit.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Orbit_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Orbit_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Blade_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Blade.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Blade_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Blade_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Charging_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Charging.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Charging_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Charging_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Totem_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Totem.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Totem_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Totem_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Area_Damage": {
+      "tag": "EasyRPG.OffhandCategories.Area.DamageBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Area_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Area_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EnergyRegenerationBonus": {
+      "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "MovementSpeed": {
+      "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_0": {
+      "tag": "EasyRPG.WeaponAttackModifier.PiercingFire.3ProngBoomerang",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_1": {
+      "tag": "EasyRPG.WeaponAttackModifier.WindBlast.DoubleCastRange",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_2": {
+      "tag": "EasyRPG.WeaponAttackModifier.BloodSwirl.DoubleCastRange",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_3": {
+      "tag": "EasyRPG.WeaponAttackModifier.MagicalLance.ExtraRangeAndArches",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_4": {
+      "tag": "EasyRPG.WeaponAttackModifier.PiercingArmy.DoubleCastBoomerang",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_5": {
+      "tag": "EasyRPG.WeaponAttackModifier.CorruptedSpears.TripleArrows",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_6": {
+      "tag": "EasyRPG.WeaponAttackModifier.BladeKick.ExtraCast",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_7": {
+      "tag": "EasyRPG.WeaponAttackModifier.ExplodingSeeds.DoubleSeed",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_8": {
+      "tag": "EasyRPG.WeaponAttackModifier.CycloneFrenzy.Boomerang",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_9": {
+      "tag": "EasyRPG.WeaponAttackModifier.MagicArrows.ExtraCasts",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_10": {
+      "tag": "EasyRPG.WeaponAttackModifier.CycloneShot.Boom",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_11": {
+      "tag": "EasyRPG.WeaponAttackModifier.InfusedArrow.ExtraCasts",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_12": {
+      "tag": "EasyRPG.WeaponAttackModifier.RainOfArrows.MoreArrowsBiggerRadius",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_13": {
+      "tag": "EasyRPG.WeaponAttackModifier.BlazingEarthshaker.ExtraProngs",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_14": {
+      "tag": "EasyRPG.WeaponAttackModifier.MagicalAirDance.DoubleCastRange",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_15": {
+      "tag": "EasyRPG.WeaponAttackModifier.EtherealStrike.ExtendedRage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_16": {
+      "tag": "EasyRPG.WeaponAttackModifier.MysticMaulquake.MoreSpikes",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_17": {
+      "tag": "EasyRPG.WeaponAttackModifier.BloodFrenzy.Boomerang",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_18": {
+      "tag": "EasyRPG.WeaponAttackModifier.HurricaneHavoc.Projectile",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_19": {
+      "tag": "EasyRPG.WeaponAttackModifier.EnergySpheres.BiggerSpheres",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_20": {
+      "tag": "EasyRPG.WeaponAttackModifier.FireDash.EndSpike",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_21": {
+      "tag": "EasyRPG.WeaponAttackModifier.DeathClaws.ExtraProngsBoomerang",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_22": {
+      "tag": "EasyRPG.WeaponAttackModifier.Discharge.ExtraChargeRange",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_23": {
+      "tag": "EasyRPG.WeaponAttackModifier.StarfallStrike.ExtreProngs",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_24": {
+      "tag": "EasyRPG.WeaponAttackModifier.GroundBlast.Beams",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_25": {
+      "tag": "EasyRPG.WeaponAttackModifier.ChaosMine.ExtraExplosion",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_26": {
+      "tag": "EasyRPG.WeaponAttackModifier.HolyQuake.ExtraProngs",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_27": {
+      "tag": "EasyRPG.WeaponAttackModifier.SpiralOnslaught.ExtraCast",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_28": {
+      "tag": "EasyRPG.WeaponAttackModifier.DemonicStriike.ExtraCastRange",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_29": {
+      "tag": "EasyRPG.WeaponAttackModifier.SkySwords.TripleAmount",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_30": {
+      "tag": "EasyRPG.WeaponAttackModifier.GodsWrath.CoreExplosion",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_31": {
+      "tag": "EasyRPG.WeaponAttackModifier.Whirlwind.DoubleRadius",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_32": {
+      "tag": "EasyRPG.WeaponAttackModifier.MagicalSlash.ExtraCast",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_33": {
+      "tag": "EasyRPG.WeaponAttackModifier.ShadowSlice.ExtraCast",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_34": {
+      "tag": "EasyRPG.WeaponAttackModifier.BloodyStrike.Orbit",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_35": {
+      "tag": "EasyRPG.WeaponAttackModifier.ShatteringSwipe",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_36": {
+      "tag": "EasyRPG.WeaponAttackModifier.TornadoWave.DoubleRadius",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_37": {
+      "tag": "EasyRPG.WeaponAttackModifier.AscendingPower.ExtraCastRange",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_38": {
+      "tag": "EasyRPG.WeaponAttackModifier.ThousandCuts.ExtraCast",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_SkySwords": {
+      "tag": "EasyRPG.WeaponAttackBonus.SkySwords.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_SkySwords": {
+      "tag": "EasyRPG.WeaponAttackBonus.SkySwords.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_GodsWrath": {
+      "tag": "EasyRPG.WeaponAttackBonus.GodsWrath.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_GodsWrath": {
+      "tag": "EasyRPG.WeaponAttackBonus.GodsWrath.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_Whirlwind": {
+      "tag": "EasyRPG.WeaponAttackBonus.Whirlwind.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_Whirlwind": {
+      "tag": "EasyRPG.WeaponAttackBonus.Whirlwind.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_HolyQuake": {
+      "tag": "EasyRPG.WeaponAttackBonus.HolyQuake.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_HolyQuake": {
+      "tag": "EasyRPG.WeaponAttackBonus.HolyQuake.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_SpiralOnslaught": {
+      "tag": "EasyRPG.WeaponAttackBonus.SpiralOnslaught.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_SpiralOnslaught": {
+      "tag": "EasyRPG.WeaponAttackBonus.SpiralOnslaught.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_DemonicStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.DemonicStrike.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_DemonicStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.DemonicStrike.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_WindBlast": {
+      "tag": "EasyRPG.WeaponAttackBonus.WindBlast.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_WindBlast": {
+      "tag": "EasyRPG.WeaponAttackBonus.WindBlast.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_PiercingFire": {
+      "tag": "EasyRPG.WeaponAttackBonus.PiercingFire.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_PiercingFire": {
+      "tag": "EasyRPG.WeaponAttackBonus.PiercingFire.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_BloodSwirl": {
+      "tag": "EasyRPG.WeaponAttackBonus.BloodSwirl.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_BloodSwirl": {
+      "tag": "EasyRPG.WeaponAttackBonus.BloodSwirl.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_MagicalLance": {
+      "tag": "EasyRPG.WeaponAttackBonus.MagicalLance.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_MagicalLance": {
+      "tag": "EasyRPG.WeaponAttackBonus.MagicalLance.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_CorruptedSpears": {
+      "tag": "EasyRPG.WeaponAttackBonus.CorruptedSpears.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_CorruptedSpears": {
+      "tag": "EasyRPG.WeaponAttackBonus.CorruptedSpears.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_PiercingArmy": {
+      "tag": "EasyRPG.WeaponAttackBonus.PiercingArmy.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_PiercingArmy": {
+      "tag": "EasyRPG.WeaponAttackBonus.PiercingArmy.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_MagicArrows": {
+      "tag": "EasyRPG.WeaponAttackBonus.MagicArrows.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_MagicArrows": {
+      "tag": "EasyRPG.WeaponAttackBonus.MagicArrows.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_CycloneShot": {
+      "tag": "EasyRPG.WeaponAttackBonus.CycloneShot.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_CycloneShot": {
+      "tag": "EasyRPG.WeaponAttackBonus.CycloneShot.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_BladeKick": {
+      "tag": "EasyRPG.WeaponAttackBonus.BladeKick.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_BladeKick": {
+      "tag": "EasyRPG.WeaponAttackBonus.BladeKick.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_ExplodingSeeds": {
+      "tag": "EasyRPG.WeaponAttackBonus.ExplodingSeeds.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_ExplodingSeeds": {
+      "tag": "EasyRPG.WeaponAttackBonus.ExplodingSeeds.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_InfusedArrow": {
+      "tag": "EasyRPG.WeaponAttackBonus.InfusedArrow.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_InfusedArrow": {
+      "tag": "EasyRPG.WeaponAttackBonus.InfusedArrow.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_CycloneFrenzy": {
+      "tag": "EasyRPG.WeaponAttackBonus.CycloneFrenzy.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_CycloneFrenzy": {
+      "tag": "EasyRPG.WeaponAttackBonus.CycloneFrenzy.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_RainOfArrows": {
+      "tag": "EasyRPG.WeaponAttackBonus.RainOfArrows.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_RainOfArrows": {
+      "tag": "EasyRPG.WeaponAttackBonus.RainOfArrows.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_BlazingEarthshaker": {
+      "tag": "EasyRPG.WeaponAttackBonus.BlazingEarthshaker.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_BlazingEarthshaker": {
+      "tag": "EasyRPG.WeaponAttackBonus.BlazingEarthshaker.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_MagicalAirDance": {
+      "tag": "EasyRPG.WeaponAttackBonus.MagicalAirDance.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_MagicalAirDance": {
+      "tag": "EasyRPG.WeaponAttackBonus.MagicalAirDance.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_MysticMaulquake": {
+      "tag": "EasyRPG.WeaponAttackBonus.MysticMaulquake.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_MysticMaulquake": {
+      "tag": "EasyRPG.WeaponAttackBonus.MysticMaulquake.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_EtherealStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.EtherealStrike.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_EtherealStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.EtherealStrike.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_BloodFrenzy": {
+      "tag": "EasyRPG.WeaponAttackBonus.BloodFrenzy.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_BloodFrenzy": {
+      "tag": "EasyRPG.WeaponAttackBonus.BloodFrenzy.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_HurricaneHavoc": {
+      "tag": "EasyRPG.WeaponAttackBonus.HurricaneHavoc.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_HurricaneHavoc": {
+      "tag": "EasyRPG.WeaponAttackBonus.HurricaneHavoc.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_EnergySpheres": {
+      "tag": "EasyRPG.WeaponAttackBonus.EnergySpheres.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_EnergySpheres": {
+      "tag": "EasyRPG.WeaponAttackBonus.EnergySpheres.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_StarfallStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.StarfallStrike.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_StarfallStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.StarfallStrike.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_FireDash": {
+      "tag": "EasyRPG.WeaponAttackBonus.FireDash.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_FireDash": {
+      "tag": "EasyRPG.WeaponAttackBonus.FireDash.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_DeathClaws": {
+      "tag": "EasyRPG.WeaponAttackBonus.DeathClaws.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_DeathClaws": {
+      "tag": "EasyRPG.WeaponAttackBonus.DeathClaws.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_GroundBlast": {
+      "tag": "EasyRPG.WeaponAttackBonus.GroundBlast.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_GroundBlast": {
+      "tag": "EasyRPG.WeaponAttackBonus.GroundBlast.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_ChaosMine": {
+      "tag": "EasyRPG.WeaponAttackBonus.ChaosMine.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_ChaosMine": {
+      "tag": "EasyRPG.WeaponAttackBonus.ChaosMine.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_Discharge": {
+      "tag": "EasyRPG.WeaponAttackBonus.Discharge.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_Discharge": {
+      "tag": "EasyRPG.WeaponAttackBonus.Discharge.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_ShatteringSwipe": {
+      "tag": "EasyRPG.WeaponAttackBonus.ShatteringSwipe.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_ShatteringSwipe": {
+      "tag": "EasyRPG.WeaponAttackBonus.ShatteringSwipe.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_ShadowSlice": {
+      "tag": "EasyRPG.WeaponAttackBonus.ShadowSlice.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_ShadowSlice": {
+      "tag": "EasyRPG.WeaponAttackBonus.ShadowSlice.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_BloodyStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.BloodyStrike.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_BloodyStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.BloodyStrike.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_Tornadowave": {
+      "tag": "EasyRPG.WeaponAttackBonus.Tornadowave.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_Tornadowave": {
+      "tag": "EasyRPG.WeaponAttackBonus.Tornadowave.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_AscendingPower": {
+      "tag": "EasyRPG.WeaponAttackBonus.AscendingPower.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_AscendingPower": {
+      "tag": "EasyRPG.WeaponAttackBonus.AscendingPower.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_ThousandCuts": {
+      "tag": "EasyRPG.WeaponAttackBonus.ThousandCuts.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_ThousandCuts": {
+      "tag": "EasyRPG.WeaponAttackBonus.ThousandCuts.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "LargeChargedSecondaryArmor": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "LargeChargedSecondaryArmor_0": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "BerserkerFuryFireDamage": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Fire",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "LargeBerserkerFuryFireDamage": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Fire",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "BerserkerFuryArcaneDamage": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Arcane",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "LargeBerserkerFuryArcaneDamage": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Arcane",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "BerserkerFuryLightningDamage": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Lightning",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "LargeBerserkerFuryLightningDamage": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Lightning",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "BerserkerFuryFireDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Fire_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "BerserkerFuryArcaneDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Arcane_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "BerserkerFuryLightningDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Lightning_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "LargeBerserkerFuryFireDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Fire_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "LargeBerserkerFuryArcaneDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Arcane_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "LargeBerserkerFuryLightningDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Lightning_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackModifier.ShatteringSwipe.DoubleAreaBoomerang": {
+      "tag": "EasyRPG.WeaponAttackModifier.ShatteringSwipe.DoubleAreaBoomerang",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.MagicalSlash.EnergyReduction": {
+      "tag": "EasyRPG.WeaponAttackBonus.MagicalSlash.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.MagicalSlash.Damage": {
+      "tag": "EasyRPG.WeaponAttackBonus.MagicalSlash.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.DistanceProcsDamage_Near_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage_Near_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.DistanceProcsDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack.Large_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack.Large_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.MeleeParagon.BaseDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.MeleeParagon.BaseDamage_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.MeleeParagon.Armor_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.MeleeParagon.Armor_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.RangedParagon.BaseDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.RangedParagon.BaseDamage_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.RangedParagon.Armor_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.RangedParagon.Armor_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage.Large_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Large_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%.Large_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%.Large_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.DamageCircle.ExtraDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.ExtraDamage_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.DamageCircle.BonusArmor%_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BonusArmor%_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.DamageCircle.BonusRadius_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BonusRadius_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.DamageCircle.BiggerRadius_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BiggerRadius_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack.Large_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack.Large_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor.Small_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor.Small_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor_TextTag",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Small": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Small",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "FishQuality": {
+      "tag": "EasyRPG.Attributes.Fishing.FishQuality",
+      "value": 6,
+      "valuePerLevel": 1,
+      "itemTags": [
+        "EasyRPG.Attributes.Fishing"
+      ],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "FistsDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+      "value": 0.02,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Common"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "FistsCriticalDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+      "value": 0.02,
+      "valuePerLevel": 0.004,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Common"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "FistsCriticalChance%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalChance%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Common"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_BlindedByRage": {
+      "tag": "EasyRPG.WeaponAttackBonus.BlindedByRage.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_ZenMeditation": {
+      "tag": "EasyRPG.WeaponAttackBonus.ZenMeditation.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_DeathlyRevolver": {
+      "tag": "EasyRPG.WeaponAttackBonus.SpinMaster.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_FerventPunch": {
+      "tag": "EasyRPG.WeaponAttackBonus.TurboPunch.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_SoulStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.BidingTime.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_EnergyReduction_GroundPound": {
+      "tag": "EasyRPG.WeaponAttackBonus.GroundPound.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_BlindedByRage": {
+      "tag": "EasyRPG.WeaponAttackBonus.BlindedByRage.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_ZenMeditation": {
+      "tag": "EasyRPG.WeaponAttackBonus.ZenMeditation.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_DeathlyRevolver": {
+      "tag": "EasyRPG.WeaponAttackBonus.SpinMaster.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_FerventPunch": {
+      "tag": "EasyRPG.WeaponAttackBonus.TurboPunch.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_SoulStrike": {
+      "tag": "EasyRPG.WeaponAttackBonus.BidingTime.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "AttackBonus_Damage_GroundPound": {
+      "tag": "EasyRPG.WeaponAttackBonus.GroundPound.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_39": {
+      "tag": "EasyRPG.WeaponAttackModifier.BlindedByRage.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_40": {
+      "tag": "EasyRPG.WeaponAttackModifier.ZenMeditation.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_41": {
+      "tag": "EasyRPG.WeaponAttackModifier.SpinMaster.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_42": {
+      "tag": "EasyRPG.WeaponAttackModifier.TurboPunch.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_43": {
+      "tag": "EasyRPG.WeaponAttackModifier.BidingTime.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Empowered_44": {
+      "tag": "EasyRPG.WeaponAttackModifier.GroundPound.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Hazard_Damage%": {
+      "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "Affinity_Hazard_Cooldown": {
+      "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.GlobalModifiersMult%..Arcane": {
+      "tag": "EasyRPG.Attributes.GlobalModifiersMult%..Arcane",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.GlobalModifiersMult%..Fire": {
+      "tag": "EasyRPG.Attributes.GlobalModifiersMult%..Fire",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.GlobalModifiersMult%..Lightning": {
+      "tag": "EasyRPG.Attributes.GlobalModifiersMult%..Lightning",
+      "value": 3,
+      "valuePerLevel": 0.5,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.StanceMultiplier.Swords": {
+      "tag": "EasyRPG.StanceMultiplier.Swords",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.StanceMultiplier.Axes": {
+      "tag": "EasyRPG.StanceMultiplier.Axes",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.StanceMultiplier.Magery": {
+      "tag": "EasyRPG.StanceMultiplier.Magery",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.StanceMultiplier.Archery": {
+      "tag": "EasyRPG.StanceMultiplier.Archery",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.StanceMultiplier.Mauls": {
+      "tag": "EasyRPG.StanceMultiplier.Mauls",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.StanceMultiplier.Spear": {
+      "tag": "EasyRPG.StanceMultiplier.Spear",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.StanceMultiplier.Fists": {
+      "tag": "EasyRPG.StanceMultiplier.Fists",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.Base.Damage.Display": {
+      "tag": "EasyRPG.Attributes.Base.Damage.Display",
+      "value": 6,
+      "valuePerLevel": 1,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.Damage.Multiplier": {
+      "tag": "EasyRPG.Attributes.Damage.Multiplier",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.Armor.Multiplier": {
+      "tag": "EasyRPG.Attributes.Armor.Multiplier",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.CriticalDamage.Multiplier": {
+      "tag": "EasyRPG.Attributes.CriticalDamage.Multiplier",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "ScythesDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+      "value": 0.02,
+      "valuePerLevel": 0.01,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Scythe"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ScythesCriticalDamage%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+      "value": 0.02,
+      "valuePerLevel": 0.004,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Scythe"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "ScythesCriticalChance%": {
+      "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%",
+      "value": 0.01,
+      "valuePerLevel": 0.002,
+      "itemTags": [
+        "EasyRPG.Items.Stance.Scythe"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "EasyRPG.StanceMultiplier.Scythe": {
+      "tag": "EasyRPG.StanceMultiplier.Scythe",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.BoneSurge.Damage": {
+      "tag": "EasyRPG.WeaponAttackBonus.BoneSurge.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.LeechingSpecter.Damage": {
+      "tag": "EasyRPG.WeaponAttackBonus.LeechingSpecter.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.DeathboltFrenzy.Damage": {
+      "tag": "EasyRPG.WeaponAttackBonus.DeathboltFrenzy.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.NecroticMalestrom.Damage": {
+      "tag": "EasyRPG.WeaponAttackBonus.NecroticMalestrom.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.SoulrendCrescent.Damage": {
+      "tag": "EasyRPG.WeaponAttackBonus.SoulrendCrescent.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.EchoedTorment.Damage": {
+      "tag": "EasyRPG.WeaponAttackBonus.EchoedTorment.Damage",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.BoneSurge.EnergyReduction": {
+      "tag": "EasyRPG.WeaponAttackBonus.BoneSurge.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.LeechingSpecter.EnergyReduction": {
+      "tag": "EasyRPG.WeaponAttackBonus.LeechingSpecter.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.DeathboltFrenzy.EnergyReduction": {
+      "tag": "EasyRPG.WeaponAttackBonus.DeathboltFrenzy.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.NecroticMalestrom.EnergyReduction": {
+      "tag": "EasyRPG.WeaponAttackBonus.NecroticMalestrom.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.SoulrendCrescent.EnergyReduction": {
+      "tag": "EasyRPG.WeaponAttackBonus.SoulrendCrescent.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackBonus.EchoedTorment.EnergyReduction": {
+      "tag": "EasyRPG.WeaponAttackBonus.EchoedTorment.EnergyReduction",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackModifier.BoneSurge.Empowered": {
+      "tag": "EasyRPG.WeaponAttackModifier.BoneSurge.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackModifier.LeechingSpecter.Empowered": {
+      "tag": "EasyRPG.WeaponAttackModifier.LeechingSpecter.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackModifier.DeathboltFrenzy.Empowered": {
+      "tag": "EasyRPG.WeaponAttackModifier.DeathboltFrenzy.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackModifier.NecroticMalestrom.Empowered": {
+      "tag": "EasyRPG.WeaponAttackModifier.NecroticMalestrom.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackModifier.SoulrendCrescent.Empowered": {
+      "tag": "EasyRPG.WeaponAttackModifier.SoulrendCrescent.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.WeaponAttackModifier.EchoedTorment.Empowered": {
+      "tag": "EasyRPG.WeaponAttackModifier.EchoedTorment.Empowered",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.Abilities.CollectContainer.Upgrade": {
+      "tag": "EasyRPG.Attributes.Abilities.CollectContainer.Upgrade",
+      "value": 0,
+      "valuePerLevel": -0.5,
+      "itemTags": [
+        "EasyRPG.Attributes.Abilities.CollectContainer.Upgrade"
+      ],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.CooldownReduction%": {
+      "tag": "EasyRPG.Attributes.CooldownReduction%",
+      "value": 0.01,
+      "valuePerLevel": 0.005,
+      "itemTags": [
+        "EasyRPG.Attributes.CooldownReduction%"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.Base.ElementalDamage": {
+      "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+      "value": 6,
+      "valuePerLevel": 1,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": true,
+      "minItemLevel": 0
+    },
+    "DamageBonus%_0": {
+      "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "EasyRPG.Attributes.Base.ElementalDamage.Display": {
+      "tag": "EasyRPG.Attributes.Base.ElementalDamage.Display",
+      "value": 6,
+      "valuePerLevel": 1,
+      "itemTags": [
+        "EasyRPG.Attributes.Base"
+      ],
+      "canRoll": false,
+      "minItemLevel": 0
+    },
+    "RandomDamage": {
+      "tag": "None",
+      "value": 0,
+      "valuePerLevel": 0,
+      "itemTags": [],
+      "canRoll": false,
+      "minItemLevel": 0
+    }
+  }
+}

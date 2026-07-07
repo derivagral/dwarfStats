@@ -487,11 +487,13 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ---------------------------------------------------------------------------
   // DAMAGE% FOR STAT2 (Bracer - 1% per 50 highest stat)
   // ---------------------------------------------------------------------------
+  // Game text (DT_Attributes): "Gain 1% Elemental Damage for every 40 of your
+  // highest stat." — elemental-only, same effect as Damage%ForStat.Highest.
   'Damage%ForStat2.Highest': {
     displayName: 'Stat Damage% II',
-    description: '+1% damage per 30 of highest stat (both damage types)',
+    description: '+1% elemental damage per 40 of highest stat',
     effects: [
-      { derivedStatId: 'damagePercentForStat2', config: { enabled: true, damagePerInterval: 1, statInterval: 30 } },
+      { derivedStatId: 'damagePercentForStat2', config: { enabled: true, damagePerInterval: 1, statInterval: 40 } },
     ],
   },
 
@@ -671,11 +673,30 @@ export const MONOGRAM_CALC_CONFIGS = {
       { derivedStatId: 'statDamageFlatBonus', config: { enabled: true, damagePerInterval: 1, statInterval: 75 } },
     ],
   },
+  // Game text (DT_Attributes): "Gain 2% Elemental Damage for every 10 essence
+  // available." — elemental-only, not both types.
   'BonusDamage%ForEssence': {
-    displayName: 'Damage from Essence',
-    description: '+2% damage (both types) per 10 essence (lose 20% essence as HP/sec)',
+    displayName: 'Elemental from Essence',
+    description: '+2% elemental damage per 10 essence',
     effects: [
-      { derivedStatId: 'damageFromEssence', config: { enabled: true, percentPerInterval: 2, essenceInterval: 10 } },
+      { derivedStatId: 'elementalFromEssence', config: { enabled: true, percentPerInterval: 2, essenceInterval: 10 } },
+    ],
+  },
+  // Game text: "Gain 1.5 Elemental Damage for every 20 essence available."
+  'BonusDamageForEssence': {
+    displayName: 'Elemental Flat from Essence',
+    description: '+1.5 flat elemental damage per 20 essence',
+    effects: [
+      { derivedStatId: 'elementalFlatFromEssence', config: { enabled: true, flatPerInterval: 1.5, essenceInterval: 20 } },
+    ],
+  },
+  // Identical effect text to BonusDamageForEssence in game data (likely a
+  // data-side copy); wired the same so either tag computes.
+  'PotionsAsDamageBuff': {
+    displayName: 'Elemental Flat from Essence (Potions)',
+    description: '+1.5 flat elemental damage per 20 essence',
+    effects: [
+      { derivedStatId: 'elementalFlatFromEssence', config: { enabled: true, flatPerInterval: 1.5, essenceInterval: 20 } },
     ],
   },
   'MaxHp%ForStat.Highest': {
@@ -686,9 +707,28 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'DR from Stats',
     effects: [],
   },
+  // Berserker Fury elemental scaling (confirmed tags; fire scales per 30,
+  // arcane/lightning per 40 — DT_Attributes descriptions).
+  'Colossus.ElementalBonusForHighestStat.Fire': {
+    displayName: 'Fire from Stats (Colossus)',
+    description: '+5% elemental damage per 30 of highest stat (Berserker Fury)',
+    effects: [
+      { derivedStatId: 'berserkerElementalFromHighest', config: { enabled: true, percentPerInterval: 5, statInterval: 30 } },
+    ],
+  },
   'Colossus.ElementalBonusForHighestStat.Arcane': {
     displayName: 'Arcane from Stats (Colossus)',
-    effects: [],
+    description: '+5% arcane damage per 40 of highest stat (Berserker Fury)',
+    effects: [
+      { derivedStatId: 'berserkerElementalFromHighest', config: { enabled: true, percentPerInterval: 5, statInterval: 40 } },
+    ],
+  },
+  'Colossus.ElementalBonusForHighestStat.Lightning': {
+    displayName: 'Lightning from Stats (Colossus)',
+    description: '+5% lightning damage per 40 of highest stat (Berserker Fury)',
+    effects: [
+      { derivedStatId: 'berserkerElementalFromHighest', config: { enabled: true, percentPerInterval: 5, statInterval: 40 } },
+    ],
   },
 
   // ===========================================================================
@@ -703,9 +743,14 @@ export const MONOGRAM_CALC_CONFIGS = {
       baseValue: 1,
     },
   },
+  // Game text: "gain 2% damage reduction each time you're hit. Upon reaching
+  // maximum damage reduction, gain +100 Physical damage."
   'Colossus.DamageReduction': {
     displayName: 'Colossus DR',
-    derivedStatId: null,
+    description: '+2% DR when hit; +100 physical damage at max DR (Berserker Fury)',
+    effects: [
+      { derivedStatId: 'berserkerMaxDrFlatDamage', config: { enabled: true, flatDamage: 100 } },
+    ],
   },
   'DamageCircle.DamageForStats.Highest': {
     displayName: 'Circle Damage from HP',
@@ -736,52 +781,12 @@ export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   // ELEMENTAL-SPLIT MONOGRAMS (post ele/phys split)
   //
-  // NOTE: The save-data tag IDs for several of these new/reworked monograms are
-  // not yet confirmed from a fresh save. The keys below are descriptive
-  // placeholders so the calc wiring is in place; they should be renamed to the
-  // real `EasyRPG.Items.Modifiers.*` suffixes once observed in save data. They
-  // are off by default and only activate when matched, so unmatched keys are
-  // harmless.
+  // Tag IDs confirmed against DT_Attributes (extracted game data). The
+  // descriptions quote the in-game effect text.
   // ===========================================================================
 
-  // Berserker Fury: +5% elemental per 30 of highest stat (was per-element /40)
-  'BerserkerFury.ElementalForHighest': {
-    displayName: 'Berserker Elemental',
-    description: '+5% elemental damage per 30 of highest stat (Berserker Fury)',
-    effects: [
-      { derivedStatId: 'berserkerElementalFromHighest', config: { enabled: true, percentPerInterval: 5, statInterval: 30 } },
-    ],
-  },
-
-  // Berserker Fury: +100 physical damage at max stacking damage reduction
-  'BerserkerFury.MaxDrDamage': {
-    displayName: 'Berserker Max-DR Damage',
-    description: '+100 physical damage at max damage reduction (Berserker Fury)',
-    effects: [
-      { derivedStatId: 'berserkerMaxDrFlatDamage', config: { enabled: true, flatDamage: 100 } },
-    ],
-  },
-
-  // +2% elemental per 10 essence (was 1.5%)
-  'ElementalDamage%ForEssence': {
-    displayName: 'Elemental from Essence',
-    description: '+2% elemental damage per 10 essence',
-    effects: [
-      { derivedStatId: 'elementalFromEssence', config: { enabled: true, percentPerInterval: 2, essenceInterval: 10 } },
-    ],
-  },
-
-  // +1.5 flat elemental per 20 essence (new)
-  'ElementalFlatForEssence': {
-    displayName: 'Elemental Flat from Essence',
-    description: '+1.5 flat elemental damage per 20 essence',
-    effects: [
-      { derivedStatId: 'elementalFlatFromEssence', config: { enabled: true, flatPerInterval: 1.5, essenceInterval: 20 } },
-    ],
-  },
-
-  // +1% elemental per 40 of highest stat (was per 50)
-  'ElementalDamage%ForHighest': {
+  // "Gain 1% Elemental Damage for every 40 of your highest stat."
+  'Damage%ForStat.Highest': {
     displayName: 'Elemental from Stats',
     description: '+1% elemental damage per 40 of highest stat',
     effects: [
@@ -789,8 +794,9 @@ export const MONOGRAM_CALC_CONFIGS = {
     ],
   },
 
-  // Dark Shroud: +0.15% elemental per stack per 50 of highest stat (was 1.5%)
-  'Shroud.ElementalForHighest': {
+  // "Gain 0.15% Elemental Damage per Dark Shroud stack for every 50 of your
+  // highest stat"
+  'Shroud.damageScale.HighestStat': {
     displayName: 'Shroud Elemental (Highest)',
     description: '+0.15% elemental per Dark Shroud stack per 50 of highest stat',
     effects: [
@@ -798,8 +804,8 @@ export const MONOGRAM_CALC_CONFIGS = {
     ],
   },
 
-  // Phasing: +1% damage (both types) per 10 seconds of phasing
-  'Phasing.DurationDamage': {
+  // "Every 10 seconds of Phasing grants you 1% damage." (generic → both types)
+  'Phasing.Damage%': {
     displayName: 'Phasing Duration Damage',
     description: '+1% damage (both types) per 10s of phasing',
     effects: [
@@ -807,9 +813,9 @@ export const MONOGRAM_CALC_CONFIGS = {
     ],
   },
 
-  // Elemental → Physical FLAT conversion: gain 75% of elemental damage as
-  // physical damage; can no longer deal elemental damage.
-  'ElementalToPhysical.Flat': {
+  // "Gain 75% of your elemental damage as Physical damage. you can no longer
+  // deal elemental damage."
+  'EleAsBasePhys': {
     displayName: 'Elemental→Physical (Flat)',
     description: 'Gain 75% of elemental damage as physical; elemental disabled',
     effects: [
@@ -818,9 +824,9 @@ export const MONOGRAM_CALC_CONFIGS = {
     ],
   },
 
-  // Elemental → Physical BONUS conversion: gain 75% of elemental damage bonus
-  // as physical damage bonus; can no longer deal elemental damage.
-  'ElementalToPhysical.Bonus': {
+  // "Gain 75% of your elemental damage bonus as Physical damage bonus. you can
+  // no longer deal elemental damage."
+  'BonusEleAsBonusPhys': {
     displayName: 'Elemental→Physical (Bonus)',
     description: 'Gain 75% of elemental damage bonus as physical damage bonus; elemental disabled',
     effects: [
@@ -829,9 +835,9 @@ export const MONOGRAM_CALC_CONFIGS = {
     ],
   },
 
-  // Essence damage drain variant (lose 20% essence as HP/sec). Damage portion
-  // shares the damageFromEssence derived stat.
-  'Damage%ForEssence.HealthDrain': {
+  // "Gain 2% Damage for every 10 points of unspent Essence, but lose 20% of
+  // unspent essence as Health per second." (generic damage → both types)
+  'GlobalEssenceDamageHpDrain': {
     displayName: 'Essence Damage (Health Drain)',
     description: '+2% damage (both types) per 10 essence; lose 20% essence as HP/sec',
     effects: [

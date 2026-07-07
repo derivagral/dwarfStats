@@ -311,7 +311,9 @@ describe('skillTreeRegistry', () => {
     it('should find known weapon skills', () => {
       expect(getWeaponSkillDef('PolearmDamage')).toBeDefined();
       expect(getWeaponSkillDef('PolearmDamage').type).toBe('paragon');
-      expect(getWeaponSkillDef('PolearmDamage').statId).toBe('spearDamage');
+      // Game data: PolearmDamage sits in DT_Skills_Mauls with the PoleArm%
+      // tag — it is the mauls paragon, not spear.
+      expect(getWeaponSkillDef('PolearmDamage').statId).toBe('maulDamage');
     });
 
     it('should identify ability nodes', () => {
@@ -343,7 +345,8 @@ describe('skillTreeRegistry', () => {
 
     it('getWeaponSkillsByType should filter correctly', () => {
       const spearSkills = getWeaponSkillsByType('spear');
-      expect(spearSkills).toHaveLength(15);
+      // 14 after PolearmDamage moved to mauls (its actual game table)
+      expect(spearSkills).toHaveLength(14);
       expect(spearSkills.every(s => s.weapon === 'spear')).toBe(true);
     });
   });

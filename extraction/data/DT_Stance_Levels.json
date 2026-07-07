@@ -1,0 +1,59 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_Stance_Levels",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Stance_Levels",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_StanceSkillLevels'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/STR_StanceSkillLevels.0"
+      }
+    },
+    "Rows": {
+      "0": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 6000
+      },
+      "1": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 5040
+      },
+      "2": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 4320
+      },
+      "3": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 3600
+      },
+      "4": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 3000
+      },
+      "5": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 2400
+      },
+      "6": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 1920
+      },
+      "7": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 1560
+      },
+      "8": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 1200
+      },
+      "9": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 900
+      },
+      "10": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 500
+      },
+      "11": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 420
+      },
+      "12": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 200
+      },
+      "13": {
+        "Amount_3_49667A54409C693935FA3D9E35270902": 100
+      }
+    }
+  }
+]

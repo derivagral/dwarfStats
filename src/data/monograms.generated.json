@@ -1,0 +1,2816 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "monograms": {
+    "EnergyNoHPRegen": {
+      "tag": "EasyRPG.Items.Modifiers.EnergyNoHPRegen",
+      "description": "Gain massive energy regeneration but have no health regeneration, no Lifesteal, and no potions.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoHealthRegen",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoPotions",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoLifeSteal",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 35
+        }
+      ]
+    },
+    "DamageGainNoEnergy": {
+      "tag": "EasyRPG.Items.Modifiers.DamageGainNoEnergy",
+      "description": "Gain 300 damage but no longer have any Energy.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 300
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoEnergy",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 300
+        }
+      ]
+    },
+    "DexterityNoLifeStealNoRegen": {
+      "tag": "EasyRPG.Items.Modifiers.DexterityNoLifeStealNoRegen",
+      "description": "Gain 500 dexterity but have no Lifesteal and no health regeneration.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoLifeSteal",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoHealthRegen",
+          "value": 1
+        }
+      ]
+    },
+    "AllDeathProcsOnHit": {
+      "tag": "EasyRPG.Items.Modifiers.AllDeathProcsOnHit",
+      "description": "All on-death effects can now occur on hit.",
+      "effects": []
+    },
+    "RandomAbilityAfterRoll": {
+      "tag": "EasyRPG.Items.Modifiers.RandomAbilityAfterRoll",
+      "description": "After a roll, have a chance to leave a random ability on the ground.",
+      "effects": []
+    },
+    "DamageBonusAnd51Damage": {
+      "tag": "EasyRPG.Items.Modifiers.DamageBonusAnd51Damage",
+      "description": "Gain 300 damage, and any damage you take will deal at least 50% of your health.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 300
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.Force51HealthPercentDamage",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 300
+        }
+      ]
+    },
+    "DoubleFossilNoCards": {
+      "tag": "EasyRPG.Items.Modifiers.DoubleFossilNoCards",
+      "description": "All your Infused Rupture cards have no effect on you, but your fossil bonuses are doubled (NOT WORKING).",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.ForceNoCards",
+          "value": 1
+        }
+      ]
+    },
+    "HealthRegenNoPotion": {
+      "tag": "EasyRPG.Items.Modifiers.HealthRegenNoPotion",
+      "description": "Gain 100% Health regeneration, but you can no longer use potions.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoPotions",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 1
+        }
+      ]
+    },
+    "FullHotbarNoCrit": {
+      "tag": "EasyRPG.Items.Modifiers.FullHotbarNoCrit",
+      "description": "Lose all critical chance, but all base damage of weapons on hotbar stack together.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.ForceNoCritChance",
+          "value": 1
+        }
+      ]
+    },
+    "SlowMovementHighDamage": {
+      "tag": "EasyRPG.Items.Modifiers.SlowMovementHighDamage",
+      "description": "Move extremely slowly but gain 300 damage.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.ForceSlowMovement",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 300
+        }
+      ]
+    },
+    "ProcsTake100EnergyHighDamage": {
+      "tag": "EasyRPG.Items.Modifiers.ProcsTake100EnergyHighDamage",
+      "description": "Your basic abilities cost 100 energy, but you gain a 200% damage bonus.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 2
+        }
+      ]
+    },
+    "PulseExplosion": {
+      "tag": "EasyRPG.Items.Modifiers.PulseExplosion",
+      "description": "Every few seconds, your character will pulse with exploding energy.",
+      "effects": []
+    },
+    "DistanceProcsDamage": {
+      "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage",
+      "name": "Distance Demolition Damage",
+      "description": "If your attacks hit further than 6 meters, gain extra 50% damage",
+      "effects": []
+    },
+    "DexterityToDamage": {
+      "tag": "EasyRPG.Items.Modifiers.DexterityToDamage",
+      "description": "For every 20 points in dexterity, gain 1% damage bonus.",
+      "effects": []
+    },
+    "LuckToDamage": {
+      "tag": "EasyRPG.Items.Modifiers.LuckToDamage",
+      "description": "For every 20 points in luck, gain 1% damage bonus.",
+      "effects": []
+    },
+    "ElvenLevelsToXP": {
+      "tag": "EasyRPG.Items.Modifiers.ElvenLevelsToXP",
+      "description": "For every point in the crafting skill \\",
+      "effects": []
+    },
+    "DamageFromDestructableEnv": {
+      "tag": "EasyRPG.Items.Modifiers.DamageFromDestructableEnv",
+      "description": "When destroying environment in rupture, gain a damage buff, these stack.",
+      "effects": []
+    },
+    "DexFromContainers": {
+      "tag": "EasyRPG.Items.Modifiers.DexFromContainers",
+      "description": "For every container opened in rupture, gain a 20 base dexterity buff for 30 seconds; stacks up to 10.",
+      "effects": []
+    },
+    "LuckFromContainers": {
+      "tag": "EasyRPG.Items.Modifiers.LuckFromContainers",
+      "description": "For every container opened in rupture, gain a 20 base luck buff for 30 seconds; stacks up to 10.",
+      "effects": []
+    },
+    "LargeStonesInContainers": {
+      "tag": "EasyRPG.Items.Modifiers.LargeStonesInContainers",
+      "description": "Containers in ruptures have a chance to drop large gems.",
+      "effects": []
+    },
+    "SharedInfusedBeetles": {
+      "tag": "EasyRPG.Items.Modifiers.SharedInfusedBeetles",
+      "description": "When killing an Infused Beetle, share reward with entire fellowship.",
+      "effects": []
+    },
+    "SharedImbunedBeetles": {
+      "tag": "EasyRPG.Items.Modifiers.SharedImbunedBeetles",
+      "description": "When killing an Imbued Beetle, share reward with entire fellowship.",
+      "effects": []
+    },
+    "PotionsAsDamageBuff": {
+      "tag": "EasyRPG.Items.Modifiers.PotionsAsDamageBuff",
+      "description": "Gain 1.5 Elemental Damage for every 20 essence available.",
+      "effects": []
+    },
+    "GainExtraEssence": {
+      "tag": "EasyRPG.Items.Modifiers.GainExtraEssence",
+      "description": "Gain 33% Chance to get Double Essence.",
+      "effects": []
+    },
+    "AlwaysGainEssence": {
+      "tag": "EasyRPG.Items.Modifiers.AlwaysGainEssence",
+      "description": "Every enemy killed in a rupture will have increased chance to grant essence.",
+      "effects": []
+    },
+    "BonusDamage%ForEssence": {
+      "tag": "EasyRPG.Items.Modifiers.BonusDamage%ForEssence",
+      "description": "Gain 2% Elemental Damage for every 10 essence available.",
+      "effects": []
+    },
+    "ChanceToSpawnElectricHound": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnElectricHound",
+      "description": "Gain an 8% chance to spawn an Energized Hellhound, dealing Lightning Damage infront of it for 6 seconds. Energized Hellhound benefits from your Lightning Damage bonus",
+      "effects": []
+    },
+    "ChanceToSpawnFireGolem": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnFireGolem",
+      "description": "Gain an 8% chance to spawn Mecha Golems, dealing Fire Damage infront of them for 6 seconds. Mecha Golems benefit from your Fire Damage bonus",
+      "effects": []
+    },
+    "ChanceToSpawnElysia": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnElysia",
+      "description": "A chance to spawn an image of the Elysia next to you, dealing fire damage equal to your offhands. It will also grant a 30% fire damage buff for 30 seconds.",
+      "effects": []
+    },
+    "GoldOnDailyComplete": {
+      "tag": "EasyRPG.Items.Modifiers.GoldOnDailyComplete",
+      "description": "After completing all dailies, gain 300,000 gold.",
+      "effects": []
+    },
+    "CritDamageForArmor": {
+      "tag": "EasyRPG.Items.Modifiers.CritDamageForArmor",
+      "description": "Gain 1% Critical Damage for every 500 Armor.",
+      "effects": []
+    },
+    "CritChanceForEnergyRegen": {
+      "tag": "EasyRPG.Items.Modifiers.CritChanceForEnergyRegen",
+      "description": "Gain 1% Critical Chance for every Energy regeneration point.",
+      "effects": []
+    },
+    "DoubleBuffLength": {
+      "tag": "EasyRPG.Items.Modifiers.DoubleBuffLength",
+      "description": "Blessing duration is doubled.",
+      "effects": []
+    },
+    "EnergyConsumptionReduceHalf": {
+      "tag": "EasyRPG.Items.Modifiers.EnergyConsumptionReduceHalf",
+      "description": "Energy consumption is reduced by 50%.",
+      "effects": []
+    },
+    "GlyphChargedBonusFromAgiWisLuck": {
+      "tag": "EasyRPG.Items.Modifiers.GlyphChargedBonusFromAgiWisLuck",
+      "description": "For every 100 agility, wisdom, or luck, gain another 100% damage to your glyph charged attack.",
+      "effects": []
+    },
+    "Gain2ChargedGlyphRunes": {
+      "tag": "EasyRPG.Items.Modifiers.Gain2ChargedGlyphRunes",
+      "description": "Secondary Ability now charges three times as fast.",
+      "effects": []
+    },
+    "OffhandsProcChance100Percent": {
+      "tag": "EasyRPG.Items.Modifiers.OffhandsProcChance100Percent",
+      "description": "All your offhands have a 75% trigger chance.",
+      "effects": []
+    },
+    "DoubleFellowshipXp": {
+      "tag": "EasyRPG.Items.Modifiers.DoubleFellowshipXp",
+      "description": "Generate twice as much fellowship experience points.",
+      "effects": []
+    },
+    "CompleteRuptureFellowsGetXP": {
+      "tag": "EasyRPG.Items.Modifiers.CompleteRuptureFellowsGetXP",
+      "description": "When completing dailies, other active fellowship members will gain 20% of their current level XP.",
+      "effects": []
+    },
+    "FellowshipRuptureBossBuff": {
+      "tag": "EasyRPG.Items.Modifiers.FellowshipRuptureBossBuff",
+      "description": "When killing a Rupture Lord, other active fellowship members gain a damage Blessing.",
+      "effects": []
+    },
+    "FellowshipChargeAllGlyphs": {
+      "tag": "EasyRPG.Items.Modifiers.FellowshipChargeAllGlyphs",
+      "description": "When using your glyph rune charged ability, all other fellowship members' glyph abilities gain charges.",
+      "effects": []
+    },
+    "GainCritDamageForCritChance": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritDamageForCritChance",
+      "description": "Gain 1% Critical Damage for each 1% Critical Chance above 100%.",
+      "effects": []
+    },
+    "GainCritChanceForDex": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritChanceForDex",
+      "description": "Gain 1% Critical Chance for every 50 Dexterity.",
+      "effects": []
+    },
+    "GainCritChanceForLuck": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritChanceForLuck",
+      "description": "Gain 1% Critical Chance for every 50 Luck.",
+      "effects": []
+    },
+    "BonusCritChance%ForEssence": {
+      "tag": "EasyRPG.Items.Modifiers.BonusCritChance%ForEssence",
+      "description": "Gain 1.5% Crit Chance for every 20 essence available.",
+      "effects": []
+    },
+    "ArcaneArrowBonusForPhantasmArchers": {
+      "tag": "EasyRPG.Items.Modifiers.ArcaneArrowBonusForPhantasmArchers",
+      "description": "When your 2 phantasm archers are active, your exploding arcane arrow will do 5x damage.",
+      "effects": []
+    },
+    "FellowshipBubbleShare": {
+      "tag": "EasyRPG.Items.Modifiers.FellowshipBubbleShare",
+      "description": "When you activate your Maul Divine Shield, there's a chance that all other fellowship members also gain a Divine Shield.",
+      "effects": []
+    },
+    "RandomArcaneAbilityAfterRoll": {
+      "tag": "EasyRPG.Items.Modifiers.RandomArcaneAbilityAfterRoll",
+      "description": "After a roll, have a chance to leave a random arcane ability on the ground.",
+      "effects": []
+    },
+    "RandomFireAbilityAfterRoll": {
+      "tag": "EasyRPG.Items.Modifiers.RandomFireAbilityAfterRoll",
+      "description": "After a roll, have a chance to leave a random fire ability on the ground.",
+      "effects": []
+    },
+    "RandomLightningAbilityAfterRoll": {
+      "tag": "EasyRPG.Items.Modifiers.RandomLightningAbilityAfterRoll",
+      "description": "After a roll, have a chance to leave a random lightning ability on the ground.",
+      "effects": []
+    },
+    "ExplodingFireMineNode": {
+      "tag": "EasyRPG.Items.Modifiers.ExplodingFireMineNode",
+      "description": "When mining a node, it explodes causing a wave of Fire Damage to enemies around it. Gain a 5% Fire Damage bonus for 60 seconds, stacks up to 20.",
+      "effects": []
+    },
+    "ExplodingArcaneMineNode": {
+      "tag": "EasyRPG.Items.Modifiers.ExplodingArcaneMineNode",
+      "description": "When mining a node, it explodes causing a wave of Arcane damage to enemies around it. Gain a 5% Arcane Damage bonus for 60 seconds, stacks up to 20.",
+      "effects": []
+    },
+    "ExplodingLightningMineNode": {
+      "tag": "EasyRPG.Items.Modifiers.ExplodingLightningMineNode",
+      "description": "When mining a node, it explodes causing a wave of Lightning damage to enemies around it. Gain a 5% Lightning Damage bonus for 60 seconds, stacks up to 20.",
+      "effects": []
+    },
+    "SmallSlugRuptureTimeBuff": {
+      "tag": "EasyRPG.Items.Modifiers.SmallSlugRuptureTimeBuff",
+      "description": "When you kill a small slug, gain +3 seconds to rupture timer.",
+      "effects": []
+    },
+    "LifeStealToEnergySteal": {
+      "tag": "EasyRPG.Items.Modifiers.LifeStealToEnergySteal",
+      "description": "Lifesteal is now Energy steal.",
+      "effects": []
+    },
+    "ExtraLifeSteal": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraLifeSteal",
+      "description": "Gain 10% Lifesteal",
+      "effects": []
+    },
+    "GainDamageForHPLoseArmor": {
+      "tag": "EasyRPG.Items.Modifiers.GainDamageForHPLoseArmor",
+      "description": "Gain base Damage equal to 1% of your maximum Health",
+      "effects": []
+    },
+    "ChanceForSnails": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceForSnails",
+      "description": "Killing an elite enemy will now have a 10% chance to spawn an Amadora Snail.",
+      "effects": []
+    },
+    "LongerSnailBuff": {
+      "tag": "EasyRPG.Items.Modifiers.LongerSnailBuff",
+      "description": "Electricity Blessing from Amadora Explorer Snails is twice as long.",
+      "effects": []
+    },
+    "ExtraEnergyAddDamage": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraEnergyAddDamage",
+      "description": "Gain 3 base Elemental Damage for every Energy point above 100.",
+      "effects": []
+    },
+    "DamageCircle.Base": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Base",
+      "description": "Generate an Unholy Void around you that attacks enemies. Can't use attacks or abilities.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.ForceNoAttacks",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.ForceNoAbilities",
+          "value": 1
+        }
+      ]
+    },
+    "Damage%ForWisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForWisdom",
+      "description": "Gain 1% maximum Damage for every 20 Wisdom",
+      "effects": []
+    },
+    "Health%ForWisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Health%ForWisdom",
+      "description": "Gain 1% maximum Health for every 20 Wisdom",
+      "effects": []
+    },
+    "BuffForGlyphCharged": {
+      "tag": "EasyRPG.Items.Modifiers.BuffForGlyphCharged",
+      "description": "Whenever you use your charged Secondary Ability, gain 5% damage buff, stacking up to 500, lasting 30 seconds.",
+      "effects": []
+    },
+    "ArcaneApocalypseInstantExplode": {
+      "tag": "EasyRPG.Items.Modifiers.ArcaneApocalypseInstantExplode",
+      "description": "Arcane Apocalypse will explode immediately.",
+      "effects": []
+    },
+    "StaticChargeExplosionBuff": {
+      "tag": "EasyRPG.Items.Modifiers.StaticChargeExplosionBuff",
+      "description": "If Static Charge can explode, Static Charge will explode after 5 charges instead of 20.",
+      "effects": []
+    },
+    "ChainLightningAdditionalTicks": {
+      "tag": "EasyRPG.Items.Modifiers.ChainLightningAdditionalTicks",
+      "description": "Chain Lightning will strike 2 additional times.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.AdditionalJumps",
+          "value": 2
+        }
+      ]
+    },
+    "DragonFlameExtended": {
+      "tag": "EasyRPG.Items.Modifiers.DragonFlameExtended",
+      "description": "Your Flame Dragons will become actual Drakes and stay longer on the battlefield.",
+      "effects": []
+    },
+    "BootsMoveSpeed1": {
+      "tag": "EasyRPG.Items.Modifiers.BootsMoveSpeed1",
+      "description": "Gain 5% movement speed.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.05
+        }
+      ]
+    },
+    "BootsMoveSpeed2": {
+      "tag": "EasyRPG.Items.Modifiers.BootsMoveSpeed2",
+      "description": "Gain 10% movement speed.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.1
+        }
+      ]
+    },
+    "BootsMoveSpeed3": {
+      "tag": "EasyRPG.Items.Modifiers.BootsMoveSpeed3",
+      "description": "Gain 15% movement speed.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.15
+        }
+      ]
+    },
+    "BootsMoveSpeed4": {
+      "tag": "EasyRPG.Items.Modifiers.BootsMoveSpeed4",
+      "description": "Gain 20% movement speed.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.2
+        }
+      ]
+    },
+    "BootsExtraEnergy1": {
+      "tag": "EasyRPG.Items.Modifiers.BootsExtraEnergy1",
+      "description": "Gain 4 to max energy.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 4
+        }
+      ]
+    },
+    "BootsExtraEnergy2": {
+      "tag": "EasyRPG.Items.Modifiers.BootsExtraEnergy2",
+      "description": "Gain 8 to max energy.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 8
+        }
+      ]
+    },
+    "BootsExtraEnergy3": {
+      "tag": "EasyRPG.Items.Modifiers.BootsExtraEnergy3",
+      "description": "Gain 20 to maximum Energy.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 20
+        }
+      ]
+    },
+    "BootsExtraEnergyRegen1": {
+      "tag": "EasyRPG.Items.Modifiers.BootsExtraEnergyRegen1",
+      "description": "Gain 2 energy regeneration.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 2
+        }
+      ]
+    },
+    "BootsExtraEnergyRegen2": {
+      "tag": "EasyRPG.Items.Modifiers.BootsExtraEnergyRegen2",
+      "description": "Gain 4 energy regeneration.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 4
+        }
+      ]
+    },
+    "BootsExtraEnergyRegen3": {
+      "tag": "EasyRPG.Items.Modifiers.BootsExtraEnergyRegen3",
+      "description": "Gain 6 energy regeneration.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 6
+        }
+      ]
+    },
+    "BootsExtraEnergyRegen4": {
+      "tag": "EasyRPG.Items.Modifiers.BootsExtraEnergyRegen4",
+      "description": "Gain 8 Energy regeneration.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 8
+        }
+      ]
+    },
+    "MageryVolleyLonger": {
+      "tag": "EasyRPG.Items.Modifiers.MageryVolleyLonger",
+      "description": "Your Blood Magery volley now lasts longer and fires more bolts.",
+      "effects": []
+    },
+    "NoFellowshipFossilXpBoost": {
+      "tag": "EasyRPG.Items.Modifiers.NoFellowshipFossilXpBoost",
+      "description": "You gain 50% experience bonus and value of gems when imbuing into a fossil - if your character is Hardcore and has never been in a fellowship.",
+      "effects": []
+    },
+    "ChanceToSpawnAnotherElite": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnAnotherElite",
+      "description": "When killing an elite enemy, gain 10% chance to spawn another elite. (This mod stacks up to 4 times)",
+      "effects": []
+    },
+    "ChanceToSpawnContainer": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnContainer",
+      "description": "Increased 10% chance to spawn a container when killing an elite.",
+      "effects": []
+    },
+    "ReducedContainerOpenPrice": {
+      "tag": "EasyRPG.Items.Modifiers.ReducedContainerOpenPrice",
+      "description": "Elite containers essence cost is reduced by 25%.",
+      "effects": []
+    },
+    "ArcaneSeedCloserToEnemies": {
+      "tag": "EasyRPG.Items.Modifiers.ArcaneSeedCloserToEnemies",
+      "description": "Kraken Seed will spawn much closer to hit enemies.",
+      "effects": []
+    },
+    "GainCritChanceForStrength": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritChanceForStrength",
+      "description": "Gain 1% Critical Chance for every 50 Strength.",
+      "effects": []
+    },
+    "GainCritChanceForAgility": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritChanceForAgility",
+      "description": "Gain 1% Critical Chance for every 50 Agility.",
+      "effects": []
+    },
+    "GainCritChanceForStamina": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritChanceForStamina",
+      "description": "Gain 1% Critical Chance for every 50 Stamina.",
+      "effects": []
+    },
+    "GainCritChanceForIntelligence": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritChanceForIntelligence",
+      "description": "Gain 1% Critical Chance for every 50 Endurance.",
+      "effects": []
+    },
+    "GainCritChanceForWisdom": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritChanceForWisdom",
+      "description": "Gain 1% Critical Chance for every 50 Wisdom.",
+      "effects": []
+    },
+    "BuffFromDestructableEnv.Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.BuffFromDestructableEnv.Lightning",
+      "description": "When destructing environment, gain a 5% lightning damage for 45 seconds; these stack up to 50.",
+      "effects": []
+    },
+    "BuffFromDestructableEnv.Fire": {
+      "tag": "EasyRPG.Items.Modifiers.BuffFromDestructableEnv.Fire",
+      "description": "When destructing environment, gain a 5% fire damage for 45 seconds; these stack up to 50.",
+      "effects": []
+    },
+    "BuffFromDestructableEnv.Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.BuffFromDestructableEnv.Arcane",
+      "description": "When destructing environment, gain a 5% arcane damage for 45 seconds; these stack up to 50.",
+      "effects": []
+    },
+    "DistanceProcsDamage_Near": {
+      "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage_Near",
+      "name": "Proximity Destruction Damage",
+      "description": "If your attacks hit within 5 meters, gain extra 50% damage.",
+      "effects": []
+    },
+    "Health%ForAgility": {
+      "tag": "EasyRPG.Items.Modifiers.Health%ForAgility",
+      "description": "Gain 1% maximum Health for every 20 Agility",
+      "effects": []
+    },
+    "Health%ForIntelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Health%ForIntelligence",
+      "description": "Gain 1% maximum Health for every 20 Endurance",
+      "effects": []
+    },
+    "Health%ForLuck": {
+      "tag": "EasyRPG.Items.Modifiers.Health%ForLuck",
+      "description": "Gain 1% maximum Health for every 20 Luck",
+      "effects": []
+    },
+    "Health%ForStrength": {
+      "tag": "EasyRPG.Items.Modifiers.Health%ForStrength",
+      "description": "Gain 1% maximum Health for every 20 Strength",
+      "effects": []
+    },
+    "PulseExplosion_Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.PulseExplosion_Arcane",
+      "description": "Every 4 seconds your character pulses with Arcane Damage. Each enemy hit grants a 3% Arcane Damage blessing, stacking up to 100",
+      "effects": []
+    },
+    "PulseExplosion_Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.PulseExplosion_Lightning",
+      "description": "Every 4 seconds your character pulses with Lightning Damage. Each enemy hit grants a 3% Lightning Damage blessing, stacking up to 100",
+      "effects": []
+    },
+    "PulseExplosion_Fire": {
+      "tag": "EasyRPG.Items.Modifiers.PulseExplosion_Fire",
+      "description": "Every 4 seconds your character pulses with Fire Damage. Each enemy hit grants a 3% Fire Damage blessing, stacking up to 100",
+      "effects": []
+    },
+    "WisdomToDamage": {
+      "tag": "EasyRPG.Items.Modifiers.WisdomToDamage",
+      "description": "Gain 1% Damage for every 20 Wisdom",
+      "effects": []
+    },
+    "AgilityToDamage": {
+      "tag": "EasyRPG.Items.Modifiers.AgilityToDamage",
+      "description": "Gain 1% Damage for every 20 Agility",
+      "effects": []
+    },
+    "EnduranceToDamage": {
+      "tag": "EasyRPG.Items.Modifiers.EnduranceToDamage",
+      "description": "Gain 1% Damage for every 20 Endurance",
+      "effects": []
+    },
+    "StaminaToDamage": {
+      "tag": "EasyRPG.Items.Modifiers.StaminaToDamage",
+      "description": "Gain 1% Damage for every 20 Stamina",
+      "effects": []
+    },
+    "BossDamageForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.BossDamageForStat.Strength",
+      "description": "Gain 1% Boss Damage for every 25 Strength",
+      "effects": []
+    },
+    "BossDamageForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.BossDamageForStat.Agility",
+      "description": "Gain 1% Boss Damage for every 25 Agility",
+      "effects": []
+    },
+    "BossDamageForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.BossDamageForStat.Stamina",
+      "description": "Gain 1% Boss Damage for every 25 Stamina",
+      "effects": []
+    },
+    "BossDamageForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.BossDamageForStat.Intelligence",
+      "description": "Gain 1% Boss Damage for every 25 Endurance",
+      "effects": []
+    },
+    "BossDamageForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.BossDamageForStat.Luck",
+      "description": "Gain 1% Boss Damage for every 25 Luck",
+      "effects": []
+    },
+    "BossDamageForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.BossDamageForStat.Dexterity",
+      "description": "Gain 1% Boss Damage for every 25 Dexterity",
+      "effects": []
+    },
+    "BossDamageForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.BossDamageForStat.Wisdom",
+      "description": "Gain 1% Boss Damage for every 25 Wisdom",
+      "effects": []
+    },
+    "DamageForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat.Agility",
+      "description": "Gain 10 Damage for every 150 Agility",
+      "effects": []
+    },
+    "DamageForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat.Stamina",
+      "description": "Gain 10 Damage for every 150 Stamina",
+      "effects": []
+    },
+    "DamageForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat.Intelligence",
+      "description": "Gain 10 Damage for every 150 Endurance",
+      "effects": []
+    },
+    "DamageForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat.Luck",
+      "description": "Gain 10 Damage for every 150 Luck",
+      "effects": []
+    },
+    "DamageForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat.Dexterity",
+      "description": "Gain 10 Damage for every 150 Dexterity",
+      "effects": []
+    },
+    "DamageForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat.Wisdom",
+      "description": "Gain 10 Damage for every 150 Wisdom",
+      "effects": []
+    },
+    "Damage%ForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat.Agility",
+      "description": "Gain 1% Damag for every 20 Agility",
+      "effects": []
+    },
+    "Damage%ForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat.Stamina",
+      "description": "Gain 1% Damage for every 20 Stamina",
+      "effects": []
+    },
+    "Damage%ForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat.Intelligence",
+      "description": "Gain 1% Damage for every 20 Endurance",
+      "effects": []
+    },
+    "Damage%ForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat.Luck",
+      "description": "Gain 1% Damage for every 20 Luck",
+      "effects": []
+    },
+    "Damage%ForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat.Dexterity",
+      "description": "Gain 1% Damage for every 20 Dexterity",
+      "effects": []
+    },
+    "Damage%ForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat.Wisdom",
+      "description": "Gain 1% Damage for every 20 Wisdom",
+      "effects": []
+    },
+    "MaxHpForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForStat.Strength",
+      "description": "Gain 10 maximum Health for every 150 Strength",
+      "effects": []
+    },
+    "MaxHpForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForStat.Agility",
+      "description": "Gain 10 maximum Health for every 150 Agility",
+      "effects": []
+    },
+    "MaxHpForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForStat.Stamina",
+      "description": "Gain 10 maximum Health for every 150 Stamina",
+      "effects": []
+    },
+    "MaxHpForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForStat.Intelligence",
+      "description": "Gain 10 maximum Health for every 150 Endurance",
+      "effects": []
+    },
+    "MaxHpForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForStat.Luck",
+      "description": "Gain 10 maximum Health for every 150 Luck",
+      "effects": []
+    },
+    "MaxHpForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForStat.Dexterity",
+      "description": "Gain 10 maximum Health for every 150 Dexterity",
+      "effects": []
+    },
+    "MaxHpForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForStat.Wisdom",
+      "description": "Gain 10 maximum Health for every 150 Wisdom",
+      "effects": []
+    },
+    "MaxHp%ForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Strength",
+      "description": "Gain 1% maximum Health for every 25 Strength",
+      "effects": []
+    },
+    "MaxHp%ForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Agility",
+      "description": "Gain 1% maximum Health for every 25 Agility",
+      "effects": []
+    },
+    "MaxHp%ForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Stamina",
+      "description": "Gain 1% maximum Health for every 25 Stamina",
+      "effects": []
+    },
+    "MaxHp%ForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Intelligence",
+      "description": "Gain 1% maximum Health for every 25 Endurance",
+      "effects": []
+    },
+    "MaxHp%ForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Luck",
+      "description": "Gain 1% maximum Health for every 25 Luck",
+      "effects": []
+    },
+    "MaxHp%ForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Dexterity",
+      "description": "Gain 1% maximum Health for every 25 Dexterity",
+      "effects": []
+    },
+    "MaxHp%ForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Wisdom",
+      "description": "Gain 1% maximum Health for every 25 Wisdom",
+      "effects": []
+    },
+    "Armor%ForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.Armor%ForStat.Strength",
+      "description": "Gain 1% Armor for every 20 Strength",
+      "effects": []
+    },
+    "Armor%ForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.Armor%ForStat.Agility",
+      "description": "Gain 1% Armor for every 20 Agility",
+      "effects": []
+    },
+    "Armor%ForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.Armor%ForStat.Stamina",
+      "description": "Gain 1% Armor for every 20 Stamina",
+      "effects": []
+    },
+    "Armor%ForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Armor%ForStat.Intelligence",
+      "description": "Gain 1% Armor for every 20 Endurance",
+      "effects": []
+    },
+    "Armor%ForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.Armor%ForStat.Luck",
+      "description": "Gain 1% Armor for every 20 Luck",
+      "effects": []
+    },
+    "Armor%ForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Armor%ForStat.Dexterity",
+      "description": "Gain 1% Armor for every 20 Dexterity",
+      "effects": []
+    },
+    "Armor%ForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Armor%ForStat.Wisdom",
+      "description": "Gain 1% Armor for every 20 Wisdom",
+      "effects": []
+    },
+    "DamageReduction%ForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Strength",
+      "description": "Gain 0.02% Damage Reduction for every 100 Strength",
+      "effects": []
+    },
+    "DamageReduction%ForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Agility",
+      "description": "Gain 0.02% Damage Reduction for every 100 Agility",
+      "effects": []
+    },
+    "DamageReduction%ForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Stamina",
+      "description": "Gain 0.02% Damage Reduction for every 100 Stamina",
+      "effects": []
+    },
+    "DamageReduction%ForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Intelligence",
+      "description": "Gain 0.02% Damage Reduction for every 100 Endurance",
+      "effects": []
+    },
+    "DamageReduction%ForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Luck",
+      "description": "Gain 0.02% Damage Reduction for every 100 Luck",
+      "effects": []
+    },
+    "DamageReduction%ForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Dexterity",
+      "description": "Gain 0.02% Damage Reduction for every 100 Dexterity",
+      "effects": []
+    },
+    "DamageReduction%ForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Wisdom",
+      "description": "Gain 0.02% Damage Reduction for every 100 Wisdom",
+      "effects": []
+    },
+    "MaxEneryForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.MaxEneryForStat.Strength",
+      "description": "Gain 1 maximum Energy for every 100 Strength",
+      "effects": []
+    },
+    "MaxEneryForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.MaxEneryForStat.Agility",
+      "description": "Gain 1 maximum Energy for every 100 Agility",
+      "effects": []
+    },
+    "MaxEneryForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.MaxEneryForStat.Stamina",
+      "description": "Gain 1 maximum Energy for every 100 Stamina",
+      "effects": []
+    },
+    "MaxEneryForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.MaxEneryForStat.Luck",
+      "description": "Gain 1 maximum Energy for every 100 Luck",
+      "effects": []
+    },
+    "MaxEneryForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.MaxEneryForStat.Dexterity",
+      "description": "Gain 1 maximum Energy for every 100 Dexterity",
+      "effects": []
+    },
+    "MaxEneryForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.MaxEneryForStat.Wisdom",
+      "description": "Gain 1 maximum Energy for every 100 Wisdom",
+      "effects": []
+    },
+    "GainStatIfNoOffHand.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.GainStatIfNoOffHand.Strength",
+      "description": "Gain 500 Strength if no offhands are equipped.",
+      "effects": []
+    },
+    "GainStatIfNoOffHand.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.GainStatIfNoOffHand.Agility",
+      "description": "Gain 500 Agility if no offhands are equipped.",
+      "effects": []
+    },
+    "GainStatIfNoOffHand.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.GainStatIfNoOffHand.Stamina",
+      "description": "Gain 500 Stamina if no offhands are equipped.",
+      "effects": []
+    },
+    "GainStatIfNoOffHand.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.GainStatIfNoOffHand.Intelligence",
+      "description": "Gain 500 Endurance if no offhands are equipped.",
+      "effects": []
+    },
+    "GainStatIfNoOffHand.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.GainStatIfNoOffHand.Luck",
+      "description": "Gain 500 Luck if no offhands are equipped.",
+      "effects": []
+    },
+    "GainStatIfNoOffHand.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.GainStatIfNoOffHand.Dexterity",
+      "description": "Gain 500 Dexterity if no offhands are equipped.",
+      "effects": []
+    },
+    "GainStatIfNoOffHand.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.GainStatIfNoOffHand.Wisdom",
+      "description": "Gain 500 Wisdom if no offhands are equipped.",
+      "effects": []
+    },
+    "PainAmplifier": {
+      "tag": "EasyRPG.Items.Modifiers.PainAmplifier",
+      "description": "Each time you get hit,  Gain 15% more damage up to 75%. Blessing is 30 seconds long.",
+      "effects": []
+    },
+    "Damage%NoPotion": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%NoPotion",
+      "description": "Drinking a potion will not heal you, Gain 15% Elemental damage per potion slot instead",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoPotionsEffect",
+          "value": 1
+        }
+      ]
+    },
+    "ChanceForGoldOnKill": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceForGoldOnKill",
+      "description": "Gain a 10% chance to get 25 gold for killing an enemy",
+      "effects": []
+    },
+    "ProcOffhandsOnPotion": {
+      "tag": "EasyRPG.Items.Modifiers.ProcOffhandsOnPotion",
+      "description": "Drinking a Potion triggers your offhand",
+      "effects": []
+    },
+    "Damage%ForPotions": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForPotions",
+      "description": "Gain 5% Damage for each available potion",
+      "effects": []
+    },
+    "EmpoweredShield": {
+      "tag": "EasyRPG.Items.Modifiers.EmpoweredShield",
+      "description": "Whenever you use your charged Secondary Ability, gain a shield equal to 100% of your Armor for 5 seconds.",
+      "effects": []
+    },
+    "DoubleEnergy": {
+      "tag": "EasyRPG.Items.Modifiers.DoubleEnergy",
+      "description": "Maximum Energy increased by 75%.",
+      "effects": []
+    },
+    "ReduceStunChance": {
+      "tag": "EasyRPG.Items.Modifiers.ReduceStunChance",
+      "description": "Reduce mob chance to stun you by 10%.",
+      "effects": []
+    },
+    "Shroud": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud",
+      "name": "Shroud",
+      "description": "While moving, you generate Light Shroud stacks. Damaging an enemy replaces all stacks of Light Shroud with Dark Shroud. Gain 5% damage and 1% Base damage bonus per Dark Shroud stack, lasts 30s.",
+      "effects": []
+    },
+    "NoUnchargedSecondary": {
+      "tag": "EasyRPG.Items.Modifiers.NoUnchargedSecondary",
+      "description": "You cannot use uncharged Secondary Ability. Charged Secondary Ability deals 300% more damage.",
+      "effects": []
+    },
+    "ArmorForPotions": {
+      "tag": "EasyRPG.Items.Modifiers.ArmorForPotions",
+      "description": "Gain 100 Armor for each available potion",
+      "effects": []
+    },
+    "AttackSpeedForPotions": {
+      "tag": "EasyRPG.Items.Modifiers.AttackSpeedForPotions",
+      "description": "Gain 2 Physical Damage for each available potion.",
+      "effects": []
+    },
+    "ElementForCritChance.Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.ElementForCritChance.Lightning",
+      "description": "Gain 3% Lightning damage for each Critical Chance above 100%.",
+      "effects": []
+    },
+    "ElementForCritChance.Fire": {
+      "tag": "EasyRPG.Items.Modifiers.ElementForCritChance.Fire",
+      "description": "Gain 3% Fire Damage for each Critical Chance above 100%",
+      "effects": []
+    },
+    "ElementForCritChance.Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.ElementForCritChance.Arcane",
+      "description": "Gain 3% Arcane Damage for each Critical Chance above 100%",
+      "effects": []
+    },
+    "ElementForCritChance.MaxHealth": {
+      "tag": "EasyRPG.Items.Modifiers.ElementForCritChance.MaxHealth",
+      "description": "Gain 1% maximum Health for each Critical Chance above 100%",
+      "effects": []
+    },
+    "DamageForStat2.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat2.Agility",
+      "description": "Gain 1 base Damage for every 50 Agility",
+      "effects": []
+    },
+    "DamageForStat2.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat2.Stamina",
+      "description": "Gain 1 base Damage for every 50 Stamina",
+      "effects": []
+    },
+    "DamageForStat2.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat2.Intelligence",
+      "description": "Gain 1 base Damage for every 50 Endurance",
+      "effects": []
+    },
+    "DamageForStat2.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat2.Luck",
+      "description": "Gain 1 base Damage for every 50 Luck",
+      "effects": []
+    },
+    "DamageForStat2.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat2.Dexterity",
+      "description": "Gain 1 base Damage for every 50 Dexterity",
+      "effects": []
+    },
+    "DamageForStat2.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat2.Wisdom",
+      "description": "Gain 1 base Damage for every 50 Wisdom",
+      "effects": []
+    },
+    "ExtraInventorySlotForCritDamage": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraInventorySlotForCritDamage",
+      "description": "Gain 5% Critical Damage for each extra inventory slot.",
+      "effects": []
+    },
+    "ExtraInventorySlotForAttackSpeed": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraInventorySlotForAttackSpeed",
+      "description": "Gain 1% Boss Damage for each extra inventory slot.",
+      "effects": []
+    },
+    "AllowPhasing": {
+      "tag": "EasyRPG.Items.Modifiers.AllowPhasing",
+      "description": "Grants Phasing Trance, allowing you to move through enemies. While in Trance, gain 1.5% Damage bonus and 0.5% Boss Damage for every enemy you phase through - stacks up to 50.",
+      "effects": []
+    },
+    "Phasing.StatBonus.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.StatBonus.Agility",
+      "description": "Gain +25 to agility while phasing",
+      "effects": []
+    },
+    "Phasing.StatBonus.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.StatBonus.Stamina",
+      "description": "Gain +25 to stamina while phasing.",
+      "effects": []
+    },
+    "Phasing.StatBonus.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.StatBonus.Intelligence",
+      "description": "Gain +25 to endurance while phasing.",
+      "effects": []
+    },
+    "Phasing.StatBonus.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.StatBonus.Luck",
+      "description": "Gain +25 to luck while phasing.",
+      "effects": []
+    },
+    "Phasing.StatBonus.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.StatBonus.Dexterity",
+      "description": "Gain +25 to dexterity while phasing.",
+      "effects": []
+    },
+    "Phasing.StatBonus.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.StatBonus.Wisdom",
+      "description": "Gain +25 to wisdom while phasing.",
+      "effects": []
+    },
+    "Phasing.NoWeaponNoOffhandDamageDoubleDamage": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.NoWeaponNoOffhandDamageDoubleDamage",
+      "description": "Gain double damage if you are phasing and no weapon and no offhands are equipped.",
+      "effects": []
+    },
+    "Phasing.AttackSpeedBonus": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.AttackSpeedBonus",
+      "description": "Gain 300 attack speed while phasing.",
+      "effects": []
+    },
+    "Phasing.Damage%": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.Damage%",
+      "description": "Every 10 seconds of Phasing grants you 1% damage.",
+      "effects": []
+    },
+    "Phasing.ProcOffhands": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.ProcOffhands",
+      "description": "Every 40 seconds chance to proc offhand while phasing.",
+      "effects": []
+    },
+    "SpawnPotionWhenNotFullHp": {
+      "tag": "EasyRPG.Items.Modifiers.SpawnPotionWhenNotFullHp",
+      "description": "Elites will always drop a potion when you are not at 100% Health",
+      "effects": []
+    },
+    "FasterMount": {
+      "tag": "EasyRPG.Items.Modifiers.FasterMount",
+      "description": "Increases mount speed by 80%",
+      "effects": []
+    },
+    "ExtraHp": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraHp",
+      "description": "Gain 100 maximum Health",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 100
+        }
+      ]
+    },
+    "DamageReduction": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction",
+      "description": "Gain 10% damage reduction.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.1
+        }
+      ]
+    },
+    "BoostAllAttributes": {
+      "tag": "EasyRPG.Items.Modifiers.BoostAllAttributes",
+      "description": "Adds 20 to all stats.",
+      "effects": []
+    },
+    "BoostMovementSpeed": {
+      "tag": "EasyRPG.Items.Modifiers.BoostMovementSpeed",
+      "description": "Gain 10% movement speed",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.1
+        }
+      ]
+    },
+    "ExtraArmor": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraArmor",
+      "description": "Gain 10% Armor",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.1
+        }
+      ]
+    },
+    "ExtraHp%": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraHp%",
+      "description": "Gain 10% maximum Health",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ]
+    },
+    "ExtraEndurance": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraEndurance",
+      "description": "Gain 200 Endurance",
+      "effects": []
+    },
+    "ExtraAttackSpeed": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraAttackSpeed",
+      "description": "Gain 25% Damage Bonus.",
+      "effects": []
+    },
+    "ExtraWisdom": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraWisdom",
+      "description": "Gain 200 Wisdom",
+      "effects": []
+    },
+    "ExtraAgility": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraAgility",
+      "description": "Gain 200 Agility",
+      "effects": []
+    },
+    "ExtraEnergy": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraEnergy",
+      "description": "Gain 15 maximum Energy.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 15
+        }
+      ]
+    },
+    "AdditionalPotionSlots.1": {
+      "tag": "EasyRPG.Items.Modifiers.AdditionalPotionSlots.1",
+      "name": "Additional potion slot",
+      "description": "Adds 1 additional potion slot.",
+      "effects": []
+    },
+    "AdditionalPotionSlots.2": {
+      "tag": "EasyRPG.Items.Modifiers.AdditionalPotionSlots.2",
+      "name": "Additional potion slot",
+      "description": "Gain 2 additional potion slots",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.AdditionalPotionSlots.1",
+          "value": 2
+        }
+      ]
+    },
+    "DamageCircle.BiggerRadius": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BiggerRadius",
+      "name": "Unholy Void Radius",
+      "description": "Unholy Void Radius is 50% bigger.",
+      "effects": []
+    },
+    "DamageCircle.FasterAttacks": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.FasterAttacks",
+      "description": "Unholy Void attacks 25% faster.",
+      "effects": []
+    },
+    "DamageCircle.ExtraDamage": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.ExtraDamage",
+      "name": "Unholy Void attacks are 1% stronger for every 35 Health Regeneration.",
+      "description": "Unholy Void attacks are 1% stronger for every 35 Health Regeneration.",
+      "effects": []
+    },
+    "Damage%ForStat2.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Agility",
+      "description": "Gain 1% damage for every 20 Agility",
+      "effects": []
+    },
+    "Damage%ForStat2.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Dexterity",
+      "description": "Gain 1% damage for every 20 Dexterity",
+      "effects": []
+    },
+    "Damage%ForStat2.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Intelligence",
+      "description": "Gain 1% damage for every 20 Endurance",
+      "effects": []
+    },
+    "Damage%ForStat2.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Luck",
+      "description": "Gain 1% damage for every 20 Luck",
+      "effects": []
+    },
+    "Damage%ForStat2.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Stamina",
+      "description": "Gain 1% damage for every 20 Stamina",
+      "effects": []
+    },
+    "Damage%ForStat2.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Wisdom",
+      "description": "Gain 1% damage for every 20 Wisdom",
+      "effects": []
+    },
+    "SecondaryAttackDoubleDamage": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage",
+      "name": "Charged Secondary Attack deals 5% more damage",
+      "description": "Your Charged Secondary Ability deals 5% more damage",
+      "effects": []
+    },
+    "NoWeaponDoubleDamage": {
+      "tag": "EasyRPG.Items.Modifiers.NoWeaponDoubleDamage",
+      "description": "Gain double damage if no weapon is equipped.",
+      "effects": []
+    },
+    "AllStatsBuff": {
+      "tag": "EasyRPG.Items.Modifiers.AllStatsBuff",
+      "description": "Gain 10% for all stats",
+      "effects": []
+    },
+    "MeleeParagon.MaxHp": {
+      "tag": "EasyRPG.Items.Modifiers.MeleeParagon.MaxHp",
+      "name": "If you are using a melee weapon, gain 10 maximum Health for each stance mastery level.",
+      "description": "If you are using a melee weapon, gain 10 maximum Health for each stance mastery level.",
+      "effects": []
+    },
+    "MeleeParagon.Armor": {
+      "tag": "EasyRPG.Items.Modifiers.MeleeParagon.Armor",
+      "name": "If you are using a melee weapon, gain 15 Armor for each stance mastery level.",
+      "description": "If you are using a melee weapon, gain 15 Armor for each stance mastery level.",
+      "effects": []
+    },
+    "MeleeParagon.BaseDamage": {
+      "tag": "EasyRPG.Items.Modifiers.MeleeParagon.BaseDamage",
+      "name": "Melee Mastery Damage Bonus",
+      "description": "If you are using a melee weapon, gain 2 base damage for each stance mastery level.",
+      "effects": []
+    },
+    "EliteBuffs.Energy": {
+      "tag": "EasyRPG.Items.Modifiers.EliteBuffs.Energy",
+      "description": "Killing an elite grants you a Blessing that gives 1 maximum Energy. Lasts 20 seconds, and stacks up to 100.",
+      "effects": []
+    },
+    "EliteBuffs.Armor%": {
+      "tag": "EasyRPG.Items.Modifiers.EliteBuffs.Armor%",
+      "description": "Killing an elite grants you a Blessing that gives 2% Armor. Lasts 20 seconds, and stacks up to 100.",
+      "effects": []
+    },
+    "EliteBuffs.MaxHp%": {
+      "tag": "EasyRPG.Items.Modifiers.EliteBuffs.MaxHp%",
+      "description": "Killing an elite grants you a Blessing that gives 2% maximum Health. Lasts 20 seconds, and stacks up to 50.",
+      "effects": []
+    },
+    "EliteBuffs.AttackSpeed%": {
+      "tag": "EasyRPG.Items.Modifiers.EliteBuffs.AttackSpeed%",
+      "description": "Killing an elite grants you a Blessing that gives 5% Damage Bonus. Lasts 20 seconds, and stacks up to 20.",
+      "effects": []
+    },
+    "PotionBonus.MaxEnergy": {
+      "tag": "EasyRPG.Items.Modifiers.PotionBonus.MaxEnergy",
+      "description": "Get 2 maximum Energy per potion slot",
+      "effects": []
+    },
+    "PotionBonus.MaxHp%": {
+      "tag": "EasyRPG.Items.Modifiers.PotionBonus.MaxHp%",
+      "description": "Gain 1% maximum Health per potion slot",
+      "effects": []
+    },
+    "PotionBonus.Armor%": {
+      "tag": "EasyRPG.Items.Modifiers.PotionBonus.Armor%",
+      "description": "Gain 2.5% Armor per potion slot",
+      "effects": []
+    },
+    "PotionBonus.MovementSpeed%": {
+      "tag": "EasyRPG.Items.Modifiers.PotionBonus.MovementSpeed%",
+      "description": "Gain 5% movement speed per potion slot",
+      "effects": []
+    },
+    "PotionBonus.AttackSpeed%": {
+      "tag": "EasyRPG.Items.Modifiers.PotionBonus.AttackSpeed%",
+      "description": "Gain 1% Crit Chance per potion slot.",
+      "effects": []
+    },
+    "Bloodlust.Base": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.Base",
+      "name": "Bloodlust",
+      "description": "Killing a monster or hitting an elite/boss has a 10% to trigger a Bloodlust effect, gain 5% crit damage, 2% armor and 0.35% movement speed per stack. Stacks up to 100, lasts 15 seconds.",
+      "effects": []
+    },
+    "Bloodlust.MovementSpeed": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MovementSpeed",
+      "description": "Gain 1% movement speed per Bloodlust stack",
+      "effects": []
+    },
+    "Bloodlust.PotionStacks": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.PotionStacks",
+      "description": "Drinking Potion will no longer heal you, it will grant you 5 bloodlust stacks instead",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.NoPotionsEffect",
+          "value": 1
+        }
+      ]
+    },
+    "Bloodlust.Armor%": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.Armor%",
+      "description": "Gain 2 Armor per Bloodlust stack.",
+      "effects": []
+    },
+    "Bloodlust.BaseDamage": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.BaseDamage",
+      "description": "Gain 1 base damage per Bloodlust stack",
+      "effects": []
+    },
+    "Bloodlust.Damage%PerStack": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.Damage%PerStack",
+      "description": "Gain 2% Physical Damage per Bloodlust stack",
+      "effects": []
+    },
+    "Bloodlust.DrawBlood": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.DrawBlood",
+      "description": "Killing a monster or hitting an elite/boss while Bloodlust is active has a 10% chance to give stacks of Blood, increasing your Physical Damage by 1% per stack, up to 100",
+      "effects": []
+    },
+    "Bloodlust.Damage%": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.Damage%",
+      "description": "Gain 25% Physical Damage while Bloodlust is active",
+      "effects": []
+    },
+    "Bloodlust.MaxHp%": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MaxHp%",
+      "description": "Gain 25% maximum Health while Bloodlust is active",
+      "effects": []
+    },
+    "Bloodlust.ExtraStacks": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.ExtraStacks",
+      "description": "+10 to Bloodlust max buff stacks.",
+      "effects": []
+    },
+    "DamageCircle.HpForStats.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.HpForStats.Strength",
+      "description": "While Unholy Void is active, Gain 2 base Health for every 20 Strength",
+      "effects": []
+    },
+    "DamageCircle.HpForStats.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.HpForStats.Agility",
+      "description": "While Unholy Void is active, Gain 2 base Health for every 20 Agility",
+      "effects": []
+    },
+    "DamageCircle.HpForStats.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.HpForStats.Stamina",
+      "description": "While Unholy Void is active, Gain 2 base Health for every 20 Stamina",
+      "effects": []
+    },
+    "DamageCircle.HpForStats.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.HpForStats.Intelligence",
+      "description": "While Unholy Void is active, Gain 2 base Health for every 20 Endurance",
+      "effects": []
+    },
+    "DamageCircle.HpForStats.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.HpForStats.Luck",
+      "description": "While Unholy Void is active, Gain 2 base Health for every 20 Luck",
+      "effects": []
+    },
+    "DamageCircle.HpForStats.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.HpForStats.Dexterity",
+      "description": "While Unholy Void is active, Gain 2 base Health for every 20 Dexterity",
+      "effects": []
+    },
+    "DamageCircle.HpForStats.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.HpForStats.Wisdom",
+      "description": "While Unholy Void is active, Gain 2 base Health for every 20 Wisdom",
+      "effects": []
+    },
+    "DamageCircle.SecondaryAttackTrigger": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.SecondaryAttackTrigger",
+      "description": "When using Unholy Void, trigger your secondary ability whenever it's charged",
+      "effects": []
+    },
+    "SecondaryBuild.DoubleChargedDamage": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.DoubleChargedDamage",
+      "description": "Your charged Secondary Ability deals an additional 100% damage",
+      "effects": []
+    },
+    "SecondaryBuild.DoubleEnergyMoreDamage": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.DoubleEnergyMoreDamage",
+      "description": "Your Secondary Ability costs double energy, but deals 150% more damage.",
+      "effects": []
+    },
+    "SecondaryBuild.ChargedSecondaryDamageForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.ChargedSecondaryDamageForStat.Strength",
+      "description": "Gain an additional 100% damage bonus to your charged Secondary Ability for every 100 Strength",
+      "effects": []
+    },
+    "SecondaryBuild.ChargedSecondaryDamageForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.ChargedSecondaryDamageForStat.Agility",
+      "description": "Gain an additional 100% damage bonus to your charged Secondary Ability for every 100 Agility",
+      "effects": []
+    },
+    "SecondaryBuild.ChargedSecondaryDamageForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.ChargedSecondaryDamageForStat.Stamina",
+      "description": "Gain an additional 100% damage bonus to your charged Secondary Ability for every 100 Stamina",
+      "effects": []
+    },
+    "SecondaryBuild.ChargedSecondaryDamageForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.ChargedSecondaryDamageForStat.Intelligence",
+      "description": "Gain an additional 100% damage bonus to your charged Secondary Ability for every 100 Endurance",
+      "effects": []
+    },
+    "SecondaryBuild.ChargedSecondaryDamageForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.ChargedSecondaryDamageForStat.Luck",
+      "description": "Gain an additional 100% damage bonus to your charged Secondary Ability for every 100 Luck",
+      "effects": []
+    },
+    "SecondaryBuild.ChargedSecondaryDamageForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.ChargedSecondaryDamageForStat.Dexterity",
+      "description": "Gain an additional 100% damage bonus to your charged Secondary Ability for every 100 Dexterity",
+      "effects": []
+    },
+    "SecondaryBuild.ChargedSecondaryDamageForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.ChargedSecondaryDamageForStat.Wisdom",
+      "description": "Gain an additional 100% damage bonus to your charged Secondary Ability for every 100 Wisdom",
+      "effects": []
+    },
+    "Damage%ForStat2.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Strength",
+      "description": "Gain 1% Damage for every 20 Strength",
+      "effects": []
+    },
+    "StrengthToDamage": {
+      "tag": "EasyRPG.Items.Modifiers.StrengthToDamage",
+      "description": "Gain 1% Damage for every 20 Strength",
+      "effects": []
+    },
+    "Health%ForDexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Health%ForDexterity",
+      "description": "Gain 1% maximum Health for every 20 Dexterity",
+      "effects": []
+    },
+    "Health%ForStamina": {
+      "tag": "EasyRPG.Items.Modifiers.Health%ForStamina",
+      "description": "Gain 1% maximum Health for every 20 Stamina",
+      "effects": []
+    },
+    "DamageForStat2.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat2.Strength",
+      "description": "Gain 1 base Damage for every 50 Strength",
+      "effects": []
+    },
+    "Damage%ForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat.Strength",
+      "description": "Gain 1% Damage for every 20 Strength",
+      "effects": []
+    },
+    "DamageCircle.DamageForStats.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Agility",
+      "description": "While Unholy Void is active, gain 2 base Damage for every 20 Agility",
+      "effects": []
+    },
+    "DamageCircle.DamageForStats.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Stamina",
+      "description": "While Unholy Void is active, gain 2 base Damage for every 20 Stamina",
+      "effects": []
+    },
+    "DamageCircle.DamageForStats.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Intelligence",
+      "description": "While Unholy Void is active, gain 2 base Damage for every 20 Endurance",
+      "effects": []
+    },
+    "DamageCircle.DamageForStats.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Luck",
+      "description": "While Unholy Void is active, gain 2 base Damage for every 20 Luck",
+      "effects": []
+    },
+    "DamageCircle.DamageForStats.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Dexterity",
+      "description": "While Unholy Void is active, gain 2 base Damage for every 20 Dexterity",
+      "effects": []
+    },
+    "DamageCircle.DamageForStats.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Wisdom",
+      "description": "While Unholy Void is active, gain 2 base Damage for every 20 Wisdom",
+      "effects": []
+    },
+    "DamageCircle.DamageForStats.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Strength",
+      "description": "While Unholy Void is active, gain 2 base Damage for every 20 Strength",
+      "effects": []
+    },
+    "Colossus.Base": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.Base",
+      "description": "Summons the sword of the Ancient Berserker. Standing in range when the sword hits the ground causes you to enter Berserker Fury state which reduces all offhand cooldowns by 50%",
+      "effects": []
+    },
+    "Colossus.DoubleAttackSpeed": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.DoubleAttackSpeed",
+      "description": "While in Berserker Fury state, gain +70% Physical Damage Bonus.",
+      "effects": []
+    },
+    "Colossus.LifeSteal": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.LifeSteal",
+      "description": "While in Berserker Fury state, gain 20% Lifesteal Chance and 5% Lifesteal.",
+      "effects": []
+    },
+    "Colossus.DamageReduction": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.DamageReduction",
+      "description": "While in Berserker Fury, gain 2% damage reduction each time you're hit. Upon reaching maximum damage reduction, gain +100 Physical damage.",
+      "effects": []
+    },
+    "Colossus.HpForEliteKill": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill",
+      "description": "While in Berserker Fury state, gain a Blessing that provides 1 Health per enemy killed.",
+      "effects": []
+    },
+    "Colossus.FreeDash": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.FreeDash",
+      "description": "While in Berserker Fury state, your dash costs no Energy",
+      "effects": []
+    },
+    "Colossus.CooldownReduceOnEliteKill": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.CooldownReduceOnEliteKill",
+      "description": "Killing an elite enemy reduces Berserker Fury's cooldown by 2 seconds.",
+      "effects": []
+    },
+    "Bloodlust.DrawLife": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.DrawLife",
+      "description": "Killing a monster or hitting an elite/boss while Bloodlust is active has a 10% chance to give a stack of Life, increasing your Health by 1% per stack (stacks up to 100)",
+      "effects": []
+    },
+    "Bloodlust.AdditionalStack": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.AdditionalStack",
+      "description": "Whenever you get a stack of Bloodlust, gain an additional stack.",
+      "effects": []
+    },
+    "MaxHpForAvailablePotion": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForAvailablePotion",
+      "description": "Gain 20 maximum Health for each available potion",
+      "effects": []
+    },
+    "PotionSlotForStat.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.PotionSlotForStat.Agility",
+      "description": "Gain 1 additional potion slot for every 50 Agility",
+      "effects": []
+    },
+    "PotionSlotForStat.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.PotionSlotForStat.Dexterity",
+      "description": "Gain 1 additional potion slot for every 50 Dexterity",
+      "effects": []
+    },
+    "PotionSlotForStat.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.PotionSlotForStat.Intelligence",
+      "description": "Gain 1 additional potion slot for every 50 Endurance",
+      "effects": []
+    },
+    "PotionSlotForStat.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.PotionSlotForStat.Luck",
+      "description": "Gain 1 additional potion slot for every 50 Luck",
+      "effects": []
+    },
+    "PotionSlotForStat.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.PotionSlotForStat.Stamina",
+      "description": "Gain 1 additional potion slot for every 50 Stamina",
+      "effects": []
+    },
+    "PotionSlotForStat.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.PotionSlotForStat.Strength",
+      "description": "Gain 1 additional potion slot for every 50 Strength",
+      "effects": []
+    },
+    "PotionSlotForStat.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.PotionSlotForStat.Wisdom",
+      "description": "Gain 1 additional potion slot for every 50 Wisdom",
+      "effects": []
+    },
+    "ChanceToSpawnArcaneEagle": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceToSpawnArcaneEagle",
+      "description": "Gain an 8% chance to spawn an Arcane Eagle, dealing Arcane Damage infront of it for 6 seconds. Arcane Eagle benefits from your Arcane Damage bonus",
+      "effects": []
+    },
+    "Phasing.PhasingTrance": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance",
+      "description": "While phasing through enemies, grant \\",
+      "effects": []
+    },
+    "Phasing.PhasingTrance.Hp": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Hp",
+      "description": "Phasing Trance now also grants 2 base Health per stack.",
+      "effects": []
+    },
+    "Bloodlust.MoreBlood.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreBlood.Agility",
+      "description": "Gain an additional 0.05% Damage from Blood stacks, for every 50 Agility",
+      "effects": []
+    },
+    "Bloodlust.MoreBlood.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreBlood.Dexterity",
+      "description": "Gain an additional 0.05% Damage from Blood stacks, for every 50 Dexterity",
+      "effects": []
+    },
+    "Bloodlust.MoreBlood.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreBlood.Intelligence",
+      "description": "Gain an additional 0.05% Damage from Blood stacks, for every 50 Endurance",
+      "effects": []
+    },
+    "Bloodlust.MoreBlood.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreBlood.Luck",
+      "description": "Gain an additional 0.05% Damage from Blood stacks, for every 50 Luck",
+      "effects": []
+    },
+    "Bloodlust.MoreBlood.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreBlood.Stamina",
+      "description": "Gain an additional 0.05% Damage from Blood stacks, for every 50 Stamina",
+      "effects": []
+    },
+    "Bloodlust.MoreBlood.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreBlood.Strength",
+      "description": "Gain an additional 0.05% Damage from Blood stacks, for every 50 Strength",
+      "effects": []
+    },
+    "Bloodlust.MoreBlood.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreBlood.Wisdom",
+      "description": "Gain an additional 0.05% Damage from Blood stacks, for every 50 Wisdom",
+      "effects": []
+    },
+    "Bloodlust.MoreLife.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Agility",
+      "description": "Gain an additional 0.05% maximum Health from Life stacks, for every 50 Agility",
+      "effects": []
+    },
+    "Bloodlust.MoreLife.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Dexterity",
+      "description": "Gain an additional 0.05% maximum Health from Life stacks, for every 50 Dexterity",
+      "effects": []
+    },
+    "Bloodlust.MoreLife.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Intelligence",
+      "description": "Gain an additional 0.05% maximum Health from Life stacks, for every 50 Endurance",
+      "effects": []
+    },
+    "Bloodlust.MoreLife.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Luck",
+      "description": "Gain an additional 0.05% maximum Health from Life stacks, for every 50 Luck",
+      "effects": []
+    },
+    "Bloodlust.MoreLife.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Stamina",
+      "description": "Gain an additional 0.05% maximum Health from Life stacks, for every 50 Stamina",
+      "effects": []
+    },
+    "Bloodlust.MoreLife.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Strength",
+      "description": "Gain an additional 0.05% maximum Health from Life stacks, for every 50 Strength",
+      "effects": []
+    },
+    "Bloodlust.MoreLife.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Wisdom",
+      "description": "Gain an additional 0.05% maximum Health from Life stacks, for every 50 Wisdom",
+      "effects": []
+    },
+    "ElementalToDamage%.Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.ElementalToDamage%.Lightning",
+      "description": "Gain 2% Physical Damage for every 30% Lightning Damage bonus",
+      "effects": []
+    },
+    "ElementalToDamage%.Fire": {
+      "tag": "EasyRPG.Items.Modifiers.ElementalToDamage%.Fire",
+      "description": "Gain 2% Physical Damage for every 30% Fire Damage bonus",
+      "effects": []
+    },
+    "ElementalToDamage%.Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.ElementalToDamage%.Arcane",
+      "description": "Gain 2% Physical Damage for every 30% Arcane Damage bonus",
+      "effects": []
+    },
+    "ElementalToHp%.Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.ElementalToHp%.Lightning",
+      "description": "Gain 2% maximum Health for every 30% Lightning Damage bonus",
+      "effects": []
+    },
+    "ElementalToHp%.Fire": {
+      "tag": "EasyRPG.Items.Modifiers.ElementalToHp%.Fire",
+      "description": "Gain 2% maximum Health for every 30% Fire Damage bonus",
+      "effects": []
+    },
+    "ElementalToHp%.Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.ElementalToHp%.Arcane",
+      "description": "Gain 2% maximum Health for every 30% Arcane Damage bonus",
+      "effects": []
+    },
+    "DamageCircle.BiggerFaster": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BiggerFaster",
+      "description": "Unholy Void's radius becomes 50% bigger and it's attacks are 30% faster",
+      "effects": []
+    },
+    "DamageCircle.Hp%.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Hp%.Agility",
+      "description": "While Unholy Void is active, gain 1% maximum Health for every 40 Agility",
+      "effects": []
+    },
+    "DamageCircle.Hp%.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Hp%.Dexterity",
+      "description": "While Unholy Void is active, gain 1% maximum Health for every 40 Dexterity",
+      "effects": []
+    },
+    "DamageCircle.Hp%.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Hp%.Intelligence",
+      "description": "While Unholy Void is active, gain 1% maximum Health for every 40 Endurance",
+      "effects": []
+    },
+    "DamageCircle.Hp%.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Hp%.Wisdom",
+      "description": "While Unholy Void is active, gain 1% maximum Health for every 40 Wisdom",
+      "effects": []
+    },
+    "DamageCircle.Hp%.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Hp%.Strength",
+      "description": "While Unholy Void is active, gain 1% maximum Health for every 40 Strength",
+      "effects": []
+    },
+    "DamageCircle.Hp%.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Hp%.Luck",
+      "description": "While Unholy Void is active, gain 1% maximum Health for every 40 Luck",
+      "effects": []
+    },
+    "DamageCircle.Hp%.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Hp%.Stamina",
+      "description": "While Unholy Void is active, gain 1% maximum Health for every 40 Stamina",
+      "effects": []
+    },
+    "DamageCircle.DamageReduction.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageReduction.Agility",
+      "description": "While Unholy Void is active, gain 0.2% damage reduction for every 50 Agility",
+      "effects": []
+    },
+    "DamageCircle.DamageReduction.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageReduction.Dexterity",
+      "description": "While Unholy Void is active, gain 0.2% damage reduction for every 50 Dexterity",
+      "effects": []
+    },
+    "DamageCircle.DamageReduction.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageReduction.Intelligence",
+      "description": "While Unholy Void is active, gain 0.2% damage reduction for every 50 Endurance",
+      "effects": []
+    },
+    "DamageCircle.DamageReduction.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageReduction.Luck",
+      "description": "While Unholy Void is active, gain 0.2% damage reduction for every 50 Luck",
+      "effects": []
+    },
+    "DamageCircle.DamageReduction.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageReduction.Stamina",
+      "description": "While Unholy Void is active, gain 0.2% damage reduction for every 50 Stamina",
+      "effects": []
+    },
+    "DamageCircle.DamageReduction.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageReduction.Strength",
+      "description": "While Unholy Void is active, gain 0.2% damage reduction for every 50 Strength",
+      "effects": []
+    },
+    "DamageCircle.DamageReduction.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageReduction.Wisdom",
+      "description": "While Unholy Void is active, gain 0.2% damage reduction for every 50 Wisdom",
+      "effects": []
+    },
+    "Shroud.ExtraHp": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExtraHp",
+      "description": "Gain 5% maximum Health per Dark Shroud stacks.",
+      "effects": []
+    },
+    "Veil": {
+      "tag": "EasyRPG.Items.Modifiers.Veil",
+      "description": "While moving, your character generates Veil stacks, up to 50. Gain 0.5% Damage Reduction per stack but getting hit will drop all stacks",
+      "effects": []
+    },
+    "Veil.OnLose": {
+      "tag": "EasyRPG.Items.Modifiers.Veil.OnLose",
+      "description": "When losing more than 40 stacks of Veil - gain 50% Movement Speed, 25% Health Regeneration and 50% Critical Damage bonus for 40 seconds.",
+      "effects": []
+    },
+    "Shroud.OnLose": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.OnLose",
+      "description": "When losing more than 40 stacks of Light Shroud - gain 50% Movement Speed and 50 Base Damage for 15 seconds.",
+      "effects": []
+    },
+    "Haste": {
+      "tag": "EasyRPG.Items.Modifiers.Haste",
+      "description": "Gain double Light Shroud and Veil stacks",
+      "effects": []
+    },
+    "AttackSpeedMultiplier": {
+      "tag": "EasyRPG.Items.Modifiers.AttackSpeedMultiplier",
+      "name": "Attack Speed",
+      "effects": []
+    },
+    "Invulnerability": {
+      "tag": "EasyRPG.Items.Modifiers.Invulnerability",
+      "effects": []
+    },
+    "Shroud.MaxStacksBonus": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.MaxStacksBonus",
+      "description": "When Light Shroud is at maximum stacks, your next attack deals double damage.",
+      "effects": []
+    },
+    "IgnoreOffhandsCooldown": {
+      "tag": "EasyRPG.Items.Modifiers.IgnoreOffhandsCooldown",
+      "effects": []
+    },
+    "Shroud.damageScale.HighestStat": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.damageScale.HighestStat",
+      "description": "Gain 0.15% Elemental Damage per Dark Shroud stack for every 50 of your highest stat",
+      "effects": []
+    },
+    "Shroud.DamageReductionScale.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.DamageReductionScale.Agility",
+      "description": "Shroud gives 0.05% damage reduction per stack for every 50 Agility",
+      "effects": []
+    },
+    "Shroud.DamageReductionScale.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.DamageReductionScale.Stamina",
+      "description": "Shroud gives 0.05% damage reduction per stack for every 50 Stamina",
+      "effects": []
+    },
+    "Shroud.DamageReductionScale.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.DamageReductionScale.Strength",
+      "description": "Shroud gives 0.05% damage reduction per stack for every 50 Strength",
+      "effects": []
+    },
+    "Shroud.DamageReductionScale.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.DamageReductionScale.Intelligence",
+      "description": "Shroud gives 0.05% damage reduction per stack for every 50 Endurance",
+      "effects": []
+    },
+    "Shroud.DamageReductionScale.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.DamageReductionScale.Wisdom",
+      "description": "Shroud gives 0.05% damage reduction per stack for every 50 Wisdom",
+      "effects": []
+    },
+    "Shroud.DamageReductionScale.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.DamageReductionScale.Dexterity",
+      "description": "Shroud gives 0.05% damage reduction per stack for every 50 Dexterity",
+      "effects": []
+    },
+    "Phasing.MovementSpeedBonus": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.MovementSpeedBonus",
+      "description": "While Phasing - Gain 30% movement speed and trigger your offhands every 7.5 seconds.",
+      "effects": []
+    },
+    "Phasing.TriggerOffhands": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TriggerOffhands",
+      "description": "While Phasing, trigger your offhands every 6 seconds. When offhands trigger there is a 10% chance to gain +150% health regeneration for 2 seconds",
+      "effects": []
+    },
+    "Phasing.TranceEffectsPotency.Agility": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TranceEffectsPotency.Agility",
+      "description": "Increases all Phasing Trance's effects by 10% for every 50 Agility",
+      "effects": []
+    },
+    "Phasing.TranceEffectsPotency.Dexterity": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TranceEffectsPotency.Dexterity",
+      "description": "Increases all Phasing Trance's effects by 10% for every 50 Dexterity",
+      "effects": []
+    },
+    "Phasing.TranceEffectsPotency.Intelligence": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TranceEffectsPotency.Intelligence",
+      "description": "Increases all Phasing Trance's effects by 10% for every 50 Endurance",
+      "effects": []
+    },
+    "Phasing.TranceEffectsPotency.Luck": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TranceEffectsPotency.Luck",
+      "description": "Increases all Phasing Trance's effects by 10% for every 50 Luck",
+      "effects": []
+    },
+    "Phasing.TranceEffectsPotency.Stamina": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TranceEffectsPotency.Stamina",
+      "description": "Increases all Phasing Trance's effects by 10% for every 50 Stamina",
+      "effects": []
+    },
+    "Phasing.TranceEffectsPotency.Strength": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TranceEffectsPotency.Strength",
+      "description": "Increases all Phasing Trance's effects by 10% for every 50 Strength",
+      "effects": []
+    },
+    "Phasing.TranceEffectsPotency.Wisdom": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TranceEffectsPotency.Wisdom",
+      "description": "Increases all Phasing Trance's effects by 10% for every 50 Wisdom",
+      "effects": []
+    },
+    "Bloodlust.DamageReductionPerStack": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack",
+      "name": "Bloodlust Damage Reduction",
+      "effects": []
+    },
+    "DamageCircle.BonusArmor%": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BonusArmor%",
+      "name": "Unholy Void Armor",
+      "effects": []
+    },
+    "DamageCircle.BonusRadius": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BonusRadius",
+      "name": "Unholy Void Radius",
+      "effects": []
+    },
+    "Phasing.PhasingTrance.Damage%": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%",
+      "name": "Phasing Trance Damage",
+      "effects": []
+    },
+    "Phasing.PhasingTrance.HealthRegan%": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%",
+      "name": "Phasing Trance Health Regeneration",
+      "effects": []
+    },
+    "Colossus.ElementalBonusForHighestStat.Fire": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonusForHighestStat.Fire",
+      "description": "While in Berserker Fury state, gain 5% Elemental damage per 30 of your highest stat",
+      "effects": []
+    },
+    "Colossus.ElementalBonusForHighestStat.Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonusForHighestStat.Arcane",
+      "description": "While in Berserker Fury state, gain 5% arcane damage per 40 of your highest stat",
+      "effects": []
+    },
+    "Colossus.ElementalBonusForHighestStat.Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonusForHighestStat.Lightning",
+      "description": "While in Berserker Fury state, gain 5% lightning damage per 40 of your highest stat",
+      "effects": []
+    },
+    "Shroud.ExposedStrike.LifeStealPerStack": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack",
+      "name": "Lifesteal per Shroud stack",
+      "description": "Dark Shroud gives 0.1% Lifesteal chance per stack",
+      "effects": []
+    },
+    "Shroud.ExposedStrike.DamageBonusPerStack": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack",
+      "name": "Damage per Shroud stack",
+      "description": "Dark Shroud  gains 0.1% increased Elemental Damage per stack",
+      "effects": []
+    },
+    "ChargedAttackDamageForHighestStat": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedAttackDamageForHighestStat",
+      "description": "Your charged secondary ability deals an additional 20% damage for every 65 of your highest stat.",
+      "effects": []
+    },
+    "Shroud.ExposedStrike.LifeStealPerStack.Large": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack.Large",
+      "name": "Lifesteal per Shroud stack",
+      "description": "Gain 1% Lifesteal chance per Dark Shroud stack",
+      "effects": []
+    },
+    "Shroud.ExposedStrike.DamageBonusPerStack.Large": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack.Large",
+      "name": "Damage per Shroud stack",
+      "description": "Dark Shroud gains 2% increased Elemental Damage per stack",
+      "effects": []
+    },
+    "Bloodlust.DamageReductionPerStack.Large": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack.Large",
+      "name": "Bloodlust Damage Reduction",
+      "effects": []
+    },
+    "Bloodlust.CritBonusPerStack": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack",
+      "name": "Bloodlust Critical Damage",
+      "description": "Gain an additional 0.1% critical damage per Bloodlust stack",
+      "effects": []
+    },
+    "Bloodlust.CritBonusPerStack.Large": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack.Large",
+      "name": "Bloodlust Critical Damage",
+      "description": "Gain an additional 1% critical damage per Bloodlust stack",
+      "effects": []
+    },
+    "Phasing.PhasingTrance.Damage%.Large": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%.Large",
+      "name": "Phasing Trance Damage",
+      "description": "Gain an additional 3% Elemental damage per Phasing Trance stack",
+      "effects": []
+    },
+    "Colossus.HpForEliteKill.SkillTree.Small": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Small",
+      "name": "Infuriated Health",
+      "effects": []
+    },
+    "Colossus.HpForEliteKill.SkillTree.Large": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Large",
+      "name": "While in Berserker Fury state, gain a Blessing that provides 1 Health per enemy killed. ",
+      "description": "While in Berserker Fury state, gain a Blessing that provides 1 Health per enemy killed.",
+      "effects": []
+    },
+    "Colossus.ElementalBonus.Small.Fire": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Fire",
+      "name": "Elemental Damage",
+      "description": "While in Berserker Fury state, gain 5% Fire damage",
+      "effects": []
+    },
+    "Colossus.ElementalBonus.Large.Fire": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Fire",
+      "name": "Elemental Damage",
+      "description": "While in Berserker Fury state, gain 50% Fire damage",
+      "effects": []
+    },
+    "Colossus.ElementalBonus.Small.Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Arcane",
+      "name": "Arcane damage in Berserker Fury state",
+      "description": "While in Berserker Fury state, gain 5% Arcane damage",
+      "effects": []
+    },
+    "Colossus.ElementalBonus.Large.Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Arcane",
+      "name": "Arcane damage in Berserker Fury state",
+      "description": "While in Berserker Fury state, gain 50% Arcane damage",
+      "effects": []
+    },
+    "Colossus.ElementalBonus.Small.Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Lightning",
+      "name": "Lightning damage in Berserker Fury state",
+      "description": "While in Berserker Fury state, gain 5% Lightning damage",
+      "effects": []
+    },
+    "Colossus.ElementalBonus.Large.Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Lightning",
+      "name": "Lightning damage in Berserker Fury state",
+      "description": "While in Berserker Fury state, gain 50% Lightning damage",
+      "effects": []
+    },
+    "RangedParagon.MaxHp": {
+      "tag": "EasyRPG.Items.Modifiers.RangedParagon.MaxHp",
+      "name": "If you are using a ranged weapon, gain 10 maximum Health for each stance mastery level.",
+      "description": "If you are using a ranged weapon, gain 10 maximum Health for each stance mastery level.",
+      "effects": []
+    },
+    "RangedParagon.Armor": {
+      "tag": "EasyRPG.Items.Modifiers.RangedParagon.Armor",
+      "name": "If you are using a ranged weapon, gain 15 Armor for each stance mastery level.",
+      "description": "If you are using a ranged weapon, gain 15 Armor for each stance mastery level.",
+      "effects": []
+    },
+    "RangedParagon.BaseDamage": {
+      "tag": "EasyRPG.Items.Modifiers.RangedParagon.BaseDamage",
+      "name": "If you are using a ranged weapon, gain 2 base damage for each stance mastery level.",
+      "description": "If you are using a ranged weapon, gain 2 base damage for each stance mastery level.",
+      "effects": []
+    },
+    "ChargedSecondaryBuff.Armor": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor",
+      "name": "After dealing damage with Charged Secondary, gain a Blessing that provides 250 Armor",
+      "description": "After dealing damage with Charged Secondary, gain a Blessing that provides 250 Armor",
+      "effects": []
+    },
+    "ChargedSecondaryBuff.Armor.Small": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor.Small",
+      "name": "Charged Defense provides 1% more Armor",
+      "description": "Charged Secondary Blessing Armor increase",
+      "effects": []
+    },
+    "SecondaryAttackDoubleDamage.Large": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage.Large",
+      "name": "Charged Secondary Attack deals 50% more damage",
+      "description": "Charged Secondary Ability deals 50% more damage",
+      "effects": []
+    },
+    "DistanceProcsDamage_Near_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage_Near_TextTag",
+      "name": "Proximity Destruction Damage",
+      "description": "If your attacks hit within 5 meters, gain extra 50% damage.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage_Near",
+          "value": 2
+        }
+      ]
+    },
+    "DistanceProcsDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage_TextTag",
+      "name": "Distance Demolition Damage",
+      "description": "If your attacks hit further than 6 meters, gain extra 50% damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.DistanceProcsDamage",
+          "value": 2
+        }
+      ]
+    },
+    "MeleeParagon.Armor_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.MeleeParagon.Armor_TextTag",
+      "name": "Melee Mastery Armor Bonus",
+      "description": "If you are using a melee weapon, gain 15 Armor for each stance mastery level.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.MeleeParagon.Armor",
+          "value": 0.066
+        }
+      ]
+    },
+    "MeleeParagon.BaseDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.MeleeParagon.BaseDamage_TextTag",
+      "name": "Melee Mastery Damage Bonus",
+      "description": "If you are using a melee weapon, gain 2 base damage for each stance mastery level.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.MeleeParagon.BaseDamage",
+          "value": 0.5
+        }
+      ]
+    },
+    "RangedParagon.Armor_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.RangedParagon.Armor_TextTag",
+      "name": "Ranged Mastery Armor Bonus",
+      "description": "If you are using a ranged weapon, gain 15 Armor for each stance mastery level.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.RangedParagon.Armor",
+          "value": 0.066
+        }
+      ]
+    },
+    "RangedParagon.BaseDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.RangedParagon.BaseDamage_TextTag",
+      "name": "Ranged Mastery Damage Bonus",
+      "description": "If you are using a ranged weapon, gain 2 base damage for each stance mastery level.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.RangedParagon.BaseDamage",
+          "value": 0.5
+        }
+      ]
+    },
+    "Shroud.ExposedStrike.DamageBonusPerStack_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack_TextTag",
+      "name": "Damage per Dark Shroud stack",
+      "description": "Dark Shroud gains 0.1% increased Elemental Damage per stack",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack",
+          "value": 1000
+        }
+      ]
+    },
+    "Shroud.ExposedStrike.DamageBonusPerStack.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack.Large_TextTag",
+      "name": "Damage per Dark Shroud stack",
+      "description": "Dark Shroud gains 2% increased Elemental Damage per stack",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.DamageBonusPerStack.Large",
+          "value": 50
+        }
+      ]
+    },
+    "Bloodlust.DamageReductionPerStack_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack_TextTag",
+      "name": "Bloodlust Damage Reduction",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack",
+          "value": 20000
+        }
+      ]
+    },
+    "Bloodlust.DamageReductionPerStack.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack.Large_TextTag",
+      "name": "Bloodlust Damage Reduction",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Bloodlust.DamageReductionPerStack.Large",
+          "value": 3333.34
+        }
+      ]
+    },
+    "Bloodlust.CritBonusPerStack_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack_TextTag",
+      "name": "Bloodlust Critical Damage",
+      "description": "Gain an additional 0.1% critical damage per Bloodlust stack",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack",
+          "value": 1000
+        }
+      ]
+    },
+    "Bloodlust.CritBonusPerStack.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack.Large_TextTag",
+      "name": "Bloodlust Critical Damage",
+      "description": "Gain an additional 1% critical damage per Bloodlust stack",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Bloodlust.CritBonusPerStack.Large",
+          "value": 100
+        }
+      ]
+    },
+    "SecondaryAttackDoubleDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage_TextTag",
+      "name": "Charged Secondary Attack Damage",
+      "description": "Your Charged Secondary ability deals 5% more damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage",
+          "value": 20
+        }
+      ]
+    },
+    "SecondaryAttackDoubleDamage.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage.Large_TextTag",
+      "name": "Charged Secondary Attack Damage",
+      "description": "Charged Secondary Ability deals 50% more damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.SecondaryAttackDoubleDamage.Large",
+          "value": 2
+        }
+      ]
+    },
+    "ChargedSecondaryBuff.Armor_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor_TextTag",
+      "name": "Charged Defense Armor",
+      "description": "After dealing damage with Charged Secondary, gain a Blessing that provides 250 Armor",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor",
+          "value": 0.004
+        }
+      ]
+    },
+    "ChargedSecondaryBuff.Armor.Small_TextTAg": {
+      "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor.Small_TextTAg",
+      "name": "Charged Defense Armor",
+      "description": "Charged Secondary Blessing Armor increase",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.ChargedSecondaryBuff.Armor.Small",
+          "value": 0.04
+        }
+      ]
+    },
+    "Colossus.HpForEliteKill.SkillTree.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Large_TextTag",
+      "name": "Infuriated Health",
+      "description": "While in Berserker Fury state, gain a Blessing that provides 1 Health per enemy killed.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill",
+          "value": 1
+        }
+      ]
+    },
+    "Phasing.PhasingTrance.HealthRegan%_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%_TextTag",
+      "name": "Phasing Trance Health Regeneration",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%",
+          "value": 200
+        }
+      ]
+    },
+    "Phasing.PhasingTrance.HealthRegan%.Large": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%.Large",
+      "name": "Phasing Trance Health Regeneration",
+      "effects": []
+    },
+    "Phasing.PhasingTrance.HealthRegan%.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%.Large_TextTag",
+      "name": "Phasing Trance Health Regeneration",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.HealthRegan%.Large",
+          "value": 66.6668
+        }
+      ]
+    },
+    "Phasing.PhasingTrance.Damage%_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%_TextTag",
+      "name": "Phasing Trance Damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%",
+          "value": 100
+        }
+      ]
+    },
+    "Phasing.PhasingTrance.Damage%.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%.Large_TextTag",
+      "name": "Phasing Trance Damage",
+      "description": "Gain an additional 3% Elemental damage per Phasing Trance stack",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Phasing.PhasingTrance.Damage%.Large",
+          "value": 50
+        }
+      ]
+    },
+    "DamageCircle.BonusRadius_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BonusRadius_TextTag",
+      "name": "Unholy Void Radius",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.DamageCircle.BonusRadius",
+          "value": 100
+        }
+      ]
+    },
+    "DamageCircle.BiggerRadius_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BiggerRadius_TextTag",
+      "name": "Unholy Void Radius",
+      "description": "Unholy Void Radius is 50% bigger.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.DamageCircle.BiggerRadius",
+          "value": 2
+        }
+      ]
+    },
+    "DamageCircle.ExtraDamage_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.ExtraDamage_TextTag",
+      "name": "Unholy Void Damage",
+      "description": "Unholy Void attacks are 1% stronger for every 35 Health Regeneration.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.DamageCircle.ExtraDamage20%",
+          "value": 5
+        }
+      ]
+    },
+    "DamageCircle.BonusArmor%_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BonusArmor%_TextTag",
+      "name": "Unholy Void Armor",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.DamageCircle.BonusArmor%",
+          "value": 100
+        }
+      ]
+    },
+    "Shroud.ExposedStrike.LifeStealPerStack_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack_TextTag",
+      "name": "Dark Shroud Lifesteal Chance",
+      "description": "Dark Shroud gives 0.1% Lifesteal chance per stack",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack",
+          "value": 10000
+        }
+      ]
+    },
+    "Shroud.ExposedStrike.LifeStealPerStack.Large_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack.Large_TextTag",
+      "name": "Dark Shroud Lifesteal Chance",
+      "description": "Gain 1% Lifesteal chance per Dark Shroud stack",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Shroud.ExposedStrike.LifeStealPerStack.Large",
+          "value": 1000
+        }
+      ]
+    },
+    "Colossus.ElementalBonus.Small.Fire_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Fire_TextTag",
+      "name": "Elemental Damage",
+      "description": "While in Berserker Fury state, gain 5% Fire damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Fire",
+          "value": 20
+        }
+      ]
+    },
+    "Colossus.ElementalBonus.Small.Arcane_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Arcane_TextTag",
+      "name": "Berserker Fury Arcane Damage Bonus",
+      "description": "While in Berserker Fury state, gain 5% Arcane damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Arcane",
+          "value": 20
+        }
+      ]
+    },
+    "Colossus.ElementalBonus.Small.Lightning_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Lightning_TextTag",
+      "name": "Berserker Fury Lightning Damage Bonus",
+      "description": "While in Berserker Fury state, gain 5% Lightning damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Small.Lightning",
+          "value": 20
+        }
+      ]
+    },
+    "Colossus.ElementalBonus.Large.Fire_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Fire_TextTag",
+      "name": "Elemental Damage",
+      "description": "While in Berserker Fury state, gain 50% Fire damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Fire",
+          "value": 2
+        }
+      ]
+    },
+    "Colossus.ElementalBonus.Large.Arcane_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Arcane_TextTag",
+      "name": "Berserker Fury Arcane Damage Bonus",
+      "description": "While in Berserker Fury state, gain 50% Arcane damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Arcane",
+          "value": 2
+        }
+      ]
+    },
+    "Colossus.ElementalBonus.Large.Lightning_TextTag": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Lightning_TextTag",
+      "name": "Berserker Fury Lightning Damage Bonus",
+      "description": "While in Berserker Fury state, gain 50% Lightning damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.ElementalBonus.Large.Lightning",
+          "value": 2
+        }
+      ]
+    },
+    "DamageForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat.Highest",
+      "description": "Gain 15 Physical Damage for every 150 of your highest stat.",
+      "effects": []
+    },
+    "DamageForStat2.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.DamageForStat2.Highest",
+      "description": "Gain 1 base Damage for every 75 of your highest stat",
+      "effects": []
+    },
+    "GainCritChanceForHighest": {
+      "tag": "EasyRPG.Items.Modifiers.GainCritChanceForHighest",
+      "description": "Gain 1% Critical Chance for every 50 of your highest stat",
+      "effects": []
+    },
+    "Health%ForHighest": {
+      "tag": "EasyRPG.Items.Modifiers.Health%ForHighest",
+      "description": "Gain 1% maximum Health for every 50 your highest stat.",
+      "effects": []
+    },
+    "BossDamageForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.BossDamageForStat.Highest",
+      "description": "Gain 1% Boss Damage for every 50 of your highest stat.",
+      "effects": []
+    },
+    "HighestStatForDamage": {
+      "tag": "EasyRPG.Items.Modifiers.HighestStatForDamage",
+      "description": "For every 30 points of your highest stat, gain 1% Damage bonus.",
+      "effects": []
+    },
+    "Damage%ForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat.Highest",
+      "description": "Gain 1% Elemental Damage for every 40 of your highest stat.",
+      "effects": []
+    },
+    "MaxHpForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHpForStat.Highest",
+      "description": "Gain 10 maximum Health for every 100 of your highest stat.",
+      "effects": []
+    },
+    "MaxHp%ForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.MaxHp%ForStat.Highest",
+      "description": "Gain 1% maximum Health for every 50 of your highest stat.",
+      "effects": []
+    },
+    "Armor%ForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.Armor%ForStat.Highest",
+      "description": "Gain 1% Armor for every 20 of your highest stat",
+      "effects": []
+    },
+    "DamageReduction%ForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.DamageReduction%ForStat.Highest",
+      "description": "Gain 0.02% Damage Reduction for every 25 of you Highest stat.",
+      "effects": []
+    },
+    "MaxEneryForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.MaxEneryForStat.Highest",
+      "description": "Gain 2 maximum Energy for every 75 of your highest stat.",
+      "effects": []
+    },
+    "Damage%ForStat2.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.Damage%ForStat2.Highest",
+      "description": "Gain 1% Elemental Damage for every 40 of your highest stat.",
+      "effects": []
+    },
+    "DamageCircle.HpForStats.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.HpForStats.Highest",
+      "description": "While Unholy Void is active, Gain 2 base Health for every 25 of your highest stat",
+      "effects": []
+    },
+    "SecondaryBuild.ChargedSecondaryDamageForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.SecondaryBuild.ChargedSecondaryDamageForStat.Highest",
+      "description": "Gain an additional 100% damage bonus to your charged Secondary Ability for every 100 of your highest stat",
+      "effects": []
+    },
+    "DamageCircle.DamageForStats.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageForStats.Highest",
+      "description": "While Unholy Void is active, gain 3 base Damage for every 25 of your highest stat",
+      "effects": []
+    },
+    "PotionSlotForStat.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.PotionSlotForStat.Highest",
+      "description": "Gain 1 additional potion slot for every 50 of your highest stat.",
+      "effects": []
+    },
+    "Bloodlust.MoreBlood.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreBlood.Highest",
+      "description": "Gain an additional 0.1% Physical Damage from Blood stacks, for every 50 of your highest stat",
+      "effects": []
+    },
+    "Bloodlust.MoreLife.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.Bloodlust.MoreLife.Highest",
+      "description": "Gain an additional 0.1% maximum Health from Life stacks, for every 50 of your highest stat",
+      "effects": []
+    },
+    "DamageCircle.Hp%.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.Hp%.Highest",
+      "description": "While Unholy Void is active, gain 2% maximum Health for every 50 of your highest stat",
+      "effects": []
+    },
+    "DamageCircle.DamageReduction.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.DamageReduction.Highest",
+      "description": "While Unholy Void is active, gain 0.2% damage reduction for every 50 of your highest stat",
+      "effects": []
+    },
+    "Shroud.DamageReductionScale.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.DamageReductionScale.Highest",
+      "description": "Light Shroud gives 0.05% damage reduction per stack for every 50 of your highest stat",
+      "effects": []
+    },
+    "Phasing.TranceEffectsPotency.Highest": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.TranceEffectsPotency.Highest",
+      "description": "Increases all Phasing Trance's effects by 10% for every 100 of your highest stat",
+      "effects": []
+    },
+    "Colossus.HpForEliteKill.SkillTree.Small.Text": {
+      "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Small.Text",
+      "name": "Infuriated Health",
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Colossus.HpForEliteKill.SkillTree.Small",
+          "value": 10
+        }
+      ]
+    },
+    "NoMovement": {
+      "tag": "EasyRPG.Items.Modifiers.NoMovement",
+      "name": "Immobilized",
+      "description": "Cannot move",
+      "effects": []
+    },
+    "ExtraStrength": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraStrength",
+      "description": "Gain 200 Strength",
+      "effects": []
+    },
+    "ExtraStamina": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraStamina",
+      "description": "Gain 200 Stamina",
+      "effects": []
+    },
+    "ExtraLuck": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraLuck",
+      "description": "Gain 200 Luck",
+      "effects": []
+    },
+    "ExtraDexterity": {
+      "tag": "EasyRPG.Items.Modifiers.ExtraDexterity",
+      "description": "Gain 200 Dexterity",
+      "effects": []
+    },
+    "Juggernaut": {
+      "tag": "EasyRPG.Items.Modifiers.Juggernaut",
+      "name": "Juggernaut mod",
+      "description": "Landing a critical strike has a chance to provide a stack of Excitement, providing 3% all Elemental Damage. At 6 stacks, become the Juggernaut - gaining +25% size, +40% movement speed, +25% critical chance and double your critical damage bonus.",
+      "effects": []
+    },
+    "Shroud.MovementSpeed": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.MovementSpeed",
+      "description": "Gain 40% movement speed while Light Shroud is active",
+      "effects": []
+    },
+    "Shroud.ElementalAug.Arcane": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ElementalAug.Arcane",
+      "description": "Dark Shroud now also provides +2% Arcane Damage per stack",
+      "effects": []
+    },
+    "Shroud.ElementalAug.Lightning": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ElementalAug.Lightning",
+      "description": "Dark Shroud now also provides +2% Lightning Damage per stack",
+      "effects": []
+    },
+    "Shroud.ElementalAug.Fire": {
+      "tag": "EasyRPG.Items.Modifiers.Shroud.ElementalAug.Fire",
+      "description": "Dark Shroud now also provides +3% Elemental Damage per stack",
+      "effects": []
+    },
+    "DamageCircle.BossDamageBuff": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.BossDamageBuff",
+      "description": "Unholy Void has a 10% chance to grant a stack of Call of the Void - providing 1%  Boss Damage per stack. Stacks up to 50",
+      "effects": []
+    },
+    "BonusDamageForEssence": {
+      "tag": "EasyRPG.Items.Modifiers.BonusDamageForEssence",
+      "description": "Gain 1.5 Elemental Damage for every 20 essence available.",
+      "effects": []
+    },
+    "BonusCritDamage%ForEssence": {
+      "tag": "EasyRPG.Items.Modifiers.BonusCritDamage%ForEssence",
+      "description": "Gain 1.5% Critical Damage for every 10 essence collected.",
+      "effects": []
+    },
+    "Phasing.StacksEvery2s": {
+      "tag": "EasyRPG.Items.Modifiers.Phasing.StacksEvery2s",
+      "description": "While Phasing, grants 1 stack of Phasing every 2 seconds.",
+      "effects": []
+    },
+    "DarkEssence": {
+      "tag": "EasyRPG.Items.Modifiers.DarkEssence",
+      "description": "Dark Essence: Hitting an Elite or Boss generates 0.25 Dark Essence per 100 of your highest stat. Dark Essence counts as normal Essence but cannot be used. Stacks up to 500.",
+      "effects": []
+    },
+    "DarkEssence.Count": {
+      "tag": "EasyRPG.Items.Modifiers.DarkEssence.Count",
+      "description": "dark essence",
+      "effects": []
+    },
+    "DamageCircle.ExtraDamage20%": {
+      "tag": "EasyRPG.Items.Modifiers.DamageCircle.ExtraDamage20%",
+      "effects": []
+    },
+    "ExpT6": {
+      "tag": "EasyRPG.Items.Modifiers.ExpT6",
+      "description": "Gain Double Experience points.",
+      "effects": []
+    },
+    "ChanceForGoldOnKillT6": {
+      "tag": "EasyRPG.Items.Modifiers.ChanceForGoldOnKillT6",
+      "description": "Gain a 10% chance to get 1000 gold for killing an enemy.",
+      "effects": []
+    },
+    "OffhandCrit": {
+      "tag": "EasyRPG.Items.Modifiers.OffhandCrit",
+      "description": "Offhand abilities can now critically strike at 10% of your Critical Strike Chance.",
+      "effects": []
+    },
+    "EleAsBasePhys": {
+      "tag": "EasyRPG.Items.Modifiers.EleAsBasePhys",
+      "description": "Gain 75% of your elemental damage as Physical damage. you can no longer deal elemental damage.",
+      "effects": []
+    },
+    "BonusEleAsBonusPhys": {
+      "tag": "EasyRPG.Items.Modifiers.BonusEleAsBonusPhys",
+      "description": "Gain 75% of your elemental damage bonus as Physical damage bonus. you can no longer deal elemental damage.",
+      "effects": []
+    },
+    "GlobalEssenceDamageHpDrain": {
+      "tag": "EasyRPG.Items.Modifiers.GlobalEssenceDamageHpDrain",
+      "description": "Gain 2% Damage for every 10 points of unspent Essence, but lose 20% of unspent essence as Health per second.",
+      "effects": []
+    },
+    "300CapAttackSpeed": {
+      "tag": "EasyRPG.Items.Modifiers.300CapAttackSpeed",
+      "description": "Your maximum Attack Speed is capped at 300%, but all Attack Speed bonuses apply at 50% effectiveness.",
+      "effects": []
+    },
+    "ElementalUnholyVoid": {
+      "tag": "EasyRPG.Items.Modifiers.ElementalUnholyVoid",
+      "description": "Unholy Void becomes Prismatic Void. Also benefits from Elemental Damage Bonus, but 50% reduced chance to trigger offhands.",
+      "effects": []
+    }
+  }
+}

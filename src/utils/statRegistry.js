@@ -389,6 +389,12 @@ export const STAT_REGISTRY = {
       'MaulsDamage%',
       'MaulDamage',
       'Mauls.Damage',
+      // PoleArm = Mauls: DT_Skills_Mauls stat/paragon nodes and the
+      // MaulsDamage% affix row all grant DamageSystem.Damage.PoleArm%.
+      'Damage.PoleArm%6',
+      'Damage.PoleArm%',
+      'PoleArm%6',
+      'PoleArm%',
     ],
     canonical: 'Damage.Mauls.Damage%',
     isPercent: true,
@@ -404,6 +410,14 @@ export const STAT_REGISTRY = {
       'Mauls.CriticalDamage%',
       'MaulsCriticalDamage%',
       'MaulCritDamage',
+      // PoleArm = Mauls (see maulDamage)
+      'Damage.PoleArmCriticalDamage%6',
+      'Damage.PoleArmCriticalDamage%',
+      'PoleArmCriticalDamage%6',
+      'PoleArmCriticalDamage%',
+      'Damage.PoleArmCritcalDamage%6',  // Game typo: "Critcal" not "Critical"
+      'Damage.PoleArmCritcalDamage%',
+      'PoleArmCritcalDamage%',
     ],
     canonical: 'Damage.Mauls.CriticalDamage%',
     isPercent: true,
@@ -419,6 +433,14 @@ export const STAT_REGISTRY = {
       'Mauls.CriticalChance%',
       'MaulsCriticalChance%',
       'MaulCritChance',
+      // PoleArm = Mauls (see maulDamage)
+      'Damage.PoleArmCriticalChance%6',
+      'Damage.PoleArmCriticalChance%',
+      'PoleArmCriticalChance%6',
+      'PoleArmCriticalChance%',
+      'Damage.PoleArmCritcalChance%6',  // Game typo: "Critcal" not "Critical"
+      'Damage.PoleArmCritcalChance%',
+      'PoleArmCritcalChance%',
     ],
     canonical: 'Damage.Mauls.CriticalChance%',
     isPercent: true,
@@ -605,10 +627,6 @@ export const STAT_REGISTRY = {
       'SpearDamage%',
       'SpearDamage',
       'Spear.Damage',
-      'Damage.PoleArm%6',  // PoleArm = Spear in game data
-      'Damage.PoleArm%',
-      'PoleArm%6',
-      'PoleArm%',
     ],
     canonical: 'Damage.Spear%6',
     isPercent: true,
@@ -629,13 +647,6 @@ export const STAT_REGISTRY = {
       'SpearCriticalDamage%6',
       'SpearCriticalDamage%',
       'SpearCritDamage',
-      'Damage.PoleArmCriticalDamage%6',  // PoleArm = Spear in game data
-      'Damage.PoleArmCriticalDamage%',
-      'PoleArmCriticalDamage%6',
-      'PoleArmCriticalDamage%',
-      'Damage.PoleArmCritcalDamage%6',  // Game typo: "Critcal" not "Critical"
-      'Damage.PoleArmCritcalDamage%',
-      'PoleArmCritcalDamage%',
     ],
     canonical: 'Damage.SpearCritcalDamage%6',
     isPercent: true,
@@ -656,13 +667,6 @@ export const STAT_REGISTRY = {
       'SpearCriticalChance%6',
       'SpearCriticalChance%',
       'SpearCritChance',
-      'Damage.PoleArmCriticalChance%6',  // PoleArm = Spear in game data
-      'Damage.PoleArmCriticalChance%',
-      'PoleArmCriticalChance%6',
-      'PoleArmCriticalChance%',
-      'Damage.PoleArmCritcalChance%6',  // Game typo: "Critcal" not "Critical"
-      'Damage.PoleArmCritcalChance%',
-      'PoleArmCritcalChance%',
     ],
     canonical: 'Damage.SpearCritcalChance%6',
     isPercent: true,

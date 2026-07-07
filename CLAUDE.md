@@ -58,6 +58,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Attribute display names | `src/utils/attributeDisplay.js` |
 | Skill tree data model | `src/models/SkillTree.js` |
 | Skill tree extraction | `src/utils/skillTreeParser.js` |
+| Skill→stat contributions (cards/skills/buffs) | `src/utils/skillEffectAggregator.js` |
 | Skill/card/keystone registry | `src/utils/skillTreeRegistry.js` |
 | Styling/theming | `src/styles/index.css` |
 
@@ -87,7 +88,8 @@ App.jsx (state holder)
 │   ├── equipped[]        → Item model format
 │   ├── inventory[]       → All items from save
 │   ├── equippedSlotMap   → Items by slot key
-│   └── metadata          → Filename, load time
+│   └── metadata          → Filename, load time, stanceContext,
+│                           allocatedAttributes, maxHealth, skillTree
 ├── sharedFilterModel → Decoded filter from URL hash (consumed once)
 ├── status/statusType → UI feedback messages
 ├── logs            → Debug log buffer
@@ -251,7 +253,7 @@ Key structural points (vs the pre-split single-line model):
 | BaseElem | `edpsElemFlat` | `elementalDamage` + damageFromHealth + statDamageFlat + paragon + energy→elem + essence→elem |
 | Phys bucket | `edpsPhysAdditive` | StanceCrit + Crit + PhysDmg% + StanceDmg + bloodlust/armor crit + phys monograms + both-types |
 | Elem bucket | `edpsElemAdditive` | item offhand% + affinity + both-types (skill mult added per skill) |
-| both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + dmgPerStat2 + phasingDuration + essence(2%/10) |
+| both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + phasingDuration + essence-drain(2%/10) |
 | ED | `edpsED` | fire + arcane + lightning + elemFromCrit + mines + new elemental monograms |
 | ElemCrit | `edpsElemCrit` | 1 + regular crit dmg + stance crit dmg (provisional elemental crit bucket) |
 | BD | `edpsBD` | bossBonus (gear) + phasing boss dmg |
@@ -285,6 +287,31 @@ fold into eDPS yet.
 `edpsElemCrit` (offhandCritFactor), `edpsPhysFlat`/`edpsPhysAdditive` (elem→phys conversion ratios).
 
 **Stance detection:** `inferWeaponStance(rowName)` in `equipmentParser.js` maps weapon keywords to stance prefixes. `useDerivedStats` auto-detects stance from the equipped weapon's row name and passes it to eDPS calcs via config override. Falls back to highest-stat heuristic if no weapon detected.
+
+**Skill tree contributions:** `useItemStore.loadFromSave()` runs `extractSkillTree()`
+and stores the result in `metadata.skillTree`; `useDerivedStats` feeds it through
+`src/utils/skillEffectAggregator.js`, which converts skills into flat stat
+contributions using generated game data:
+- **Cards**: per-level `{tag, value}` effects × card level
+- **Weapon skills**: per-level effects × skill level (paragon nodes included —
+  melee paragons also grant regen/lifesteal/armor per level)
+- **Weapon buffs**: force-enabled at max stacks (buff state isn't in saves;
+  per-stack customization is post-launch). Disable via
+  `aggregateSkillEffects(tree, { includeBuffs: false })`.
+Contributions enter the same BASE-layer aggregation as item stats
+(`sourceType: 'skill'` in breakdowns). When real skill data is present the
+legacy "+1% stance damage per mastery level" approximation is skipped; shared
+builds (no skill tree in the payload) still use it. Main passive tree and
+crafting tree are NOT aggregated yet (opaque node IDs — next MR).
+Row-name lookups are case-insensitive (UE FNames: save `Spear_Crit_Damage_buff`
+vs table `Spear_Crit_Damage_Buff`).
+
+**PoleArm = Mauls:** the game's `DamageSystem.Damage.PoleArm%` tags (and Crit
+variants) belong to the MAULS stance — `DT_Skills_Mauls` nodes and the
+`MaulsDamage%` affix row all grant them. `statRegistry` previously mapped them
+to spear; they now resolve to `maulDamage`/`maulCritDamage`/`maulCritChance`.
+(Weapon *item* naming still routes `weapon_polearm` row names to spear stance
+in `inferWeaponStance` — that's a separate, item-side convention.)
 
 **Primary Attribute Mappings (NOT balanced, do not assume 1:1):**
 | Attribute | Known Effect | Status |
@@ -353,8 +380,21 @@ Opaque node IDs can't be auto-detected. `TREE_KEYSTONES` provides a checklist of
 - Fire/Arcane/Lightning Affinity (CDR ~35%, damage ~100% additive)
 - Extra inventory slots, extra potions
 
-### TODO: Card registry
-Card effects need population. Cards have L1/L2/L3 base stats; L6 doubles L3 and removes from further choice. Currently stored as skeleton entries with empty effects arrays.
+### Card registry — populated from game data
+`getCardDef()` merges generated data (`src/data/cards.generated.json`, all 81
+cards) into the curated skeleton: effects are per-level `{tag, value}` pairs
+that scale linearly with card level (choice levels 1/2/3; L6 = 6× base, which
+reproduces the observed "L6 doubles L3" rule). Curated `CARD_REGISTRY` entries
+only pin display names and shareCodec dictionary order — keep them append-only.
+
+`getWeaponSkillDef()` likewise merges generated weapon data
+(`src/data/weaponSkills.generated.json`, 112 rows): per-level `effects`,
+`gameMaxLevel`, `gameDescription`, and `buff` (joined from `DT_StatusEffects`
+by rowName — name, duration, maxStack, effect magnitudes). Notable game facts:
+all four melee paragon nodes (`SpearsDamage`, `PolearmDamage` (mauls),
+`OneHandDamage`, `TwoHandDamage`) grant 1% weapon damage + 0.1% health regen +
+0.01% lifesteal + 0.5 armor per level (max 5000); ranged/magery/scythe paragons
+grant damage only.
 
 ## Testing
 
@@ -497,27 +537,63 @@ GitHub Actions workflow in `.github/workflows/static.yml`:
 
 Push to `main` triggers deployment automatically.
 
+## Extracted Game Data (extraction/)
+
+Authoritative id→effect data extracted from the game's DataTables (FModel +
+UE4SS usmap; see `extraction/README.md` for the full workflow). Raw table
+exports live in `extraction/data/` (committed, derived facts only); generated
+runtime data lands in `src/data/*.generated.json` via:
+
+```bash
+node extraction/generate-registries.mjs
+```
+
+| Generated file | Contents | Consumed by |
+|----------------|----------|-------------|
+| `src/data/monograms.generated.json` | 473 monograms: tag, in-game description, `effects` tag→value pairs | `monogramRegistry.js` lookup fallback (curated entries win) |
+| `src/data/affixes.generated.json` | 347 item affixes: tag, base value, per-level scaling, roll rules, min item level | (available; not yet wired into calcs) |
+| `src/data/modifierPools.generated.json` | Yellow/orange roll pools per weapon/tier | (available) |
+| `src/data/cards.generated.json` | 81 crystal cards: per-level `{tag, value}` effects (× card level) | `skillTreeRegistry.js` `getCardDef()` merge |
+| `src/data/weaponSkills.generated.json` | 112 weapon skills: per-level effects, game max level, buff join | `skillTreeRegistry.js` `getWeaponSkillDef()` merge |
+| `src/data/statusEffects.generated.json` | 170 buffs/debuffs: name, description, duration, stacks, effect values | joined into weapon skills; standalone lookup TBD |
+
+The generator also emits a drift report (`extraction/out/drift-report.md`,
+gitignored) flagging rollable affix tags `findStatForAttribute()` cannot
+classify — currently zero. **After each game update:** re-export the tables
+with FModel, drop them in `extraction/data/`, re-run the generator, and check
+the drift report + git diff of the generated files for balance changes.
+
+Key source tables in `extraction/data/`:
+- `DT_Attributes.json` — master lexicon (976 rows: every attribute/monogram tag with description + dependency effects)
+- `DT_Base_Item_Attributes.json` — affix definitions (base/per-level values)
+- `DT_Yellow_Orange_Modifiers.json` — monogram/affix roll pools
+- `DT_Crystal_Cards_Skills.json` — card effects (registry integration TBD)
+- `DT_Skills_*.json` (8 weapons), `DT_Stance_Levels.json` — weapon skill trees
+- `DT_StatusEffects.json` — buff/status lexicon
+
 ## Integration TODOs
 
-### Unconfirmed monogram save-tag IDs (engine wired, off by default)
-These derived stats are implemented and unit-tested, but their real
-`EasyRPG.Items.Modifiers.*` save-tag suffixes haven't been observed yet, so the
-`MONOGRAM_CALC_CONFIGS` keys are descriptive placeholders. Rename the keys once a
-save with the items is parsed; the calc wiring stays put. Append confirmed
-mappings here as they land.
+### Monogram save-tag IDs — CONFIRMED via extracted game data
+The former descriptive-placeholder keys in `MONOGRAM_CALC_CONFIGS` were renamed
+to the real `EasyRPG.Items.Modifiers.*` suffixes, confirmed against
+`extraction/data/DT_Attributes.json` (the game's attribute/monogram lexicon).
+Corrections found during confirmation: essence damage% and highest-stat damage%
+II are **elemental-only** (were modeled as both-types), and stat intervals were
+adjusted to game values.
 
-| Placeholder key | Derived stat(s) | Effect |
-|-----------------|-----------------|--------|
-| `BerserkerFury.ElementalForHighest` | `berserkerElementalFromHighest` | +5% elem per 30 highest (Berserker Fury) |
-| `BerserkerFury.MaxDrDamage` | `berserkerMaxDrFlatDamage` | +100 physical at max DR |
-| `ElementalDamage%ForEssence` | `elementalFromEssence` | +2% elem per 10 essence |
-| `ElementalFlatForEssence` | `elementalFlatFromEssence` | +1.5 flat elem per 20 essence |
-| `ElementalDamage%ForHighest` | `elementalFromHighest` | +1% elem per 40 highest |
-| `Shroud.ElementalForHighest` | `shroudElementalFromHighest` | +0.15% elem per stack per 50 highest |
-| `Phasing.DurationDamage` | `phasingDurationDamage` | +1% damage (both) per 10s phasing |
-| `BonusDamage%ForEssence` / `Damage%ForEssence.HealthDrain` | `damageFromEssence` | +2% damage (both) per 10 essence |
-| `ElementalToPhysical.Flat` | `edpsPhysFlat.elemToPhysFlatRatio` + `elementalDisabled` | 75% of elem flat → physical; elemental off |
-| `ElementalToPhysical.Bonus` | `edpsPhysAdditive.elemBonusToPhysRatio` + `elementalDisabled` | 75% of elem bonus → physical; elemental off |
+| Confirmed key | Derived stat(s) | Effect (game text) |
+|---------------|-----------------|--------------------|
+| `Colossus.ElementalBonusForHighestStat.Fire/.Arcane/.Lightning` | `berserkerElementalFromHighest` | +5% elem per 30 (fire) / per 40 (arcane, lightning) highest (Berserker Fury) |
+| `Colossus.DamageReduction` | `berserkerMaxDrFlatDamage` | +100 physical at max DR (Berserker Fury) |
+| `BonusDamage%ForEssence` | `elementalFromEssence` | +2% **elemental** per 10 essence |
+| `BonusDamageForEssence` / `PotionsAsDamageBuff` | `elementalFlatFromEssence` | +1.5 flat elem per 20 essence (identical text on both tags) |
+| `Damage%ForStat.Highest` | `elementalFromHighest` | +1% **elemental** per 40 highest |
+| `Damage%ForStat2.Highest` | `damagePercentForStat2` | +1% **elemental** per 40 highest (moved from both-types bucket to `edpsED`) |
+| `Shroud.damageScale.HighestStat` | `shroudElementalFromHighest` | +0.15% elem per Dark Shroud stack per 50 highest |
+| `Phasing.Damage%` | `phasingDurationDamage` | +1% damage (both) per 10s phasing |
+| `GlobalEssenceDamageHpDrain` | `damageFromEssence` | +2% damage (both) per 10 unspent essence; lose 20% essence as HP/sec |
+| `EleAsBasePhys` | `edpsPhysFlat.elemToPhysFlatRatio` + `elementalDisabled` | 75% of elem flat → physical; elemental off |
+| `BonusEleAsBonusPhys` | `edpsPhysAdditive.elemBonusToPhysRatio` + `elementalDisabled` | 75% of elem bonus → physical; elemental off |
 
 ### Attack Speed (IAS) curve
 - New rule: AS bonuses at 50% effectiveness, hard cap 300% (prior cap ~79% logarithmic).

@@ -1,0 +1,958 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_Skills_OneHand",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_SkillInstance'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Structures/STR_SkillInstance.0"
+      }
+    },
+    "Rows": {
+      "SwordsQ": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "SwordsQ"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills",
+          "Key": "4E9A78FE40E4AB4E1B785A9EE81D27D4",
+          "SourceString": "SwordsQ",
+          "LocalizedString": "SwordsQ"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Edge of Fury",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "F90557B24B5889E85C62FA9C681DAA9B",
+          "SourceString": "Precision breeds control, your hardened instincts grant lasting survivability.",
+          "LocalizedString": "Precision breeds control, your hardened instincts grant lasting survivability."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_BloodCombat_27'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_BloodCombat_27.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SwordQ"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 50.0
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "1H_Damage_EndGame_Buff": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "1H_Damage_EndGame_Buff"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "1H_Damage_EndGame_Buff_Name",
+          "SourceString": "1H_Damage_EndGame_Buff",
+          "LocalizedString": "1H_Damage_EndGame_Buff"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Eye of the Dueler",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "A783D24A4D9824CCF41BCCA5C71E9A81",
+          "SourceString": "Gain critical damage and survivability with Swords",
+          "LocalizedString": "Gain critical damage and survivability with Swords"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_88'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_88.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.1H_Damage_EndGame_Buff"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "1H_Crit_Damage_EndGame_Buff": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "1H_Crit_Damage_EndGame_Buff"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "1H_Crit_Damage_EndGame_Buff_Name",
+          "SourceString": "1H_Crit_Damage_EndGame_Buff",
+          "LocalizedString": "1H_Crit_Damage_EndGame_Buff"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Godlike Riposter",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "A623849B415921F9985081AAC04AF236",
+          "SourceString": "Increase your Critical Damage and Energy regeneration.",
+          "LocalizedString": "Increase your Critical Damage and Energy regeneration."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_BloodCombat_91'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_BloodCombat_91.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.1H_Crit_Damage_EndGame_Buff"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.EnergyRegeneration%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SwordQBaseDamage": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "SwordQBaseDamage"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "SwordQBaseDamage_Name",
+          "SourceString": "SwordQBaseDamage",
+          "LocalizedString": "SwordQBaseDamage"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Swords Acolyte",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "81BCFFE940693E8910F446BDA009F653",
+          "SourceString": "Dedicate yourself to the art of Swords combat, enhancing your ability to inflict damage with each strike.",
+          "LocalizedString": "Dedicate yourself to the art of Swords combat, enhancing your ability to inflict damage with each strike."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Arcane_47'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Arcane_47.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SwordQBaseDamage"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "Namespace": "",
+          "Key": "AF6D569C4AF9F4F35AF773B1852E52CA",
+          "SourceString": "Requires skill level of 5  in one handed weapons",
+          "LocalizedString": "Requires skill level of 5  in one handed weapons"
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SwordRBaseCritDmg": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "SwordRBaseCritDmg"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "SwordRBaseCritDmg_Name",
+          "SourceString": "SwordRBaseCritDmg",
+          "LocalizedString": "SwordRBaseCritDmg"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Swords Master",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "8E2A385140027E1B22B07ABD4ED043AA",
+          "SourceString": "Hone your expertise with Swords, permanently increasing the lethality of your critical strikes.",
+          "LocalizedString": "Hone your expertise with Swords, permanently increasing the lethality of your critical strikes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_69'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_69.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SwordRBaseCritDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SwordsR": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "SwordsR"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills",
+          "Key": "6730EF12419ECD4AB07A3AB2ED2BFB0E",
+          "SourceString": "SwordsR",
+          "LocalizedString": "SwordsR"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Cutting Wind",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "EE5C30134BB043CB4EDE60B852C083A0",
+          "SourceString": "Infuse your blade with the swiftness of a gale, enhancing its ability to land devastating critical hits.",
+          "LocalizedString": "Infuse your blade with the swiftness of a gale, enhancing its ability to land devastating critical hits."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_BloodCombat_13'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_BloodCombat_13.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SwordR"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SwordsPreMajorDmgStr": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "SwordsPreMajorDmgStr"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "SwordsPreMajorDmgStr_Name",
+          "SourceString": "SwordsPreMajorDmgStr",
+          "LocalizedString": "SwordsPreMajorDmgStr"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Bandit Fighter",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "C2168BBB45054DC159EF46852EDDB8E6",
+          "SourceString": "Gain critical damage with Swords",
+          "LocalizedString": "Gain critical damage with Swords"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Shadow_01'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Shadow_01.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SwordsPreMajorDmgStr"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SwordMediumCritDmg": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "SwordMediumCritDmg"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "SwordMediumCritDmg_Name",
+          "SourceString": "SwordMediumCritDmg",
+          "LocalizedString": "SwordMediumCritDmg"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Swords Grandmaster",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "124ACBDC49A5BACD82F062905CD3C0EF",
+          "SourceString": "Gain critical damage with Swords",
+          "LocalizedString": "Gain critical damage with Swords"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_13'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_13.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SwordMediumCritDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases one handed weapons critical damage by 10%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SwordMediumDmg": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "SwordMediumDmg"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "SwordMediumDmg_Name",
+          "SourceString": "SwordMediumDmg",
+          "LocalizedString": "SwordMediumDmg"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Swords Loremaster",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "8A2AECBA407EB7046E13EB87DC9EE900",
+          "SourceString": "Uncover ancient Swords fighting techniques, boosting the effectiveness of your critical strikes.",
+          "LocalizedString": "Uncover ancient Swords fighting techniques, boosting the effectiveness of your critical strikes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Nature_43'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Nature_43.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SwordMediumDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases one handed damage by 10%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SwordMajor": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "SwordMajor"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "SwordMajor_Name",
+          "SourceString": "SwordMajor",
+          "LocalizedString": "SwordMajor"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Swords Oathkeeper",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "A79920D14A4D0A304339DD9648493B03",
+          "SourceString": "Swear a solemn vow to Swords mastery, permanently amplifying your weapon's damage potential.",
+          "LocalizedString": "Swear a solemn vow to Swords mastery, permanently amplifying your weapon's damage potential."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Shadow_73'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Shadow_73.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SwordMajor"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases one handed weapons damage and critical damage by 25%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.25
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "1H_Damage_Buff": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "1H_Damage_Buff"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "1H_Damage_Buff_Name",
+          "SourceString": "1H_Damage_Buff",
+          "LocalizedString": "1H_Damage_Buff"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Mark of the Dueler",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "41A44835494FFD7579B4C09921C886AB",
+          "SourceString": "Your expertise with swords is unmatched, even while sparring with the greatest of foes.",
+          "LocalizedString": "Your expertise with swords is unmatched, even while sparring with the greatest of foes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Unholy_117'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Unholy_117.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.1H_Damage_Buff"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Boss%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "1H_Crit_Damage_Buff": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "1H_Crit_Damage_Buff"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "1H_Crit_Damage_Buff_Name",
+          "SourceString": "1H_Crit_Damage_Buff",
+          "LocalizedString": "1H_Crit_Damage_Buff"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Riposter",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "58BF55814D2FC72F3BB2FC8BEEEA2DAA",
+          "SourceString": "Gain critical damage with Swords",
+          "LocalizedString": "Gain critical damage with Swords"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_BloodCombat_91'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_BloodCombat_91.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.1H_Crit_Damage_Buff"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "1H.EndGame.DualWield": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "1H.EndGame.DualWield"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "1H.EndGame.DualWield_Name",
+          "SourceString": "1H.EndGame.DualWield",
+          "LocalizedString": "1H.EndGame.DualWield"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Shadow Wield",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "1156F2144FA1097C7848EBA4796344EA",
+          "SourceString": "Dual wield a shadow clone of your weapon, increasing damage with normal attacks.;While moving, you generate Light Shroud stacks.;Damaging an enemy replaces all stacks of Light Shroud with Dark Shroud.;Gain 5% damage and 1% Base damage bonus per Dark Shroud stack, lasts 30s.",
+          "LocalizedString": "Dual wield a shadow clone of your weapon, increasing damage with normal attacks.;While moving, you generate Light Shroud stacks.;Damaging an enemy replaces all stacks of Light Shroud with Dark Shroud.;Gain 5% damage and 1% Base damage bonus per Dark Shroud stack, lasts 30s."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_69'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_69.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.1H.DualWield"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Skills.1H.Shroud"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": true
+      },
+      "OneHandDamage": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_OneHand'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_OneHand.0"
+          },
+          "RowName": "OneHandDamage"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_OneHand",
+          "Key": "OneHandDamage_Name",
+          "SourceString": "OneHandDamage",
+          "LocalizedString": "OneHandDamage"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Swords Mastery",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "92A0CF0142DF4C15C03CEDBCD36607A8",
+          "SourceString": "Perfect the ideal fighting posture, increasing the power behind your Swords",
+          "LocalizedString": "Perfect the ideal fighting posture, increasing the power behind your Swords"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Arcane_80'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Arcane_80.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.OneHandDamage"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 5000,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases your damage with one handed weapons by 1%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.01
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.HealthRegeneration%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.001
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0001
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.Armor"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.5
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      }
+    }
+  }
+]

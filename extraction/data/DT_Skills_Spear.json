@@ -1,0 +1,953 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_Skills_Spear",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_SkillInstance'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Structures/STR_SkillInstance.0"
+      }
+    },
+    "Rows": {
+      "SpearRBaseCritDmg": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearRBaseCritDmg"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "SpearRBaseCritDmg_Name",
+          "SourceString": "SpearRBaseCritDmg",
+          "LocalizedString": "SpearRBaseCritDmg"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spear Master",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "6889FFD8431243D3E13104BAFEE5ABB9",
+          "SourceString": "Unshakable focus and natural discipline reinforce your health permanently.",
+          "LocalizedString": "Unshakable focus and natural discipline reinforce your health permanently."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Frost_45'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Frost_45.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearRBaseCritDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "Namespace": "",
+          "Key": "AA21D6FC49EA6FB27AF24485B2FCB4E5",
+          "SourceString": "Requires Soul Kick",
+          "LocalizedString": "Requires Soul Kick"
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Skills.SpearQ"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases critical damage with spears by 10%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 50.0
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Spear_Damage_buff_end_game": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "Spear_Damage_buff_end_game"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "Spear_Damage_buff_end_game_Name",
+          "SourceString": "Spear_Damage_buff_end_game",
+          "LocalizedString": "Spear_Damage_buff_end_game"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Mark of the Sojutsuist",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "58083DC2450F98CF37E0AE898704F3CB",
+          "SourceString": "Gain critical damage and survivability with Spears",
+          "LocalizedString": "Gain critical damage and survivability with Spears"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Nature_108'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Nature_108.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Spear_Damage_buff_end_game"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.MaxHealth%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Speark_Roll_Knockback": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "Speark_Roll_Knockback"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "Speark_Roll_Knockback_Name",
+          "SourceString": "Speark_Roll_Knockback",
+          "LocalizedString": "Speark_Roll_Knockback"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Feet of the Sojutsuist",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "C96A53E94EA9523D9752C2ACC3A27CFB",
+          "SourceString": "Increases Energy regeneration and Critical Damage with Spears.",
+          "LocalizedString": "Increases Energy regeneration and Critical Damage with Spears."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Arcane_76'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Arcane_76.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Spear.RollKnockback"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.EnergyRegeneration%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SpearsQ": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearsQ"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills",
+          "Key": "0EA436864F5EB335A57FAFB48930BFB2",
+          "SourceString": "SpearsQ",
+          "LocalizedString": "SpearsQ"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Piercing Gale",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "8DC6706441EC5F22B0A8D5B1B3BF0B9B",
+          "SourceString": "Infuse your Spears with a relentless force of the tempest.",
+          "LocalizedString": "Infuse your Spears with a relentless force of the tempest."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_47'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_47.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearQ"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Spear%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SpearQBaseDamage": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearQBaseDamage"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "SpearQBaseDamage_Name",
+          "SourceString": "SpearQBaseDamage",
+          "LocalizedString": "SpearQBaseDamage"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spear Acolyte",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "9AB527434FE179120B7F13AABB7E207F",
+          "SourceString": "Dedicate yourself to the path of the Spear, enhancing your ability to inflict damage with each thrust.",
+          "LocalizedString": "Dedicate yourself to the path of the Spear, enhancing your ability to inflict damage with each thrust."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Fire_64'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Fire_64.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearQBaseDamage"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Spear%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SpearsR": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearsR"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills",
+          "Key": "A47B572440FC44AA97371EBA01819C34",
+          "SourceString": "SpearsR",
+          "LocalizedString": "SpearsR"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Sojutsuist's Impale",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "79DAD98E4DB0FAC3E0B735AA7D0B6E0C",
+          "SourceString": "Perfect the art of precise strikes, enhancing your Spear's ability to inflict Critical Stikes.",
+          "LocalizedString": "Perfect the art of precise strikes, enhancing your Spear's ability to inflict Critical Stikes."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_51'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_51.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearR"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalChance%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SpearMediumDmg": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearMediumDmg"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "SpearMediumDmg_Name",
+          "SourceString": "SpearMediumDmg",
+          "LocalizedString": "SpearMediumDmg"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spear Loremaster",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "8E5B7C0E44093E0CE34341AFD1ADD441",
+          "SourceString": "Gain damage with Spears",
+          "LocalizedString": "Gain damage with Spears"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Nature_27'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Nature_27.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearMediumDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Spear%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Spear_Damage_Buff": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "Spear_Damage_Buff"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "Spear_Damage_Buff_Name",
+          "SourceString": "Spear_Damage_Buff",
+          "LocalizedString": "Spear_Damage_Buff"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Mark of the Sojutsuist",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "31A8EDD14C0D556CCE4082961FA3FCBD",
+          "SourceString": "Gain more damage with Spears",
+          "LocalizedString": "Gain more damage with Spears"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Nature_108'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Nature_108.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Spear_Damage_Buff"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Spear%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.05
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SpearMediumCritDmg": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearMediumCritDmg"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "SpearMediumCritDmg_Name",
+          "SourceString": "SpearMediumCritDmg",
+          "LocalizedString": "SpearMediumCritDmg"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spear Grandmaster",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "444D158B4383FBFD0BE647BADDEBDCB5",
+          "SourceString": "Attain legendary prowess with the Spear, drastically improving the potency of your critical attacks.",
+          "LocalizedString": "Attain legendary prowess with the Spear, drastically improving the potency of your critical attacks."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Frost_93'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Frost_93.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearMediumCritDmg"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 0,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases critical damage with spears by 10%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Spear_Crit_Damage_Buff": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "Spear_Crit_Damage_Buff"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "Spear_Crit_Damage_Buff_Name",
+          "SourceString": "Spear_Crit_Damage_Buff",
+          "LocalizedString": "Spear_Crit_Damage_Buff"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spartan Spirit",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "C807A5D747CFA6D66145B7AD4278744C",
+          "SourceString": "Gain damage with Spears",
+          "LocalizedString": "Gain damage with Spears"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Fire_73'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Fire_73.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Spear_Crit_Damage_buff"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Spear%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SpearMajor": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearMajor"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "SpearMajor_Name",
+          "SourceString": "SpearMajor",
+          "LocalizedString": "SpearMajor"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spear Oathkeeper",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "B93F09D040193FB9D77F0EBA2D6B8539",
+          "SourceString": "Swear a solemn vow to the way of the Spear, overcoming even the strongest enemies.",
+          "LocalizedString": "Swear a solemn vow to the way of the Spear, overcoming even the strongest enemies."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Gold_95'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Gold_95.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearMajor"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Increases spears damage and critical damage by 25%",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Boss%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "Spear_Crit_Damage_buff_end_game": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "Spear_Crit_Damage_buff_end_game"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "Spear_Crit_Damage_buff_end_game_Name",
+          "SourceString": "Spear_Crit_Damage_buff_end_game",
+          "LocalizedString": "Spear_Crit_Damage_buff_end_game"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spartan Ascension",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "88062C2F47F189EE612321847C4BEA1F",
+          "SourceString": "Gain critical damage with Spears",
+          "LocalizedString": "Gain critical damage with Spears"
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Fire_73'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Fire_73.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.Spear_Crit_Damage_buff_end_game"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.1
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SpearCritDamage": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearCritDamage"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills",
+          "Key": "25C0E4E64098626C03E0B5A1D639C481",
+          "SourceString": "SpearCritDamage",
+          "LocalizedString": "SpearCritDamage"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spectral Spear Army",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "212136FD4A0DC504E239FE992ED919D8",
+          "SourceString": "Dashing summons an Elite squad of Spectral Warriors around you, dealing massive damage.;Killing enemies and hitting elites has a 10% to trigger a Bloodlust effect.;Gain 5% crit damage, 2% armor and 0.35% movement speed per Bloodlust stack.;Stacks up to 100, lasts 15 seconds.",
+          "LocalizedString": "Dashing summons an Elite squad of Spectral Warriors around you, dealing massive damage.;Killing enemies and hitting elites has a 10% to trigger a Bloodlust effect.;Gain 5% crit damage, 2% armor and 0.35% movement speed per Bloodlust stack.;Stacks up to 100, lasts 15 seconds."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Shadow_90'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Shadow_90.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearsCriticalDamage"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 1,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Skills.Spear.Bloodlust"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      },
+      "SpearsDamage": {
+        "Handle_2_2FCED6B345EB99B6463F479E43AA6239": {
+          "DataTable": {
+            "ObjectName": "DataTable'DT_Skills_Spear'",
+            "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/DataTables/StanceSkills/DT_Skills_Spear.0"
+          },
+          "RowName": "SpearsDamage"
+        },
+        "SkillName_44_941FF0B545834F4B341601BED85E947D": {
+          "Namespace": "DT_Skills_Spear",
+          "Key": "SpearsDamage_Name",
+          "SourceString": "SpearsDamage",
+          "LocalizedString": "SpearsDamage"
+        },
+        "Title_40_855B6DB54EAE4453CD618EA0271189E1": "Spear Mastery",
+        "Description_7_D10772344EAEC7A186CF9491DD0BB03C": {
+          "Namespace": "",
+          "Key": "0BE9E8044814C1DD43687D9A26D11288",
+          "SourceString": "Master the art of targeting vital points.",
+          "LocalizedString": "Master the art of targeting vital points."
+        },
+        "Icon_25_120FEE0D41E68B7FF241FC93EA8A1CE6": {
+          "ObjectName": "Texture2D'T_Icon_Arcane_115'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/Spell_Skills_Icons_Pack/T_Icon_Arcane_115.0"
+        },
+        "Attribute_31_48C1FA8641F8EA35A63C41818C3FA6D6": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Skills.SpearDamage"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "MaxLevel_29_42AB9EB94AED25F17E93DF9A8945D9F7": 5000,
+        "RequiredDescription_34_2303B8974C954A5CF5FAC896ECADC03A": {
+          "CultureInvariantString": null
+        },
+        "RequiredSkillPoints_37_BDB364F4439D00F917BD66AD53D54ADB": 1,
+        "RequiredCharacterLevel_13_DEE825934060F5F791AB7C9CE87B3FAF": 0,
+        "RequiredCharacterAttributes_17_A552351146BEFA83A086DBA0C90DF8DB": [],
+        "SkillLevels_26_2680CBDC440DFBD81E0819A0D9E1E2DC": [
+          {
+            "Description_32_E2C3B5DF4F3ED4A86EE64F8A74AE8BF1": "Adds 1% damage with spears.",
+            "RequiredDescription_13_56A242A242968381FA4BEFB03372FEAE": {
+              "CultureInvariantString": null
+            },
+            "RequiredSkillPoints_31_AE8AA0394ADE60D0018FA180007A7835": 0,
+            "RequiredCharacterLevel_27_FCCF069548DC9CB76FD7E0844F48CBFA": 0,
+            "RequiredCharacterAttributes_28_8D9F6D0E472E1ABB02883F93633D36D6": [],
+            "BonusAttributes_21_531604BA44BBD0E349F0A8801C905041": [
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.Spear%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.01
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.HealthRegeneration%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.001
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0001
+              },
+              {
+                "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+                  "TagName": "EasyRPG.Attributes.Base.Armor"
+                },
+                "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.5
+              }
+            ],
+            "BonusBlueprints_24_4BB3F9EA4937C635E7913BBB52044386": [],
+            "EffectHandle_35_719A438B45ADAA32E1410398D8413A5D": {
+              "DataTable": null,
+              "RowName": "None"
+            }
+          }
+        ],
+        "isServerBuild?_43_7CB17C1B40D462D0B036CBB1EED16FBE": false
+      }
+    }
+  }
+]

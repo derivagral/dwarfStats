@@ -8,6 +8,27 @@
  * @module utils/skillTreeRegistry
  */
 
+import cardsGenerated from '../data/cards.generated.json';
+import weaponSkillsGenerated from '../data/weaponSkills.generated.json';
+
+// Generated game data (extraction/generate-registries.mjs). Lookup helpers
+// merge this into curated entries: curated names/types win, generated data
+// supplies real per-level effect values, descriptions, and buff magnitudes.
+// NOTE: the registry OBJECTS below must stay append-only — shareCodec builds
+// its URL dictionaries from their key order.
+const GENERATED_CARDS = cardsGenerated.cards || {};
+const GENERATED_WEAPON_SKILLS = weaponSkillsGenerated.weaponSkills || {};
+
+// UE row names are case-insensitive (saves: "Spear_Crit_Damage_buff";
+// DataTable: "Spear_Crit_Damage_Buff") — index lowercase for lookups.
+function lowerIndex(map) {
+  const idx = {};
+  for (const [key, value] of Object.entries(map)) idx[key.toLowerCase()] = value;
+  return idx;
+}
+const GENERATED_CARDS_LOWER = lowerIndex(GENERATED_CARDS);
+const GENERATED_WEAPON_SKILLS_LOWER = lowerIndex(GENERATED_WEAPON_SKILLS);
+
 // =============================================================================
 // WEAPON STANCE SKILL REGISTRY
 // =============================================================================
@@ -57,7 +78,9 @@ export const WEAPON_SKILL_REGISTRY = {
   'MacesCritEndGameBuff': { rowName: 'MacesCritEndGameBuff', name: 'Mauls Endgame Crit Buff', type: 'buff', statId: 'maulCritDamage', weapon: 'mauls' },
   'Mauls_HP_Energy_Regen': { rowName: 'Mauls_HP_Energy_Regen', name: 'Mauls HP/Energy Regen', type: 'utility', weapon: 'mauls' },
   'Mauls.EndGame.Bubble': { rowName: 'Mauls.EndGame.Bubble', name: 'Mauls Endgame Bubble', type: 'utility', weapon: 'mauls' },
-  'PolearmDamage': { rowName: 'PolearmDamage', name: 'Polearm Damage (Paragon)', type: 'paragon', statId: 'spearDamage', perLevel: true, weapon: 'spear' },
+  // Game data: PolearmDamage lives in DT_Skills_Mauls with the PoleArm% tag
+  // (the game's internal name for mauls damage) — it is the MAULS paragon.
+  'PolearmDamage': { rowName: 'PolearmDamage', name: 'Mauls Damage (Paragon)', type: 'paragon', statId: 'maulDamage', perLevel: true, weapon: 'mauls' },
 
   // ---------------------------------------------------------------------------
   // ONE-HAND / SWORD (11 entries)
@@ -238,18 +261,19 @@ export const CRAFTING_SKILL_REGISTRY = {
 // =============================================================================
 // CRYSTAL CARD REGISTRY (skeleton — effects TBD)
 // =============================================================================
-// TODO: Populate card effects. Each card has base stats at L1, L2, L3.
-//       Level 6 doubles the L3 stats and removes the card from further choice.
-//       Card effects should be added as user-input affixes until full data is available.
+// Card effects come from generated game data (src/data/cards.generated.json):
+// each card has one set of per-level tag/value effects that scale linearly
+// with card level (choice levels 1/2/3; L6 doubles L3 = 6× base). getCardDef()
+// merges them in — the entries below only pin display names / dictionary order.
 
 /**
  * @typedef {Object} CardDef
  * @property {string} rowName
  * @property {number} family - Card family number
  * @property {number|null} variant - Variant within family (null if base)
- * @property {string} name - Display name (TBD until populated)
+ * @property {string} name - Display name
  * @property {number} maxLevel - Maximum card level (6)
- * @property {Array} effects - Stat effects per level (empty until populated)
+ * @property {Array} effects - Per-level {tag, value} effects (× card level)
  */
 
 export const CARD_REGISTRY = {
@@ -399,12 +423,40 @@ export const TREE_KEYSTONES = {
 // =============================================================================
 
 /**
- * Get weapon skill definition by rowName
+ * Get weapon skill definition by rowName.
+ *
+ * Curated registry entry (name/type/statId) merged with generated game data:
+ * - `effects`: per-level [{tag, value}] pairs (multiply by skill level for
+ *   paragon nodes)
+ * - `gameDescription`: in-game effect text, when present
+ * - `buff`: joined DT_StatusEffects magnitudes for buff-type skills
+ *   ({name, duration, maxStack, effects})
+ * - `gameMaxLevel`: MaxLevel from the game table
+ * Rows only present in game data get a generated def (`generated: true`).
+ *
  * @param {string} rowName
  * @returns {WeaponSkillDef|null}
  */
 export function getWeaponSkillDef(rowName) {
-  return WEAPON_SKILL_REGISTRY[rowName] || null;
+  const curated = WEAPON_SKILL_REGISTRY[rowName] || null;
+  const gen = GENERATED_WEAPON_SKILLS[rowName]
+    ?? GENERATED_WEAPON_SKILLS_LOWER[rowName?.toLowerCase()];
+  if (!gen) return curated;
+
+  const merged = curated ?? {
+    rowName,
+    name: rowName.replace(/[._]/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2').trim(),
+    type: gen.buff ? 'buff' : (gen.maxLevel > 100 ? 'paragon' : 'stat'),
+    weapon: gen.weapon,
+    generated: true,
+  };
+  return {
+    ...merged,
+    effects: gen.effects,
+    gameMaxLevel: gen.maxLevel,
+    ...(gen.description ? { gameDescription: gen.description } : {}),
+    ...(gen.buff ? { buff: gen.buff } : {}),
+  };
 }
 
 /**
@@ -417,12 +469,36 @@ export function getCraftingSkillDef(rowName) {
 }
 
 /**
- * Get card definition by rowName
+ * Get card definition by rowName.
+ *
+ * Generated game data supplies real per-level effects for all 81 cards
+ * ([{tag, value}] — multiply by card level; L6 doubling falls out of the
+ * linear scaling). Curated entries contribute display names when present.
+ *
  * @param {string} rowName
  * @returns {CardDef|null}
  */
 export function getCardDef(rowName) {
-  return CARD_REGISTRY[rowName] || null;
+  const curated = CARD_REGISTRY[rowName] || null;
+  const gen = GENERATED_CARDS[rowName]
+    ?? GENERATED_CARDS_LOWER[rowName?.toLowerCase()];
+  if (!gen) return curated;
+
+  const family = gen.family ?? curated?.family ?? null;
+  const variant = gen.variant ?? curated?.variant ?? null;
+  return {
+    rowName,
+    family,
+    variant,
+    name: curated?.name
+      ?? (family !== null ? `Card ${family}${variant !== null ? `-${variant}` : ''}` : rowName),
+    // Observed in-game cap (choice levels 1/2/3, then 6); the table's own
+    // MaxLevel is exposed separately as gameMaxLevel.
+    maxLevel: curated?.maxLevel ?? 6,
+    gameMaxLevel: gen.maxLevel,
+    effects: gen.effects,
+    generated: true,
+  };
 }
 
 /**

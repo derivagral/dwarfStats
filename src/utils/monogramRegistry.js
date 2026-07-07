@@ -9,7 +9,19 @@
  *
  * Save data format: "EasyRPG.Items.Modifiers.<MonogramId>"
  * This registry stores just the MonogramId portion.
+ *
+ * Lookups fall back to generated game data (src/data/monograms.generated.json,
+ * produced by extraction/generate-registries.mjs from extracted DataTables):
+ * curated entries win, generated entries fill the gaps with in-game
+ * descriptions and tag→value effect lists.
  */
+
+import monogramsGenerated from '../data/monograms.generated.json';
+
+const GENERATED_MONOGRAMS = monogramsGenerated.monograms || {};
+
+// Lazily-built MonogramDef views over generated entries
+const generatedDefCache = new Map();
 
 // ============================================================================
 // MONOGRAM REGISTRY - ID to Display Name Mappings
@@ -1341,7 +1353,45 @@ export function getMonogramById(id) {
     cleanId = id.replace('EasyRPG.Items.Modifiers.', '');
   }
 
-  return MONOGRAM_REGISTRY[cleanId] || null;
+  return MONOGRAM_REGISTRY[cleanId] || getGeneratedMonogramDef(cleanId);
+}
+
+/**
+ * Prettify a monogram ID suffix for display (dots/camelCase → spaces)
+ * @param {string} cleanId - ID without the tag prefix
+ * @returns {string}
+ */
+function prettifyMonogramId(cleanId) {
+  return cleanId
+    .replace(/\./g, ' ')
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/([%])/g, '%')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Get a MonogramDef view over a generated game-data entry, or null.
+ * @param {string} cleanId - ID without the tag prefix
+ * @returns {MonogramDef|null}
+ */
+function getGeneratedMonogramDef(cleanId) {
+  const entry = GENERATED_MONOGRAMS[cleanId];
+  if (!entry) return null;
+
+  let def = generatedDefCache.get(cleanId);
+  if (!def) {
+    def = {
+      id: cleanId,
+      name: entry.name || prettifyMonogramId(cleanId),
+      category: 'generated',
+      ...(entry.description ? { description: entry.description } : {}),
+      effects: entry.effects || [],
+      generated: true,
+    };
+    generatedDefCache.set(cleanId, def);
+  }
+  return def;
 }
 
 /**
@@ -1359,13 +1409,7 @@ export function getMonogramName(id) {
     cleanId = id.replace('EasyRPG.Items.Modifiers.', '');
   }
 
-  // Convert camelCase/dots to spaces
-  return cleanId
-    .replace(/\./g, ' ')
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/([%])/g, '%')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return prettifyMonogramId(cleanId);
 }
 
 /**
@@ -1428,7 +1472,7 @@ export function parseMonogramTag(fullTag) {
 
   return {
     id,
-    def: MONOGRAM_REGISTRY[id] || null,
+    def: MONOGRAM_REGISTRY[id] || getGeneratedMonogramDef(id),
   };
 }
 

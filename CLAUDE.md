@@ -251,7 +251,7 @@ Key structural points (vs the pre-split single-line model):
 | BaseElem | `edpsElemFlat` | `elementalDamage` + damageFromHealth + statDamageFlat + paragon + energy→elem + essence→elem |
 | Phys bucket | `edpsPhysAdditive` | StanceCrit + Crit + PhysDmg% + StanceDmg + bloodlust/armor crit + phys monograms + both-types |
 | Elem bucket | `edpsElemAdditive` | item offhand% + affinity + both-types (skill mult added per skill) |
-| both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + dmgPerStat2 + phasingDuration + essence(2%/10) |
+| both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + phasingDuration + essence-drain(2%/10) |
 | ED | `edpsED` | fire + arcane + lightning + elemFromCrit + mines + new elemental monograms |
 | ElemCrit | `edpsElemCrit` | 1 + regular crit dmg + stance crit dmg (provisional elemental crit bucket) |
 | BD | `edpsBD` | bossBonus (gear) + phasing boss dmg |
@@ -497,27 +497,60 @@ GitHub Actions workflow in `.github/workflows/static.yml`:
 
 Push to `main` triggers deployment automatically.
 
+## Extracted Game Data (extraction/)
+
+Authoritative id→effect data extracted from the game's DataTables (FModel +
+UE4SS usmap; see `extraction/README.md` for the full workflow). Raw table
+exports live in `extraction/data/` (committed, derived facts only); generated
+runtime data lands in `src/data/*.generated.json` via:
+
+```bash
+node extraction/generate-registries.mjs
+```
+
+| Generated file | Contents | Consumed by |
+|----------------|----------|-------------|
+| `src/data/monograms.generated.json` | 473 monograms: tag, in-game description, `effects` tag→value pairs | `monogramRegistry.js` lookup fallback (curated entries win) |
+| `src/data/affixes.generated.json` | 347 item affixes: tag, base value, per-level scaling, roll rules, min item level | (available; not yet wired into calcs) |
+| `src/data/modifierPools.generated.json` | Yellow/orange roll pools per weapon/tier | (available) |
+
+The generator also emits a drift report (`extraction/out/drift-report.md`,
+gitignored) flagging rollable affix tags `findStatForAttribute()` cannot
+classify — currently zero. **After each game update:** re-export the tables
+with FModel, drop them in `extraction/data/`, re-run the generator, and check
+the drift report + git diff of the generated files for balance changes.
+
+Key source tables in `extraction/data/`:
+- `DT_Attributes.json` — master lexicon (976 rows: every attribute/monogram tag with description + dependency effects)
+- `DT_Base_Item_Attributes.json` — affix definitions (base/per-level values)
+- `DT_Yellow_Orange_Modifiers.json` — monogram/affix roll pools
+- `DT_Crystal_Cards_Skills.json` — card effects (registry integration TBD)
+- `DT_Skills_*.json` (8 weapons), `DT_Stance_Levels.json` — weapon skill trees
+- `DT_StatusEffects.json` — buff/status lexicon
+
 ## Integration TODOs
 
-### Unconfirmed monogram save-tag IDs (engine wired, off by default)
-These derived stats are implemented and unit-tested, but their real
-`EasyRPG.Items.Modifiers.*` save-tag suffixes haven't been observed yet, so the
-`MONOGRAM_CALC_CONFIGS` keys are descriptive placeholders. Rename the keys once a
-save with the items is parsed; the calc wiring stays put. Append confirmed
-mappings here as they land.
+### Monogram save-tag IDs — CONFIRMED via extracted game data
+The former descriptive-placeholder keys in `MONOGRAM_CALC_CONFIGS` were renamed
+to the real `EasyRPG.Items.Modifiers.*` suffixes, confirmed against
+`extraction/data/DT_Attributes.json` (the game's attribute/monogram lexicon).
+Corrections found during confirmation: essence damage% and highest-stat damage%
+II are **elemental-only** (were modeled as both-types), and stat intervals were
+adjusted to game values.
 
-| Placeholder key | Derived stat(s) | Effect |
-|-----------------|-----------------|--------|
-| `BerserkerFury.ElementalForHighest` | `berserkerElementalFromHighest` | +5% elem per 30 highest (Berserker Fury) |
-| `BerserkerFury.MaxDrDamage` | `berserkerMaxDrFlatDamage` | +100 physical at max DR |
-| `ElementalDamage%ForEssence` | `elementalFromEssence` | +2% elem per 10 essence |
-| `ElementalFlatForEssence` | `elementalFlatFromEssence` | +1.5 flat elem per 20 essence |
-| `ElementalDamage%ForHighest` | `elementalFromHighest` | +1% elem per 40 highest |
-| `Shroud.ElementalForHighest` | `shroudElementalFromHighest` | +0.15% elem per stack per 50 highest |
-| `Phasing.DurationDamage` | `phasingDurationDamage` | +1% damage (both) per 10s phasing |
-| `BonusDamage%ForEssence` / `Damage%ForEssence.HealthDrain` | `damageFromEssence` | +2% damage (both) per 10 essence |
-| `ElementalToPhysical.Flat` | `edpsPhysFlat.elemToPhysFlatRatio` + `elementalDisabled` | 75% of elem flat → physical; elemental off |
-| `ElementalToPhysical.Bonus` | `edpsPhysAdditive.elemBonusToPhysRatio` + `elementalDisabled` | 75% of elem bonus → physical; elemental off |
+| Confirmed key | Derived stat(s) | Effect (game text) |
+|---------------|-----------------|--------------------|
+| `Colossus.ElementalBonusForHighestStat.Fire/.Arcane/.Lightning` | `berserkerElementalFromHighest` | +5% elem per 30 (fire) / per 40 (arcane, lightning) highest (Berserker Fury) |
+| `Colossus.DamageReduction` | `berserkerMaxDrFlatDamage` | +100 physical at max DR (Berserker Fury) |
+| `BonusDamage%ForEssence` | `elementalFromEssence` | +2% **elemental** per 10 essence |
+| `BonusDamageForEssence` / `PotionsAsDamageBuff` | `elementalFlatFromEssence` | +1.5 flat elem per 20 essence (identical text on both tags) |
+| `Damage%ForStat.Highest` | `elementalFromHighest` | +1% **elemental** per 40 highest |
+| `Damage%ForStat2.Highest` | `damagePercentForStat2` | +1% **elemental** per 40 highest (moved from both-types bucket to `edpsED`) |
+| `Shroud.damageScale.HighestStat` | `shroudElementalFromHighest` | +0.15% elem per Dark Shroud stack per 50 highest |
+| `Phasing.Damage%` | `phasingDurationDamage` | +1% damage (both) per 10s phasing |
+| `GlobalEssenceDamageHpDrain` | `damageFromEssence` | +2% damage (both) per 10 unspent essence; lose 20% essence as HP/sec |
+| `EleAsBasePhys` | `edpsPhysFlat.elemToPhysFlatRatio` + `elementalDisabled` | 75% of elem flat → physical; elemental off |
+| `BonusEleAsBonusPhys` | `edpsPhysAdditive.elemBonusToPhysRatio` + `elementalDisabled` | 75% of elem bonus → physical; elemental off |
 
 ### Attack Speed (IAS) curve
 - New rule: AS bonuses at 50% effectiveness, hard cap 300% (prior cap ~79% logarithmic).

@@ -1,0 +1,115 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "pools": {
+    "BaseModifiers": [
+      "Agility",
+      "Endurance",
+      "Luck",
+      "Stamina",
+      "Strength",
+      "Wisdom",
+      "Dexterity",
+      "CriticalChance",
+      "CriticalDamage",
+      "MaxHealth",
+      "HealthRegeneration",
+      "EnergyRegeneration",
+      "MaxEnergy",
+      "LifeSteal",
+      "LifeStealAmount",
+      "BossDamage",
+      "FireDamage",
+      "ArcaneDamage",
+      "LightningDamage",
+      "AttackSpeed"
+    ],
+    "MaulsModifiers": [
+      "MaulsDamage%",
+      "MaulsCriticalDamage%",
+      "MaulsCriticalChance%"
+    ],
+    "SpearsModifiers": [
+      "SpearsDamage%",
+      "SpearsCriticalDamage%",
+      "SpearsCriticalChance%"
+    ],
+    "OneHandModifiers": [
+      "OneHandDamage%",
+      "OneHandCriticalDamage%",
+      "OneHandCriticalChance%"
+    ],
+    "TwoHandModifiers": [
+      "TwoHandDamage%",
+      "TwoHandCriticalDamage%",
+      "TwoHandCriticalChance%"
+    ],
+    "ArcheryModifiers": [
+      "ArcheryDamage%",
+      "ArcheryCriticalDamage%",
+      "ArcheryCriticalChance%"
+    ],
+    "MageryModifiers": [
+      "MageryDamage%",
+      "MageryCriticalDamage%",
+      "MageryCriticalChance%"
+    ],
+    "Tier1AbilityDamageModifiers": [
+      "SpinningBladeDamage",
+      "PoisonCloudDamage"
+    ],
+    "Tier2AbilityDamageModifiers": [
+      "SpinningBladeDamage",
+      "PoisonCloudDamage",
+      "ChainLightningDamage",
+      "FlameShowerDamage",
+      "SparkDamage",
+      "VortexDamage",
+      "EyeOfTheStormDamage",
+      "EnemyDeathDamage",
+      "CarnageOfFireDamage"
+    ],
+    "Tier3AbilityDamageModifiers": [
+      "SpinningBladeDamage",
+      "PoisonCloudDamage",
+      "ChainLightningDamage",
+      "FlameShowerDamage",
+      "SparkDamage",
+      "VortexDamage",
+      "EyeOfTheStormDamage",
+      "EnemyDeathDamage",
+      "CarnageOfFireDamage",
+      "FerocityOfWolvesDamage",
+      "LightningStrikeDamage",
+      "ArcaneOrbDamageDamage",
+      "StaticChargeDamage"
+    ],
+    "Tier4AbilityDamageModifiers": [
+      "SpinningBladeDamage",
+      "PoisonCloudDamage",
+      "ChainLightningDamage",
+      "FlameShowerDamage",
+      "SparkDamage",
+      "VortexDamage",
+      "EyeOfTheStormDamage",
+      "EnemyDeathDamage",
+      "CarnageOfFireDamage",
+      "FerocityOfWolvesDamage",
+      "ArcaneOrbDamageDamage",
+      "StaticChargeDamage",
+      "StarBladesDamage",
+      "BloodDragonsDamage",
+      "ArcaneApocalypseDamage",
+      "FieryTotemDamage",
+      "DelusionOfZelkorsDamage",
+      "ElectricDragonsDamage",
+      "BurningShieldDamage",
+      "LightningTotemDamage",
+      "ArcaneTotemDamage",
+      "FireAtomDamage",
+      "LightningPlasmaDamage",
+      "ArcaneSeedDamage",
+      "FireBeamDamage",
+      "DragonFlameDamage"
+    ]
+  }
+}

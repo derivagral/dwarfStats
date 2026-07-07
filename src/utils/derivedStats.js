@@ -1497,8 +1497,8 @@ export const DERIVED_STATS = {
 
   // ---------------------------------------------------------------------------
   // DAMAGE% FOR STAT2 (Bracer Monogram)
-  // 1% damageBonus per 30 of highest stat (duplicate ID for same mechanic).
-  // Both damage types.
+  // Game text: "Gain 1% Elemental Damage for every 40 of your highest stat."
+  // Elemental-only (confirmed via DT_Attributes); feeds edpsED.
   // ---------------------------------------------------------------------------
   damagePercentForStat2: {
     id: 'damagePercentForStat2',
@@ -1508,8 +1508,8 @@ export const DERIVED_STATS = {
     dependencies: ['highestAttribute'],
     config: {
       enabled: false,
-      damagePerInterval: 1, // 1% damage bonus
-      statInterval: 30,     // per 30 highest stat (was 20→50; now 30, both types)
+      damagePerInterval: 1, // 1% elemental damage
+      statInterval: 40,     // per 40 highest stat (confirmed game data)
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.damagePercentForStat2.config;
@@ -1518,7 +1518,7 @@ export const DERIVED_STATS = {
       return Math.floor(highest / config.statInterval) * config.damagePerInterval;
     },
     format: v => `+${v.toFixed(0)}%`,
-    description: 'Damage% from highest stat (1% per 30, both damage types)',
+    description: 'Elemental damage% from highest stat (1% per 40)',
   },
 
   // ---------------------------------------------------------------------------
@@ -2188,15 +2188,14 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: ['phasingDamageBonus', 'shroudDamageBonus', 'highestStatDamageBonus',
-      'damagePercentForStat2', 'phasingDurationDamage', 'damageFromEssence'],
+      'phasingDurationDamage', 'damageFromEssence'],
     calculate: (stats) => {
       const phasing = (stats.phasingDamageBonus || 0) / 100;     // 1.5%/stack, both
       const shroud = (stats.shroudDamageBonus || 0) / 100;       // both (Shroud Master)
       const highest = (stats.highestStatDamageBonus || 0) / 100; // 1%/30, both
-      const perStat2 = (stats.damagePercentForStat2 || 0) / 100; // 1%/30, both
       const phaseDur = (stats.phasingDurationDamage || 0) / 100;  // 1%/10s, both
       const essence = (stats.damageFromEssence || 0) / 100;       // 2%/10 essence, both
-      return phasing + shroud + highest + perStat2 + phaseDur + essence;
+      return phasing + shroud + highest + phaseDur + essence;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Damage% bonuses applying to both physical and elemental lines',
@@ -2204,7 +2203,6 @@ export const DERIVED_STATS = {
       { label: 'phasingDamageBonus', fullName: DERIVED_STATS.phasingDamageBonus.name, op: '+', value: (stats.phasingDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'shroudDamageBonus', fullName: DERIVED_STATS.shroudDamageBonus.name, op: '+', value: (stats.shroudDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'highestStatDamageBonus', fullName: DERIVED_STATS.highestStatDamageBonus.name, op: '+', value: (stats.highestStatDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'damagePercentForStat2', fullName: DERIVED_STATS.damagePercentForStat2.name, op: '+', value: (stats.damagePercentForStat2 || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'phasingDurationDamage', fullName: DERIVED_STATS.phasingDurationDamage.name, op: '+', value: (stats.phasingDurationDamage || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'damageFromEssence', fullName: DERIVED_STATS.damageFromEssence.name, op: '+', value: (stats.damageFromEssence || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'Both', fullName: 'Both-types Damage% (sum)', op: '=', value: stats.edpsBothTypesDamageBonus, fmt: 'pct', isSubtotal: true },
@@ -2352,7 +2350,8 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: ['elementFromCritChance', 'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
-      'elementalFromEssence', 'elementalFromHighest', 'berserkerElementalFromHighest',
+      'elementalFromEssence', 'elementalFromHighest', 'damagePercentForStat2',
+      'berserkerElementalFromHighest',
       'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus'],
     calculate: (stats) => {
       const fire = stats.fireDamageBonus || 0;
@@ -2365,13 +2364,14 @@ export const DERIVED_STATS = {
       // New elemental-split monogram sources
       const essenceElem = (stats.elementalFromEssence || 0) / 100;
       const highestElem = (stats.elementalFromHighest || 0) / 100;
+      const perStat2Elem = (stats.damagePercentForStat2 || 0) / 100; // 1%/40, elemental
       const berserkerElem = (stats.berserkerElementalFromHighest || 0) / 100;
       const shroudElem = (stats.shroudElementalBonus || 0) / 100;
       const shroudElemHi = (stats.shroudElementalFromHighest || 0) / 100;
       const phasingElem = (stats.phasingElementalBonus || 0) / 100;
       const noPotionElem = (stats.damageNoPotionBonus || 0) / 100; // now elemental (15%/slot)
       return 1 + fire + arcane + lightning + elemFromCrit + arcMine + fireMine + ltngMine
-        + essenceElem + highestElem + berserkerElem + shroudElem + shroudElemHi + phasingElem + noPotionElem;
+        + essenceElem + highestElem + perStat2Elem + berserkerElem + shroudElem + shroudElemHi + phasingElem + noPotionElem;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Elemental damage multiplier (Fire/Arcane/Lightning + elemental monograms, additive)',
@@ -2386,6 +2386,7 @@ export const DERIVED_STATS = {
       { label: 'lightningMineBonus', fullName: DERIVED_STATS.lightningMineBonus.name, op: '+', value: (stats.lightningMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'elementalFromEssence', fullName: DERIVED_STATS.elementalFromEssence.name, op: '+', value: (stats.elementalFromEssence || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'elementalFromHighest', fullName: DERIVED_STATS.elementalFromHighest.name, op: '+', value: (stats.elementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
+      { label: 'damagePercentForStat2', fullName: DERIVED_STATS.damagePercentForStat2.name, op: '+', value: (stats.damagePercentForStat2 || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'berserkerElementalFromHighest', fullName: DERIVED_STATS.berserkerElementalFromHighest.name, op: '+', value: (stats.berserkerElementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'shroudElementalBonus', fullName: DERIVED_STATS.shroudElementalBonus.name, op: '+', value: (stats.shroudElementalBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'shroudElementalFromHighest', fullName: DERIVED_STATS.shroudElementalFromHighest.name, op: '+', value: (stats.shroudElementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },

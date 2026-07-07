@@ -353,8 +353,21 @@ Opaque node IDs can't be auto-detected. `TREE_KEYSTONES` provides a checklist of
 - Fire/Arcane/Lightning Affinity (CDR ~35%, damage ~100% additive)
 - Extra inventory slots, extra potions
 
-### TODO: Card registry
-Card effects need population. Cards have L1/L2/L3 base stats; L6 doubles L3 and removes from further choice. Currently stored as skeleton entries with empty effects arrays.
+### Card registry — populated from game data
+`getCardDef()` merges generated data (`src/data/cards.generated.json`, all 81
+cards) into the curated skeleton: effects are per-level `{tag, value}` pairs
+that scale linearly with card level (choice levels 1/2/3; L6 = 6× base, which
+reproduces the observed "L6 doubles L3" rule). Curated `CARD_REGISTRY` entries
+only pin display names and shareCodec dictionary order — keep them append-only.
+
+`getWeaponSkillDef()` likewise merges generated weapon data
+(`src/data/weaponSkills.generated.json`, 112 rows): per-level `effects`,
+`gameMaxLevel`, `gameDescription`, and `buff` (joined from `DT_StatusEffects`
+by rowName — name, duration, maxStack, effect magnitudes). Notable game facts:
+all four melee paragon nodes (`SpearsDamage`, `PolearmDamage` (mauls),
+`OneHandDamage`, `TwoHandDamage`) grant 1% weapon damage + 0.1% health regen +
+0.01% lifesteal + 0.5 armor per level (max 5000); ranged/magery/scythe paragons
+grant damage only.
 
 ## Testing
 
@@ -513,6 +526,9 @@ node extraction/generate-registries.mjs
 | `src/data/monograms.generated.json` | 473 monograms: tag, in-game description, `effects` tag→value pairs | `monogramRegistry.js` lookup fallback (curated entries win) |
 | `src/data/affixes.generated.json` | 347 item affixes: tag, base value, per-level scaling, roll rules, min item level | (available; not yet wired into calcs) |
 | `src/data/modifierPools.generated.json` | Yellow/orange roll pools per weapon/tier | (available) |
+| `src/data/cards.generated.json` | 81 crystal cards: per-level `{tag, value}` effects (× card level) | `skillTreeRegistry.js` `getCardDef()` merge |
+| `src/data/weaponSkills.generated.json` | 112 weapon skills: per-level effects, game max level, buff join | `skillTreeRegistry.js` `getWeaponSkillDef()` merge |
+| `src/data/statusEffects.generated.json` | 170 buffs/debuffs: name, description, duration, stacks, effect values | joined into weapon skills; standalone lookup TBD |
 
 The generator also emits a drift report (`extraction/out/drift-report.md`,
 gitignored) flagging rollable affix tags `findStatForAttribute()` cannot

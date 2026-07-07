@@ -9,10 +9,19 @@
  *                                     per-level scaling, roll rules)
  *   DT_Yellow_Orange_Modifiers.json — which affixes roll in which pool
  *
+ *   DT_Crystal_Cards_Skills.json    — crystal card effects (per-level bonus
+ *                                     attributes; values scale linearly)
+ *   DT_Skills_*.json (8 weapons)    — weapon stance skill trees
+ *   DT_StatusEffects.json           — buff/status lexicon (names, durations,
+ *                                     stacks, effect values)
+ *
  * Outputs (committed, consumed by src/):
  *   src/data/monograms.generated.json
  *   src/data/affixes.generated.json
  *   src/data/modifierPools.generated.json
+ *   src/data/cards.generated.json
+ *   src/data/weaponSkills.generated.json
+ *   src/data/statusEffects.generated.json
  *
  * Also prints a drift report comparing affix tags against STAT_REGISTRY
  * patterns (written to extraction/out/drift-report.md, gitignored).
@@ -124,6 +133,128 @@ function generatePools(poolRows) {
 }
 
 // ---------------------------------------------------------------------------
+// Shared: tag/value effect list from a BonusAttributes/CharacterAttributes array
+// ---------------------------------------------------------------------------
+
+function effectList(entries) {
+  const effects = [];
+  for (const entry of entries ?? []) {
+    const tag = prop(entry, 'GameplayTag')?.TagName;
+    const value = prop(entry, 'Value');
+    if (tag && tag !== 'None') effects.push({ tag, value: value ?? 0 });
+  }
+  return effects;
+}
+
+// ---------------------------------------------------------------------------
+// Crystal cards (DT_Crystal_Cards_Skills — STR_SkillInstance rows)
+//
+// Every card has exactly one SkillLevels entry; in-game card levels multiply
+// those values linearly (consistent with the observed "L6 doubles L3" rule).
+// ---------------------------------------------------------------------------
+
+function generateCards(cardRows) {
+  const cards = {};
+  for (const [rowName, row] of Object.entries(cardRows)) {
+    const m = rowName.match(/^CARD(\d+)(?:_(\d+))?$/i);
+    const levels = prop(row, 'SkillLevels') ?? [];
+    cards[rowName] = {
+      family: m ? Number(m[1]) : null,
+      variant: m && m[2] !== undefined ? Number(m[2]) : null,
+      maxLevel: prop(row, 'MaxLevel') ?? 0,
+      // Per-level effects (multiply by card level)
+      effects: effectList(prop(levels[0] ?? {}, 'BonusAttributes')),
+    };
+  }
+  return cards;
+}
+
+// ---------------------------------------------------------------------------
+// Weapon stance skills (DT_Skills_* — STR_SkillInstance rows)
+//
+// Same row struct as cards: one SkillLevels entry whose BonusAttributes apply
+// per skill level (paragon nodes scale linearly to MaxLevel). Buff-type skills
+// have empty BonusAttributes; their magnitudes live in DT_StatusEffects under
+// the same rowName and are joined in as `buff`.
+// ---------------------------------------------------------------------------
+
+const WEAPON_TABLES = {
+  'DT_Skills_Spear.json': 'spear',
+  'DT_Skills_Mauls.json': 'mauls',
+  'DT_Skills_OneHand.json': 'oneHand',
+  'DT_Skills_TwoHand.json': 'twoHand',
+  'DT_Skills_Archery.json': 'archery',
+  'DT_Skills_Magery.json': 'magery',
+  'DT_Skills_Scythe.json': 'scythe',
+  'DT_Skills_Unarmed.json': 'unarmed',
+};
+
+function generateWeaponSkills(statusEffects) {
+  const skills = {};
+  for (const [fileName, weapon] of Object.entries(WEAPON_TABLES)) {
+    let rows;
+    try {
+      rows = loadTable(fileName);
+    } catch {
+      console.warn(`  (skipping ${fileName} — not present)`);
+      continue;
+    }
+    for (const [rowName, row] of Object.entries(rows)) {
+      const levels = prop(row, 'SkillLevels') ?? [];
+      const levelDesc = (prop(levels[0] ?? {}, 'Description') ?? '');
+      const description = (typeof levelDesc === 'string' ? levelDesc : textOf(levelDesc) ?? '').trim() || null;
+
+      const entry = {
+        weapon,
+        maxLevel: prop(row, 'MaxLevel') ?? 0,
+        ...(description ? { description } : {}),
+        // Per-level effects (multiply by skill level for paragon nodes)
+        effects: effectList(prop(levels[0] ?? {}, 'BonusAttributes')),
+      };
+
+      // Join buff magnitudes from the status-effect lexicon (same rowName)
+      const status = statusEffects[rowName];
+      if (status && (status.effects.length || status.duration)) {
+        entry.buff = {
+          ...(status.name ? { name: status.name } : {}),
+          duration: status.duration,
+          maxStack: status.maxStack,
+          effects: status.effects,
+        };
+      }
+
+      skills[rowName] = entry;
+    }
+  }
+  return skills;
+}
+
+// ---------------------------------------------------------------------------
+// Status effects (DT_StatusEffects — buff/debuff lexicon)
+// ---------------------------------------------------------------------------
+
+function generateStatusEffects(statusRows) {
+  const statusEffects = {};
+  for (const [rowName, row] of Object.entries(statusRows)) {
+    const name = textOf(prop(row, 'AttributeName'));
+    const description = (textOf(prop(row, 'Description')) ?? '')
+      .replace(/\r\n/g, ' ').replace(/\n/g, ' ').trim() || null;
+    statusEffects[rowName] = {
+      ...(name ? { name } : {}),
+      ...(description ? { description } : {}),
+      positive: prop(row, 'IsPositiveEffect') ?? true,
+      duration: prop(row, 'Duration') ?? 0,
+      maxStack: prop(row, 'MaxStack') ?? 1,
+      effects: [
+        ...effectList(prop(row, 'CharacterAttributes')),
+        ...effectList(prop(row, 'EffectAttributes')),
+      ],
+    };
+  }
+  return statusEffects;
+}
+
+// ---------------------------------------------------------------------------
 // Drift report: affix tags vs STAT_REGISTRY patterns
 // ---------------------------------------------------------------------------
 
@@ -155,10 +286,15 @@ async function driftReport(affixes) {
 const attributeRows = loadTable('DT_Attributes.json');
 const affixRows = loadTable('DT_Base_Item_Attributes.json');
 const poolRows = loadTable('DT_Yellow_Orange_Modifiers.json');
+const cardRows = loadTable('DT_Crystal_Cards_Skills.json');
+const statusRows = loadTable('DT_StatusEffects.json');
 
 const monograms = generateMonograms(attributeRows);
 const affixes = generateAffixes(affixRows);
 const pools = generatePools(poolRows);
+const cards = generateCards(cardRows);
+const statusEffects = generateStatusEffects(statusRows);
+const weaponSkills = generateWeaponSkills(statusEffects);
 
 fs.mkdirSync(GEN_DIR, { recursive: true });
 const banner = { _generated: 'by extraction/generate-registries.mjs — do not edit by hand' };
@@ -169,10 +305,19 @@ fs.writeFileSync(path.join(GEN_DIR, 'affixes.generated.json'),
   JSON.stringify({ ...banner, affixes }, null, 2));
 fs.writeFileSync(path.join(GEN_DIR, 'modifierPools.generated.json'),
   JSON.stringify({ ...banner, pools }, null, 2));
+fs.writeFileSync(path.join(GEN_DIR, 'cards.generated.json'),
+  JSON.stringify({ ...banner, cards }, null, 2));
+fs.writeFileSync(path.join(GEN_DIR, 'weaponSkills.generated.json'),
+  JSON.stringify({ ...banner, weaponSkills }, null, 2));
+fs.writeFileSync(path.join(GEN_DIR, 'statusEffects.generated.json'),
+  JSON.stringify({ ...banner, statusEffects }, null, 2));
 
-console.log(`Monograms: ${Object.keys(monograms).length}`);
-console.log(`Affixes:   ${Object.keys(affixes).length}`);
-console.log(`Pools:     ${Object.keys(pools).length}`);
+console.log(`Monograms:      ${Object.keys(monograms).length}`);
+console.log(`Affixes:        ${Object.keys(affixes).length}`);
+console.log(`Pools:          ${Object.keys(pools).length}`);
+console.log(`Cards:          ${Object.keys(cards).length}`);
+console.log(`Weapon skills:  ${Object.keys(weaponSkills).length}`);
+console.log(`Status effects: ${Object.keys(statusEffects).length}`);
 
 const { reportPath, missing } = await driftReport(affixes);
 console.log(`Drift:     ${missing} rollable affixes unmatched by STAT_REGISTRY patterns`);

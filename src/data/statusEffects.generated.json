@@ -1,0 +1,2400 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "statusEffects": {
+    "Effect_Corn": {
+      "name": "Corn",
+      "description": "Restores health and hunger.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 3,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.TickInterval",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.Health.Max%PerSecond",
+          "value": 0.005
+        }
+      ]
+    },
+    "Effect_Beet": {
+      "name": "Beet",
+      "description": "Restores health and hunger and increase melee damage by.",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Melee",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.TickInterval",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.Health.Max%PerSecond",
+          "value": 0.0033
+        }
+      ]
+    },
+    "Effect_Pumpkin": {
+      "name": "Pumpkin",
+      "description": "Restores health and hunger and add melee resistance",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Resistance.Melee%",
+          "value": 0.3
+        },
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.TickInterval",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.Health.Max%PerSecond",
+          "value": 0.005
+        }
+      ]
+    },
+    "Effect_Cabbage": {
+      "name": "Cabbage",
+      "description": "Restores health and hunger and increase max health.",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 25
+        },
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.TickInterval",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.Health.Max%PerSecond",
+          "value": 0.0015
+        }
+      ]
+    },
+    "Effect_UnderwaterBreathing": {
+      "name": "Underwater breathing",
+      "description": "Allows to breath under water.",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.TickInterval",
+          "value": 0
+        }
+      ]
+    },
+    "Effect_Healing": {
+      "name": "Healing",
+      "description": "Restores health over time.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.StatusEffect.Health.Max%PerSecond",
+          "value": 0.05
+        }
+      ]
+    },
+    "Effect_MagicShield": {
+      "name": "Magic shield",
+      "description": "Increases character damage resistance.",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Resistance.Overall%",
+          "value": 0.5
+        }
+      ]
+    },
+    "1H_Damage_Buff": {
+      "name": "Mark of the Dueler",
+      "description": "Invoke the blessing of legendary sword saints, enhancing your one-handed weapon's destructive potential.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.15
+        }
+      ]
+    },
+    "1H_Crit_Damage_Buff": {
+      "name": "Riposter",
+      "description": "Channel the precision of master duelists, empowering your one-handed strikes with lethal critical force.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "1H_Damage_EndGame_Buff": {
+      "name": "Blessing of the Dueler",
+      "description": "Harness the essence of unparalleled swordsmanship, dramatically amplifying your one-handed weapon's damage.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.15
+        }
+      ]
+    },
+    "1H_Crit_Damage_EndGame_Buff": {
+      "name": "Godlike Riposter",
+      "description": "Transcend mortal skill, imbuing your one-handed weapon with divine critical power.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "2H_Damage": {
+      "name": "Mark of the Berserker",
+      "description": "Gain critical damage with two handed weapons for a duration",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.1
+        }
+      ]
+    },
+    "2H_Crit_Damage": {
+      "name": "The Crippler",
+      "description": "Gain critical damage with two handed weapons for a duration",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "2H_Crit_Buff": {
+      "name": "Blade Sentinel",
+      "description": "Awaken the guardian within, empowering your two-handed strikes with devastating critical force.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "2H_Dmg_Buff": {
+      "name": "Blade Fury",
+      "description": "Channel raw aggression into your two-handed weapon, unleashing a destructive critical blows.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.1
+        }
+      ]
+    },
+    "2H_Crit_Buff_EndGame": {
+      "name": "Eternal Blade Sentinel",
+      "description": "Transcend mortal limits, imbuing your two-handed weapon with overwhelming critical power.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "2H_Dmg_Buff_EndGame": {
+      "name": "Blade Frenzy",
+      "description": "Enter a state of battle ecstasy, dramatically amplifying the damage of your two-handed attacks.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Spear_Damage_Buff": {
+      "name": "Mark of the Sojutsuist",
+      "description": "Invoke the blessing of spear masters past, enhancing your spear's destructive potential.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.15
+        }
+      ]
+    },
+    "Spear_Crit_Damage_buff": {
+      "name": "Spartan Spirit",
+      "description": "Channel the fierce determination of ancient warriors, empowering your spear strikes with devastating critical force.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Spear_Damage_buff_end_game": {
+      "name": "God touch of the Sojutsuist",
+      "description": "Harness the peak of sojutsu technique, dramatically amplifying your spear's damage.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.15
+        }
+      ]
+    },
+    "Spear_Crit_Damage_buff_end_game": {
+      "name": "Spartan Ascension",
+      "description": "Unleash the pinnacle of Spartan might, imbuing your spear with overwhelming critical power.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Mauls_Damage": {
+      "name": "Mark of the Monk",
+      "description": "Invoke the spiritual strength of ascetic warriors, enhancing your maul and staff attacks.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.15
+        }
+      ]
+    },
+    "Mauls_Crit_Damage": {
+      "name": "The Executioner",
+      "description": "Channel the grim resolve of an executioner, empowering your strikes with devastating critical force.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Mauls_Crit_Damage_EndGame": {
+      "name": "The Grand Executioner",
+      "description": "Unleash judgment with godlike power, imbuing your maul and staff strikes with overwhelming critical might.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Mauls_Damage_EndGame": {
+      "name": "Bane of the Monk",
+      "description": "Harness sacred wrath, dramatically amplifying the damage of your maul and staff attacks.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.15
+        }
+      ]
+    },
+    "Mauls_HP_Energy_Regen": {
+      "name": "Renewing Forge",
+      "description": "Tap into the life-giving energies of creation, invigorating your body and spirit during combat.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": []
+    },
+    "Stamina_ArmorBuff": {
+      "name": "Aura of Light",
+      "description": "Gain Armor for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 25
+        }
+      ]
+    },
+    "Stamina_HealingAuraBuff": {
+      "name": "Renewing Breeze",
+      "description": "Gain health over time",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 25
+        }
+      ]
+    },
+    "Stamina_EndGame_Armor_Buff": {
+      "name": "Magnificent Aura of Light",
+      "description": "Gain Armor for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 100
+        }
+      ]
+    },
+    "Stamina_EndGame_HPRegen_Buff": {
+      "name": "Endless Wind",
+      "description": "Increases health and energy regeneration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 10
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 10
+        }
+      ]
+    },
+    "Strength_DamageBuff": {
+      "name": "Celestial Might",
+      "description": "Increases damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 25
+        }
+      ]
+    },
+    "Strength_StrBuff": {
+      "name": "Might of the Myrh",
+      "description": "Increases strength",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 25
+        }
+      ]
+    },
+    "Strength_Dmg%Buff": {
+      "name": "Battle Cry",
+      "description": "Increases damage",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.15
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.15
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.15
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.15
+        }
+      ]
+    },
+    "AgilityCritBuff": {
+      "name": "Hymn of the Satyr",
+      "description": "Chance to Increases critical chance for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.1
+        }
+      ]
+    },
+    "AgilityCritDamageBuff": {
+      "name": "Heightened Senses",
+      "description": "Increases critical damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.25
+        }
+      ]
+    },
+    "AgilityAgilityBuff": {
+      "name": "Celestial Movement",
+      "description": "Increases agility for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 10
+        }
+      ]
+    },
+    "Strength_DamageBuff_EndGame": {
+      "name": "Eternal Celestial Might",
+      "description": "Increases damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 25
+        }
+      ]
+    },
+    "Strength_StrBuff_EndGame": {
+      "name": "Great Force of the Myrh",
+      "description": "Chance to Increase strength for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 25
+        }
+      ]
+    },
+    "Strength_Dmg%Buff_EndGame": {
+      "name": "Battle Scream",
+      "description": "Massive increase in stance damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.25
+        }
+      ]
+    },
+    "AgilityCritBuff_EndGame": {
+      "name": "Anthem of the Satyr",
+      "description": "Increases critical chance",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.1
+        }
+      ]
+    },
+    "AgilityCritDamageBuff_EndGame": {
+      "name": "Extatic Senses",
+      "description": "Massive Increase of critical damage",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.25
+        }
+      ]
+    },
+    "AgilityAgilityBuff_EndGame": {
+      "name": "Eternal Celestial Movement",
+      "description": "Increases agility for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 10
+        }
+      ]
+    },
+    "Damage_Agility_Strength_Endgame_Buff": {
+      "name": "Force of the World Destroyers",
+      "description": "Increases damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "Food_1_Damage_Endgame_Buff": {
+      "name": "Force of the World Destroyers",
+      "description": "Increases damage for a short duration",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 50
+        }
+      ]
+    },
+    "Food_2_AgilityBuff_EndGame": {
+      "name": "Eternal Celestial Movement",
+      "description": "Increases agility for a short duration",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 100
+        }
+      ]
+    },
+    "Food_3_CritDamageBuff_EndGame": {
+      "name": "Extatic Senses",
+      "description": "Increases critical damage by for a short duration",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 1
+        }
+      ]
+    },
+    "Mauls_EndGame_Divine_Bubble": {
+      "name": "Extatic Senses",
+      "description": "Divine Shield",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.5
+        }
+      ]
+    },
+    "Slug_Experience_Buff": {
+      "name": "Experience Buff",
+      "description": "Increases Experience Gain!",
+      "positive": false,
+      "duration": 600,
+      "maxStack": 1000,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.0025
+        }
+      ]
+    },
+    "Slug_Damage_Buff": {
+      "name": "Power of the Slug",
+      "description": "Increases damage by a lot.",
+      "positive": false,
+      "duration": 600,
+      "maxStack": 300,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.0025
+        }
+      ]
+    },
+    "Slug_Damage_Buff_Large": {
+      "name": "Muchos Power of the Slug",
+      "description": "Increases damage by a lot a lot.",
+      "positive": false,
+      "duration": 600,
+      "maxStack": 200,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.005
+        }
+      ]
+    },
+    "Slug_Experience_Buff_Large": {
+      "name": "Experience Buff",
+      "description": "Increases Experience Gain!",
+      "positive": false,
+      "duration": 600,
+      "maxStack": 200,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.005
+        }
+      ]
+    },
+    "Archery.Buff.Damage.LEVEL1": {
+      "name": "Harmoniyan Discipline",
+      "description": "Attune yourself to the Harmoniyan way, enhancing the impact of your arrows.",
+      "positive": false,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.Buff.Damage.LEVEL2": {
+      "name": "Harmoniyan Discipline of Great Magnitude",
+      "description": "Master the pinnacle of Harmoniyan archery, dramatically amplifying your arrow's damage.",
+      "positive": false,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.5
+        }
+      ]
+    },
+    "Archery.Buff.Crit.LEVEL1": {
+      "name": "Touch of the Kabarian Hunter",
+      "description": "Channel the spirit of legendary Kabarian archers, empowering your shots with deadly precision.",
+      "positive": false,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.Buff.Crit.LEVEL2": {
+      "name": "Touch of the Kabarian Hunter",
+      "description": "Invoke the full might of Kabarian hunting lore, imbuing your arrows with devastating critical force.",
+      "positive": false,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.Buff.Damage.LEVEL1": {
+      "name": "Celestial Surge",
+      "description": "Draw upon the energy of distant stars, briefly intensifying your magical assaults.",
+      "positive": false,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.Buff.Damage.LEVEL2": {
+      "name": "Divine Surge",
+      "description": "Channel the raw power of the gods, temporarily supercharging your magical attacks.",
+      "positive": false,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.5
+        }
+      ]
+    },
+    "Magery.Buff.CritDamage.LEVEL1": {
+      "name": "Fairy Dust Spit",
+      "description": "Infuse your magic with mischievous fey power, enhancing your spells' critical potential.",
+      "positive": false,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.Buff.CritDamage.LEVEL2": {
+      "name": "Ascended Fairy Dust Spit",
+      "description": "Unleash the concentrated essence of fey realms, empowering your spells with otherworldly critical force.",
+      "positive": false,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Strength_DamageBuff_2": {
+      "name": "Celestial Might",
+      "description": "Increases damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 25
+        }
+      ]
+    },
+    "Stamina_StaminaBuff": {
+      "name": "Aura of Light",
+      "description": "Gain stamina for a short duration",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        }
+      ]
+    },
+    "Arcane.DamageRolllBuff": {
+      "name": "Arcane Roll",
+      "description": "Gain arcane buff for a short duration",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Fire.DamageRolllBuff": {
+      "name": "Fire Roll",
+      "description": "Gain a fire buff for a short duration",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Lightning.DamageRolllBuff": {
+      "name": "Lightning Roll",
+      "description": "Gain lightning buff for a short duration",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Arcane.CircleBuff": {
+      "name": "Arcane Insurgence",
+      "description": "Gain arcane buff for a short duration.",
+      "positive": true,
+      "duration": 25,
+      "maxStack": 5,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Fire.DamageTotemBuff": {
+      "name": "Fire Grandmaster",
+      "description": "Gain fire damage%",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.02
+        }
+      ]
+    },
+    "Fire.CircleBuff": {
+      "name": "Fire Insurgence",
+      "description": "Gain fire buff for a short duration.",
+      "positive": true,
+      "duration": 25,
+      "maxStack": 5,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Lightning.JumpBuff": {
+      "name": "Lightning Grandmaster",
+      "description": "Gain lightning damage buff for a short duration",
+      "positive": true,
+      "duration": 40,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Lightning.CircleBuff": {
+      "name": "Lightning Insurgence",
+      "description": "Gain lightning buff for a short duration.",
+      "positive": true,
+      "duration": 25,
+      "maxStack": 5,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Crafting.XPBuff": {
+      "name": "Descendant of Erko",
+      "description": "Gain chance to land a critical hit for a short amount of time",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.MarksmanBuff": {
+      "name": "Marksman",
+      "description": "100% crit chance and increase in archery damage.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.25
+        }
+      ]
+    },
+    "Ability.BurningShield.Buff": {
+      "name": "Burning Shield",
+      "description": "Increases Armor and Fire Damage",
+      "positive": true,
+      "duration": 15,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.5
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.25
+        }
+      ]
+    },
+    "AgilityAgilityBuff_EndGame_0": {
+      "name": "Eternal Celestial Movement",
+      "description": "Increases agility for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 10
+        }
+      ]
+    },
+    "Stamina_EndGame_HPRegen_Buff_0": {
+      "name": "Endless Wind",
+      "description": "Increases health and energy regeneration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 10
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 10
+        }
+      ]
+    },
+    "Strength_StrBuff_EndGame_0": {
+      "name": "Great Force of the Myrh",
+      "description": "Chance to Increase strength for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 25
+        }
+      ]
+    },
+    "Stamina_StaminaBuff_0": {
+      "name": "Aura of Light",
+      "description": "Gain stamina for a short duration",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        }
+      ]
+    },
+    "AgilityAgilityBuff_0": {
+      "name": "Celestial Movement",
+      "description": "Increases agility for a short duration",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 10
+        }
+      ]
+    },
+    "Damage_Agility_Strength_Endgame_Buff_0": {
+      "name": "Force of the World Destroyers",
+      "description": "Increases damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "Strength_DamageBuff_3": {
+      "name": "Celestial Might",
+      "description": "Increases damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 25
+        }
+      ]
+    },
+    "AgilityCritDamageBuff_0": {
+      "name": "Heightened Senses",
+      "description": "Increases critical damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.25
+        }
+      ]
+    },
+    "AgilityAgilityBuff_EndGame_1": {
+      "name": "Eternal Celestial Movement",
+      "description": "Increase agility for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 10
+        }
+      ]
+    },
+    "Stamina_EndGame_HPRegen_Buff_1": {
+      "name": "Endless Wind",
+      "description": "Increases health and energy regeneration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 10
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 10
+        }
+      ]
+    },
+    "Strength_StrBuff_EndGame_1": {
+      "name": "Great Force of the Myrh",
+      "description": "Chance to Increase strength for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 10
+        }
+      ]
+    },
+    "Stamina_StaminaBuff_1": {
+      "name": "Aura of Light",
+      "description": "Gain stamina for a short duration",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        }
+      ]
+    },
+    "Strength_DamageBuff_4": {
+      "name": "Celestial Might",
+      "description": "Increases damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 25
+        }
+      ]
+    },
+    "AgilityCritDamageBuff_1": {
+      "name": "Heightened Senses",
+      "description": "Increases critical damage for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.25
+        }
+      ]
+    },
+    "AgilityCritBuff_0": {
+      "name": "Hymn of the Satyr",
+      "description": "Increases critical chance for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.1
+        }
+      ]
+    },
+    "AgilityCritBuff_1": {
+      "name": "Hymn of the Satyr",
+      "description": "Increases critical chance for a short duration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.1
+        }
+      ]
+    },
+    "Fire.JumpBuff": {
+      "name": "Fire Jump",
+      "description": "Gain fire damage buff for a short duration",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Arcane.JumpBuff": {
+      "name": "Arcane Jump",
+      "description": "Gain arcane damage buff for a short duration",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.05
+        }
+      ]
+    },
+    "SpinningBlade.Active": {
+      "name": "Spinning Blade",
+      "positive": true,
+      "duration": 3.3,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Abilities.SpinningBlade.ActiveBuff",
+          "value": 1
+        }
+      ]
+    },
+    "Vortext.StackBuff": {
+      "name": "Vortex Stack",
+      "description": "Gain lightning damage% buff.",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 25,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.04
+        }
+      ]
+    },
+    "StaticCharge.Buff": {
+      "name": "Static Charge",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    },
+    "ArcaneApocalypse.Buff": {
+      "name": "Arcane Apocalypse",
+      "description": "Increase Arcane Damage%.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 75,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.02
+        }
+      ]
+    },
+    "Ability.BurningShield.Buff.MinorStack": {
+      "name": "Burning Shield Stack",
+      "description": "Increases Armor% and Fire Damage%.",
+      "positive": true,
+      "duration": 15,
+      "maxStack": 75,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Ability.DeathBlade.Stack": {
+      "name": "Death Blade Stack",
+      "description": "Increases damage%",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 20,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_Plain_Damage": {
+      "name": "Warstrike",
+      "description": "Increases Base Damage",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "Buff_Energy_Regen": {
+      "name": "Infinite Wind",
+      "description": "Increases Energy Regeneration",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 10
+        }
+      ]
+    },
+    "Buff_Crit_Damage": {
+      "name": "Heightened Senses",
+      "description": "Increases Critical Damage.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "Buff_Plain_STR": {
+      "name": "Colossal Force",
+      "description": "Increases Strength",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 5
+        }
+      ]
+    },
+    "Buff_Health_Regen": {
+      "name": "Invigorating Gust",
+      "description": "Increases Health Regeneration and Damage Reduction.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_Crit_Chance": {
+      "name": "Phantom Strike",
+      "description": "Increases Critical Chance and Base Damage.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "Buff_Armor": {
+      "name": "Defiance",
+      "description": "Increases Armor",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Buff_Crit_Chance_Damage": {
+      "name": "Beast Mode",
+      "description": "Increases Critical Damage, Boss Damage, and Attack Speed.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 5
+        }
+      ]
+    },
+    "Buff_Health_Energy_Regen_Armor": {
+      "name": "Ancestral Barrier",
+      "description": "Increases Health regeneration, Energy regeneration and Armor",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Buff_Fire": {
+      "name": "Fire Starter",
+      "description": "Increases Fire Damage and Base Damage.",
+      "positive": true,
+      "duration": 40,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_Lightning": {
+      "name": "Taste my Lightning",
+      "description": "Increases Lightning Damage and Armor.",
+      "positive": true,
+      "duration": 40,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_Arcane": {
+      "name": "Arcane Fury",
+      "description": "Increases Arcane Damage and Critical Damage.",
+      "positive": true,
+      "duration": 40,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_Arcane_Fire_Lightning": {
+      "name": "The Elementalist",
+      "description": "Increases all Elemental Damage.",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.5
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.5
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.5
+        }
+      ]
+    },
+    "EasyRPG.Items.Modifiers.DamageFromDestructableEnv": {
+      "name": "Enviorment Damage",
+      "description": "Get a short damage bonus when destroying environment",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 200,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 1
+        }
+      ]
+    },
+    "EasyRPG.Items.Modifiers.DexFromContainers": {
+      "name": "Dexterity Buff",
+      "description": "Gain dexterity when opening a container",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 10,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 20
+        }
+      ]
+    },
+    "EasyRPG.Items.Modifiers.LuckFromContainers": {
+      "name": "Luck Buff",
+      "description": "Gain Luck when opening a container",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 10,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 20
+        }
+      ]
+    },
+    "EasyRPG.Items.Modifiers.PotionsAsDamageBuff": {
+      "name": "Potion Damage",
+      "description": "Gain damage from potion",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 1
+        }
+      ]
+    },
+    "EasyRPG.Items.Modifiers.FellowshipRuptureBossBuff": {
+      "name": "Rupture Lord Damage Buff",
+      "description": "Gain damage when rupture lord was killed by fellowship",
+      "positive": true,
+      "duration": 180,
+      "maxStack": 15,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "EasyRPG.Items.Modifiers.BuffForGlyphCharged": {
+      "name": "Charged Attack Buff",
+      "description": "Gain damage% for every charged glyph attack",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 500,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    },
+    "ArcaneTotemBuff": {
+      "name": "Arcane Totem Damage",
+      "description": "Gain arcane damage%.",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 25,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    },
+    "LightnigTotemBuff": {
+      "name": "Lightning Totem Damage",
+      "description": "Gain lightning damage%.",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 25,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Crafting_Armor_DamageReduction": {
+      "name": "Dwarven Guardian",
+      "description": "Chance to gain damage reduction% for a short duration.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.05
+        }
+      ]
+    },
+    "DarkMage_Proc_Timer_Buff": {
+      "name": "Dark Mage",
+      "description": "The spirit of Darkness is upon you, Increase Magery Damage%.",
+      "positive": true,
+      "duration": 20,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_Env_Arcane": {
+      "name": "Arcane Environmentalist",
+      "description": "Increases arcane damage%.",
+      "positive": true,
+      "duration": 45,
+      "maxStack": 50,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_Env_Fire": {
+      "name": "Fire Environmentalist",
+      "description": "Increases fire damage%.",
+      "positive": true,
+      "duration": 45,
+      "maxStack": 50,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_Env_Lightning": {
+      "name": "Lightning Environmentalist",
+      "description": "Increases lightning damage%.",
+      "positive": true,
+      "duration": 45,
+      "maxStack": 50,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.05
+        }
+      ]
+    },
+    "ExplosionMod_Buff_Fire": {
+      "name": "Fire Nova",
+      "description": "Increases fire damage%.",
+      "positive": true,
+      "duration": 40,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.03
+        }
+      ]
+    },
+    "ExplosionMod_Buff_Lightning": {
+      "name": "Lightning Nova",
+      "description": "Increases lightning damage%.",
+      "positive": true,
+      "duration": 40,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.03
+        }
+      ]
+    },
+    "ExplosionMod_Buff_Arcane": {
+      "name": "Arcane Nova",
+      "description": "Increases arcane damage%.",
+      "positive": true,
+      "duration": 40,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.03
+        }
+      ]
+    },
+    "Buff_MiningNode_Arcane": {
+      "name": "Arcane Demolition",
+      "description": "Increases arcane damage%.",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 20,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_MiningNode_Fire": {
+      "name": "Fire Demolition",
+      "description": "Increases fire damag%.",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 20,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_MiningNode_Lightning": {
+      "name": "Lightning Demolition",
+      "description": "Increases lightning damage%.",
+      "positive": true,
+      "duration": 60,
+      "maxStack": 20,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_Spawn_Elysia": {
+      "name": "Elysia's Acolyte",
+      "description": "Increases fire damage%.",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.3
+        }
+      ]
+    },
+    "Buff_PainAmplifier": {
+      "name": "Pain Amplifier",
+      "description": "Gain damage%.",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 5,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.15
+        }
+      ]
+    },
+    "Buff_Shroud": {
+      "name": "Light Shroud",
+      "description": "Damaging an Enemy will replace Light Shroud with Dark Shroud",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 50,
+      "effects": []
+    },
+    "Buff_PhasingDamage": {
+      "name": "Phasing Trance",
+      "description": "Gain damage%.",
+      "positive": true,
+      "duration": 15,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_EliteEnergy": {
+      "name": "Elite Energy",
+      "description": "Gain Max Energy.",
+      "positive": true,
+      "duration": 20,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 1
+        }
+      ]
+    },
+    "Buff_EliteArmor": {
+      "name": "Elite Armor",
+      "description": "Gain Armor%.",
+      "positive": true,
+      "duration": 20,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.02
+        }
+      ]
+    },
+    "Buff_EliteMaxHp": {
+      "name": "Elite MaxHp",
+      "positive": true,
+      "duration": 20,
+      "maxStack": 50,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.02
+        }
+      ]
+    },
+    "Buff_EliteAttackSpeed": {
+      "name": "Elite Damage",
+      "positive": true,
+      "duration": 20,
+      "maxStack": 20,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_Bloodlust": {
+      "name": "Bloodlust",
+      "positive": true,
+      "duration": 20,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.0035
+        }
+      ]
+    },
+    "Buff_Blood": {
+      "name": "Blood",
+      "description": "Get damage%.",
+      "positive": true,
+      "duration": 20,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_Life": {
+      "name": "Life",
+      "description": "Get MaxHP%.",
+      "positive": true,
+      "duration": 20,
+      "maxStack": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_PhasingTrance": {
+      "name": "Phasing Trance",
+      "description": "Gain damage% and boss damage%",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 50,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.005
+        }
+      ]
+    },
+    "Buff_Veil": {
+      "name": "Veil",
+      "description": "Get Damage Reduction.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 50,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.005
+        }
+      ]
+    },
+    "Buff_PostShroud": {
+      "name": "Light Shroud Void",
+      "description": "Get Damage Reduction.",
+      "positive": true,
+      "duration": 7,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Haste",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 50
+        }
+      ]
+    },
+    "Buff_PostVeil": {
+      "name": "Veil Void",
+      "description": "Veil has been broken.",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.Haste",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.5
+        }
+      ]
+    },
+    "Buff_ShroudMaster": {
+      "name": "Shroud Master",
+      "description": "Double Damage and 100% chance to trigger offhand abilities.",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Items.Modifiers.IgnoreOffhandsCooldown",
+          "value": 1
+        }
+      ]
+    },
+    "Buff_PhasingHealer": {
+      "name": "Phasing Healer",
+      "description": "Gain health regeneration",
+      "positive": true,
+      "duration": 2,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 1.5
+        }
+      ]
+    },
+    "Buff_ExposedStrike": {
+      "name": "Dark Shroud",
+      "description": "Gain 5% damage per stack. Cannot generate Light Shroud",
+      "positive": true,
+      "duration": 30,
+      "maxStack": 50,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Damage.Multiplier",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_BerserkerHp": {
+      "name": "Infuriated Health",
+      "description": "Gain 1 Max HP per stack",
+      "positive": true,
+      "duration": 75,
+      "maxStack": 250,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 2
+        }
+      ]
+    },
+    "Buff_ChargedSecondary_Armor": {
+      "name": "Charged Defense",
+      "description": "A Blessing that provides 250 Armor",
+      "positive": true,
+      "duration": 45,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 250
+        }
+      ]
+    },
+    "Buff_Unarmed_Combo": {
+      "name": "A Combo Point",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 5,
+      "effects": []
+    },
+    "Buff_Unarmed_BlindedByRage": {
+      "name": "Blinded by Rage",
+      "positive": true,
+      "duration": 8,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 45
+        },
+        {
+          "tag": "EasyRPG.Attributes.Damage.Multiplier",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Armor.Multiplier",
+          "value": -0.25
+        }
+      ]
+    },
+    "Buff_Unarmed_ZenMeditation": {
+      "name": "Zen mediation",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Armor.Multiplier",
+          "value": 0.2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 20
+        },
+        {
+          "tag": "EasyRPG.Attributes.Damage.Multiplier",
+          "value": -0.5
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": -0.4
+        }
+      ]
+    },
+    "Buff_Immobilized": {
+      "name": "Soul Strike",
+      "description": "You cannot move or attack.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.NoMovement",
+          "value": 1
+        }
+      ]
+    },
+    "Buff_Unarmed_BlindedByRage_Empowered": {
+      "name": "Empowered Blinded by Rage",
+      "positive": true,
+      "duration": 16,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 70
+        },
+        {
+          "tag": "EasyRPG.Attributes.Damage.Multiplier",
+          "value": 0.2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Armor.Multiplier",
+          "value": -0.2
+        }
+      ]
+    },
+    "Buff_Unarmed_ZenMeditation_Empowered": {
+      "name": "Empowered Zen mediation",
+      "positive": true,
+      "duration": 5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.3
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.3
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": -0.5
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": -0.4
+        }
+      ]
+    },
+    "Buff_Excitement": {
+      "name": "Excitement",
+      "positive": true,
+      "duration": 25,
+      "maxStack": 20,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.03
+        }
+      ]
+    },
+    "Buff_Juggernaut": {
+      "name": "Juggernaut",
+      "positive": true,
+      "duration": 25,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Skills.Unarmed.Juggernaut",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.4
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.25
+        },
+        {
+          "tag": "EasyRPG.Attributes.CriticalDamage.Multiplier",
+          "value": 1
+        }
+      ]
+    },
+    "Buff_Soul_Strike": {
+      "name": "Soul Strike",
+      "description": "You cannot move or attack.",
+      "positive": false,
+      "duration": 2.5,
+      "maxStack": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.NoMovement",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.15
+        }
+      ]
+    },
+    "Summon_Skeleton_Warrior": {
+      "name": "Skeleton Warrior",
+      "description": "Health: 75%;Damage: 55%;3-4 Attacks per second.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Summon_Skeleton_Brute": {
+      "name": "Skeleton Brute",
+      "description": "Health: 85%;Damage: 0.7%;2-3 Attacks per second.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Summon_Skeleton_Archer": {
+      "name": "Skeletal Archer",
+      "description": "Health: 70%;Damage: 55%;3-5 Attacks per second.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Summon_Lich_Fighter": {
+      "name": "Lich Warrior",
+      "description": "Health: 85%;Damage: 80%;2-3 Attacks per second.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Summon_Lich_Mage": {
+      "name": "Lich Mage",
+      "description": "Health: 85%;Damage: 75%;2-5 Attacks per second.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Summon_Lich_Healer": {
+      "name": "Healing Appartion",
+      "description": "Health: 75%;Healing: 15%;1 Cast every 5-6 seconds.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Summon_Abomination": {
+      "name": "Abomination",
+      "description": "Health: 150%;Damage: 120%;1 Attack per second.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Summon_Skeletal_Hound": {
+      "name": "Demonic Hound",
+      "description": "Health: 85%;Damage: 70%;2-3 Attacks per second.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Buff_RiteOfSeverance": {
+      "name": "Rite of Severance",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 10,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Summon_Troll": {
+      "name": "Reanimated Troll",
+      "description": "Health: 100%;Damage: 90%;1-2 Attacks per second.",
+      "positive": false,
+      "duration": 0,
+      "maxStack": 20,
+      "effects": []
+    },
+    "Buff_DarkOath": {
+      "name": "Dark Oath",
+      "positive": true,
+      "duration": 10,
+      "maxStack": 4,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.12
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Buff_CallOfTheVoid": {
+      "name": "Call of the Void",
+      "positive": true,
+      "duration": 120,
+      "maxStack": 50,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Buff_DarkEssence": {
+      "name": "Dark Essence",
+      "description": "Dark Essence: Hitting an Elite or Boss generates 0.25 Dark Essence per 100 of your highest stat. Dark Essence counts as normal Essence but cannot be used. Stacks up to 500.",
+      "positive": true,
+      "duration": 15,
+      "maxStack": 500,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DarkEssenceStacks",
+          "value": 1
+        }
+      ]
+    }
+  }
+}

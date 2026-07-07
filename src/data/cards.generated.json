@@ -1,0 +1,1212 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "cards": {
+    "CARD1": {
+      "family": 1,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        }
+      ]
+    },
+    "CARD2": {
+      "family": 2,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 20
+        }
+      ]
+    },
+    "CARD3": {
+      "family": 3,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "CARD4": {
+      "family": 4,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Items.Modifiers.AdditionalPotionSlots.1",
+          "value": 1
+        }
+      ]
+    },
+    "CARD5": {
+      "family": 5,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 15
+        }
+      ]
+    },
+    "CARD6": {
+      "family": 6,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 15
+        }
+      ]
+    },
+    "CARD7": {
+      "family": 7,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "CARD8": {
+      "family": 8,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "CARD9": {
+      "family": 9,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "CARD11": {
+      "family": 11,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 15
+        }
+      ]
+    },
+    "CARD13": {
+      "family": 13,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.05
+        }
+      ]
+    },
+    "CARD14": {
+      "family": 14,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 75
+        }
+      ]
+    },
+    "CARD15": {
+      "family": 15,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD16": {
+      "family": 16,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.05
+        }
+      ]
+    },
+    "CARD17": {
+      "family": 17,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD18": {
+      "family": 18,
+      "variant": null,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "CARD10_0": {
+      "family": 10,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 4
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD10_1": {
+      "family": 10,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 4
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD10_2": {
+      "family": 10,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 4
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD1_0": {
+      "family": 1,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 60
+        }
+      ]
+    },
+    "CARD3_0": {
+      "family": 3,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.DamageReduction%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 50
+        }
+      ]
+    },
+    "CARD3_2": {
+      "family": 3,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD3_3": {
+      "family": 3,
+      "variant": 3,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "CARD3_4": {
+      "family": 3,
+      "variant": 4,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    },
+    "CARD5_0": {
+      "family": 5,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD5_1": {
+      "family": 5,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD5_2": {
+      "family": 5,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD5_3": {
+      "family": 5,
+      "variant": 3,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD5_4": {
+      "family": 5,
+      "variant": 4,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD3_1": {
+      "family": 3,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 75
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD4_0": {
+      "family": 4,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 4
+        }
+      ]
+    },
+    "CARD4_1": {
+      "family": 4,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 75
+        }
+      ]
+    },
+    "CARD4_2": {
+      "family": 4,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 15
+        }
+      ]
+    },
+    "CARD4_3": {
+      "family": 4,
+      "variant": 3,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 15
+        }
+      ]
+    },
+    "CARD4_4": {
+      "family": 4,
+      "variant": 4,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 15
+        }
+      ]
+    },
+    "CARD4_5": {
+      "family": 4,
+      "variant": 5,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 15
+        }
+      ]
+    },
+    "CARD4_6": {
+      "family": 4,
+      "variant": 6,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        }
+      ]
+    },
+    "CARD4_7": {
+      "family": 4,
+      "variant": 7,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 15
+        }
+      ]
+    },
+    "CARD4_8": {
+      "family": 4,
+      "variant": 8,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 15
+        }
+      ]
+    },
+    "CARD7_0": {
+      "family": 7,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 150
+        }
+      ]
+    },
+    "CARD8_0": {
+      "family": 8,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 150
+        }
+      ]
+    },
+    "CARD9_0": {
+      "family": 9,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 150
+        }
+      ]
+    },
+    "CARD17_0": {
+      "family": 17,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD17_1": {
+      "family": 17,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD17_2": {
+      "family": 17,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD3_5": {
+      "family": 3,
+      "variant": 5,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 3
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 5
+        }
+      ]
+    },
+    "CARD5_5": {
+      "family": 5,
+      "variant": 5,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD5_6": {
+      "family": 5,
+      "variant": 6,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD5_7": {
+      "family": 5,
+      "variant": 7,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 15
+        }
+      ]
+    },
+    "CARD5_8": {
+      "family": 5,
+      "variant": 8,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        }
+      ]
+    },
+    "CARD5_9": {
+      "family": 5,
+      "variant": 9,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 15
+        }
+      ]
+    },
+    "CARD5_10": {
+      "family": 5,
+      "variant": 10,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 15
+        }
+      ]
+    },
+    "CARD5_11": {
+      "family": 5,
+      "variant": 11,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 15
+        }
+      ]
+    },
+    "CARD5_12": {
+      "family": 5,
+      "variant": 12,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 15
+        }
+      ]
+    },
+    "CARD6_0": {
+      "family": 6,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 15
+        }
+      ]
+    },
+    "CARD6_1": {
+      "family": 6,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 15
+        }
+      ]
+    },
+    "CARD6_2": {
+      "family": 6,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 15
+        }
+      ]
+    },
+    "CARD6_3": {
+      "family": 6,
+      "variant": 3,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        }
+      ]
+    },
+    "CARD6_4": {
+      "family": 6,
+      "variant": 4,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 15
+        }
+      ]
+    },
+    "CARD6_5": {
+      "family": 6,
+      "variant": 5,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.03
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 15
+        }
+      ]
+    },
+    "CARD11_0": {
+      "family": 11,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 15
+        }
+      ]
+    },
+    "CARD11_1": {
+      "family": 11,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        }
+      ]
+    },
+    "CARD11_2": {
+      "family": 11,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 15
+        }
+      ]
+    },
+    "CARD11_3": {
+      "family": 11,
+      "variant": 3,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 15
+        }
+      ]
+    },
+    "CARD11_4": {
+      "family": 11,
+      "variant": 4,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 15
+        }
+      ]
+    },
+    "CARD11_5": {
+      "family": 11,
+      "variant": 5,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 15
+        }
+      ]
+    },
+    "CARD16_0": {
+      "family": 16,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.05
+        }
+      ]
+    },
+    "CARD16_1": {
+      "family": 16,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.05
+        }
+      ]
+    },
+    "CARD16_2": {
+      "family": 16,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.05
+        }
+      ]
+    },
+    "CARD16_3": {
+      "family": 16,
+      "variant": 3,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.05
+        }
+      ]
+    },
+    "CARD16_4": {
+      "family": 16,
+      "variant": 4,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.05
+        }
+      ]
+    },
+    "CARD16_5": {
+      "family": 16,
+      "variant": 5,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+          "value": 0.05
+        }
+      ]
+    },
+    "CARD14_0": {
+      "family": 14,
+      "variant": 0,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 75
+        }
+      ]
+    },
+    "CARD14_1": {
+      "family": 14,
+      "variant": 1,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 75
+        }
+      ]
+    },
+    "CARD14_2": {
+      "family": 14,
+      "variant": 2,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 75
+        }
+      ]
+    },
+    "CARD14_3": {
+      "family": 14,
+      "variant": 3,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 75
+        }
+      ]
+    },
+    "CARD14_4": {
+      "family": 14,
+      "variant": 4,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 75
+        }
+      ]
+    },
+    "CARD14_5": {
+      "family": 14,
+      "variant": 5,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 75
+        }
+      ]
+    },
+    "CARD17_3": {
+      "family": 17,
+      "variant": 3,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD17_4": {
+      "family": 17,
+      "variant": 4,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.1
+        }
+      ]
+    },
+    "CARD17_5": {
+      "family": 17,
+      "variant": 5,
+      "maxLevel": 100,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.1
+        }
+      ]
+    }
+  }
+}

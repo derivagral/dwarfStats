@@ -1,0 +1,1470 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "weaponSkills": {
+    "SpearRBaseCritDmg": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "description": "Increases critical damage with spears by 10%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        }
+      ]
+    },
+    "Spear_Damage_buff_end_game": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "God touch of the Sojutsuist",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+            "value": 0.15
+          }
+        ]
+      }
+    },
+    "Speark_Roll_Knockback": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.1
+        }
+      ]
+    },
+    "SpearsQ": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.1
+        }
+      ]
+    },
+    "SpearQBaseDamage": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.1
+        }
+      ]
+    },
+    "SpearsR": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalChance%",
+          "value": 0.05
+        }
+      ]
+    },
+    "SpearMediumDmg": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Spear_Damage_Buff": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.05
+        }
+      ],
+      "buff": {
+        "name": "Mark of the Sojutsuist",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+            "value": 0.15
+          }
+        ]
+      }
+    },
+    "SpearMediumCritDmg": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "description": "Increases critical damage with spears by 10%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Spear_Crit_Damage_Buff": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.1
+        }
+      ]
+    },
+    "SpearMajor": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "description": "Increases spears damage and critical damage by 25%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Spear_Crit_Damage_buff_end_game": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Spartan Ascension",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "SpearCritDamage": {
+      "weapon": "spear",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Skills.Spear.Bloodlust",
+          "value": 1
+        }
+      ]
+    },
+    "SpearsDamage": {
+      "weapon": "spear",
+      "maxLevel": 5000,
+      "description": "Adds 1% damage with spears.",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.001
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.0001
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 0.5
+        }
+      ]
+    },
+    "MaulsQ": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        }
+      ]
+    },
+    "MacesDamageEndGameBuff": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ]
+    },
+    "MacesCritEndGameBuff": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.1
+        }
+      ]
+    },
+    "MacesQBaseDamage": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "description": "Increases your damage with mauls and staves by 10%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.1
+        }
+      ]
+    },
+    "MacesRBaseCritDmg": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "MaulsR": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.2
+        }
+      ]
+    },
+    "MacesCritBasicBuff": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.05
+        }
+      ]
+    },
+    "MacesDamageBasicBuff": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.05
+        }
+      ]
+    },
+    "MacesMediumCritDmg": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "description": "Increases mauls & staves critical damage by 10%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "MacesMediumDmg": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "description": "Increases mauls & staves damage by 10%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Mauls_HP_Energy_Regen": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Renewing Forge",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": []
+      }
+    },
+    "MacesMajor": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "description": "Increases damage and critical strike damage with mauls & staves by 25%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Mauls.EndGame.Bubble": {
+      "weapon": "mauls",
+      "maxLevel": 1,
+      "effects": []
+    },
+    "PolearmDamage": {
+      "weapon": "mauls",
+      "maxLevel": 5000,
+      "description": "Increases your damage with Mauls & Maces by 1%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.001
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.0001
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 0.5
+        }
+      ]
+    },
+    "SwordsQ": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        }
+      ]
+    },
+    "1H_Damage_EndGame_Buff": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Blessing of the Dueler",
+        "duration": 5,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+            "value": 0.15
+          }
+        ]
+      }
+    },
+    "1H_Crit_Damage_EndGame_Buff": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Godlike Riposter",
+        "duration": 5,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "SwordQBaseDamage": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.1
+        }
+      ]
+    },
+    "SwordRBaseCritDmg": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "SwordsR": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "SwordsPreMajorDmgStr": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.1
+        }
+      ]
+    },
+    "SwordMediumCritDmg": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "description": "Increases one handed weapons critical damage by 10%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "SwordMediumDmg": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "description": "Increases one handed damage by 10%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "SwordMajor": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "description": "Increases one handed weapons damage and critical damage by 25%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.25
+        }
+      ]
+    },
+    "1H_Damage_Buff": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Mark of the Dueler",
+        "duration": 5,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+            "value": 0.15
+          }
+        ]
+      }
+    },
+    "1H_Crit_Damage_Buff": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Riposter",
+        "duration": 5,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "1H.EndGame.DualWield": {
+      "weapon": "oneHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Skills.1H.Shroud",
+          "value": 1
+        }
+      ]
+    },
+    "OneHandDamage": {
+      "weapon": "oneHand",
+      "maxLevel": 5000,
+      "description": "Increases your damage with one handed weapons by 1%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.001
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.0001
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 0.5
+        }
+      ]
+    },
+    "TwoHandsQ": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        }
+      ]
+    },
+    "2H_PreMajor_DmgArmor": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ]
+    },
+    "TwoHandedMajor": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.1
+        }
+      ]
+    },
+    "TwoHandedQBaseDamage": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "description": "Increases damage with two handed weapons by 10%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.1
+        }
+      ]
+    },
+    "TwoHandedRBaseDamage": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "TwoHandsR": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.05
+        }
+      ]
+    },
+    "TwoHandedMediumCritDmg": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "description": "Increases critical damage with two handed weapons by 3%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "TwoHandedMediumDmg": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "description": "Increases damage with two handed weapons by 3%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.05
+        }
+      ]
+    },
+    "2H_Dmg_Buff": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Blade Fury",
+        "duration": 5,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "2H_Crit_Buff": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Blade Sentinel",
+        "duration": 5,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "2H_Dmg_Buff_EndGame": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Blade Frenzy",
+        "duration": 5,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "2H_Crit_Buff_EndGame": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Eternal Blade Sentinel",
+        "duration": 5,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "2H.ExtendedWhirlwind": {
+      "weapon": "twoHand",
+      "maxLevel": 1,
+      "effects": []
+    },
+    "TwoHandDamage": {
+      "weapon": "twoHand",
+      "maxLevel": 5000,
+      "description": "Increases your damage with two handed weapons by 1%",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.001
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.0001
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 0.5
+        }
+      ]
+    },
+    "Archery.CritDamage.LEVEL1": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        }
+      ]
+    },
+    "Archery.Buff.Crit.LEVEL2": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Touch of the Kabarian Hunter",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "Archery.Major": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.ArcaneArrow": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.Damage.LEVEL1": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.RainOfArrows": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Archery.Buff.Damage.LEVEL1": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.05
+        }
+      ],
+      "buff": {
+        "name": "Harmoniyan Discipline",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "Archery.Buff.Crit.LEVEL1": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.05
+        }
+      ],
+      "buff": {
+        "name": "Touch of the Kabarian Hunter",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "Archery.CritChance": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.Damage.LEVEL2": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.CritDamage.LEVEL2": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Archery.Buff.Damage.LEVEL2": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Harmoniyan Discipline of Great Magnitude",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+            "value": 0.5
+          }
+        ]
+      }
+    },
+    "Archery.PhantasmArcher": {
+      "weapon": "archery",
+      "maxLevel": 1,
+      "effects": []
+    },
+    "Archery.Paragorn": {
+      "weapon": "archery",
+      "maxLevel": 5000,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Magery.CritDamage.LEVEL1": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        }
+      ]
+    },
+    "Magery.Buff.CritDamage.LEVEL2": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Ascended Fairy Dust Spit",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "Magery.Major": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.Q": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.Damage.LEVEL1": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.R": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Magery.Buff.Damage.LEVEL1": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.05
+        }
+      ],
+      "buff": {
+        "name": "Celestial Surge",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "Magery.Buff.CritDamage.LEVEL1": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.05
+        }
+      ],
+      "buff": {
+        "name": "Fairy Dust Spit",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+            "value": 0.1
+          }
+        ]
+      }
+    },
+    "Magery.CritChance": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.Damage.LEVEL2": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.CritDamage.LEVEL2": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Magery.Buff.Damage.LEVEL2": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.1
+        }
+      ],
+      "buff": {
+        "name": "Divine Surge",
+        "duration": 10,
+        "maxStack": 1,
+        "effects": [
+          {
+            "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+            "value": 0.5
+          }
+        ]
+      }
+    },
+    "Magery.UniqueAbility": {
+      "weapon": "magery",
+      "maxLevel": 1,
+      "effects": []
+    },
+    "Magery.Paragorn": {
+      "weapon": "magery",
+      "maxLevel": 5000,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    },
+    "Scythe_3": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        }
+      ]
+    },
+    "Scythe_11": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Scythe_12": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Scythe_1": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Scythe_2": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Scythe_4": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Scythe_5": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Scythe_6": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Scythe_7": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%",
+          "value": 0.05
+        }
+      ]
+    },
+    "Scythe_8": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Scythe_9": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Scythe_10": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Scythe_13": {
+      "weapon": "scythe",
+      "maxLevel": 1,
+      "effects": []
+    },
+    "Scythe_14": {
+      "weapon": "scythe",
+      "maxLevel": 5000,
+      "description": "Adds 1 damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    },
+    "UnarmedQ": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 50
+        }
+      ]
+    },
+    "UnarmedBaseDamage8": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Unarmed_Crit": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.1
+        }
+      ]
+    },
+    "UnarmedBaseDamage1": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Skills.Unarmed.Combo",
+          "value": 1
+        }
+      ]
+    },
+    "UnarmedBaseCritDamage1": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "UnarmedR": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalChance%",
+          "value": 0.05
+        }
+      ]
+    },
+    "UnarmedBaseDamage2": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.05
+        }
+      ]
+    },
+    "UnarmedBaseDamage3": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "UnarmedBaseDamage4": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "UnarmedBaseDamage5": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.15
+        }
+      ]
+    },
+    "UnarmedBaseDamage6": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ]
+    },
+    "UnarmedBaseDamage7": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    },
+    "Unarmed_DamageStack": {
+      "weapon": "unarmed",
+      "maxLevel": 1,
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Skills.Unarmed.Excitement",
+          "value": 1
+        }
+      ]
+    },
+    "UnarmedDamage": {
+      "weapon": "unarmed",
+      "maxLevel": 5000,
+      "description": "Adds 1 damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.001
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.LifeSteal%",
+          "value": 0.0001
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 0.5
+        }
+      ]
+    }
+  }
+}

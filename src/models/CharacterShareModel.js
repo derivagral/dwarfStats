@@ -15,13 +15,19 @@
 
 import {
   STAT_DICT, MONOGRAM_DICT,
-  SLOT_DICT, WEAPON_TYPE_DICT,
+  SLOT_DICT, WEAPON_TYPE_DICT, WEAPON_SKILL_DICT,
   encodeIdOrString, decodeIdOrString,
 } from '../utils/shareCodec.js';
 import { findStatForAttribute, getStatById } from '../utils/statRegistry.js';
+import { getWeaponSkillDef } from '../utils/skillTreeRegistry.js';
+import { createEmptySkillTreeData } from './SkillTree.js';
 import { createEmptyItem } from './Item.js';
 
-export const CHARACTER_SHARE_VERSION = 1;
+// v2: adds the `st` skill tree section (cards + weapon skill levels) so shared
+// builds compute real skill effects instead of the mastery approximation.
+// v2 payloads travel compressed ("2." prefix, see shareUrl.js); v1 decode is
+// unchanged for old links.
+export const CHARACTER_SHARE_VERSION = 2;
 
 // ---------------------------------------------------------------------------
 // Type Definitions
@@ -61,6 +67,9 @@ export const CHARACTER_SHARE_VERSION = 1;
  *   highestAttribute-driven derived stat.
  * @property {number} [hp] - Character max health (omitted if 0). Not derivable
  *   from gear; needed by the 1%-of-max-Health monogram.
+ * @property {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]> }} [st] -
+ *   Skill tree section (v2+): cards [[rowName, level]] and weapon skills
+ *   [[skillEnc, level]]. Lets shared builds compute real skill effects.
  */
 
 // ---------------------------------------------------------------------------
@@ -125,6 +134,61 @@ export function createMasteryShare(stanceContext) {
 }
 
 /**
+ * Convert a parsed skill tree (extractSkillTree) to compact share form.
+ * Cards keep string row names (already short: "CARD3_2"); weapon skills use
+ * WEAPON_SKILL_DICT indices with string fallback for unknown rows.
+ *
+ * @param {Object|null} skillTree
+ * @returns {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]> }|null}
+ */
+export function createSkillTreeShare(skillTree) {
+  if (!skillTree) return null;
+  const st = {};
+
+  const cards = (skillTree.cards ?? [])
+    .filter(c => c.rowName && c.level > 0)
+    .map(c => [c.rowName, c.level]);
+  if (cards.length > 0) st.cd = cards;
+
+  const ws = [];
+  for (const stance of Object.values(skillTree.weaponStances ?? {})) {
+    for (const skill of stance.skills ?? []) {
+      if (!skill.rowName) continue;
+      ws.push([encodeIdOrString(WEAPON_SKILL_DICT, skill.rowName), skill.level || 1]);
+    }
+  }
+  if (ws.length > 0) st.ws = ws;
+
+  return Object.keys(st).length > 0 ? st : null;
+}
+
+/**
+ * Reconstruct a skill-tree-shaped object from a decoded `st` section —
+ * enough for skillEffectAggregator (cards + weaponStances with rowName/level).
+ * Weapon skills are bucketed by their registry/game-data weapon type.
+ *
+ * @param {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]> }|null|undefined} st
+ * @returns {Object|null} SkillTreeData-shaped object, or null if empty
+ */
+export function skillTreeShareToData(st) {
+  if (!st || (!st.cd?.length && !st.ws?.length)) return null;
+  const tree = createEmptySkillTreeData();
+
+  for (const [rowName, level] of st.cd || []) {
+    tree.cards.push({ rowName, level: level ?? 1 });
+  }
+
+  for (const [enc, level] of st.ws || []) {
+    const rowName = decodeIdOrString(WEAPON_SKILL_DICT, enc) || String(enc);
+    const weapon = getWeaponSkillDef(rowName)?.weapon;
+    const stance = tree.weaponStances[weapon] ?? tree.weaponStances.spear;
+    stance.skills.push({ rowName, level: level ?? 1 });
+  }
+
+  return tree;
+}
+
+/**
  * Convert the character's allocated attribute pool to compact share form.
  * Input shape matches parseAllocatedAttributes(): { statId: { value, sourceName } }.
  * Plain numeric values are also accepted.
@@ -172,7 +236,7 @@ export function allocatedAttributesShareToData(at) {
  * @param {Object<string, {value:number}|number>|null} [allocatedAttributes]
  * @returns {CharacterSharePayload}
  */
-export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null, maxHealth = 0) {
+export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null, maxHealth = 0, skillTree = null) {
   const payload = { v: CHARACTER_SHARE_VERSION };
 
   if (equippedItems && equippedItems.length > 0) {
@@ -188,6 +252,11 @@ export function createCharacterSharePayload(equippedItems, stanceContext = null,
   // Character max health (for the 1%-of-max-Health monogram); not derivable
   // from gear. Rounded to keep the URL short.
   if (maxHealth > 0) payload.hp = Math.round(maxHealth);
+
+  // Skill tree (cards + weapon skill levels) so the receiving side computes
+  // real skill effects; the mastery snapshot above stays as the fallback.
+  const st = createSkillTreeShare(skillTree);
+  if (st) payload.st = st;
 
   return payload;
 }

@@ -1523,6 +1523,45 @@ h1::before {
   margin-right: 0.5rem;
 }
 
+/* System-bucket chips: which subsystem a stat contribution comes from */
+.source-chip {
+  flex: 0 0 auto;
+  display: inline-block;
+  min-width: 2.6rem;
+  margin-right: 0.45rem;
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  text-align: center;
+  color: #fff;
+}
+
+.source-chip-item { background: #5a7d9e; }
+.source-chip-card { background: #8e5aa8; }
+.source-chip-skill { background: #4a8f5c; }
+.source-chip-buff { background: #b3823a; }
+.source-chip-monogram { background: #a85a5a; }
+.source-chip-base { background: #6f7a86; }
+.source-chip-stance { background: #3f8f8f; }
+
+/* Share code paste-import (Upload tab) */
+.share-import-input {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+.share-import-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
 .stat-tooltip-source .source-value {
   color: var(--success);
   font-weight: 600;

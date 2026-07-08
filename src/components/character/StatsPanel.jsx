@@ -3,6 +3,7 @@ import { StatLine } from './StatLine';
 import { useDerivedStats } from '../../hooks/useDerivedStats';
 
 const categoryLabels = {
+  vitals: 'Vitals',
   attributes: 'Attributes',
   offense: 'Offense',
   stance: 'Stance/Weapon',
@@ -15,8 +16,9 @@ const categoryLabels = {
   unmapped: 'Unmapped (Debug)',
 };
 
-// eDPS first so the damage headline is the user's landing spot; monograms last.
-const categoryOrder = ['edps', 'attributes', 'offense', 'stance', 'elemental', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
+// Vitals (in-game max health) and eDPS first — the progress-indicator numbers
+// belong above the fold; monograms last.
+const categoryOrder = ['vitals', 'edps', 'attributes', 'offense', 'stance', 'elemental', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
 
 /**
  * @param {Object} props

@@ -75,7 +75,7 @@ export function useItemStore() {
    * @param {Object|null} [masteryData] - Decoded mastery data (stored in metadata for downstream use)
    * @param {Object<string, {value:number}>} [allocatedAttributes] - Decoded base attribute pool
    */
-  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}, maxHealth = 0) => {
+  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}, maxHealth = 0, skillTree = null) => {
     const equippedItems = (itemShares || []).map((share, i) => itemShareToItem(share, i));
 
     setEquipped(equippedItems);
@@ -88,6 +88,9 @@ export function useItemStore() {
       allocatedAttributes: allocatedAttributes || {},
       maxHealth: maxHealth || 0,
       sharedMastery: masteryData,
+      // v2 shares carry the skill tree; when present, useDerivedStats computes
+      // real card/skill/buff effects instead of the mastery approximation
+      skillTree,
     });
   }, []);
 

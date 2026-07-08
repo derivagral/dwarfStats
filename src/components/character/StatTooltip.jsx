@@ -7,6 +7,24 @@ const formatBreakdownTerm = ({ value, fmt }) => {
   return Math.floor(value).toLocaleString();
 };
 
+/**
+ * Map a source entry to its system-bucket chip (label + CSS suffix) so the
+ * tooltip shows where each contribution comes from.
+ */
+const sourceChip = (source) => {
+  switch (source.sourceType) {
+    case 'skill':
+      if (source.kind === 'card') return { label: 'Card', cls: 'card' };
+      if (source.kind === 'buff') return { label: 'Buff', cls: 'buff' };
+      return { label: 'Skill', cls: 'skill' };
+    case 'monogram': return { label: 'Mono', cls: 'monogram' };
+    case 'allocated': return { label: 'Base', cls: 'base' };
+    case 'stance': return { label: 'Stance', cls: 'stance' };
+    case 'save': return { label: 'Save', cls: 'base' };
+    default: return { label: 'Item', cls: 'item' };
+  }
+};
+
 export function StatTooltip({
   stat,
   visible,
@@ -149,12 +167,16 @@ export function StatTooltip({
       {hasSources && (
         <div className="stat-tooltip-breakdown">
           <div className="stat-tooltip-section-title">Sources</div>
-          {stat.sources.map((source, i) => (
-            <div key={i} className={`stat-tooltip-source${source.sourceType === 'monogram' ? ' is-monogram' : ''}`}>
-              <span className="source-item">{source.itemName}</span>
-              <span className="source-value">{formatSourceValue(source.value, source.isPercent)}</span>
-            </div>
-          ))}
+          {stat.sources.map((source, i) => {
+            const chip = sourceChip(source);
+            return (
+              <div key={i} className={`stat-tooltip-source${source.sourceType === 'monogram' ? ' is-monogram' : ''}`}>
+                <span className={`source-chip source-chip-${chip.cls}`}>{chip.label}</span>
+                <span className="source-item">{source.itemName}</span>
+                <span className="source-value">{formatSourceValue(source.value, source.isPercent)}</span>
+              </div>
+            );
+          })}
         </div>
       )}
 

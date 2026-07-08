@@ -3,10 +3,17 @@ import { Button, DropZone } from '../common';
 import { useFileProcessor } from '../../hooks/useFileProcessor';
 import { hasDirPicker } from '../../utils/platform';
 
-export function UploadTab({ onFileLoaded, onLog, onStatusChange }) {
+export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare }) {
   const [recentFiles, setRecentFiles] = useState([]);
+  const [importText, setImportText] = useState('');
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
+
+  const handleImport = useCallback(async () => {
+    if (!onImportShare) return;
+    const ok = await onImportShare(importText);
+    if (ok) setImportText('');
+  }, [onImportShare, importText]);
 
   const handleFileSelect = useCallback(async (file) => {
     try {
@@ -124,6 +131,25 @@ export function UploadTab({ onFileLoaded, onLog, onStatusChange }) {
         text="Drop your .sav file here to begin"
         onFileDrop={handleFileDrop}
       />
+
+      {onImportShare && (
+        <div className="controls" style={{ marginTop: '0.75rem' }}>
+          <div className="control-row" style={{ justifyContent: 'center', gap: '0.5rem' }}>
+            <input
+              type="text"
+              className="share-import-input"
+              placeholder="Paste a share link or code…"
+              value={importText}
+              onChange={e => setImportText(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleImport(); }}
+              style={{ minWidth: '20rem' }}
+            />
+            <Button icon="📥" onClick={handleImport} disabled={!importText.trim()}>
+              Import Build
+            </Button>
+          </div>
+        </div>
+      )}
 
       <div className="upload-info">
         <div className="upload-info-item">

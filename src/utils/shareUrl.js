@@ -174,7 +174,8 @@ export function decodeCharacterShare(encoded) {
   try {
     const json = fromBase64Url(encoded);
     const payload = JSON.parse(json);
-    if (!payload || typeof payload.v !== 'number' || payload.v > 1) return null;
+    // v2 fields are additive, so uncompressed v2 payloads decode fine here too
+    if (!payload || typeof payload.v !== 'number' || payload.v > 2) return null;
     return payload;
   } catch {
     return null;
@@ -190,4 +191,83 @@ export function decodeCharacterShare(encoded) {
  */
 export function buildCharacterShareUrl(payload, baseUrl) {
   return buildShareUrl('character', encodeCharacterShare(payload), baseUrl);
+}
+
+// ---------------------------------------------------------------------------
+// Compressed (v2) character shares
+//
+// Format: "2." + base64url(deflate-raw(JSON)). The prefix distinguishes
+// compressed payloads from legacy v1 (bare base64url JSON, which never starts
+// with "2." because base64 of '{' is 'ey...'). Compression uses the native
+// CompressionStream API (browsers + Node 18+), so encode/decode are async.
+// ---------------------------------------------------------------------------
+
+const COMPRESSED_PREFIX = '2.';
+const MAX_SHARE_VERSION = 2;
+
+function bytesToBase64Url(bytes) {
+  let binary = '';
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function base64UrlToBytes(b64url) {
+  let b64 = b64url.replace(/-/g, '+').replace(/_/g, '/');
+  while (b64.length % 4 !== 0) b64 += '=';
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
+async function pipeThrough(bytes, TransformCtor, mode) {
+  const stream = new Blob([bytes]).stream().pipeThrough(new TransformCtor(mode));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+/**
+ * Encode a CharacterSharePayload to a compressed "2."-prefixed share code.
+ * @param {import('../models/CharacterShareModel').CharacterSharePayload} payload
+ * @returns {Promise<string>}
+ */
+export async function encodeCharacterShareCompressed(payload) {
+  const json = JSON.stringify(payload);
+  const bytes = new TextEncoder().encode(json);
+  const deflated = await pipeThrough(bytes, CompressionStream, 'deflate-raw');
+  return COMPRESSED_PREFIX + bytesToBase64Url(deflated);
+}
+
+/**
+ * Decode any character share string — compressed v2 ("2." prefix) or legacy
+ * v1 (bare base64url JSON).
+ * @param {string} encoded
+ * @returns {Promise<import('../models/CharacterShareModel').CharacterSharePayload|null>}
+ */
+export async function decodeCharacterShareAny(encoded) {
+  if (typeof encoded !== 'string' || !encoded) return null;
+  if (!encoded.startsWith(COMPRESSED_PREFIX)) {
+    return decodeCharacterShare(encoded);
+  }
+  try {
+    const deflated = base64UrlToBytes(encoded.slice(COMPRESSED_PREFIX.length));
+    const bytes = await pipeThrough(deflated, DecompressionStream, 'deflate-raw');
+    const payload = JSON.parse(new TextDecoder().decode(bytes));
+    if (!payload || typeof payload.v !== 'number' || payload.v > MAX_SHARE_VERSION) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Build a full shareable URL using the compressed v2 encoding.
+ * @param {import('../models/CharacterShareModel').CharacterSharePayload} payload
+ * @param {string} [baseUrl]
+ * @returns {Promise<string>}
+ */
+export async function buildCharacterShareUrlCompressed(payload, baseUrl) {
+  return buildShareUrl('character', await encodeCharacterShareCompressed(payload), baseUrl);
 }

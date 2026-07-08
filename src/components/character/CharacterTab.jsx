@@ -2,10 +2,11 @@ import React, { useState, useCallback } from 'react';
 import { Button } from '../common';
 import { CharacterPanel } from './CharacterPanel';
 import { createCharacterSharePayload } from '../../models/CharacterShareModel';
-import { encodeCharacterShare, buildCharacterShareUrl } from '../../utils/shareUrl';
+import { encodeCharacterShareCompressed, buildCharacterShareUrlCompressed } from '../../utils/shareUrl';
 
 export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
   const [shareFeedback, setShareFeedback] = useState(null);
+  const [codeFeedback, setCodeFeedback] = useState(null);
 
   // Build characterData from itemStore (central source of truth)
   // Falls back to saveData for backward compatibility
@@ -23,14 +24,16 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     timestamp: saveData.timestamp,
   } : null;
 
+  const buildPayload = useCallback(() => createCharacterSharePayload(
+    itemStore.equipped,
+    characterData?.stanceContext ?? null,
+    itemStore.metadata?.allocatedAttributes ?? null,
+    itemStore.metadata?.maxHealth ?? 0,
+    itemStore.metadata?.skillTree ?? null,
+  ), [itemStore.equipped, itemStore.metadata, characterData?.stanceContext]);
+
   const handleShare = useCallback(async () => {
-    const payload = createCharacterSharePayload(
-      itemStore.equipped,
-      characterData?.stanceContext ?? null,
-      itemStore.metadata?.allocatedAttributes ?? null,
-      itemStore.metadata?.maxHealth ?? 0
-    );
-    const url = buildCharacterShareUrl(payload);
+    const url = await buildCharacterShareUrlCompressed(buildPayload());
     try {
       await navigator.clipboard.writeText(url);
       setShareFeedback('Copied!');
@@ -40,7 +43,22 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     }
     if (onLog) onLog('Share link copied to clipboard');
     setTimeout(() => setShareFeedback(null), 2000);
-  }, [itemStore.equipped, characterData?.stanceContext, onLog]);
+  }, [buildPayload, onLog]);
+
+  // Bare share code (same payload, no URL) — for platforms that mangle long
+  // links. Paste into the Upload tab's import box to load.
+  const handleCopyCode = useCallback(async () => {
+    const code = await encodeCharacterShareCompressed(buildPayload());
+    try {
+      await navigator.clipboard.writeText(code);
+      setCodeFeedback('Copied!');
+    } catch {
+      window.prompt('Copy this share code:', code);
+      setCodeFeedback('Ready');
+    }
+    if (onLog) onLog('Share code copied to clipboard');
+    setTimeout(() => setCodeFeedback(null), 2000);
+  }, [buildPayload, onLog]);
 
   return (
     <div className="tab-content active">
@@ -53,6 +71,9 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <Button icon="🔗" onClick={handleShare} hidden={!itemStore?.hasItems}>
               {shareFeedback || 'Share Build'}
+            </Button>
+            <Button icon="📋" onClick={handleCopyCode} hidden={!itemStore?.hasItems}>
+              {codeFeedback || 'Copy Code'}
             </Button>
             <Button icon="📂" onClick={onClearSave}>
               Load Different File

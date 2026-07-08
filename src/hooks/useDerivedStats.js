@@ -35,7 +35,7 @@ export function useDerivedStats(options = {}) {
       const sourceName = rawValue?.sourceName || 'Character';
       stats[statId] = {
         total: value,
-        sources: [{ itemName: sourceName, slot: 'base', value, sourceType: 'item' }],
+        sources: [{ itemName: sourceName, slot: 'base', value, sourceType: 'allocated' }],
       };
     }
 
@@ -55,6 +55,7 @@ export function useDerivedStats(options = {}) {
           slot: 'skill',
           value: contrib.value,
           sourceType: 'skill',
+          kind: contrib.kind, // 'card' | 'weaponSkill' | 'buff'
         });
       }
     }
@@ -73,7 +74,7 @@ export function useDerivedStats(options = {}) {
         itemName: `${activeStance.id}.level.1`,
         slot: 'stance',
         value,
-        sourceType: 'item',
+        sourceType: 'stance',
       });
     }
 
@@ -386,6 +387,7 @@ export function useDerivedStats(options = {}) {
     };
 
     const result = {
+      vitals: [],
       attributes: [],
       offense: [],
       stance: [],
@@ -527,6 +529,23 @@ export function useDerivedStats(options = {}) {
     }
 
 
+    // Vitals: the save-reported max health is the real in-game number — the
+    // gear-only calculation misses the character's base health pool (level /
+    // class scaling), so surface both up top instead of burying Health in
+    // Defense below the fold.
+    if (maxHealth > 0) {
+      const gearCalc = values.totalHealth || 0;
+      result.vitals.push({
+        id: 'saveMaxHealth',
+        name: 'Max Health (in-game)',
+        value: maxHealth,
+        formattedValue: Math.round(maxHealth).toLocaleString(),
+        description: `Read from the save file — includes the character's base health pool plus gear and buffs active at save time. Gear-calculated health: ${Math.round(gearCalc).toLocaleString()} (difference ≈ base pool).`,
+        sources: [{ itemName: 'Save file (Health_29)', value: maxHealth, sourceType: 'save' }],
+        layer: LAYERS.BASE,
+      });
+    }
+
     // Add stance context debug/info rows
     if (stanceContext?.activeStance) {
       const active = stanceContext.activeStance;
@@ -593,7 +612,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return result;
-  }, [calculatedStats, aggregatedWithSources, stanceContext, finalConfigOverrides]);
+  }, [calculatedStats, aggregatedWithSources, stanceContext, finalConfigOverrides, maxHealth]);
 
   return {
     // For StatsPanel compatibility

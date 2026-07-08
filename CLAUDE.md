@@ -504,13 +504,22 @@ Options keys: `h`=minHitsPerPool, `c`=closeMinTotal, `w`=includeWeapons, `t`=min
 
 **Stat values:** Raw decimals from save file. Percentages are stored as decimals (0.316 = 31.6%). Flat stats as-is (Armor = 197.57). No conversion — `useDerivedStats` already handles the raw format.
 
-**URL size:** Full 17-item build ≈ 5,800 chars. Well within browser URL limits (~8KB safe, 2KB+ for older systems).
+**v2 (current):** payload gains `st` — skill tree section
+`{ cd: [[cardRowName, level]], ws: [[weaponSkillEnc, level]] }` — so shared
+builds compute real card/skill/buff effects via `skillTreeShareToData()` →
+`metadata.skillTree` (the `sk` mastery snapshot stays as fallback for old
+links). v2 travels **compressed**: `"2." + base64url(deflate-raw(JSON))` via
+native `CompressionStream` (encode/decode async). Legacy v1 bare-base64url
+links still decode (`decodeCharacterShareAny` handles both).
+
+**URL size:** Full 17-item build + full skill tree ≈ 2,400 chars compressed
+(was ≈ 5,800 gear-only uncompressed). Well within browser URL limits.
 
 ### Flow
 - **Filter Share**: FilterConfig "Share" button → `encodeFilterShare()` → `buildShareUrl('filter', ...)` → clipboard
 - **Filter Load**: App mount → `parseShareFromHash()` → `decodeFilterShare()` → passed to FilterTab as `sharedFilterModel` prop → consumed once, config panel auto-opens
-- **Character Share**: (UI button TBD) → `createCharacterSharePayload()` → `encodeCharacterShare()` → `buildCharacterShareUrl()` → clipboard
-- **Character Load**: App mount → `parseShareFromHash()` → `decodeCharacterShare()` → `itemStore.loadFromShare()` → navigates to Character tab
+- **Character Share**: CharacterTab "Share Build" → `createCharacterSharePayload(..., skillTree)` → `buildCharacterShareUrlCompressed()` → clipboard. "Copy Code" copies the bare `2.…` code (no URL) for platforms that mangle long links
+- **Character Load**: App mount hash OR Upload tab paste-import (accepts full URL or bare code) → `decodeCharacterShareAny()` → `itemStore.loadFromShare(..., skillTree)` → navigates to Character tab
 - When a shared filter is loaded without save data, the Filter tab is enabled so users can see the configuration before uploading a save
 - When a shared character is loaded, only Character and Stats tabs are enabled (no inventory/filter data)
 

@@ -9,8 +9,8 @@ import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 import { useItemStore } from './hooks/useItemStore';
-import { parseShareFromHash, decodeFilterShare, decodeCharacterShare } from './utils/shareUrl';
-import { masteryShareToData, allocatedAttributesShareToData } from './models/CharacterShareModel';
+import { parseShareFromHash, decodeFilterShare, decodeCharacterShareAny } from './utils/shareUrl';
+import { masteryShareToData, allocatedAttributesShareToData, skillTreeShareToData } from './models/CharacterShareModel';
 
 const TABS = [
   { id: 'upload', label: 'Upload', icon: '📂' },
@@ -54,6 +54,33 @@ export default function App() {
     init();
   }, [log]);
 
+  // Decode a character share code (compressed v2 or legacy v1) and load it
+  // into the item store. Returns true if a build was loaded.
+  const loadCharacterShareCode = useCallback(async (code) => {
+    const decoded = await decodeCharacterShareAny(code);
+    if (!decoded) return false;
+    const masteryData = masteryShareToData(decoded.sk ?? null);
+    const allocatedAttributes = allocatedAttributesShareToData(decoded.at ?? null);
+    const skillTree = skillTreeShareToData(decoded.st ?? null);
+    itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes, decoded.hp ?? 0, skillTree);
+    setActiveTab('character');
+    log('Loaded shared character build');
+    return true;
+  }, [itemStore, log]);
+
+  // Paste-import: accepts a full share URL or a bare share code
+  const handleImportShare = useCallback(async (text) => {
+    const trimmed = (text || '').trim();
+    if (!trimmed) return false;
+    const hashIdx = trimmed.indexOf('#');
+    const parsed = hashIdx >= 0 ? parseShareFromHash(trimmed.slice(hashIdx)) : null;
+    const code = parsed?.type === 'character' ? parsed.data : (hashIdx >= 0 ? null : trimmed);
+    if (!code) return false;
+    const ok = await loadCharacterShareCode(code);
+    if (!ok) log('⚠️ Could not decode share code');
+    return ok;
+  }, [loadCharacterShareCode, log]);
+
   // Read share URL hash on mount
   useEffect(() => {
     const hash = window.location.hash;
@@ -71,14 +98,7 @@ export default function App() {
         log(`Loaded shared filter: "${decoded.name}"`);
       }
     } else if (parsed.type === 'character') {
-      const decoded = decodeCharacterShare(parsed.data);
-      if (decoded) {
-        const masteryData = masteryShareToData(decoded.sk ?? null);
-        const allocatedAttributes = allocatedAttributesShareToData(decoded.at ?? null);
-        itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes, decoded.hp ?? 0);
-        setActiveTab('character');
-        log('Loaded shared character build');
-      }
+      loadCharacterShareCode(parsed.data);
     }
 
     // Clean the hash from the URL
@@ -131,7 +151,7 @@ export default function App() {
       {wasmReady && (
         <>
           {activeTab === 'upload' && (
-            <UploadTab onFileLoaded={handleFileLoaded} onLog={log} onStatusChange={handleStatusChange} />
+            <UploadTab onFileLoaded={handleFileLoaded} onLog={log} onStatusChange={handleStatusChange} onImportShare={handleImportShare} />
           )}
           {activeTab === 'character' && (saveData || itemStore.hasItems) && (
             <CharacterTab

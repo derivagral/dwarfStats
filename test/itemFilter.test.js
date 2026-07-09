@@ -42,11 +42,14 @@ describe('itemFilter', () => {
       const matchers = buildAffixMatchers([{ affixId: 'strength' }]);
       expect(matchers.length).toBe(1);
       expect(matchers[0].affixId).toBe('strength');
-      expect(matchers[0].patterns.length).toBeGreaterThan(0);
+      // Rollable stats match via exact rowName set from game data
+      expect(matchers[0].rowSet).toBeInstanceOf(Set);
+      expect(matchers[0].rowSet.has('strength')).toBe(true);
     });
 
-    it('should return empty patterns for unknown affix IDs', () => {
+    it('should return empty matchers for unknown affix IDs', () => {
       const matchers = buildAffixMatchers([{ affixId: 'nonexistent_affix_xyz' }]);
+      expect(matchers[0].rowSet).toBeNull();
       expect(matchers[0].patterns).toEqual([]);
     });
 
@@ -65,9 +68,9 @@ describe('itemFilter', () => {
         { affixId: 'strength' },
         { affixId: 'endurance' },
       ]);
-      // Pool contains rowNames that should match stat patterns
+      // Pool rowNames are DT_Base_Item_Attributes row names (as in real saves)
       const poolAffixes = [
-        { rowName: 'Characteristics.Strength', dataTable: '' },
+        { rowName: 'Strength', dataTable: '' },
         { rowName: 'CriticalChance', dataTable: '' },
       ];
 

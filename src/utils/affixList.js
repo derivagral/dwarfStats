@@ -8,7 +8,8 @@
  * @module utils/affixList
  */
 
-import { STAT_REGISTRY, getStatsByCategory } from './statRegistry.js';
+import { STAT_REGISTRY, getStatsByCategory, findStatForAttribute } from './statRegistry.js';
+import affixesGenerated from '../data/affixes.generated.json';
 
 /**
  * Affix categories for UI grouping
@@ -50,6 +51,69 @@ export const AFFIX_CATEGORIES = {
     description: 'XP, loot, and other bonuses',
   },
 };
+
+/**
+ * Build the ROLLABLE affix list from extracted game data.
+ *
+ * DT_Base_Item_Attributes (src/data/affixes.generated.json) is the authority
+ * on what can roll in item pools: each rollable row is mapped to its
+ * STAT_REGISTRY id via its gameplay tag, then grouped — one selectable option
+ * per stat, carrying the exact pool row names it covers plus roll metadata.
+ *
+ * @returns {Array<{id: string, name: string, category: string, isPercent: boolean,
+ *   description: string, rollRows: Array<{rowName: string, value: number,
+ *   valuePerLevel: number, minItemLevel: number}>}>}
+ */
+export function buildRollableAffixList() {
+  const byStat = new Map();
+
+  for (const [rowName, def] of Object.entries(affixesGenerated.affixes)) {
+    // Rows without a tag are meta-placeholders (RandomStat etc.) — skip
+    if (!def.canRoll || !def.tag) continue;
+    const stat = findStatForAttribute(def.tag);
+    if (!stat) continue;
+
+    let entry = byStat.get(stat.id);
+    if (!entry) {
+      entry = {
+        id: stat.id,
+        name: stat.name,
+        category: stat.category || 'utility',
+        isPercent: stat.isPercent || false,
+        description: stat.description || '',
+        rollRows: [],
+      };
+      byStat.set(stat.id, entry);
+    }
+    entry.rollRows.push({
+      rowName,
+      value: def.value,
+      valuePerLevel: def.valuePerLevel,
+      minItemLevel: def.minItemLevel,
+    });
+  }
+
+  const list = [...byStat.values()];
+  list.sort((a, b) => a.category !== b.category
+    ? a.category.localeCompare(b.category)
+    : a.name.localeCompare(b.name));
+  return list;
+}
+
+// statId → Set<lowercase pool rowName> for exact filter matching
+const ROLL_ROW_SETS = new Map();
+
+/**
+ * Get the pool row names (lowercased set) that roll for a given stat id.
+ * Returns null when the stat has no rollable rows in game data (e.g. a
+ * legacy share referencing a derived stat) — callers fall back to patterns.
+ *
+ * @param {string} statId
+ * @returns {Set<string>|null}
+ */
+export function getRollRowSetForAffix(statId) {
+  return ROLL_ROW_SETS.get(statId) || null;
+}
 
 /**
  * Build the affix list from the stat registry
@@ -248,5 +312,44 @@ export function getStanceAffixes() {
 export const AFFIX_LIST = buildAffixList();
 export const AFFIXES_BY_CATEGORY = getAffixesByCategory();
 export const POPULAR_AFFIXES = getPopularAffixes();
+
+// Rollable affixes from game data — what the selector actually offers
+export const ROLLABLE_AFFIX_LIST = buildRollableAffixList();
+export const ROLLABLE_AFFIXES_BY_CATEGORY = (() => {
+  const grouped = {};
+  for (const affix of ROLLABLE_AFFIX_LIST) {
+    (grouped[affix.category] ??= []).push(affix);
+  }
+  return grouped;
+})();
+
+for (const affix of ROLLABLE_AFFIX_LIST) {
+  ROLL_ROW_SETS.set(affix.id, new Set(affix.rollRows.map(r => r.rowName.toLowerCase())));
+}
+
+/**
+ * Search ROLLABLE affixes by name (selector autocomplete).
+ * @param {string} query
+ * @param {number} [limit=50]
+ * @returns {Array}
+ */
+export function searchRollableAffixes(query, limit = 50) {
+  if (!query || query.trim() === '') return ROLLABLE_AFFIX_LIST.slice(0, limit);
+  const q = query.toLowerCase();
+  return ROLLABLE_AFFIX_LIST
+    .map(affix => {
+      const name = affix.name.toLowerCase();
+      let score = 0;
+      if (name === q) score = 100;
+      else if (name.startsWith(q)) score = 50;
+      else if (name.includes(q)) score = 25;
+      else if (affix.rollRows.some(r => r.rowName.toLowerCase().includes(q))) score = 10;
+      return { affix, score };
+    })
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(s => s.affix);
+}
 
 export default AFFIX_LIST;

@@ -560,7 +560,7 @@ node extraction/generate-registries.mjs
 | Generated file | Contents | Consumed by |
 |----------------|----------|-------------|
 | `src/data/monograms.generated.json` | 473 monograms: tag, in-game description, `effects` tag→value pairs | `monogramRegistry.js` lookup fallback (curated entries win) |
-| `src/data/affixes.generated.json` | 347 item affixes: tag, base value, per-level scaling, roll rules, min item level | (available; not yet wired into calcs) |
+| `src/data/affixes.generated.json` | 347 item affixes: tag, base value, per-level scaling, roll rules, min item level | `affixList.js` rollable list (Filter tab selector) + `itemFilter.js` exact rowName matching |
 | `src/data/modifierPools.generated.json` | Yellow/orange roll pools per weapon/tier | (available) |
 | `src/data/cards.generated.json` | 81 crystal cards: per-level `{tag, value}` effects (× card level) | `skillTreeRegistry.js` `getCardDef()` merge |
 | `src/data/weaponSkills.generated.json` | 112 weapon skills: per-level effects, game max level, buff join | `skillTreeRegistry.js` `getWeaponSkillDef()` merge |

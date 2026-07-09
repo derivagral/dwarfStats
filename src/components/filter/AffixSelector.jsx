@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import {
-  AFFIXES_BY_CATEGORY,
+  ROLLABLE_AFFIXES_BY_CATEGORY,
   AFFIX_CATEGORIES,
-  searchAffixes,
+  searchRollableAffixes,
 } from '../../utils/affixList';
 import {
   getMonogramCategories,
@@ -78,12 +78,12 @@ export function AffixSelector({
   const [expandedCategories, setExpandedCategories] = useState(['offense', 'attributes']);
   const [activeSection, setActiveSection] = useState('affixes'); // 'affixes' | 'monograms'
 
-  // Filter affixes based on search
+  // Filter affixes based on search — only game-rollable affixes are offered
   const filteredAffixes = useMemo(() => {
     if (!searchQuery.trim()) {
-      return AFFIXES_BY_CATEGORY;
+      return ROLLABLE_AFFIXES_BY_CATEGORY;
     }
-    const matches = searchAffixes(searchQuery, 50);
+    const matches = searchRollableAffixes(searchQuery, 50);
     const grouped = {};
     for (const affix of matches) {
       if (!grouped[affix.category]) {
@@ -144,8 +144,9 @@ export function AffixSelector({
   const selectedTags = useMemo(() => {
     const tags = [];
     for (const id of selectedAffixes) {
-      const affix = Object.values(AFFIXES_BY_CATEGORY).flat().find(a => a.id === id);
-      if (affix) tags.push({ id, name: affix.name, type: 'affix' });
+      const affix = Object.values(ROLLABLE_AFFIXES_BY_CATEGORY).flat().find(a => a.id === id);
+      // Legacy shares can carry non-rollable stat ids; still show them as tags
+      tags.push({ id, name: affix?.name || id, type: 'affix' });
     }
     for (const id of selectedMonograms) {
       tags.push({ id, name: getMonogramName(id), type: 'monogram' });
@@ -229,7 +230,13 @@ export function AffixSelector({
               {isExpanded && (
                 <div className="affix-list">
                   {affixes.map(affix => (
-                    <label key={affix.id} className="affix-item">
+                    <label
+                      key={affix.id}
+                      className="affix-item"
+                      title={affix.rollRows?.map(r =>
+                        `${r.rowName}: base ${r.value}${r.valuePerLevel ? ` +${r.valuePerLevel}/lvl` : ''}${r.minItemLevel ? ` (ilvl ${r.minItemLevel}+)` : ''}`
+                      ).join('\n') || undefined}
+                    >
                       <input
                         type="checkbox"
                         checked={selectedAffixes.includes(affix.id)}

@@ -9,34 +9,43 @@
  */
 
 import { STAT_REGISTRY } from './statRegistry.js';
+import { getRollRowSetForAffix } from './affixList.js';
 import { isWeaponType } from '../models/itemTransformer.js';
 
 /**
- * Build a set of regex patterns from an array of affix criteria.
- * Each affixId maps to STAT_REGISTRY patterns.
+ * Build matchers from an array of affix criteria.
+ *
+ * Pool row names come straight from DT_Base_Item_Attributes, so matching is
+ * an exact (case-insensitive) set lookup against the generated rollable rows
+ * for each stat. Stats without rollable rows (e.g. legacy shares referencing
+ * derived stats) fall back to the old STAT_REGISTRY regex patterns.
  *
  * @param {Array<{affixId: string}>} affixCriteria
- * @returns {Array<{affixId: string, patterns: RegExp[]}>}
+ * @returns {Array<{affixId: string, rowSet: Set<string>|null, patterns: RegExp[]}>}
  */
 export function buildAffixMatchers(affixCriteria) {
   return affixCriteria.map(({ affixId }) => {
+    const rowSet = getRollRowSetForAffix(affixId);
+    if (rowSet) return { affixId, rowSet, patterns: [] };
+
     const stat = STAT_REGISTRY[affixId];
-    if (!stat || !stat.patterns) return { affixId, patterns: [] };
+    if (!stat || !stat.patterns) return { affixId, rowSet: null, patterns: [] };
     const patterns = stat.patterns.map(p =>
       new RegExp('^' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/%6/g, '(%6|%)') + '$', 'i')
     );
-    return { affixId, patterns };
+    return { affixId, rowSet: null, patterns };
   });
 }
 
 /**
- * Check if a pool rowName matches any pattern for a given affix matcher
+ * Check if a pool rowName matches a given affix matcher
  *
  * @param {string} rowName - Affix pool row name
- * @param {{affixId: string, patterns: RegExp[]}} matcher
+ * @param {{affixId: string, rowSet: Set<string>|null, patterns: RegExp[]}} matcher
  * @returns {boolean}
  */
 function rowNameMatchesMatcher(rowName, matcher) {
+  if (matcher.rowSet) return matcher.rowSet.has(rowName.toLowerCase());
   return matcher.patterns.some(rx => rx.test(rowName));
 }
 

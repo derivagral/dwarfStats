@@ -17,8 +17,8 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
   const [lastFiles, setLastFiles] = useState([]);
   const [dirHandle, setDirHandle] = useState(null);
   const [watching, setWatching] = useState(false);
-  const [initialProcessed, setInitialProcessed] = useState(false);
   const watchTimerRef = useRef(null);
+  const seenFilesRef = useRef(new Set());
   const fileInputRef = useRef(null);
   const { processFile, isProcessing } = useFileProcessor();
   const { profiles, saveProfile, deleteProfile } = useFilterProfiles();
@@ -67,49 +67,48 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
     }
   }, [filterModel, processFile, onLog, runFilter]);
 
-  // Process initial save data when tab is first accessed
+  // Keep the loaded save's results live: re-filter the in-memory inventory
+  // whenever the filter model changes or a new save is loaded. (Results from
+  // manually dropped files are snapshots — use Re-run to refresh those.)
   useEffect(() => {
-    if (!initialProcessed && (itemStore?.hasItems || initialSaveData)) {
-      setInitialProcessed(true);
+    if (!itemStore?.hasItems && !initialSaveData) return;
 
-      const filename = itemStore?.metadata?.filename || initialSaveData?.filename || 'unknown.sav';
+    const filename = itemStore?.metadata?.filename || initialSaveData?.filename || 'unknown.sav';
 
-      // Prefer itemStore.inventory (already Item models)
-      let items;
-      if (itemStore?.inventory?.length) {
-        items = itemStore.inventory;
-      } else if (initialSaveData?.json) {
-        const result = transformAllItems(initialSaveData.json);
-        items = result.items;
-      } else {
-        return;
-      }
-
-      const { hits, close, totalItems } = runFilter(items, filterModel);
-
-      setResults(prev => {
-        const next = new Map(prev);
-        next.set(filename, {
-          hits,
-          close,
-          totalItems,
-          timestamp: Date.now(),
-          filterModel,
-        });
-        return next;
-      });
-
-      if (initialSaveData?.file) {
-        setLastFiles([initialSaveData.file]);
-      }
-
-      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items in ${filename}`);
-
-      if (hits.length > 0) {
-        playNotificationSound();
-      }
+    // Prefer itemStore.inventory (already Item models)
+    let items;
+    if (itemStore?.inventory?.length) {
+      items = itemStore.inventory;
+    } else if (initialSaveData?.json) {
+      const result = transformAllItems(initialSaveData.json);
+      items = result.items;
+    } else {
+      return;
     }
-  }, [initialSaveData, itemStore, initialProcessed, filterModel, onLog, runFilter]);
+
+    const { hits, close, totalItems } = runFilter(items, filterModel);
+
+    // Only chime when this save first appears, not on every filter tweak
+    const isNew = !seenFilesRef.current.has(filename);
+    seenFilesRef.current.add(filename);
+    if (isNew && hits.length > 0) playNotificationSound();
+
+    setResults(prev => {
+      const next = new Map(prev);
+      next.set(filename, {
+        hits,
+        close,
+        totalItems,
+        timestamp: Date.now(),
+        filterModel,
+      });
+      return next;
+    });
+
+    if (initialSaveData?.file) {
+      setLastFiles(prev => (prev.length === 0 ? [initialSaveData.file] : prev));
+    }
+  }, [initialSaveData, itemStore?.inventory, itemStore?.metadata?.filename, filterModel, runFilter]);
 
   // Load shared filter model from URL and auto-save to profiles
   useEffect(() => {
@@ -237,6 +236,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
   const handleClear = useCallback(() => {
     setResults(new Map());
     setLastFiles([]);
+    seenFilesRef.current.clear();
     onLog('Results and file history cleared');
   }, [onLog]);
 

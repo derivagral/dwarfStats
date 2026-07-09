@@ -3,7 +3,7 @@ import { Button, DropZone } from '../common';
 import { useFileProcessor } from '../../hooks/useFileProcessor';
 import { hasDirPicker } from '../../utils/platform';
 
-export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare }) {
+export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare, saveWatcher }) {
   const [recentFiles, setRecentFiles] = useState([]);
   const [importText, setImportText] = useState('');
   const fileInputRef = useRef(null);
@@ -14,6 +14,19 @@ export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare }
     const ok = await onImportShare(importText);
     if (ok) setImportText('');
   }, [onImportShare, importText]);
+
+  // Live watch toggle: checking it opens the save-folder picker and starts
+  // polling; the checkbox stays unchecked if the picker is cancelled because
+  // `watching` is the source of truth.
+  const handleWatchToggle = useCallback(async (e) => {
+    if (!saveWatcher) return;
+    if (e.target.checked) {
+      const ok = await saveWatcher.start();
+      if (!ok) onLog('Live watch not started (folder picker cancelled)');
+    } else {
+      saveWatcher.stop();
+    }
+  }, [saveWatcher, onLog]);
 
   const handleFileSelect = useCallback(async (file) => {
     try {
@@ -124,6 +137,26 @@ export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare }
             Pick Save Folder
           </Button>
         </div>
+        {saveWatcher?.supported ? (
+          <div className="control-row" style={{ justifyContent: 'center', marginTop: '0.5rem' }}>
+            <label
+              className="live-watch-toggle"
+              title="Pick your save folder once — the app re-scans automatically whenever the game writes a new save (polls every 10s)"
+            >
+              <input
+                type="checkbox"
+                checked={saveWatcher.watching}
+                onChange={handleWatchToggle}
+              />
+              <span>Live watch for item filter</span>
+              {saveWatcher.watching && <span className="live-watch-indicator">👁️ watching…</span>}
+            </label>
+          </div>
+        ) : (
+          <div className="live-watch-note">
+            Live watch (auto re-scan while you play) needs Chrome or Edge — re-drop your save here to refresh on this browser.
+          </div>
+        )}
       </div>
 
       <DropZone

@@ -9,6 +9,8 @@ import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 import { useItemStore } from './hooks/useItemStore';
+import { useSaveWatcher } from './hooks/useSaveWatcher';
+import { useFileProcessor } from './hooks/useFileProcessor';
 import { parseShareFromHash, decodeFilterShare, decodeCharacterShareAny } from './utils/shareUrl';
 import { masteryShareToData, allocatedAttributesShareToData, skillTreeShareToData } from './models/CharacterShareModel';
 
@@ -126,6 +128,33 @@ export default function App() {
     log(`🎮 Save loaded: ${data.filename}`);
   }, [log, itemStore]);
 
+  // Live watch (Chromium): re-process the newest .sav whenever the game
+  // writes one. Reloads the store in place — Character stats and Filter
+  // results are store-reactive — without yanking the user off their tab.
+  const { processFile } = useFileProcessor();
+  const handleWatchedSave = useCallback(async (file, { isInitial } = {}) => {
+    try {
+      log(`${isInitial ? '👁️ Watching' : '🔄 Save updated'}: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`);
+      const result = await processFile(file);
+      setSaveData({
+        file,
+        filename: result.filename,
+        raw: result.parsed,
+        json: result.json,
+        equippedItems: result.equippedItems || [],
+        items: result.items || [],
+        totalItems: result.totalItems || 0,
+        timestamp: Date.now(),
+      });
+      itemStore.loadFromSave(result.parsed, result.filename);
+      // The checkbox is "live watch for item filter" — land there on start
+      if (isInitial) setActiveTab('filter');
+    } catch (e) {
+      log(`❌ Watch reload failed: ${e.message}`);
+    }
+  }, [processFile, itemStore, log]);
+  const saveWatcher = useSaveWatcher({ onSaveChanged: handleWatchedSave, onLog: log });
+
   const handleClearSave = useCallback(() => {
     setSaveData(null);
     itemStore.clear();
@@ -151,7 +180,7 @@ export default function App() {
       {wasmReady && (
         <>
           {activeTab === 'upload' && (
-            <UploadTab onFileLoaded={handleFileLoaded} onLog={log} onStatusChange={handleStatusChange} onImportShare={handleImportShare} />
+            <UploadTab onFileLoaded={handleFileLoaded} onLog={log} onStatusChange={handleStatusChange} onImportShare={handleImportShare} saveWatcher={saveWatcher} />
           )}
           {activeTab === 'character' && (saveData || itemStore.hasItems) && (
             <CharacterTab

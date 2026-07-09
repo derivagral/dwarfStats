@@ -1547,6 +1547,36 @@ h1::before {
 .source-chip-base { background: #6f7a86; }
 .source-chip-stance { background: #3f8f8f; }
 
+/* Live watch toggle (Upload tab, Chromium only) */
+.live-watch-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.live-watch-toggle input[type="checkbox"] {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.live-watch-indicator {
+  color: var(--success);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.live-watch-note {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
 /* Share code paste-import (Upload tab) */
 .share-import-input {
   background: var(--bg-secondary);

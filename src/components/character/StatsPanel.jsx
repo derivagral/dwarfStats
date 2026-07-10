@@ -26,10 +26,18 @@ const categoryOrder = ['vitals', 'edps', 'attributes', 'offense', 'stance', 'ele
  */
 export function StatsPanel({ characterData }) {
   const [hideZero, setHideZero] = useState(false);
+  const [collapsedCategories, setCollapsedCategories] = useState({});
   const { categories } = useDerivedStats(characterData);
 
   const toggleHideZero = useCallback(() => {
     setHideZero(prev => !prev);
+  }, []);
+
+  const toggleCategory = useCallback((categoryKey) => {
+    setCollapsedCategories(prev => ({
+      ...prev,
+      [categoryKey]: !prev[categoryKey],
+    }));
   }, []);
 
   if (!characterData) {
@@ -67,16 +75,29 @@ export function StatsPanel({ characterData }) {
             if (stats.length === 0) return null;
           }
 
+          const isCollapsed = Boolean(collapsedCategories[categoryKey]);
+          const contentId = `stats-category-${categoryKey}`;
+
           return (
-            <div key={categoryKey} className="stats-category">
-              <div className="category-header">
-                {categoryLabels[categoryKey] || categoryKey}
-              </div>
-              <div className="category-stats">
-                {stats.map(stat => (
-                  <StatLine key={stat.id} stat={stat} />
-                ))}
-              </div>
+            <div key={categoryKey} className={`stats-category${isCollapsed ? ' is-collapsed' : ''}`}>
+              <button
+                type="button"
+                className="category-header category-toggle"
+                aria-expanded={!isCollapsed}
+                aria-controls={contentId}
+                onClick={() => toggleCategory(categoryKey)}
+              >
+                <span>{categoryLabels[categoryKey] || categoryKey}</span>
+                <span className="category-count">{stats.length}</span>
+                <span className="category-chevron" aria-hidden="true">▾</span>
+              </button>
+              {!isCollapsed && (
+                <div id={contentId} className="category-stats">
+                  {stats.map(stat => (
+                    <StatLine key={stat.id} stat={stat} />
+                  ))}
+                </div>
+              )}
             </div>
           );
         })}

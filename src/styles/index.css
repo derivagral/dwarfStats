@@ -1322,15 +1322,61 @@ h1::before {
   margin-bottom: 0.5rem;
 }
 
+.stats-category.is-collapsed {
+  margin-bottom: 0;
+}
+
 .category-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--border-color);
   font-size: 0.75rem;
+  font-family: inherit;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--accent);
   font-weight: 600;
+  text-align: left;
   margin-bottom: 0.5rem;
-  padding-bottom: 0.25rem;
-  border-bottom: 1px solid var(--border-color);
+  padding: 0 0 0.25rem;
+}
+
+.category-toggle {
+  cursor: pointer;
+}
+
+.category-toggle:hover {
+  color: var(--text-primary);
+}
+
+.category-toggle:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.category-count {
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+.category-chevron {
+  margin-left: auto;
+  color: var(--text-secondary);
+  transition: transform 0.15s ease;
+}
+
+.stats-category.is-collapsed .category-header {
+  margin-bottom: 0;
+}
+
+.stats-category.is-collapsed .category-chevron {
+  transform: rotate(-90deg);
 }
 
 .category-stats {

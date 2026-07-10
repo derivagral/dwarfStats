@@ -1,95 +1,126 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { hasDirPicker } from '../utils/platform';
+import { hasFilePicker } from '../utils/platform';
+
+// Give up after this many consecutive failed polls (file deleted/moved,
+// permission revoked) instead of erroring every 10s forever.
+const MAX_CONSECUTIVE_FAILURES = 6;
 
 /**
- * Live save-folder watcher (Chromium only).
+ * Live single-file save watcher (Chromium only).
  *
- * Uses the File System Access API (`showDirectoryPicker`) to poll the game's
- * save folder and re-deliver the newest `.sav` whenever the game writes a new
- * one. Firefox/Safari can't do this: a `File` from an input or drag is a
- * snapshot — re-reading after the file changes on disk throws — and neither
- * ships the handle-based API, so callers should feature-gate on `supported`.
+ * Uses `showOpenFilePicker()` to take a persistent handle on ONE `.sav` file
+ * and polls `handle.getFile()` for lastModified changes, re-delivering the
+ * file when the game writes it.
+ *
+ * Why a FILE handle and not a directory: Chrome's File System Access
+ * blocklist forbids DIRECTORY handles anywhere under AppData — which is where
+ * UE save games live (`%LOCALAPPDATA%\...\Saved\SaveGames`) — but individual
+ * file handles inside AppData are allowed. Firefox/Safari support neither
+ * (their `File` objects are snapshots; re-reading a changed file throws), so
+ * callers feature-gate on `supported`.
  *
  * Instantiate at App level so polling survives tab switches.
  *
  * @param {Object} options
  * @param {(file: File, info: {isInitial: boolean}) => Promise<void>|void} options.onSaveChanged
- *   Called with the newest .sav on start and whenever name/lastModified changes.
+ *   Called with the file on start and whenever lastModified changes.
  * @param {(msg: string) => void} [options.onLog]
  * @param {number} [options.intervalMs=10000] - Poll interval
- * @returns {{ watching: boolean, supported: boolean, start: () => Promise<boolean>, stop: () => void }}
+ * @returns {{
+ *   watching: boolean,
+ *   supported: boolean,
+ *   watchedName: string|null,
+ *   lastChangeAt: number|null,
+ *   start: () => Promise<{ok: boolean, reason?: 'cancelled'|'unsupported'|string}>,
+ *   stop: () => void,
+ * }}
  */
 export function useSaveWatcher({ onSaveChanged, onLog, intervalMs = 10000 }) {
   const [watching, setWatching] = useState(false);
-  const dirHandleRef = useRef(null);
+  const [watchedName, setWatchedName] = useState(null);
+  const [lastChangeAt, setLastChangeAt] = useState(null);
+  const fileHandleRef = useRef(null);
   const timerRef = useRef(null);
-  const lastSeenRef = useRef(null); // `${name}:${lastModified}` of newest .sav
+  const lastModifiedRef = useRef(0);
   const busyRef = useRef(false);
+  const failureCountRef = useRef(0);
 
-  const scanOnce = useCallback(async (isInitial = false) => {
-    const handle = dirHandleRef.current;
-    if (!handle || busyRef.current) return;
-    busyRef.current = true;
-    try {
-      let newest = null;
-      for await (const [name, entry] of handle.entries()) {
-        if (!/\.sav$/i.test(name)) continue;
-        const file = await entry.getFile();
-        if (!newest || file.lastModified > newest.lastModified) newest = file;
-      }
-      if (!newest) {
-        if (isInitial) onLog?.('⚠️ No .sav files found in folder');
-        return;
-      }
-      const stamp = `${newest.name}:${newest.lastModified}`;
-      if (stamp !== lastSeenRef.current) {
-        lastSeenRef.current = stamp;
-        await onSaveChanged?.(newest, { isInitial });
-      }
-    } catch (e) {
-      onLog?.(`⚠️ Watch scan failed: ${e?.message || e}`);
-    } finally {
-      busyRef.current = false;
-    }
-  }, [onSaveChanged, onLog]);
-
-  const stop = useCallback(() => {
+  const stop = useCallback((reasonMsg) => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-    dirHandleRef.current = null;
-    lastSeenRef.current = null;
+    fileHandleRef.current = null;
+    lastModifiedRef.current = 0;
+    failureCountRef.current = 0;
     setWatching(false);
-    onLog?.('👁️ Live watch stopped');
+    setWatchedName(null);
+    onLog?.(reasonMsg || '👁️ Live watch stopped');
   }, [onLog]);
 
+  const pollOnce = useCallback(async (isInitial = false) => {
+    const handle = fileHandleRef.current;
+    if (!handle || busyRef.current) return;
+    busyRef.current = true;
+    try {
+      const file = await handle.getFile();
+      failureCountRef.current = 0;
+      if (file.lastModified !== lastModifiedRef.current) {
+        lastModifiedRef.current = file.lastModified;
+        setLastChangeAt(Date.now());
+        await onSaveChanged?.(file, { isInitial });
+      }
+    } catch (e) {
+      failureCountRef.current += 1;
+      if (failureCountRef.current === 1) {
+        onLog?.(`⚠️ Watch poll failed: ${e?.message || e}`);
+      }
+      if (failureCountRef.current >= MAX_CONSECUTIVE_FAILURES) {
+        stop(`⚠️ Live watch stopped — the file couldn't be read ${MAX_CONSECUTIVE_FAILURES} times in a row (moved/deleted?)`);
+      }
+    } finally {
+      busyRef.current = false;
+    }
+  }, [onSaveChanged, onLog, stop]);
+
   /**
-   * Prompt for the save folder and begin watching.
-   * @returns {Promise<boolean>} false if unsupported or the picker was cancelled
+   * Prompt for a .sav file and begin watching it.
+   * @returns {Promise<{ok: boolean, reason?: string}>} `reason` is
+   *   'cancelled' when the user dismissed the picker; otherwise the browser's
+   *   error message (e.g. a policy block).
    */
   const start = useCallback(async () => {
-    if (!hasDirPicker()) return false;
+    if (!hasFilePicker()) return { ok: false, reason: 'unsupported' };
     let handle;
     try {
-      handle = await window.showDirectoryPicker({ mode: 'read' });
-    } catch {
-      return false; // user cancelled the picker
+      [handle] = await window.showOpenFilePicker({
+        multiple: false,
+        types: [{
+          description: 'Unreal save files',
+          accept: { 'application/octet-stream': ['.sav'] },
+        }],
+      });
+    } catch (e) {
+      if (e?.name === 'AbortError') return { ok: false, reason: 'cancelled' };
+      return { ok: false, reason: e?.message || String(e) };
     }
-    dirHandleRef.current = handle;
+
+    fileHandleRef.current = handle;
+    failureCountRef.current = 0;
     setWatching(true);
-    onLog?.(`👁️ Live watch started (polling every ${Math.round(intervalMs / 1000)}s)`);
-    await scanOnce(true);
-    timerRef.current = setInterval(() => scanOnce(false), intervalMs);
-    return true;
-  }, [scanOnce, intervalMs, onLog]);
+    setWatchedName(handle.name);
+    onLog?.(`👁️ Live watching ${handle.name} (checking every ${Math.round(intervalMs / 1000)}s)`);
+    await pollOnce(true);
+    timerRef.current = setInterval(() => pollOnce(false), intervalMs);
+    return { ok: true };
+  }, [pollOnce, intervalMs, onLog]);
 
   // Clean up the timer on unmount
   useEffect(() => () => {
     if (timerRef.current) clearInterval(timerRef.current);
   }, []);
 
-  return { watching, supported: hasDirPicker(), start, stop };
+  return { watching, supported: hasFilePicker(), watchedName, lastChangeAt, start, stop };
 }
 
 export default useSaveWatcher;

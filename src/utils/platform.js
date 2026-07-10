@@ -18,3 +18,11 @@ export function detectPlatform() {
 export function hasDirPicker() {
   return 'showDirectoryPicker' in window;
 }
+
+// Single-file handle picker (Chromium). Unlike DIRECTORY handles — which
+// Chrome's File System Access blocklist forbids anywhere under AppData, where
+// UE save games actually live — FILE handles inside AppData are allowed, so
+// live watch uses this instead of showDirectoryPicker.
+export function hasFilePicker() {
+  return 'showOpenFilePicker' in window;
+}

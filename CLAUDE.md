@@ -169,18 +169,24 @@ The save file is an "import shortcut" - all UI components work from the internal
 |---------|----------------------|----------------|
 | Drag & drop | Yes | Yes |
 | File picker | Yes | Yes |
-| Folder picker | Yes (`showDirectoryPicker`) | No |
-| Live watch (save-folder polling) | Yes (Upload tab checkbox, 10s poll) | No (snapshot `File` semantics — re-reading a changed file throws; UI shows a re-drop note) |
+| Live watch (single-file polling) | Yes (Upload tab checkbox → `showOpenFilePicker`, 10s poll) | No (snapshot `File` semantics — re-reading a changed file throws; UI shows a re-drop note) |
 
-Detection in `src/utils/platform.js`.
+Detection in `src/utils/platform.js` (`hasFilePicker()`).
 
 **Live watch architecture:** file acquisition is consolidated on the Upload
 tab. `useSaveWatcher` (instantiated in `App.jsx` so polling survives tab
-switches) holds a `FileSystemDirectoryHandle`, polls for the newest `.sav` by
-name+lastModified, and re-processes it through the normal load path WITHOUT
-switching tabs (initial start lands on Filter). Character stats and Filter
-results update reactively from the item store — the Filter tab has no file
-inputs of its own.
+switches) holds a `FileSystemFileHandle` for ONE user-picked `.sav`, polls
+`getFile()` for lastModified changes, and re-processes it through the normal
+load path WITHOUT switching tabs (initial start lands on Filter). Character
+stats and Filter results update reactively from the item store — the Filter
+tab has no file inputs of its own.
+
+**Why a FILE handle, not a directory:** Chrome's File System Access blocklist
+forbids DIRECTORY handles anywhere under AppData — which is where UE saves
+live (`%LOCALAPPDATA%\...\Saved\SaveGames`) — but individual FILE handles
+inside AppData are allowed. A folder-watching variant was tried and removed
+(commit history: PR #67 → fixed here); `showDirectoryPicker` on the real save
+location is blocked by policy, full stop.
 
 ## Patterns & Conventions
 

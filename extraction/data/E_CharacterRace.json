@@ -1,0 +1,57 @@
+[
+  {
+    "Type": "UserDefinedEnum",
+    "Name": "E_CharacterRace",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'UserDefinedEnum'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Characters/Base/Races/E_CharacterRace",
+    "Properties": {
+      "DisplayNameMap": [
+        {
+          "Key": "NewEnumerator0",
+          "Value": {
+            "Namespace": "",
+            "Key": "F09A4CEC4458283A98BCCFBF1E491834",
+            "SourceString": "Human",
+            "LocalizedString": "Human"
+          }
+        },
+        {
+          "Key": "NewEnumerator1",
+          "Value": {
+            "Namespace": "",
+            "Key": "35E5CA0E46D93164938D818E3664061E",
+            "SourceString": "Orc",
+            "LocalizedString": "Orc"
+          }
+        },
+        {
+          "Key": "NewEnumerator2",
+          "Value": {
+            "Namespace": "",
+            "Key": "CBFD13114EF2641C55623192AB63D753",
+            "SourceString": "Dwarf",
+            "LocalizedString": "Dwarf"
+          }
+        },
+        {
+          "Key": "NewEnumerator3",
+          "Value": {
+            "Namespace": "",
+            "Key": "6AA90F2A4258B0D74F9760A9DF1476AB",
+            "SourceString": "Undead",
+            "LocalizedString": "Undead"
+          }
+        }
+      ]
+    },
+    "Names": {
+      "E_CharacterRace::NewEnumerator0": 0,
+      "E_CharacterRace::NewEnumerator1": 1,
+      "E_CharacterRace::NewEnumerator2": 2,
+      "E_CharacterRace::NewEnumerator3": 3,
+      "E_CharacterRace::E_MAX": 4
+    },
+    "CppForm": "Namespaced"
+  }
+]

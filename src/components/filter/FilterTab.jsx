@@ -1,26 +1,21 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { Button, DropZone } from '../common';
+import { Button } from '../common';
 import { FilterConfig } from './FilterConfig';
 import { ResultsSection, EmptyResultsSection } from './ResultsSection';
-import { useFileProcessor } from '../../hooks/useFileProcessor';
-import { hasDirPicker } from '../../utils/platform';
 import { playNotificationSound } from '../../utils/sound';
 import { filterByModel } from '../../utils/itemFilter';
 import { transformAllItems } from '../../models/itemTransformer';
 import { createFilterModel } from '../../models/FilterModel';
 import { useFilterProfiles } from '../../hooks/useFilterProfiles';
 
+// File acquisition (drop/pick/live-watch) is consolidated on the Upload tab —
+// this tab is a pure view over the item store: results re-filter reactively
+// when the filter model changes or the store reloads (including live watch).
 export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, sharedFilterModel, onSharedFilterConsumed }) {
   const [results, setResults] = useState(new Map());
   const [filterModel, setFilterModel] = useState(() => createFilterModel('Default'));
   const [configVisible, setConfigVisible] = useState(false);
-  const [lastFiles, setLastFiles] = useState([]);
-  const [dirHandle, setDirHandle] = useState(null);
-  const [watching, setWatching] = useState(false);
-  const watchTimerRef = useRef(null);
   const seenFilesRef = useRef(new Set());
-  const fileInputRef = useRef(null);
-  const { processFile, isProcessing } = useFileProcessor();
   const { profiles, saveProfile, deleteProfile } = useFilterProfiles();
 
   /**
@@ -30,46 +25,9 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
     return filterByModel(items, model);
   }, []);
 
-  /**
-   * Process .sav files: parse via WASM, transform to Item models, then filter.
-   */
-  const processFiles = useCallback(async (files, model = filterModel) => {
-    for (const file of files) {
-      try {
-        onLog(`Converting: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`);
-        const result = await processFile(file);
-
-        // Transform raw JSON into Item models (equipment arrays are
-        // automatically excluded by the transformer)
-        const { items: searchableItems } = transformAllItems(result.json);
-        const { hits, close, totalItems } = runFilter(searchableItems, model);
-
-        setResults(prev => {
-          const next = new Map(prev);
-          next.set(file.name, {
-            hits,
-            close,
-            totalItems,
-            timestamp: Date.now(),
-            filterModel: model,
-          });
-          return next;
-        });
-
-        onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
-
-        if (hits.length > 0) {
-          playNotificationSound();
-        }
-      } catch (e) {
-        onLog(`Error: ${e.message}`);
-      }
-    }
-  }, [filterModel, processFile, onLog, runFilter]);
-
   // Keep the loaded save's results live: re-filter the in-memory inventory
-  // whenever the filter model changes or a new save is loaded. (Results from
-  // manually dropped files are snapshots — use Re-run to refresh those.)
+  // whenever the filter model changes or a new save is loaded (uploads and
+  // live-watch reloads both land in the item store).
   useEffect(() => {
     if (!itemStore?.hasItems && !initialSaveData) return;
 
@@ -105,9 +63,6 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
       return next;
     });
 
-    if (initialSaveData?.file) {
-      setLastFiles(prev => (prev.length === 0 ? [initialSaveData.file] : prev));
-    }
   }, [initialSaveData, itemStore?.inventory, itemStore?.metadata?.filename, filterModel, runFilter]);
 
   // Load shared filter model from URL and auto-save to profiles
@@ -124,120 +79,10 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
     if (onSharedFilterConsumed) onSharedFilterConsumed();
   }, [sharedFilterModel, onLog, onSharedFilterConsumed, saveProfile]);
 
-  const handleFileDrop = useCallback(async (files) => {
-    setLastFiles(files);
-    onStatusChange('Processing...', 'scanning');
-    await processFiles(files);
-    onStatusChange('Ready', 'ready');
-  }, [processFiles, onStatusChange]);
-
-  const handlePickFile = useCallback(() => {
-    fileInputRef.current?.click();
-  }, []);
-
-  const handleFileInputChange = useCallback(async (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setLastFiles([file]);
-      onStatusChange('Processing...', 'scanning');
-      await processFiles([file]);
-      onStatusChange('Ready', 'ready');
-    }
-    e.target.value = '';
-  }, [processFiles, onStatusChange]);
-
-  const handlePickDir = useCallback(async () => {
-    if (!hasDirPicker()) return;
-
-    try {
-      const handle = await window.showDirectoryPicker({ mode: 'read' });
-      setDirHandle(handle);
-      onLog('Folder granted (Chromium)');
-      onStatusChange('Folder selected', 'active');
-
-      const files = [];
-      for await (const [name, h] of handle.entries()) {
-        if (/\.sav$/i.test(name)) {
-          const file = await h.getFile();
-          files.push(file);
-        }
-      }
-
-      if (files.length > 0) {
-        setLastFiles(files);
-        await processFiles(files);
-      }
-      onStatusChange('Ready', 'ready');
-    } catch (e) {
-      onLog(`Pick canceled: ${e?.message || e}`);
-    }
-  }, [processFiles, onLog, onStatusChange]);
-
-  const handleStartWatch = useCallback(async () => {
-    if (!hasDirPicker()) {
-      alert('Directory watching requires Chrome/Edge/Brave.');
-      return;
-    }
-
-    if (watching) {
-      if (watchTimerRef.current) {
-        clearInterval(watchTimerRef.current);
-        watchTimerRef.current = null;
-      }
-      setWatching(false);
-      onLog('Stopped watching');
-      onStatusChange('Ready', 'ready');
-      return;
-    }
-
-    let handle = dirHandle;
-    if (!handle) {
-      try {
-        handle = await window.showDirectoryPicker({ mode: 'read' });
-        setDirHandle(handle);
-      } catch {
-        return;
-      }
-    }
-
-    onLog('Watching... (poll every 10s)');
-    onStatusChange('Watching', 'active');
-    setWatching(true);
-
-    const scanOnce = async () => {
-      const files = [];
-      for await (const [name, h] of handle.entries()) {
-        if (/\.sav$/i.test(name)) {
-          const file = await h.getFile();
-          files.push(file);
-        }
-      }
-      if (files.length > 0) {
-        setLastFiles(files);
-        await processFiles(files);
-      }
-    };
-
-    await scanOnce();
-    watchTimerRef.current = setInterval(scanOnce, 10000);
-  }, [watching, dirHandle, processFiles, onLog, onStatusChange]);
-
-  const handleRerun = useCallback(async () => {
-    if (lastFiles.length === 0) {
-      onLog('No files to re-run');
-      return;
-    }
-    onLog(`Re-running ${lastFiles.length} file(s)`);
-    onStatusChange('Re-running...', 'scanning');
-    await processFiles(lastFiles);
-    onStatusChange('Ready', 'ready');
-  }, [lastFiles, processFiles, onLog, onStatusChange]);
-
   const handleClear = useCallback(() => {
     setResults(new Map());
-    setLastFiles([]);
     seenFilesRef.current.clear();
-    onLog('Results and file history cleared');
+    onLog('Results cleared');
   }, [onLog]);
 
   // --- Filter model updates from the config panel ---
@@ -288,48 +133,22 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
     onLog(`Profile "${name}" deleted`);
   }, [deleteProfile, onLog]);
 
-  const handleApplyConfig = useCallback(async () => {
+  // The reactive effect above re-filters on every model change; Apply/Reset
+  // just close the panel and log.
+  const handleApplyConfig = useCallback(() => {
     if (filterModel.affixes.length === 0 && filterModel.monograms.length === 0) {
       onLog('No filter criteria selected');
       return;
     }
     setConfigVisible(false);
     onLog(`Filters updated: ${filterModel.affixes.length} affixes, ${filterModel.monograms.length} monograms`);
+  }, [filterModel, onLog]);
 
-    if (lastFiles.length > 0) {
-      onLog('Re-scanning with new filters...');
-      onStatusChange('Applying filters...', 'scanning');
-      setResults(new Map());
-      await processFiles(lastFiles, filterModel);
-      onStatusChange('Ready', 'ready');
-    } else if (itemStore?.inventory?.length) {
-      // Re-filter existing inventory (already excludes equipped items)
-      const filename = itemStore?.metadata?.filename || 'loaded.sav';
-      const { hits, close, totalItems } = runFilter(itemStore.inventory, filterModel);
-      setResults(new Map([[filename, {
-        hits, close, totalItems,
-        timestamp: Date.now(),
-        filterModel,
-      }]]));
-      onLog(`Found ${hits.length} matches, ${close.length} near-misses from ${totalItems} items`);
-      if (hits.length > 0) playNotificationSound();
-    }
-  }, [filterModel, lastFiles, processFiles, onLog, onStatusChange, itemStore, runFilter]);
-
-  const handleResetConfig = useCallback(async () => {
-    const newModel = createFilterModel('Default');
-    setFilterModel(newModel);
+  const handleResetConfig = useCallback(() => {
+    setFilterModel(createFilterModel('Default'));
     setConfigVisible(false);
     onLog('Filters reset');
-
-    if (lastFiles.length > 0) {
-      onLog('Re-scanning with cleared filters...');
-      onStatusChange('Applying filters...', 'scanning');
-      setResults(new Map());
-      await processFiles(lastFiles, newModel);
-      onStatusChange('Ready', 'ready');
-    }
-  }, [lastFiles, processFiles, onLog, onStatusChange]);
+  }, [onLog]);
 
   const sortedResults = Array.from(results.entries()).sort((a, b) => b[1].timestamp - a[1].timestamp);
 
@@ -354,39 +173,13 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
 
   return (
     <div className="tab-content active">
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".sav"
-        hidden
-        onChange={handleFileInputChange}
-      />
-
       <div className="controls">
         <div className="control-row">
-          <Button icon="📄" variant="primary" onClick={handlePickFile} disabled={isProcessing}>
-            Pick .sav File
+          <Button icon="⚙️" variant="primary" onClick={() => setConfigVisible(!configVisible)}>
+            Configure Filters
           </Button>
-          <Button icon="📁" onClick={handlePickDir} hidden={!hasDirPicker()} disabled={isProcessing}>
-            Pick Folder
-          </Button>
-          <Button
-            icon={watching ? '⏹️' : '👁️'}
-            onClick={handleStartWatch}
-            hidden={!hasDirPicker()}
-          >
-            {watching ? 'Stop Watching' : 'Start Watching'}
-          </Button>
-          <Button icon="🔄" onClick={handleRerun} disabled={lastFiles.length === 0}>
-            Re-run Last
-          </Button>
-        </div>
-        <div className="control-row">
           <Button icon="🗑️" onClick={handleClear} disabled={results.size === 0}>
             Clear Results
-          </Button>
-          <Button icon="⚙️" onClick={() => setConfigVisible(!configVisible)}>
-            Configure Filters
           </Button>
         </div>
       </div>
@@ -411,12 +204,6 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
         onLog={onLog}
       />
 
-      <DropZone
-        icon="📦"
-        text="Drop .sav files here or use the Pick button above"
-        onFileDrop={handleFileDrop}
-      />
-
       <div className="results-container">
         {results.size === 0 ? (
           <div className="empty-state">
@@ -428,13 +215,13 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
                   <strong>Filter Ready:</strong> {filterSummary}
                 </div>
                 <div style={{ marginTop: '1rem', color: 'var(--text-secondary)' }}>
-                  Drop a <code>.sav</code> file above or use <strong>Pick .sav File</strong> to apply this filter.
+                  Load a save on the <strong>Upload</strong> tab (or enable <strong>Live watch</strong> there) to apply this filter.
                 </div>
               </>
             ) : (
               <>
                 <div className="empty-state-icon">🔭</div>
-                <div>No results yet. Select a .sav file or drop one here to begin.</div>
+                <div>No results yet. Load a save on the <strong>Upload</strong> tab, then configure filters here.</div>
               </>
             )}
           </div>
@@ -444,7 +231,7 @@ export function FilterTab({ initialSaveData, itemStore, onLog, onStatusChange, s
               {profileLabel && <div className="filter-profile-name">{profileLabel}</div>}
               <strong>Active Filters:</strong> {filterSummary}
               <div style={{ marginTop: '0.5rem', fontSize: '0.9em', color: 'var(--text-secondary)' }}>
-                {results.size} file(s) processed | {lastFiles.length} file(s) in memory
+                {results.size} save(s) scanned — results update live as filters change or the save reloads
               </div>
             </div>
 

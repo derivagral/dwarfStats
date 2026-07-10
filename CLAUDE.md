@@ -511,9 +511,17 @@ Options keys: `h`=minHitsPerPool, `c`=closeMinTotal, `w`=includeWeapons, `t`=min
     "wt": 0,                                       // weapon type (WEAPON_TYPE_DICT index)
     "ws": [[0, 1], [8, 5]],                        // weapon skills [[skillEnc, level], ...]
     "ks": [0, 2]                                   // keystones [keystoneEnc, ...]
-  }
+  },
+  "cn": "NesPasJeter",                             // character name (omitted if unknown)
+  "lv": 560,                                       // character level (omitted if unknown)
+  "cb": 6                                          // campaign bosses defeated 0-6 (omitted if 0)
 }
 ```
+
+**Identity fields (`cn`/`lv`/`cb`):** name/level drive the Character header;
+level + campaign-boss count rebuild the progression health pool on load
+(`calculateLevelHealth(lv) + cb × 100`), so shared builds compute the same max
+health as a direct save load.
 
 **Stat values:** Raw decimals from save file. Percentages are stored as decimals (0.316 = 31.6%). Flat stats as-is (Armor = 197.57). No conversion — `useDerivedStats` already handles the raw format.
 

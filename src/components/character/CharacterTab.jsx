@@ -32,6 +32,11 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     itemStore.metadata?.allocatedAttributes ?? null,
     itemStore.metadata?.maxHealth ?? 0,
     itemStore.metadata?.skillTree ?? null,
+    {
+      name: itemStore.metadata?.characterName || '',
+      level: itemStore.metadata?.characterLevel || 0,
+      campaignBossCount: itemStore.metadata?.healthProgression?.campaignBosses?.length || 0,
+    },
   ), [itemStore.equipped, itemStore.metadata, characterData?.stanceContext]);
 
   const handleShare = useCallback(async () => {

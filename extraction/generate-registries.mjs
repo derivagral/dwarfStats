@@ -17,6 +17,8 @@
  *   DT_GENERATED_SkillTree_Main.json — optional main-tree UI-node effects
  *   DT_PlayerAbilities.json         — optional offhand ability definitions
  *                                     (affinities, cooldown steps, modifiers)
+ *   DT_PlayerRaces.json + E_CharacterRace.json — optional race definitions
+ *                                     (racial skill unlocks by level)
  *
  * Outputs (committed, consumed by src/):
  *   src/data/attributeBonuses.generated.json
@@ -29,6 +31,7 @@
  *   src/data/mainTreeHealth.generated.json (when the optional export exists)
  *   src/data/mainTreeAffinity.generated.json (when the optional export exists)
  *   src/data/playerAbilities.generated.json (when the optional export exists)
+ *   src/data/races.generated.json (when the optional exports exist)
  *
  * Also prints a drift report comparing affix tags against STAT_REGISTRY
  * patterns (written to extraction/out/drift-report.md, gitignored).
@@ -267,6 +270,41 @@ function generateMainTreeAffinity(mainTreeRows) {
 }
 
 // ---------------------------------------------------------------------------
+// Main passive tree modifier grants (DT_GENERATED_SkillTree_Main)
+//
+// Some nodes grant EasyRPG.Items.Modifiers.* behavior tags instead of stats —
+// e.g. "Melee Mastery: Damage" grants MeleeParagon.BaseDamage_TextTag (+2
+// flat per stance mastery level, additive with the helmet monogram of the
+// same id). Emitted with the Modifiers prefix and _TextTag suffix stripped so
+// the ids line up with MONOGRAM_CALC_CONFIGS; the app applies only the ids it
+// has calc configs for.
+// ---------------------------------------------------------------------------
+
+function generateMainTreeModifiers(mainTreeRows) {
+  const grantsByRow = {};
+  const namesByRow = {};
+
+  for (const [rowName, row] of Object.entries(mainTreeRows)) {
+    const grants = [];
+    for (const level of prop(row, 'SkillLevels') ?? []) {
+      for (const effect of effectList(prop(level, 'BonusAttributes'))) {
+        if (!effect.tag.startsWith(MODIFIER_PREFIX)) continue;
+        grants.push({
+          id: effect.tag.slice(MODIFIER_PREFIX.length).replace(/_TextTag$/, ''),
+          value: effect.value,
+        });
+      }
+    }
+    if (grants.length > 0) {
+      grantsByRow[rowName] = grants;
+      const name = textOf(prop(row, 'SkillName'));
+      if (name) namesByRow[rowName] = name;
+    }
+  }
+  return { grantsByRow, namesByRow };
+}
+
+// ---------------------------------------------------------------------------
 // Offhand abilities (DT_PlayerAbilities)
 //
 // One row per proc ability (Electric Dragons, Vortex, …). Each carries:
@@ -331,6 +369,51 @@ function generatePlayerAbilities(abilityRows) {
     };
   }
   return abilities;
+}
+
+// ---------------------------------------------------------------------------
+// Player races (DT_PlayerRaces + E_CharacterRace enum)
+//
+// Saves store race as an opaque E_CharacterRace byte (NewEnumeratorN); the
+// enum export maps N → display name ("Dwarf"), which uppercases to the race
+// table's row key ("DWARF"). Each race has 6 RacialSkills — threshold unlocks
+// at character level 10/25/50/100/150/200 (NOT per-level scaling; 200 is
+// simply the last unlock) granting weapon damage/crit, offhand affinity
+// damage/CDR, and StanceMultiplier bonuses.
+// ---------------------------------------------------------------------------
+
+function loadEnum(fileName) {
+  const raw = JSON.parse(fs.readFileSync(path.join(DATA_DIR, fileName), 'utf8'));
+  const objects = Array.isArray(raw) ? raw : [raw];
+  const enumExport = objects.find((o) => o?.Type === 'UserDefinedEnum');
+  if (!enumExport) throw new Error(`No UserDefinedEnum found in ${fileName}`);
+  return enumExport;
+}
+
+function generatePlayerRaces(raceRows, raceEnum) {
+  const races = {};
+  for (const entry of raceEnum?.Properties?.DisplayNameMap ?? []) {
+    const match = entry?.Key?.match(/NewEnumerator(\d+)$/);
+    const name = textOf(entry?.Value);
+    if (!match || !name) continue;
+
+    const row = raceRows[name.toUpperCase()];
+    if (!row) {
+      console.warn(`  (race enum ${entry.Key} "${name}" has no DT_PlayerRaces row)`);
+      continue;
+    }
+
+    races[Number(match[1])] = {
+      key: name.toUpperCase(),
+      name,
+      racialSkills: (prop(row, 'RacialSkills') ?? []).map((skill) => ({
+        requiredLevel: prop(skill, 'RequiredLevel') ?? 0,
+        name: textOf(prop(skill, 'GroupName')) ?? '',
+        effects: effectList(prop(skill, 'Attributes')),
+      })),
+    };
+  }
+  return races;
 }
 
 // ---------------------------------------------------------------------------
@@ -461,10 +544,12 @@ const cardRows = loadTable('DT_Crystal_Cards_Skills.json');
 const statusRows = loadTable('DT_StatusEffects.json');
 let mainTreeHealth = null;
 let mainTreeAffinity = null;
+let mainTreeModifiers = null;
 try {
   const mainTreeRows = loadTable('DT_GENERATED_SkillTree_Main.json');
   mainTreeHealth = generateMainTreeHealth(mainTreeRows);
   mainTreeAffinity = generateMainTreeAffinity(mainTreeRows);
+  mainTreeModifiers = generateMainTreeModifiers(mainTreeRows);
 } catch {
   console.warn('  (skipping DT_GENERATED_SkillTree_Main.json — not present)');
 }
@@ -473,6 +558,12 @@ try {
   playerAbilities = generatePlayerAbilities(loadTable('DT_PlayerAbilities.json'));
 } catch {
   console.warn('  (skipping DT_PlayerAbilities.json — not present)');
+}
+let playerRaces = null;
+try {
+  playerRaces = generatePlayerRaces(loadTable('DT_PlayerRaces.json'), loadEnum('E_CharacterRace.json'));
+} catch {
+  console.warn('  (skipping DT_PlayerRaces.json / E_CharacterRace.json — not present)');
 }
 
 const monograms = generateMonograms(attributeRows);
@@ -517,6 +608,19 @@ if (playerAbilities) {
   fs.writeFileSync(path.join(GEN_DIR, 'playerAbilities.generated.json'),
     JSON.stringify({ ...banner, _source: 'DT_PlayerAbilities', abilities: playerAbilities }, null, 2));
 }
+if (playerRaces) {
+  fs.writeFileSync(path.join(GEN_DIR, 'races.generated.json'),
+    JSON.stringify({ ...banner, _source: 'DT_PlayerRaces + E_CharacterRace enum', races: playerRaces }, null, 2));
+}
+if (mainTreeModifiers) {
+  fs.writeFileSync(path.join(GEN_DIR, 'mainTreeModifiers.generated.json'),
+    JSON.stringify({
+      ...banner,
+      _source: 'DT_GENERATED_SkillTree_Main (EasyRPG.Items.Modifiers.* grants, _TextTag stripped)',
+      grantsByRow: mainTreeModifiers.grantsByRow,
+      namesByRow: mainTreeModifiers.namesByRow,
+    }, null, 2));
+}
 
 console.log(`Attributes:     ${Object.keys(attributeBonuses).length}`);
 console.log(`Monograms:      ${Object.keys(monograms).length}`);
@@ -528,6 +632,8 @@ console.log(`Status effects: ${Object.keys(statusEffects).length}`);
 if (mainTreeHealth) console.log(`Main-tree health nodes: ${Object.keys(mainTreeHealth).length}`);
 if (mainTreeAffinity) console.log(`Main-tree affinity nodes: ${Object.keys(mainTreeAffinity.effectsByRow).length}`);
 if (playerAbilities) console.log(`Player abilities: ${Object.keys(playerAbilities).length}`);
+if (playerRaces) console.log(`Player races: ${Object.keys(playerRaces).length}`);
+if (mainTreeModifiers) console.log(`Main-tree modifier-grant nodes: ${Object.keys(mainTreeModifiers.grantsByRow).length}`);
 
 const { reportPath, missing } = await driftReport(affixes);
 console.log(`Drift:     ${missing} rollable affixes unmatched by STAT_REGISTRY patterns`);

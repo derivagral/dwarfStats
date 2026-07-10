@@ -22,6 +22,7 @@ import cardsGenerated from '../data/cards.generated.json';
 import weaponSkillsGenerated from '../data/weaponSkills.generated.json';
 import mainTreeHealthGenerated from '../data/mainTreeHealth.generated.json';
 import mainTreeAffinityGenerated from '../data/mainTreeAffinity.generated.json';
+import mainTreeModifiersGenerated from '../data/mainTreeModifiers.generated.json';
 import { findStatForAttribute } from './statRegistry.js';
 
 const GENERATED_CARDS = cardsGenerated.cards || {};
@@ -29,6 +30,8 @@ const GENERATED_WEAPON_SKILLS = weaponSkillsGenerated.weaponSkills || {};
 const MAIN_TREE_HEALTH_EFFECTS = mainTreeHealthGenerated.effectsByRow || {};
 const MAIN_TREE_AFFINITY_EFFECTS = mainTreeAffinityGenerated.effectsByRow || {};
 const MAIN_TREE_AFFINITY_NAMES = mainTreeAffinityGenerated.namesByRow || {};
+const MAIN_TREE_MODIFIER_GRANTS = mainTreeModifiersGenerated.grantsByRow || {};
+const MAIN_TREE_MODIFIER_NAMES = mainTreeModifiersGenerated.namesByRow || {};
 
 export function hasMainTreeHealthEffect(rowName) {
   return !!MAIN_TREE_HEALTH_EFFECTS[rowName];
@@ -36,6 +39,34 @@ export function hasMainTreeHealthEffect(rowName) {
 
 export function hasMainTreeAffinityEffect(rowName) {
   return !!MAIN_TREE_AFFINITY_EFFECTS[rowName];
+}
+
+export function hasMainTreeModifierGrant(rowName) {
+  return !!MAIN_TREE_MODIFIER_GRANTS[rowName];
+}
+
+/**
+ * Modifier grants from the allocated main-tree nodes — nodes that grant an
+ * EasyRPG.Items.Modifiers.* behavior tag rather than a stat (e.g. "Melee
+ * Mastery: Damage" grants MeleeParagon.BaseDamage, +2 flat per stance mastery
+ * level, additive with the helmet monogram of the same id). These flow into
+ * useDerivedStats' applied-monogram pipeline; ids without a calc config are
+ * inert there.
+ *
+ * @param {Object|null} skillTree - Result of extractSkillTree(saveData)
+ * @returns {Array<{id: string, value: number, source: string}>}
+ */
+export function collectMainTreeModifierGrants(skillTree) {
+  const grants = [];
+  for (const skill of skillTree?.mainTree ?? []) {
+    const nodeGrants = MAIN_TREE_MODIFIER_GRANTS[skill.rowName];
+    if (!nodeGrants) continue;
+    const label = MAIN_TREE_MODIFIER_NAMES[skill.rowName] || skill.rowName;
+    for (const grant of nodeGrants) {
+      grants.push({ id: grant.id, value: grant.value, source: label });
+    }
+  }
+  return grants;
 }
 
 // UE row names (FNames) are case-insensitive: saves contain e.g.

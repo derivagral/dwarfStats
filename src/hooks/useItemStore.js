@@ -125,6 +125,9 @@ export function useItemStore() {
       loadedAt: new Date().toISOString(),
       characterName: identity?.name || '',
       characterLevel: level,
+      // Race enum index from the share (`rc`); racial skill bonuses recompute
+      // from race + level on the receiving side, so they don't travel as stats
+      characterRace: identity?.race ?? null,
       stanceContext: convertMasteryToStanceContext(masteryData),
       allocatedAttributes: allocatedAttributes || {},
       characterStats,

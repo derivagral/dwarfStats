@@ -61,6 +61,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Skill→stat contributions (cards/skills/buffs) | `src/utils/skillEffectAggregator.js` |
 | Skill/card/keystone registry | `src/utils/skillTreeRegistry.js` |
 | Offhand ability/affinity detection | `src/utils/offhandAbilities.js` |
+| Racial bonuses | `src/utils/raceBonuses.js` |
 | Styling/theming | `src/styles/index.css` |
 
 ## Tab Architecture
@@ -91,6 +92,10 @@ App.jsx (state holder)
 │   ├── equippedSlotMap   → Items by slot key
 │   └── metadata          → Filename, load time, stanceContext,
 │                           allocatedAttributes, maxHealth, skillTree
+├── itemOverrides   → What-if edits (useItemOverrides), ONE instance shared
+│                     across Items tab (editor) and Character tab (stats).
+│                     Keyed by UNIQUE slot keys ('head', 'ring2', 'offhand3'
+│                     — getUniqueSlotKeyMap); cleared on save load/clear.
 ├── sharedFilterModel → Decoded filter from URL hash (consumed once)
 ├── status/statusType → UI feedback messages
 ├── logs            → Debug log buffer
@@ -327,10 +332,19 @@ them into physical `damageBonus`.
   (`src/data/mainTreeAffinity.generated.json`, with node display names like
   "Dragon Force"). Aggregated by `skillEffectAggregator` alongside health nodes
   and preserved in v2 character shares (`st.mh` carries health + affinity rows).
-- **Race** (pending): races grant affinity bonuses scaling with character level
-  capped at 200 (`RACE_LEVEL_CAP`). Race enum index is detected from the save
-  (`parseCharacterRace` → `metadata.characterRace`; `E_CharacterRace::NewEnumeratorN`),
-  but the index→name/bonus mapping awaits a race table extraction.
+- **Race** (`src/utils/raceBonuses.js` + `src/data/races.generated.json`):
+  each race (Human/Orc/Dwarf/Undead) has 6 racial skills that are THRESHOLD
+  unlocks at character level 10/25/50/100/150/200 (not per-level scaling —
+  `RACE_LEVEL_CAP` 200 is just the last unlock). L25 grants 3 affinity
+  damage% (10% each), L100 the same affinities' CDR (10%), L200 the same
+  affinities again (25%); L10/L50 grant weapon stance damage/crit and L150
+  `EasyRPG.StanceMultiplier.*` ("Damage Augmentation" — provisionally routed
+  additively into the matching stance damage stat). Race enum index is
+  detected from the save (`parseCharacterRace` → `metadata.characterRace`;
+  `E_CharacterRace::NewEnumeratorN`) and travels in character shares (`rc`);
+  bonuses recompute from race+level on load. Affinity pairings: Human
+  Sky/Momentum/Hazard, Orc Explosion/Totem/Dragon, Dwarf Blade/Creature/Area,
+  Undead Projectile/Ground/Orbit.
 
 **Which affinities are active** (`src/utils/offhandAbilities.js`): equipped
 offhand items carry `EasyRPG.Attributes.Abilities.<Ability>.*` stats;
@@ -442,10 +456,22 @@ Save data at `HostPlayerData_0.Struct.Struct.CharacterSkills_77_*` contains 4 sk
   - `TREE_KEYSTONES` - Manually curated main-tree keystones (proximity, mastery, affinity, utility)
 
 ### Main tree keystones (user-input checklist)
-Opaque node IDs can't be auto-detected. `TREE_KEYSTONES` provides a checklist of notable effects that overlap with monograms or grant unique bonuses:
-- Close/Far Distance (proximity damage), Melee/Ranged Mastery (damage/armor)
+`TREE_KEYSTONES` provides a checklist of notable effects that overlap with monograms or grant unique bonuses:
+- Close/Far Distance (proximity damage)
 - Fire/Arcane/Lightning Affinity (CDR ~35%, damage ~100% additive)
 - Extra inventory slots, extra potions
+
+**Melee/Ranged Mastery nodes are now AUTO-DETECTED** — no checklist needed:
+main-tree nodes granting `EasyRPG.Items.Modifiers.*` tags are generated into
+`mainTreeModifiers.generated.json` (155 nodes; `_TextTag` suffix stripped so
+ids match `MONOGRAM_CALC_CONFIGS`). `collectMainTreeModifierGrants(skillTree)`
+surfaces the allocated ones and `useDerivedStats` feeds them through the
+applied-monogram pipeline: only ids with a calc config fire, and
+`MeleeParagon.*`/`RangedParagon.*` grants are gated by the active weapon
+family. Paragon per-level effects (+2 flat both-types damage, +15 armor, +10
+HP per stance mastery level) stack ADDITIVELY per source — tree node + helmet
+monogram of the same id = 2× per level (`instanceCount` in the paragon calcs).
+These node rows travel in v2 character shares via `st.mh`.
 
 ### Card registry — populated from game data
 `getCardDef()` merges generated data (`src/data/cards.generated.json`, all 81
@@ -480,6 +506,8 @@ npm run test:coverage  # With coverage report
 - `test/characterShare.test.js` - Character sharing codec/round-trip tests
 - `test/skillTreeParser.test.js` - Skill tree parsing/registry tests
 - `test/offhandAffinities.test.js` - Offhand ability/affinity detection, tree affinity aggregation, race/level parse
+- `test/raceBonuses.test.js` - Racial skill thresholds, tag resolution, eDPS routing
+- `test/itemOverridesFlow.test.js` - What-if overrides → derived stats (unique slot keys, paragon regression)
 
 ### Key Testable Modules
 | Module | Pure Functions | Notes |
@@ -494,6 +522,7 @@ npm run test:coverage  # With coverage report
 | `skillTreeRegistry.js` | `getWeaponSkillDef()`, `getCraftingSkillDef()`, `getCardDef()` | Skill/card/keystone lookups |
 | `offhandAbilities.js` | `detectEquippedAbilities()`, `getStepCooldown()`, `unionAffinities()` | Offhand ability/affinity detection |
 | `healthParser.js` | `parseCharacterRace()`, `parseCharacterLevel()`, `parseHealthProgression()` | Character identity/progression |
+| `raceBonuses.js` | `getRaceDef()`, `getRaceName()`, `getRacialContributions()` | Racial skill bonuses |
 
 ## Test Fixtures
 
@@ -571,14 +600,16 @@ Options keys: `h`=minHitsPerPool, `c`=closeMinTotal, `w`=includeWeapons, `t`=min
   },
   "cn": "NesPasJeter",                             // character name (omitted if unknown)
   "lv": 560,                                       // character level (omitted if unknown)
-  "cb": 6                                          // campaign bosses defeated 0-6 (omitted if 0)
+  "cb": 6,                                         // campaign bosses defeated 0-6 (omitted if 0)
+  "rc": 2                                          // race enum index (omitted if unknown; 0=Human is valid)
 }
 ```
 
-**Identity fields (`cn`/`lv`/`cb`):** name/level drive the Character header;
+**Identity fields (`cn`/`lv`/`cb`/`rc`):** name/level drive the Character header;
 level + campaign-boss count rebuild the progression health pool on load
 (`calculateLevelHealth(lv) + cb × 100`), so shared builds compute the same max
-health as a direct save load.
+health as a direct save load. Race + level recompute racial skill bonuses on
+the receiving side (they don't travel as stats).
 
 **Stat values:** Raw decimals from save file. Percentages are stored as decimals (0.316 = 31.6%). Flat stats as-is (Armor = 197.57). No conversion — `useDerivedStats` already handles the raw format.
 
@@ -645,6 +676,8 @@ node extraction/generate-registries.mjs
 | `src/data/statusEffects.generated.json` | 170 buffs/debuffs: name, description, duration, stacks, effect values | joined into weapon skills; standalone lookup TBD |
 | `src/data/mainTreeAffinity.generated.json` | 236 main-tree affinity nodes: OffhandCategories effects + node names | `skillEffectAggregator.js` main-tree pass |
 | `src/data/playerAbilities.generated.json` | 26 offhand proc abilities: affinities, element, cooldown steps, AffinityBehaviours | `offhandAbilities.js` detection |
+| `src/data/races.generated.json` | 4 races: enum index → name + 6 threshold racial skills with effects | `raceBonuses.js` |
+| `src/data/mainTreeModifiers.generated.json` | 155 main-tree nodes granting `EasyRPG.Items.Modifiers.*` tags (`_TextTag` stripped) | `skillEffectAggregator.js` `collectMainTreeModifierGrants()` |
 
 The generator also emits a drift report (`extraction/out/drift-report.md`,
 gitignored) flagging rollable affix tags `findStatForAttribute()` cannot
@@ -661,6 +694,7 @@ Key source tables in `extraction/data/`:
 - `DT_StatusEffects.json` — buff/status lexicon
 - `DT_GENERATED_SkillTree_Main.json` — main passive tree (1677 nodes; health + affinity extraction)
 - `DT_PlayerAbilities.json` — offhand proc abilities (affinities, AffinityBehaviours, cooldown steps)
+- `DT_PlayerRaces.json` + `E_CharacterRace.json` — race definitions (racial skill unlocks) + enum index→name
 
 ## Integration TODOs
 
@@ -701,14 +735,12 @@ adjusted to game values.
   (`mainTreeAffinity.generated.json`), routed by the equipped offhand abilities'
   affinities, and fed into `edpsElemAdditive` automatically. Manual `affinity`
   config remains as an extra/override.
-- **Racial bonuses — pending race table**: race grants affinity bonuses scaling
-  with character level capped at 200 (`RACE_LEVEL_CAP`). The save's race enum
-  index is detected (`metadata.characterRace`), but `E_CharacterRace`
-  enumerator→name and race→affinity-grant data still need extraction from game
-  files (likely the race blueprints under
-  `/Game/EasySurvivalRPG/Blueprints/Characters/Base/Races/`). The generated
-  `Affinity_*` affix rows (base 3, +0.5/level, canRoll=false) look like the
-  scaling definition those grants use.
+- **Racial bonuses — DONE**: `DT_PlayerRaces` + `E_CharacterRace` are
+  extracted; racial skills are threshold unlocks (see "Offhand Affinities"
+  section) computed from race + level via `raceBonuses.js`. The earlier
+  "scales per level" hypothesis (from the `Affinity_*` affix rows) was wrong.
+  Remaining unknown: whether `EasyRPG.StanceMultiplier.*` applies additively
+  (current model) or multiplicatively to stance damage.
 - **Cooldown application model — provisional**: `offhandCooldownSeconds` uses
   `stepBase × (1 − CDR)`; confirm in-game whether CDR applies that way or as
   `base / (1 + CDR)`, and whether a CDR cap exists.

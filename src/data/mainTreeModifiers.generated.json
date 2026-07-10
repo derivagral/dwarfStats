@@ -1,0 +1,1093 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "_source": "DT_GENERATED_SkillTree_Main (EasyRPG.Items.Modifiers.* grants, _TextTag stripped)",
+  "grantsByRow": {
+    "UI_SkillTreeNode_Large_15": [
+      {
+        "id": "AttackSpeedMultiplier",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Large_78": [
+      {
+        "id": "AttackSpeedMultiplier",
+        "value": 0.04
+      }
+    ],
+    "UI_SkillTreeNode_Large_81": [
+      {
+        "id": "AttackSpeedMultiplier",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_488": [
+      {
+        "id": "AttackSpeedMultiplier",
+        "value": 0.02
+      }
+    ],
+    "UI_SkillTreeNode_Small_490": [
+      {
+        "id": "AttackSpeedMultiplier",
+        "value": 0.02
+      }
+    ],
+    "UI_SkillTreeNode_Small_491": [
+      {
+        "id": "AttackSpeedMultiplier",
+        "value": 0.02
+      }
+    ],
+    "UI_SkillTreeNode_Small_493": [
+      {
+        "id": "AttackSpeedMultiplier",
+        "value": 0.02
+      }
+    ],
+    "UI_SkillTreeNode_Large_96": [
+      {
+        "id": "DistanceProcsDamage_Near",
+        "value": 0.5
+      }
+    ],
+    "UI_SkillTreeNode_Large_97": [
+      {
+        "id": "DistanceProcsDamage",
+        "value": 0.5
+      }
+    ],
+    "UI_SkillTreeNode_Large_98": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack.Large",
+        "value": 0.0003
+      }
+    ],
+    "UI_SkillTreeNode_Large_99": [
+      {
+        "id": "Bloodlust.CritBonusPerStack.Large",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Large_101": [
+      {
+        "id": "ChargedSecondaryBuff.Armor",
+        "value": 250
+      }
+    ],
+    "UI_SkillTreeNode_Large_103": [
+      {
+        "id": "MeleeParagon.BaseDamage",
+        "value": 2
+      }
+    ],
+    "UI_SkillTreeNode_Large_135": [
+      {
+        "id": "Colossus.ElementalBonus.Large.Fire",
+        "value": 0.5
+      }
+    ],
+    "UI_SkillTreeNode_Large_106": [
+      {
+        "id": "SecondaryAttackDoubleDamage.Large",
+        "value": 0.5
+      }
+    ],
+    "UI_SkillTreeNode_Large_107": [
+      {
+        "id": "RangedParagon.BaseDamage",
+        "value": 2
+      }
+    ],
+    "UI_SkillTreeNode_Large_108": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Large",
+        "value": 1
+      }
+    ],
+    "UI_SkillTreeNode_Large_109": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%.Large",
+        "value": 0.015
+      }
+    ],
+    "UI_SkillTreeNode_Large_110": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%.Large",
+        "value": 0.002
+      }
+    ],
+    "UI_SkillTreeNode_Large_112": [
+      {
+        "id": "DamageCircle.ExtraDamage",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Large_113": [
+      {
+        "id": "DamageCircle.BiggerRadius",
+        "value": 0.5
+      }
+    ],
+    "UI_SkillTreeNode_Large_114": [
+      {
+        "id": "RangedParagon.Armor",
+        "value": 15
+      }
+    ],
+    "UI_SkillTreeNode_Large_115": [
+      {
+        "id": "MeleeParagon.Armor",
+        "value": 15
+      }
+    ],
+    "UI_SkillTreeNode_Large_116": [
+      {
+        "id": "AttackSpeedMultiplier",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Large_117": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 2
+      }
+    ],
+    "UI_SkillTreeNode_Large_118": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack.Large",
+        "value": 0.02
+      }
+    ],
+    "UI_SkillTreeNode_Large_119": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack.Large",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_667": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_668": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_669": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_670": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_671": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_672": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_673": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_674": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_675": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_676": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_677": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_678": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_679": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_680": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_681": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_682": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_683": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_684": [
+      {
+        "id": "Bloodlust.DamageReductionPerStack",
+        "value": 0.00005
+      }
+    ],
+    "UI_SkillTreeNode_Small_687": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_688": [
+      {
+        "id": "Bloodlust.CritBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_717": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_718": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_719": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_720": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_721": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_722": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_723": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_724": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_725": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_726": [
+      {
+        "id": "ChargedSecondaryBuff.Armor.Small",
+        "value": 25
+      }
+    ],
+    "UI_SkillTreeNode_Small_727": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_728": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_729": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_730": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_731": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_732": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_733": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_734": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_735": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_736": [
+      {
+        "id": "SecondaryAttackDoubleDamage",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_971": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_972": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_754": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_755": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_756": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_757": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_758": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_759": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_760": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_761": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_762": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_763": [
+      {
+        "id": "Colossus.HpForEliteKill.SkillTree.Small.Text",
+        "value": 0.2
+      }
+    ],
+    "UI_SkillTreeNode_Small_795": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_796": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_797": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_798": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_799": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_800": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_801": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_802": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_803": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_804": [
+      {
+        "id": "Phasing.PhasingTrance.Damage%",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_805": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_806": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_807": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_808": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_809": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_810": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_811": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_812": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_813": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_814": [
+      {
+        "id": "Phasing.PhasingTrance.HealthRegan%",
+        "value": 0.0005
+      }
+    ],
+    "UI_SkillTreeNode_Small_823": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_824": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_825": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_826": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_827": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_828": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_829": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_830": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_831": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_832": [
+      {
+        "id": "DamageCircle.BonusRadius",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_833": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_834": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_835": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_836": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_837": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_838": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_839": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_840": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_841": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_842": [
+      {
+        "id": "DamageCircle.BonusArmor%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_853": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 1
+      }
+    ],
+    "UI_SkillTreeNode_Small_854": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 1
+      }
+    ],
+    "UI_SkillTreeNode_Small_855": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 1
+      }
+    ],
+    "UI_SkillTreeNode_Small_856": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 1
+      }
+    ],
+    "UI_SkillTreeNode_Small_857": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 1
+      }
+    ],
+    "UI_SkillTreeNode_Small_858": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 1
+      }
+    ],
+    "UI_SkillTreeNode_Small_859": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 2
+      }
+    ],
+    "UI_SkillTreeNode_Small_860": [
+      {
+        "id": "AdditionalPotionSlots.1",
+        "value": 2
+      }
+    ],
+    "UI_SkillTreeNode_Small_869": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_870": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_871": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_872": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_873": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_874": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_875": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_876": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_877": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_878": [
+      {
+        "id": "Shroud.ExposedStrike.DamageBonusPerStack",
+        "value": 0.001
+      }
+    ],
+    "UI_SkillTreeNode_Small_879": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_880": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_881": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_882": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_883": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_884": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_885": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_886": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_887": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_888": [
+      {
+        "id": "Shroud.ExposedStrike.LifeStealPerStack",
+        "value": 0.0001
+      }
+    ],
+    "UI_SkillTreeNode_Small_973": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_974": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_975": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_976": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_977": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_978": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_979": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_980": [
+      {
+        "id": "Colossus.ElementalBonus.Small.Fire",
+        "value": 0.05
+      }
+    ]
+  },
+  "namesByRow": {
+    "UI_SkillTreeNode_Large_15": "Beastslayer",
+    "UI_SkillTreeNode_Large_78": "Rapid Combat",
+    "UI_SkillTreeNode_Large_81": "Beast Mode",
+    "UI_SkillTreeNode_Small_488": "Swiftness",
+    "UI_SkillTreeNode_Small_490": "Swiftness",
+    "UI_SkillTreeNode_Small_491": "Swiftness",
+    "UI_SkillTreeNode_Small_493": "Swiftness",
+    "UI_SkillTreeNode_Large_96": "Proximity Destruction",
+    "UI_SkillTreeNode_Large_97": "Distance Demolition",
+    "UI_SkillTreeNode_Large_98": "Tough Exterior",
+    "UI_SkillTreeNode_Large_99": "Blood Boil",
+    "UI_SkillTreeNode_Large_101": "Protective Strike",
+    "UI_SkillTreeNode_Large_103": "Melee Mastery: Damage",
+    "UI_SkillTreeNode_Large_135": "Fury of the Elements",
+    "UI_SkillTreeNode_Large_106": "Charged Strike",
+    "UI_SkillTreeNode_Large_107": "Ranged Mastery: Damage",
+    "UI_SkillTreeNode_Large_108": "Infuriated Health",
+    "UI_SkillTreeNode_Large_109": "Phase Zen",
+    "UI_SkillTreeNode_Large_110": "Phasing Transcendence",
+    "UI_SkillTreeNode_Large_112": "Void Intensity",
+    "UI_SkillTreeNode_Large_113": "Endless Void",
+    "UI_SkillTreeNode_Large_114": "Ranged Mastery: Armor",
+    "UI_SkillTreeNode_Large_115": "Melee Mastery: Armor",
+    "UI_SkillTreeNode_Large_116": "Beastslayer",
+    "UI_SkillTreeNode_Large_117": "More Potions",
+    "UI_SkillTreeNode_Large_118": "Uncovered Assault",
+    "UI_SkillTreeNode_Large_119": "Vampiric Strikes",
+    "UI_SkillTreeNode_Small_667": "Thickened Skin",
+    "UI_SkillTreeNode_Small_668": "Thickened Skin",
+    "UI_SkillTreeNode_Small_669": "Thickened Skin",
+    "UI_SkillTreeNode_Small_670": "Thickened Skin",
+    "UI_SkillTreeNode_Small_671": "Thickened Skin",
+    "UI_SkillTreeNode_Small_672": "Thickened Skin",
+    "UI_SkillTreeNode_Small_673": "Thickened Skin",
+    "UI_SkillTreeNode_Small_674": "Thickened Skin",
+    "UI_SkillTreeNode_Small_675": "Blood Rage",
+    "UI_SkillTreeNode_Small_676": "Blood Rage",
+    "UI_SkillTreeNode_Small_677": "Blood Rage",
+    "UI_SkillTreeNode_Small_678": "Blood Rage",
+    "UI_SkillTreeNode_Small_679": "Blood Rage",
+    "UI_SkillTreeNode_Small_680": "Blood Rage",
+    "UI_SkillTreeNode_Small_681": "Blood Rage",
+    "UI_SkillTreeNode_Small_682": "Blood Rage",
+    "UI_SkillTreeNode_Small_683": "Thickened Skin",
+    "UI_SkillTreeNode_Small_684": "Thickened Skin",
+    "UI_SkillTreeNode_Small_687": "Blood Rage",
+    "UI_SkillTreeNode_Small_688": "Blood Rage",
+    "UI_SkillTreeNode_Small_717": "Charged Defense",
+    "UI_SkillTreeNode_Small_718": "Charged Defense",
+    "UI_SkillTreeNode_Small_719": "Charged Defense",
+    "UI_SkillTreeNode_Small_720": "Charged Defense",
+    "UI_SkillTreeNode_Small_721": "Charged Defense",
+    "UI_SkillTreeNode_Small_722": "Charged Defense",
+    "UI_SkillTreeNode_Small_723": "Charged Defense",
+    "UI_SkillTreeNode_Small_724": "Charged Defense",
+    "UI_SkillTreeNode_Small_725": "Charged Defense",
+    "UI_SkillTreeNode_Small_726": "Charged Defense",
+    "UI_SkillTreeNode_Small_727": "Charged Strike",
+    "UI_SkillTreeNode_Small_728": "Charged Strike",
+    "UI_SkillTreeNode_Small_729": "Charged Strike",
+    "UI_SkillTreeNode_Small_730": "Charged Strike",
+    "UI_SkillTreeNode_Small_731": "Charged Strike",
+    "UI_SkillTreeNode_Small_732": "Charged Strike",
+    "UI_SkillTreeNode_Small_733": "Charged Strike",
+    "UI_SkillTreeNode_Small_734": "Charged Strike",
+    "UI_SkillTreeNode_Small_735": "Charged Strike",
+    "UI_SkillTreeNode_Small_736": "Charged Strike",
+    "UI_SkillTreeNode_Small_971": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_972": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_754": "Healthy Fury",
+    "UI_SkillTreeNode_Small_755": "Healthy Fury",
+    "UI_SkillTreeNode_Small_756": "Healthy Fury",
+    "UI_SkillTreeNode_Small_757": "Healthy Fury",
+    "UI_SkillTreeNode_Small_758": "Healthy Fury",
+    "UI_SkillTreeNode_Small_759": "Healthy Fury",
+    "UI_SkillTreeNode_Small_760": "Healthy Fury",
+    "UI_SkillTreeNode_Small_761": "Healthy Fury",
+    "UI_SkillTreeNode_Small_762": "Healthy Fury",
+    "UI_SkillTreeNode_Small_763": "Healthy Fury",
+    "UI_SkillTreeNode_Small_795": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_796": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_797": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_798": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_799": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_800": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_801": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_802": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_803": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_804": "Phasing Transcendence",
+    "UI_SkillTreeNode_Small_805": "Phase Zen",
+    "UI_SkillTreeNode_Small_806": "Phase Zen",
+    "UI_SkillTreeNode_Small_807": "Phase Zen",
+    "UI_SkillTreeNode_Small_808": "Phase Zen",
+    "UI_SkillTreeNode_Small_809": "Phase Zen",
+    "UI_SkillTreeNode_Small_810": "Phase Zen",
+    "UI_SkillTreeNode_Small_811": "Phase Zen",
+    "UI_SkillTreeNode_Small_812": "Phase Zen",
+    "UI_SkillTreeNode_Small_813": "Phase Zen",
+    "UI_SkillTreeNode_Small_814": "Phase Zen",
+    "UI_SkillTreeNode_Small_823": "Unholy Reach",
+    "UI_SkillTreeNode_Small_824": "Unholy Reach",
+    "UI_SkillTreeNode_Small_825": "Unholy Reach",
+    "UI_SkillTreeNode_Small_826": "Unholy Reach",
+    "UI_SkillTreeNode_Small_827": "Unholy Reach",
+    "UI_SkillTreeNode_Small_828": "Unholy Reach",
+    "UI_SkillTreeNode_Small_829": "Unholy Reach",
+    "UI_SkillTreeNode_Small_830": "Unholy Reach",
+    "UI_SkillTreeNode_Small_831": "Unholy Reach",
+    "UI_SkillTreeNode_Small_832": "Unholy Reach",
+    "UI_SkillTreeNode_Small_833": "Void Armor",
+    "UI_SkillTreeNode_Small_834": "Void Armor",
+    "UI_SkillTreeNode_Small_835": "Void Armor",
+    "UI_SkillTreeNode_Small_836": "Void Armor",
+    "UI_SkillTreeNode_Small_837": "Void Armor",
+    "UI_SkillTreeNode_Small_838": "Void Armor",
+    "UI_SkillTreeNode_Small_839": "Void Armor",
+    "UI_SkillTreeNode_Small_840": "Void Armor",
+    "UI_SkillTreeNode_Small_841": "Void Armor",
+    "UI_SkillTreeNode_Small_842": "Void Armor",
+    "UI_SkillTreeNode_Small_853": "More Potions",
+    "UI_SkillTreeNode_Small_854": "More Potions",
+    "UI_SkillTreeNode_Small_855": "More Potions",
+    "UI_SkillTreeNode_Small_856": "More Potions",
+    "UI_SkillTreeNode_Small_857": "More Potions",
+    "UI_SkillTreeNode_Small_858": "More Potions",
+    "UI_SkillTreeNode_Small_859": "More Potions",
+    "UI_SkillTreeNode_Small_860": "More Potions",
+    "UI_SkillTreeNode_Small_869": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_870": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_871": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_872": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_873": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_874": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_875": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_876": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_877": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_878": "Uncovered Attack",
+    "UI_SkillTreeNode_Small_879": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_880": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_881": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_882": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_883": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_884": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_885": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_886": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_887": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_888": "Leaching Strikes",
+    "UI_SkillTreeNode_Small_973": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_974": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_975": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_976": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_977": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_978": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_979": "Fury of the Elements",
+    "UI_SkillTreeNode_Small_980": "Fury of the Elements"
+  }
+}

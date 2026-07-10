@@ -9,6 +9,7 @@ import { initWasm } from './utils/wasm';
 import { detectPlatform } from './utils/platform';
 import { useLogger } from './hooks/useLogger';
 import { useItemStore } from './hooks/useItemStore';
+import { useItemOverrides } from './hooks/useItemOverrides';
 import { parseShareFromHash, decodeFilterShare, decodeCharacterShareAny } from './utils/shareUrl';
 import { masteryShareToData, allocatedAttributesShareToData, skillTreeShareToData } from './models/CharacterShareModel';
 
@@ -34,6 +35,11 @@ export default function App() {
 
   // Central item store - all UI reads from here, not from raw saveData
   const itemStore = useItemStore();
+
+  // What-if item overrides (stat edits + added monograms), shared across tabs:
+  // edits made in the Items tab editor must reach the Character tab's stats
+  // panel, and must survive tab switches (tabs unmount when inactive).
+  const itemOverrides = useItemOverrides();
 
   // Initialize WASM and detect platform
   useEffect(() => {
@@ -66,12 +72,14 @@ export default function App() {
       name: decoded.cn ?? '',
       level: decoded.lv ?? 0,
       campaignBossCount: decoded.cb ?? 0,
+      race: decoded.rc ?? null,
     };
     itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes, decoded.hp ?? 0, skillTree, identity);
+    itemOverrides.clearAll();
     setActiveTab('character');
     log(`Loaded shared character build${identity.name ? `: ${identity.name}` : ''}`);
     return true;
-  }, [itemStore, log]);
+  }, [itemStore, itemOverrides, log]);
 
   // Paste-import: accepts a full share URL or a bare share code
   const handleImportShare = useCallback(async (text) => {
@@ -125,18 +133,21 @@ export default function App() {
 
   const handleFileLoaded = useCallback((data) => {
     setSaveData(data);
-    // Load items into central store from parsed save data
+    // Load items into central store from parsed save data. What-if overrides
+    // are keyed by slot, so a different character's gear must not inherit them.
     itemStore.loadFromSave(data.parsed || data.raw, data.filename);
+    itemOverrides.clearAll();
     setActiveTab('character');
     log(`🎮 Save loaded: ${data.filename}`);
-  }, [log, itemStore]);
+  }, [log, itemStore, itemOverrides]);
 
   const handleClearSave = useCallback(() => {
     setSaveData(null);
     itemStore.clear();
+    itemOverrides.clearAll();
     setActiveTab('upload');
     log('🗑️ Save data cleared');
-  }, [log, itemStore]);
+  }, [log, itemStore, itemOverrides]);
 
   // Determine which tabs are disabled
   const disabledTabs = [
@@ -162,13 +173,14 @@ export default function App() {
             <CharacterTab
               saveData={saveData}
               itemStore={itemStore}
+              itemOverrides={itemOverrides}
               onClearSave={handleClearSave}
               onLog={log}
               onStatusChange={handleStatusChange}
             />
           )}
           {activeTab === 'items' && saveData && (
-            <ItemsTab saveData={saveData} itemStore={itemStore} onLog={log} />
+            <ItemsTab saveData={saveData} itemStore={itemStore} itemOverrides={itemOverrides} onLog={log} />
           )}
           {activeTab === 'filter' && (saveData || filterTabUnlocked) && (
             <FilterTab

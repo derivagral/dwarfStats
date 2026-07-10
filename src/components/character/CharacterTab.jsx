@@ -4,7 +4,7 @@ import { CharacterPanel } from './CharacterPanel';
 import { createCharacterSharePayload } from '../../models/CharacterShareModel';
 import { encodeCharacterShareCompressed, buildCharacterShareUrlCompressed } from '../../utils/shareUrl';
 
-export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
+export function CharacterTab({ saveData, itemStore, itemOverrides, onClearSave, onLog }) {
   const [shareFeedback, setShareFeedback] = useState(null);
   const [codeFeedback, setCodeFeedback] = useState(null);
 
@@ -14,6 +14,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     filename: itemStore.metadata.filename || saveData?.filename,
     characterName: itemStore.metadata.characterName,
     characterLevel: itemStore.metadata.characterLevel,
+    characterRace: itemStore.metadata.characterRace ?? null,
     equippedItems: itemStore.equipped,
     timestamp: itemStore.metadata.loadedAt,
     stanceContext: itemStore.metadata.stanceContext,
@@ -36,6 +37,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
       name: itemStore.metadata?.characterName || '',
       level: itemStore.metadata?.characterLevel || 0,
       campaignBossCount: itemStore.metadata?.healthProgression?.campaignBosses?.length || 0,
+      race: itemStore.metadata?.characterRace ?? null,
     },
   ), [itemStore.equipped, itemStore.metadata, characterData?.stanceContext]);
 
@@ -90,7 +92,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
       </div>
 
       {characterData && (
-        <CharacterPanel characterData={characterData} />
+        <CharacterPanel characterData={characterData} itemOverrides={itemOverrides} />
       )}
     </div>
   );

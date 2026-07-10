@@ -3,13 +3,18 @@ import { InventorySlot } from './InventorySlot';
 import { StatsPanel } from './StatsPanel';
 import { mapItemsToSlots } from '../../utils/equipmentParser';
 import { useItemOverrides } from '../../hooks/useItemOverrides';
+import { getRaceName } from '../../utils/raceBonuses';
 
-export function CharacterPanel({ characterData }) {
+export function CharacterPanel({ characterData, itemOverrides }) {
+  // What-if edits are made in the Items tab editor; App shares that overrides
+  // instance so they reach this panel's stats. The local instance is only a
+  // fallback for callers that don't pass one (always empty).
+  const localOverrides = useItemOverrides();
   const {
     overrides,
     hasSlotOverrides,
     applyOverridesToItem,
-  } = useItemOverrides();
+  } = itemOverrides || localOverrides;
 
   if (!characterData) return null;
 
@@ -109,34 +114,13 @@ export function CharacterPanel({ characterData }) {
     createSlot('Offhand', 'offhand4', true),
   ];
 
-  // Build modified items for stats calculation
-  // Item model uses baseStats, not attributes
-  const modifiedItems = useMemo(() => {
-    return equippedItems.map(item => {
-      const slotKey = item.slot;
-      if (!slotKey || !hasSlotOverrides(slotKey)) return item;
-
-      // Convert baseStats to attrs format for override application
-      const attrs = (item.baseStats || []).map(s => ({
-        name: s.rawTag || s.stat,
-        value: s.value,
-      }));
-      const modifiedAttrs = applyOverridesToItem(slotKey, attrs);
-      // Convert back to baseStats format
-      const modifiedBaseStats = modifiedAttrs.map(a => ({
-        stat: a.name?.split('.').pop() || a.name,
-        value: a.value,
-        rawTag: a.name,
-      }));
-      return { ...item, baseStats: modifiedBaseStats };
-    });
-  }, [equippedItems, overrides, hasSlotOverrides, applyOverridesToItem]);
-
-  // Modified character data for stats panel
+  // Character data for the stats panel: raw items + the shared overrides map.
+  // useDerivedStats applies removals/mods/added monograms itself, so nothing
+  // is pre-baked here (baking AND passing overrides would double-count mods).
   const modifiedCharacterData = useMemo(() => ({
     ...characterData,
-    equippedItems: modifiedItems,
-  }), [characterData, modifiedItems]);
+    itemOverrides: overrides,
+  }), [characterData, overrides]);
 
   // Render slot helper - click now freezes tooltip instead of opening editor
   const renderSlot = (slot) => (
@@ -157,7 +141,10 @@ export function CharacterPanel({ characterData }) {
       <div className="character-header">
         <span className="character-name">{displayName}</span>
         {characterData.characterLevel > 0 && (
-          <span className="character-class">Level {characterData.characterLevel}</span>
+          <span className="character-class">
+            Level {characterData.characterLevel}
+            {getRaceName(characterData.characterRace) ? ` · ${getRaceName(characterData.characterRace)}` : ''}
+          </span>
         )}
       </div>
 

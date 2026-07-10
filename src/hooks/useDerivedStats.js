@@ -3,9 +3,10 @@ import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LA
 import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY } from '../utils/statRegistry.js';
 import { MONOGRAM_CALC_CONFIGS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
-import { inferWeaponStance } from '../utils/equipmentParser.js';
-import { aggregateSkillEffects, hasWeaponSkillData } from '../utils/skillEffectAggregator.js';
+import { inferWeaponStance, getUniqueSlotKeyMap } from '../utils/equipmentParser.js';
+import { aggregateSkillEffects, hasWeaponSkillData, collectMainTreeModifierGrants } from '../utils/skillEffectAggregator.js';
 import { detectEquippedAbilities, getStepCooldown, unionAffinities } from '../utils/offhandAbilities.js';
+import { getRacialContributions } from '../utils/raceBonuses.js';
 import { ATTRIBUTE_BONUSES } from '../utils/attributeBonuses.js';
 
 // Re-export for backward compatibility
@@ -24,7 +25,11 @@ export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
  * @returns {Object} Aggregated and calculated stats
  */
 export function useDerivedStats(options = {}) {
-  const { equippedItems = [], itemOverrides = {}, characterStats = {}, stanceContext = null, maxHealth = 0, skillTree = null } = options;
+  const {
+    equippedItems = [], itemOverrides = {}, characterStats = {},
+    stanceContext = null, maxHealth = 0, skillTree = null,
+    characterRace = null, characterLevel = 0,
+  } = options;
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -63,6 +68,21 @@ export function useDerivedStats(options = {}) {
       }
     }
 
+    // Racial skill contributions: threshold unlocks by character level
+    // (weapon damage/crit, offhand affinity damage/CDR, stance multipliers)
+    for (const contrib of getRacialContributions(characterRace, characterLevel)) {
+      if (!stats[contrib.statId]) {
+        stats[contrib.statId] = { total: 0, sources: [] };
+      }
+      stats[contrib.statId].total += contrib.value;
+      stats[contrib.statId].sources.push({
+        itemName: contrib.source,
+        slot: 'race',
+        value: contrib.value,
+        sourceType: 'race',
+      });
+    }
+
     // Active stance mastery approximation: +1% stance damage per mastery
     // level. Only used when real skill data is unavailable (shared builds) —
     // otherwise the paragon node's actual per-level effects cover it.
@@ -81,6 +101,10 @@ export function useDerivedStats(options = {}) {
       });
     }
 
+    // Overrides are keyed by unique slot keys ('ring2', 'offhand3') — the same
+    // key space the Items tab editor writes and the Character panel displays.
+    const uniqueSlotKeys = getUniqueSlotKeyMap(equippedItems);
+
     for (const item of equippedItems) {
       // Get base stats from any of the supported formats:
       //   - item.baseStats (direct from Item model via extractEquippedItems)
@@ -89,7 +113,7 @@ export function useDerivedStats(options = {}) {
       const baseStats = item?.baseStats || item?.model?.baseStats || item?.attributes;
       if (!baseStats || !Array.isArray(baseStats)) continue;
 
-      const slotKey = item.slotKey || item.slot || '';
+      const slotKey = uniqueSlotKeys.get(item) || item.slotKey || item.slot || '';
       const itemName = item?.displayName || item?.model?.displayName || item?.name || slotKey;
       const overrides = itemOverrides[slotKey] || {};
       const removedIndices = overrides.removedIndices || [];
@@ -133,7 +157,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return stats;
-  }, [equippedItems, itemOverrides, characterStats, stanceContext, skillTree]);
+  }, [equippedItems, itemOverrides, characterStats, stanceContext, skillTree, characterRace, characterLevel]);
 
   // Flatten to simple { [statId]: total } for backward compatibility
   const aggregatedBaseStats = useMemo(() => {
@@ -150,6 +174,7 @@ export function useDerivedStats(options = {}) {
   //   - item.model.monograms (nested model format)
   const appliedMonograms = useMemo(() => {
     const monograms = [];
+    const uniqueSlotKeys = getUniqueSlotKeyMap(equippedItems);
 
     for (const item of equippedItems) {
       // Monograms from item (direct or nested model)
@@ -165,8 +190,8 @@ export function useDerivedStats(options = {}) {
         }
       }
 
-      // Added monograms from overrides
-      const slotKey = item?.slotKey || item?.slot || '';
+      // Added monograms from overrides (keyed by unique slot key)
+      const slotKey = uniqueSlotKeys.get(item) || item?.slotKey || item?.slot || '';
       const overrides = itemOverrides[slotKey] || {};
       for (const mono of overrides.monograms || []) {
         monograms.push({
@@ -178,8 +203,27 @@ export function useDerivedStats(options = {}) {
       }
     }
 
+    // Main-tree modifier grants (e.g. Melee Mastery: Damage = the
+    // MeleeParagon.BaseDamage effect, +2 flat per mastery level). These stack
+    // ADDITIVELY with helmet monograms of the same id — the shared
+    // instanceCount makes the paragon calcs scale per source. Only ids with a
+    // calc config matter; Melee/Ranged grants are gated by the active weapon
+    // family ("While using a melee/ranged weapon…").
+    const family = stanceContext?.activeStance?.monogramFamily || null;
+    for (const grant of collectMainTreeModifierGrants(skillTree)) {
+      if (!MONOGRAM_CALC_CONFIGS[grant.id]) continue;
+      if (family && grant.id.startsWith('MeleeParagon') && family !== 'melee') continue;
+      if (family && grant.id.startsWith('RangedParagon') && family !== 'ranged') continue;
+      monograms.push({
+        id: grant.id,
+        value: 1,
+        source: 'mainTree',
+        itemSlot: 'skilltree',
+      });
+    }
+
     return monograms;
-  }, [equippedItems, itemOverrides]);
+  }, [equippedItems, itemOverrides, skillTree, stanceContext]);
 
   // Count how many instances of each monogram ID are applied
   const monogramInstanceCounts = useMemo(() => {

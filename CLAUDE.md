@@ -456,10 +456,22 @@ Save data at `HostPlayerData_0.Struct.Struct.CharacterSkills_77_*` contains 4 sk
   - `TREE_KEYSTONES` - Manually curated main-tree keystones (proximity, mastery, affinity, utility)
 
 ### Main tree keystones (user-input checklist)
-Opaque node IDs can't be auto-detected. `TREE_KEYSTONES` provides a checklist of notable effects that overlap with monograms or grant unique bonuses:
-- Close/Far Distance (proximity damage), Melee/Ranged Mastery (damage/armor)
+`TREE_KEYSTONES` provides a checklist of notable effects that overlap with monograms or grant unique bonuses:
+- Close/Far Distance (proximity damage)
 - Fire/Arcane/Lightning Affinity (CDR ~35%, damage ~100% additive)
 - Extra inventory slots, extra potions
+
+**Melee/Ranged Mastery nodes are now AUTO-DETECTED** — no checklist needed:
+main-tree nodes granting `EasyRPG.Items.Modifiers.*` tags are generated into
+`mainTreeModifiers.generated.json` (155 nodes; `_TextTag` suffix stripped so
+ids match `MONOGRAM_CALC_CONFIGS`). `collectMainTreeModifierGrants(skillTree)`
+surfaces the allocated ones and `useDerivedStats` feeds them through the
+applied-monogram pipeline: only ids with a calc config fire, and
+`MeleeParagon.*`/`RangedParagon.*` grants are gated by the active weapon
+family. Paragon per-level effects (+2 flat both-types damage, +15 armor, +10
+HP per stance mastery level) stack ADDITIVELY per source — tree node + helmet
+monogram of the same id = 2× per level (`instanceCount` in the paragon calcs).
+These node rows travel in v2 character shares via `st.mh`.
 
 ### Card registry — populated from game data
 `getCardDef()` merges generated data (`src/data/cards.generated.json`, all 81
@@ -665,6 +677,7 @@ node extraction/generate-registries.mjs
 | `src/data/mainTreeAffinity.generated.json` | 236 main-tree affinity nodes: OffhandCategories effects + node names | `skillEffectAggregator.js` main-tree pass |
 | `src/data/playerAbilities.generated.json` | 26 offhand proc abilities: affinities, element, cooldown steps, AffinityBehaviours | `offhandAbilities.js` detection |
 | `src/data/races.generated.json` | 4 races: enum index → name + 6 threshold racial skills with effects | `raceBonuses.js` |
+| `src/data/mainTreeModifiers.generated.json` | 155 main-tree nodes granting `EasyRPG.Items.Modifiers.*` tags (`_TextTag` stripped) | `skillEffectAggregator.js` `collectMainTreeModifierGrants()` |
 
 The generator also emits a drift report (`extraction/out/drift-report.md`,
 gitignored) flagging rollable affix tags `findStatForAttribute()` cannot

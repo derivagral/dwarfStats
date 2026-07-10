@@ -4,7 +4,7 @@ import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY } from '../utils/statRegistry.js';
 import { MONOGRAM_CALC_CONFIGS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
 import { inferWeaponStance, getUniqueSlotKeyMap } from '../utils/equipmentParser.js';
-import { aggregateSkillEffects, hasWeaponSkillData } from '../utils/skillEffectAggregator.js';
+import { aggregateSkillEffects, hasWeaponSkillData, collectMainTreeModifierGrants } from '../utils/skillEffectAggregator.js';
 import { detectEquippedAbilities, getStepCooldown, unionAffinities } from '../utils/offhandAbilities.js';
 import { getRacialContributions } from '../utils/raceBonuses.js';
 import { ATTRIBUTE_BONUSES } from '../utils/attributeBonuses.js';
@@ -203,8 +203,27 @@ export function useDerivedStats(options = {}) {
       }
     }
 
+    // Main-tree modifier grants (e.g. Melee Mastery: Damage = the
+    // MeleeParagon.BaseDamage effect, +2 flat per mastery level). These stack
+    // ADDITIVELY with helmet monograms of the same id — the shared
+    // instanceCount makes the paragon calcs scale per source. Only ids with a
+    // calc config matter; Melee/Ranged grants are gated by the active weapon
+    // family ("While using a melee/ranged weapon…").
+    const family = stanceContext?.activeStance?.monogramFamily || null;
+    for (const grant of collectMainTreeModifierGrants(skillTree)) {
+      if (!MONOGRAM_CALC_CONFIGS[grant.id]) continue;
+      if (family && grant.id.startsWith('MeleeParagon') && family !== 'melee') continue;
+      if (family && grant.id.startsWith('RangedParagon') && family !== 'ranged') continue;
+      monograms.push({
+        id: grant.id,
+        value: 1,
+        source: 'mainTree',
+        itemSlot: 'skilltree',
+      });
+    }
+
     return monograms;
-  }, [equippedItems, itemOverrides]);
+  }, [equippedItems, itemOverrides, skillTree, stanceContext]);
 
   // Count how many instances of each monogram ID are applied
   const monogramInstanceCounts = useMemo(() => {

@@ -270,6 +270,41 @@ function generateMainTreeAffinity(mainTreeRows) {
 }
 
 // ---------------------------------------------------------------------------
+// Main passive tree modifier grants (DT_GENERATED_SkillTree_Main)
+//
+// Some nodes grant EasyRPG.Items.Modifiers.* behavior tags instead of stats —
+// e.g. "Melee Mastery: Damage" grants MeleeParagon.BaseDamage_TextTag (+2
+// flat per stance mastery level, additive with the helmet monogram of the
+// same id). Emitted with the Modifiers prefix and _TextTag suffix stripped so
+// the ids line up with MONOGRAM_CALC_CONFIGS; the app applies only the ids it
+// has calc configs for.
+// ---------------------------------------------------------------------------
+
+function generateMainTreeModifiers(mainTreeRows) {
+  const grantsByRow = {};
+  const namesByRow = {};
+
+  for (const [rowName, row] of Object.entries(mainTreeRows)) {
+    const grants = [];
+    for (const level of prop(row, 'SkillLevels') ?? []) {
+      for (const effect of effectList(prop(level, 'BonusAttributes'))) {
+        if (!effect.tag.startsWith(MODIFIER_PREFIX)) continue;
+        grants.push({
+          id: effect.tag.slice(MODIFIER_PREFIX.length).replace(/_TextTag$/, ''),
+          value: effect.value,
+        });
+      }
+    }
+    if (grants.length > 0) {
+      grantsByRow[rowName] = grants;
+      const name = textOf(prop(row, 'SkillName'));
+      if (name) namesByRow[rowName] = name;
+    }
+  }
+  return { grantsByRow, namesByRow };
+}
+
+// ---------------------------------------------------------------------------
 // Offhand abilities (DT_PlayerAbilities)
 //
 // One row per proc ability (Electric Dragons, Vortex, …). Each carries:
@@ -509,10 +544,12 @@ const cardRows = loadTable('DT_Crystal_Cards_Skills.json');
 const statusRows = loadTable('DT_StatusEffects.json');
 let mainTreeHealth = null;
 let mainTreeAffinity = null;
+let mainTreeModifiers = null;
 try {
   const mainTreeRows = loadTable('DT_GENERATED_SkillTree_Main.json');
   mainTreeHealth = generateMainTreeHealth(mainTreeRows);
   mainTreeAffinity = generateMainTreeAffinity(mainTreeRows);
+  mainTreeModifiers = generateMainTreeModifiers(mainTreeRows);
 } catch {
   console.warn('  (skipping DT_GENERATED_SkillTree_Main.json — not present)');
 }
@@ -575,6 +612,15 @@ if (playerRaces) {
   fs.writeFileSync(path.join(GEN_DIR, 'races.generated.json'),
     JSON.stringify({ ...banner, _source: 'DT_PlayerRaces + E_CharacterRace enum', races: playerRaces }, null, 2));
 }
+if (mainTreeModifiers) {
+  fs.writeFileSync(path.join(GEN_DIR, 'mainTreeModifiers.generated.json'),
+    JSON.stringify({
+      ...banner,
+      _source: 'DT_GENERATED_SkillTree_Main (EasyRPG.Items.Modifiers.* grants, _TextTag stripped)',
+      grantsByRow: mainTreeModifiers.grantsByRow,
+      namesByRow: mainTreeModifiers.namesByRow,
+    }, null, 2));
+}
 
 console.log(`Attributes:     ${Object.keys(attributeBonuses).length}`);
 console.log(`Monograms:      ${Object.keys(monograms).length}`);
@@ -587,6 +633,7 @@ if (mainTreeHealth) console.log(`Main-tree health nodes: ${Object.keys(mainTreeH
 if (mainTreeAffinity) console.log(`Main-tree affinity nodes: ${Object.keys(mainTreeAffinity.effectsByRow).length}`);
 if (playerAbilities) console.log(`Player abilities: ${Object.keys(playerAbilities).length}`);
 if (playerRaces) console.log(`Player races: ${Object.keys(playerRaces).length}`);
+if (mainTreeModifiers) console.log(`Main-tree modifier-grant nodes: ${Object.keys(mainTreeModifiers.grantsByRow).length}`);
 
 const { reportPath, missing } = await driftReport(affixes);
 console.log(`Drift:     ${missing} rollable affixes unmatched by STAT_REGISTRY patterns`);

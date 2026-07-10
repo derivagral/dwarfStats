@@ -49,8 +49,45 @@ describe('unique slot keys', () => {
   });
 });
 
+describe('main-tree paragon nodes (Melee/Ranged Mastery)', () => {
+  it('tree-allocated Melee Mastery nodes grant paragon flat + armor with NO helmet monogram', () => {
+    // The DR save has UI_SkillTreeNode_Large_103 (Melee Mastery: Damage) and
+    // UI_SkillTreeNode_Large_115 (Melee Mastery: Armor) allocated — the
+    // original "paragon isn't picking up for flat phys and ele" report.
+    const { values } = probeHook({ equippedItems, stanceContext, skillTree });
+    const mastery = stanceContext.activeStance.mastery;
+    expect(values.paragonDamageBonus).toBe(mastery * 2);
+    expect(values.paragonArmorBonus).toBe(mastery * 15);
+  });
+
+  it('paragon nodes survive the character share round-trip', async () => {
+    const { createSkillTreeShare, skillTreeShareToData } = await import('../src/models/CharacterShareModel.js');
+    const { collectMainTreeModifierGrants } = await import('../src/utils/skillEffectAggregator.js');
+    const restored = skillTreeShareToData(createSkillTreeShare(skillTree));
+    // The collector returns ALL modifier grants (potion/inventory slots too);
+    // useDerivedStats filters to calc-config ids. The paragon pair must survive.
+    const paragonIds = collectMainTreeModifierGrants(restored)
+      .map(g => g.id).filter(id => id.includes('Paragon')).sort();
+    expect(paragonIds).toEqual(['MeleeParagon.Armor', 'MeleeParagon.BaseDamage']);
+  });
+
+  it('ranged tree nodes are inert for a melee (maul) build', () => {
+    // Family gating: "While using a ranged weapon…" nodes must not fire
+    const rangedTree = {
+      ...skillTree,
+      mainTree: [
+        ...skillTree.mainTree,
+        { rowName: 'UI_SkillTreeNode_Large_107', level: 1, category: 'main' }, // Ranged Mastery: Damage
+      ],
+    };
+    const base = probeHook({ equippedItems, stanceContext, skillTree });
+    const withRanged = probeHook({ equippedItems, stanceContext, skillTree: rangedTree });
+    expect(withRanged.values.paragonDamageBonus).toBe(base.values.paragonDamageBonus);
+  });
+});
+
 describe('override monograms reach derived stats', () => {
-  it('MeleeParagon.BaseDamage added on head feeds flat phys AND elem', () => {
+  it('helmet MeleeParagon.BaseDamage stacks ADDITIVELY with the tree node', () => {
     const withoutOverride = probeHook({ equippedItems, stanceContext, skillTree });
     const withOverride = probeHook({
       equippedItems,
@@ -59,9 +96,10 @@ describe('override monograms reach derived stats', () => {
       itemOverrides: { head: { monograms: [{ id: 'MeleeParagon.BaseDamage', value: 1 }] } },
     });
 
-    // Mastery 733 × 2 flat damage, both damage types
+    // Tree node = 2/level; tree + helmet = 4/level (2 instances)
     const mastery = stanceContext.activeStance.mastery;
-    expect(withOverride.values.paragonDamageBonus).toBe(mastery * 2);
+    expect(withoutOverride.values.paragonDamageBonus).toBe(mastery * 2);
+    expect(withOverride.values.paragonDamageBonus).toBe(mastery * 4);
     expect(withOverride.values.edpsPhysFlat - withoutOverride.values.edpsPhysFlat)
       .toBe(mastery * 2);
     expect(withOverride.values.edpsElemFlat - withoutOverride.values.edpsElemFlat)

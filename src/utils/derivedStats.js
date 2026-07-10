@@ -1402,6 +1402,10 @@ export const DERIVED_STATS = {
     format: v => v.toFixed(0),
     description: 'Paragon level (from stance XP, 3500 per level)',
   },
+  // Paragon per-level effects stack ADDITIVELY per source: the helmet
+  // monogram and the main-tree Melee/Ranged Mastery node grant the same
+  // effect id, so instanceCount (set by useDerivedStats from the applied
+  // count) multiplies the per-level value — tree + helmet = 2× per level.
   paragonArmorBonus: {
     id: 'paragonArmorBonus',
     name: 'Paragon Armor',
@@ -1414,10 +1418,10 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.paragonArmorBonus.config;
       const level = stats.paragonLevel || 0;
-      return level * config.armorPerLevel;
+      return level * config.armorPerLevel * (config.instanceCount || 1);
     },
     format: v => `+${v.toFixed(0)}`,
-    description: 'Flat armor from Paragon level (15 per level)',
+    description: 'Flat armor from Paragon level (15 per level per source; helmet + tree node stack)',
   },
   paragonDamageBonus: {
     id: 'paragonDamageBonus',
@@ -1431,10 +1435,10 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.paragonDamageBonus.config;
       const level = stats.paragonLevel || 0;
-      return level * config.damagePerLevel;
+      return level * config.damagePerLevel * (config.instanceCount || 1);
     },
     format: v => `+${v.toFixed(0)}`,
-    description: 'Flat damage from Paragon level (2 per level)',
+    description: 'Flat damage (both types) from Paragon level (2 per level per source; helmet + tree node stack)',
   },
   paragonHpBonus: {
     id: 'paragonHpBonus',
@@ -1448,10 +1452,10 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.paragonHpBonus.config;
       const level = stats.paragonLevel || 0;
-      return level * config.hpPerLevel;
+      return level * config.hpPerLevel * (config.instanceCount || 1);
     },
     format: v => `+${v.toFixed(0)}`,
-    description: 'Flat HP from Paragon level (10 per level)',
+    description: 'Flat HP from Paragon level (10 per level per source)',
   },
 
   // ---------------------------------------------------------------------------

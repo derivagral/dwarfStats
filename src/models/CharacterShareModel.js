@@ -20,7 +20,7 @@ import {
 } from '../utils/shareCodec.js';
 import { findStatForAttribute, getStatById } from '../utils/statRegistry.js';
 import { getWeaponSkillDef } from '../utils/skillTreeRegistry.js';
-import { hasMainTreeHealthEffect, hasMainTreeAffinityEffect } from '../utils/skillEffectAggregator.js';
+import { hasMainTreeHealthEffect, hasMainTreeAffinityEffect, hasMainTreeModifierGrant } from '../utils/skillEffectAggregator.js';
 import { createEmptySkillTreeData } from './SkillTree.js';
 import { createEmptyItem } from './Item.js';
 
@@ -167,11 +167,14 @@ export function createSkillTreeShare(skillTree) {
   if (ws.length > 0) st.ws = ws;
 
   // Main-tree rows are normally too numerous for a share URL. Preserve only
-  // the generated nodes with known effects (health + offhand affinity) so
-  // shared health and affinity eDPS remain consistent with an imported save.
+  // the generated nodes with known effects (health, offhand affinity,
+  // modifier grants like the Melee/Ranged Mastery paragon nodes) so shared
+  // builds compute the same health/affinity/paragon numbers as a save import.
   const mainNodes = (skillTree.mainTree ?? [])
     .filter(skill => skill.rowName
-      && (hasMainTreeHealthEffect(skill.rowName) || hasMainTreeAffinityEffect(skill.rowName)))
+      && (hasMainTreeHealthEffect(skill.rowName)
+        || hasMainTreeAffinityEffect(skill.rowName)
+        || hasMainTreeModifierGrant(skill.rowName)))
     .map(skill => skill.rowName);
   if (mainNodes.length > 0) st.mh = mainNodes;
 
@@ -202,7 +205,9 @@ export function skillTreeShareToData(st) {
   }
 
   for (const rowName of st.mh || []) {
-    if (!rowName || !(hasMainTreeHealthEffect(rowName) || hasMainTreeAffinityEffect(rowName))) continue;
+    if (!rowName || !(hasMainTreeHealthEffect(rowName)
+      || hasMainTreeAffinityEffect(rowName)
+      || hasMainTreeModifierGrant(rowName))) continue;
     tree.mainTree.push({ rowName, level: 1, category: 'main' });
   }
 

@@ -15,6 +15,7 @@ import {
   decodeCharacterShareAny,
   buildCharacterShareUrlCompressed,
 } from '../src/utils/shareUrl.js';
+import { calculateLevelHealth, CAMPAIGN_BOSS_HEALTH } from '../src/utils/healthParser.js';
 
 let skillTree;
 
@@ -70,6 +71,41 @@ describe('compressed (v2) share encoding', () => {
 
     const decoded = await decodeCharacterShareAny(code);
     expect(decoded).toEqual(payload);
+  });
+
+  it('carries character identity (name, level, campaign bosses)', async () => {
+    const payload = createCharacterSharePayload([], null, null, 5360, skillTree, {
+      name: 'NesPasJeter',
+      level: 560,
+      campaignBossCount: 6,
+    });
+    expect(payload.cn).toBe('NesPasJeter');
+    expect(payload.lv).toBe(560);
+    expect(payload.cb).toBe(6);
+
+    const decoded = await decodeCharacterShareAny(await encodeCharacterShareCompressed(payload));
+    expect(decoded.cn).toBe('NesPasJeter');
+    expect(decoded.lv).toBe(560);
+    expect(decoded.cb).toBe(6);
+  });
+
+  it('omits identity fields when unknown (and old payloads stay valid)', async () => {
+    const noIdentity = createCharacterSharePayload([], null, null, 0, null, { name: '', level: 0, campaignBossCount: 0 });
+    expect(noIdentity.cn).toBeUndefined();
+    expect(noIdentity.lv).toBeUndefined();
+    expect(noIdentity.cb).toBeUndefined();
+
+    // Payloads created before the identity fields existed decode unchanged
+    const legacyShaped = { v: 2, e: [], hp: 1000 };
+    const decoded = await decodeCharacterShareAny(await encodeCharacterShareCompressed(legacyShaped));
+    expect(decoded).toEqual(legacyShaped);
+  });
+
+  it('level + boss count reconstruct the save-side progression pool', () => {
+    // Mirrors useItemStore.loadFromShare: shared builds rebuild the same
+    // flat pool parseHealthProgression derives from the save (level 560 +
+    // 6 bosses = 760 + 600)
+    expect(calculateLevelHealth(560) + 6 * CAMPAIGN_BOSS_HEALTH).toBe(1360);
   });
 
   it('still decodes legacy v1 uncompressed codes', async () => {

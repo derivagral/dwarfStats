@@ -3,7 +3,7 @@ import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
 import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, convertMasteryToStanceContext } from '../utils/stanceSkills';
 import { extractSkillTree } from '../utils/skillTreeParser';
-import { parseHealthProgression } from '../utils/healthParser';
+import { parseHealthProgression, parseCharacterName, calculateLevelHealth, CAMPAIGN_BOSS_HEALTH } from '../utils/healthParser';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -72,6 +72,10 @@ export function useItemStore() {
     setMetadata({
       filename,
       loadedAt: new Date().toISOString(),
+      // Save filenames are character-id hashes; the real name lives in
+      // HostPlayerData.PlayerName
+      characterName: parseCharacterName(saveJson),
+      characterLevel: healthProgression.level,
       stanceContext,
       allocatedAttributes,
       characterStats,
@@ -88,9 +92,27 @@ export function useItemStore() {
    * @param {import('../models/CharacterShareModel').EquippedItemShare[]} itemShares
    * @param {Object|null} [masteryData] - Decoded mastery data (stored in metadata for downstream use)
    * @param {Object<string, {value:number}>} [allocatedAttributes] - Decoded base attribute pool
+   * @param {number} [maxHealth]
+   * @param {Object|null} [skillTree]
+   * @param {{name?: string, level?: number, campaignBossCount?: number}|null} [identity]
+   *   Character name/level/boss-count from the share — level + boss count
+   *   rebuild the progression health pool so shared max health matches a
+   *   direct save load.
    */
-  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}, maxHealth = 0, skillTree = null) => {
+  const loadFromShare = useCallback((itemShares, masteryData = null, allocatedAttributes = {}, maxHealth = 0, skillTree = null, identity = null) => {
     const equippedItems = (itemShares || []).map((share, i) => itemShareToItem(share, i));
+
+    const characterStats = { ...(allocatedAttributes || {}) };
+    const level = identity?.level || 0;
+    const bossCount = identity?.campaignBossCount || 0;
+    const progressionHealth = calculateLevelHealth(level) + bossCount * CAMPAIGN_BOSS_HEALTH;
+    if (progressionHealth > 0) {
+      characterStats.health = {
+        value: progressionHealth,
+        sourceName: `Base + level ${level} + ${bossCount} campaign bosses`,
+        sourceType: 'progression',
+      };
+    }
 
     setEquipped(equippedItems);
     setInventory([]);
@@ -98,9 +120,11 @@ export function useItemStore() {
     setMetadata({
       filename: 'Shared Build',
       loadedAt: new Date().toISOString(),
+      characterName: identity?.name || '',
+      characterLevel: level,
       stanceContext: convertMasteryToStanceContext(masteryData),
       allocatedAttributes: allocatedAttributes || {},
-      characterStats: allocatedAttributes || {},
+      characterStats,
       maxHealth: maxHealth || 0,
       sharedMastery: masteryData,
       // v2 shares carry the skill tree; when present, useDerivedStats computes

@@ -62,9 +62,14 @@ export default function App() {
     const masteryData = masteryShareToData(decoded.sk ?? null);
     const allocatedAttributes = allocatedAttributesShareToData(decoded.at ?? null);
     const skillTree = skillTreeShareToData(decoded.st ?? null);
-    itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes, decoded.hp ?? 0, skillTree);
+    const identity = {
+      name: decoded.cn ?? '',
+      level: decoded.lv ?? 0,
+      campaignBossCount: decoded.cb ?? 0,
+    };
+    itemStore.loadFromShare(decoded.e ?? [], masteryData, allocatedAttributes, decoded.hp ?? 0, skillTree, identity);
     setActiveTab('character');
-    log('Loaded shared character build');
+    log(`Loaded shared character build${identity.name ? `: ${identity.name}` : ''}`);
     return true;
   }, [itemStore, log]);
 

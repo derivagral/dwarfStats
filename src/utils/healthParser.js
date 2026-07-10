@@ -25,6 +25,19 @@ export function parseCharacterLevel(saveData) {
   return Number.isFinite(level) && level > 0 ? level : 0;
 }
 
+/**
+ * Character name from HostPlayerData (PlayerName_*). The save FILENAME is a
+ * character-id hash — useless as a display name — so the UI prefers this.
+ * @returns {string} Character name, or '' when unavailable.
+ */
+export function parseCharacterName(saveData) {
+  const hostPlayerStruct = findHostPlayerStruct(saveData);
+  if (!hostPlayerStruct) return '';
+  const key = Object.keys(hostPlayerStruct).find(k => k.startsWith('PlayerName_'));
+  const name = key ? hostPlayerStruct[key]?.Str : '';
+  return typeof name === 'string' ? name : '';
+}
+
 /** @returns {number[]} Completed rupture numbers from the map-select save data. */
 export function parseCompletedRuptures(saveData) {
   const props = saveData?.root?.properties || saveData?.properties;

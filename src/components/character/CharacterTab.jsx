@@ -12,6 +12,8 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
   // Falls back to saveData for backward compatibility
   const characterData = itemStore?.hasItems ? {
     filename: itemStore.metadata.filename || saveData?.filename,
+    characterName: itemStore.metadata.characterName,
+    characterLevel: itemStore.metadata.characterLevel,
     equippedItems: itemStore.equipped,
     timestamp: itemStore.metadata.loadedAt,
     stanceContext: itemStore.metadata.stanceContext,
@@ -30,6 +32,11 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     itemStore.metadata?.allocatedAttributes ?? null,
     itemStore.metadata?.maxHealth ?? 0,
     itemStore.metadata?.skillTree ?? null,
+    {
+      name: itemStore.metadata?.characterName || '',
+      level: itemStore.metadata?.characterLevel || 0,
+      campaignBossCount: itemStore.metadata?.healthProgression?.campaignBosses?.length || 0,
+    },
   ), [itemStore.equipped, itemStore.metadata, characterData?.stanceContext]);
 
   const handleShare = useCallback(async () => {

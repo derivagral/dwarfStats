@@ -72,6 +72,11 @@ export const CHARACTER_SHARE_VERSION = 2;
  * @property {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]>, mh?: string[] }} [st] -
  *   Skill tree section (v2+): cards [[rowName, level]], weapon skills
  *   [[skillEnc, level]], and known main-tree health node row names.
+ * @property {string} [cn] - Character name (display; omitted if unknown)
+ * @property {number} [lv] - Character level (drives the progression health
+ *   pool on the receiving side; omitted if unknown)
+ * @property {number} [cb] - Campaign bosses defeated (0-6; each grants +100
+ *   flat health; omitted if 0)
  */
 
 // ---------------------------------------------------------------------------
@@ -251,7 +256,7 @@ export function allocatedAttributesShareToData(at) {
  * @param {Object<string, {value:number}|number>|null} [allocatedAttributes]
  * @returns {CharacterSharePayload}
  */
-export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null, maxHealth = 0, skillTree = null) {
+export function createCharacterSharePayload(equippedItems, stanceContext = null, allocatedAttributes = null, maxHealth = 0, skillTree = null, identity = null) {
   const payload = { v: CHARACTER_SHARE_VERSION };
 
   if (equippedItems && equippedItems.length > 0) {
@@ -272,6 +277,14 @@ export function createCharacterSharePayload(equippedItems, stanceContext = null,
   // real skill effects; the mastery snapshot above stays as the fallback.
   const st = createSkillTreeShare(skillTree);
   if (st) payload.st = st;
+
+  // Character identity + progression inputs. Name/level for display; level
+  // plus campaign-boss count let the receiving side rebuild the exact
+  // progression health pool (base + per-level + boss bonuses), so shared
+  // builds compute the same max health as a direct save load.
+  if (identity?.name) payload.cn = identity.name;
+  if (identity?.level > 0) payload.lv = identity.level;
+  if (identity?.campaignBossCount > 0) payload.cb = identity.campaignBossCount;
 
   return payload;
 }

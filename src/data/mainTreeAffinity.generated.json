@@ -1,0 +1,1660 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "_source": "DT_GENERATED_SkillTree_Main (EasyRPG.OffhandCategories.* effects only)",
+  "effectsByRow": {
+    "UI_SkillTreeNode_Large_57": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_58": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_60": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_61": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_64": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_67": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_68": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_71": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_32": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_45": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_49": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_79": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_82": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Small_386": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_387": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_416": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_417": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_418": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_419": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_420": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_421": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_422": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_423": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_424": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Large_84": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Small_425": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_426": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_427": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_428": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_429": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_430": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_431": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_432": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_433": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_434": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_435": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_436": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_437": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_438": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Large_86": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_87": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_88": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_89": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_90": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_91": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_92": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_93": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.15
+      }
+    ],
+    "UI_SkillTreeNode_Large_94": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Large_95": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.07
+      }
+    ],
+    "UI_SkillTreeNode_Small_439": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_440": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_441": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_442": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_443": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_444": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_445": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_446": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_447": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_448": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_456": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_459": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_460": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_461": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_462": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_463": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_464": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_465": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_466": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_467": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_468": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_469": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_470": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_471": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_472": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_473": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_474": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_475": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_476": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_477": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_478": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_479": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_480": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_481": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_482": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_483": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_484": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_489": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_494": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_495": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_496": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_497": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_498": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_499": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_500": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_458": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_501": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_502": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_503": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_504": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_505": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_506": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_507": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_508": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_509": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_510": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_511": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_512": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_513": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_514": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_515": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_516": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_517": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_527": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_528": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_529": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_530": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_531": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_532": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_533": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_534": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_535": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_536": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_537": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_538": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_539": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_540": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_541": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_542": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_543": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_544": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_545": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_546": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_547": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_548": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_549": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_550": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_551": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_552": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_553": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_554": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_555": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_556": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_557": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_558": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_559": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_560": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_561": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_562": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_563": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_573": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_574": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_575": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_576": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_577": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_578": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_579": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_580": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_581": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_582": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_583": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_584": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_585": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_586": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_587": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_588": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_589": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_590": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_591": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_592": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_593": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_594": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_595": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_596": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_597": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_598": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_600": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_601": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_602": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_603": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_604": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_605": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_606": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_607": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_616": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_617": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_618": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_619": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_620": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_621": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_622": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_623": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_624": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_625": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_626": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_627": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_628": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_629": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_630": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_631": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_632": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_633": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_634": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_635": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_636": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_637": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_638": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_639": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_640": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_641": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_642": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_643": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_644": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_645": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_646": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_647": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_648": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_649": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_650": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_651": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_652": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_653": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_654": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_655": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_656": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_657": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_658": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_891": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_892": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_893": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_894": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_895": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_896": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_897": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_914": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_915": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_916": [
+      {
+        "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+        "value": 0.01
+      }
+    ]
+  },
+  "namesByRow": {
+    "UI_SkillTreeNode_Large_57": "Sky Rush",
+    "UI_SkillTreeNode_Large_58": "Blade Rush",
+    "UI_SkillTreeNode_Large_60": "Projectile Velocity",
+    "UI_SkillTreeNode_Large_61": "Momentum Potency",
+    "UI_SkillTreeNode_Large_64": "Totem Brawn",
+    "UI_SkillTreeNode_Large_67": "Dragon Speed",
+    "UI_SkillTreeNode_Large_68": "Creature Haste",
+    "UI_SkillTreeNode_Large_71": "Ground Force",
+    "UI_SkillTreeNode_Large_32": "Hazard Force",
+    "UI_SkillTreeNode_Large_45": "Dragon Force",
+    "UI_SkillTreeNode_Large_49": "Orbit Power",
+    "UI_SkillTreeNode_Large_79": "Explosion Pace",
+    "UI_SkillTreeNode_Large_82": "Area Tempo",
+    "UI_SkillTreeNode_Small_386": "Dragon Force",
+    "UI_SkillTreeNode_Small_387": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_416": "Dragon Force",
+    "UI_SkillTreeNode_Small_417": "Dragon Speed",
+    "UI_SkillTreeNode_Small_418": "Dragon Force",
+    "UI_SkillTreeNode_Small_419": "Dragon Force",
+    "UI_SkillTreeNode_Small_420": "Dragon Force",
+    "UI_SkillTreeNode_Small_421": "Dragon Force",
+    "UI_SkillTreeNode_Small_422": "Dragon Force",
+    "UI_SkillTreeNode_Small_423": "Dragon Force",
+    "UI_SkillTreeNode_Small_424": "Dragon Force",
+    "UI_SkillTreeNode_Large_84": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_425": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_426": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_427": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_428": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_429": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_430": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_431": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_432": "Orbit Velocity",
+    "UI_SkillTreeNode_Small_433": "Dragon Speed",
+    "UI_SkillTreeNode_Small_434": "Dragon Speed",
+    "UI_SkillTreeNode_Small_435": "Dragon Speed",
+    "UI_SkillTreeNode_Small_436": "Dragon Speed",
+    "UI_SkillTreeNode_Small_437": "Dragon Speed",
+    "UI_SkillTreeNode_Small_438": "Dragon Speed",
+    "UI_SkillTreeNode_Large_86": "Creature Brawn",
+    "UI_SkillTreeNode_Large_87": "Sky Might",
+    "UI_SkillTreeNode_Large_88": "Ground Speed",
+    "UI_SkillTreeNode_Large_89": "Explosion Potency",
+    "UI_SkillTreeNode_Large_90": "Projectile Power",
+    "UI_SkillTreeNode_Large_91": "Momentum Pace",
+    "UI_SkillTreeNode_Large_92": "Blade Might",
+    "UI_SkillTreeNode_Large_93": "Area Capacity",
+    "UI_SkillTreeNode_Large_94": "Totem Haste",
+    "UI_SkillTreeNode_Large_95": "Hazard Speed",
+    "UI_SkillTreeNode_Small_439": "Orbit Power",
+    "UI_SkillTreeNode_Small_440": "Orbit Power",
+    "UI_SkillTreeNode_Small_441": "Orbit Power",
+    "UI_SkillTreeNode_Small_442": "Orbit Power",
+    "UI_SkillTreeNode_Small_443": "Orbit Power",
+    "UI_SkillTreeNode_Small_444": "Orbit Power",
+    "UI_SkillTreeNode_Small_445": "Orbit Power",
+    "UI_SkillTreeNode_Small_446": "Orbit Power",
+    "UI_SkillTreeNode_Small_447": "Orbit Power",
+    "UI_SkillTreeNode_Small_448": "Dragon Speed",
+    "UI_SkillTreeNode_Small_456": "Creature Haste",
+    "UI_SkillTreeNode_Small_459": "Creature Haste",
+    "UI_SkillTreeNode_Small_460": "Creature Haste",
+    "UI_SkillTreeNode_Small_461": "Creature Haste",
+    "UI_SkillTreeNode_Small_462": "Creature Haste",
+    "UI_SkillTreeNode_Small_463": "Creature Haste",
+    "UI_SkillTreeNode_Small_464": "Creature Haste",
+    "UI_SkillTreeNode_Small_465": "Creature Haste",
+    "UI_SkillTreeNode_Small_466": "Creature Haste",
+    "UI_SkillTreeNode_Small_467": "Creature Brawn",
+    "UI_SkillTreeNode_Small_468": "Creature Brawn",
+    "UI_SkillTreeNode_Small_469": "Creature Brawn",
+    "UI_SkillTreeNode_Small_470": "Creature Brawn",
+    "UI_SkillTreeNode_Small_471": "Creature Brawn",
+    "UI_SkillTreeNode_Small_472": "Creature Brawn",
+    "UI_SkillTreeNode_Small_473": "Creature Brawn",
+    "UI_SkillTreeNode_Small_474": "Creature Brawn",
+    "UI_SkillTreeNode_Small_475": "Creature Brawn",
+    "UI_SkillTreeNode_Small_476": "Sky Might",
+    "UI_SkillTreeNode_Small_477": "Sky Might",
+    "UI_SkillTreeNode_Small_478": "Sky Might",
+    "UI_SkillTreeNode_Small_479": "Sky Might",
+    "UI_SkillTreeNode_Small_480": "Sky Might",
+    "UI_SkillTreeNode_Small_481": "Sky Might",
+    "UI_SkillTreeNode_Small_482": "Sky Might",
+    "UI_SkillTreeNode_Small_483": "Sky Might",
+    "UI_SkillTreeNode_Small_484": "Sky Might",
+    "UI_SkillTreeNode_Small_489": "Sky Rush",
+    "UI_SkillTreeNode_Small_494": "Sky Rush",
+    "UI_SkillTreeNode_Small_495": "Sky Rush",
+    "UI_SkillTreeNode_Small_496": "Sky Rush",
+    "UI_SkillTreeNode_Small_497": "Sky Rush",
+    "UI_SkillTreeNode_Small_498": "Sky Rush",
+    "UI_SkillTreeNode_Small_499": "Sky Rush",
+    "UI_SkillTreeNode_Small_500": "Sky Rush",
+    "UI_SkillTreeNode_Small_458": "Explosion Pace",
+    "UI_SkillTreeNode_Small_501": "Explosion Pace",
+    "UI_SkillTreeNode_Small_502": "Explosion Pace",
+    "UI_SkillTreeNode_Small_503": "Explosion Pace",
+    "UI_SkillTreeNode_Small_504": "Explosion Pace",
+    "UI_SkillTreeNode_Small_505": "Explosion Pace",
+    "UI_SkillTreeNode_Small_506": "Explosion Pace",
+    "UI_SkillTreeNode_Small_507": "Explosion Pace",
+    "UI_SkillTreeNode_Small_508": "Explosion Pace",
+    "UI_SkillTreeNode_Small_509": "Explosion Potency",
+    "UI_SkillTreeNode_Small_510": "Explosion Potency",
+    "UI_SkillTreeNode_Small_511": "Explosion Potency",
+    "UI_SkillTreeNode_Small_512": "Explosion Potency",
+    "UI_SkillTreeNode_Small_513": "Explosion Potency",
+    "UI_SkillTreeNode_Small_514": "Explosion Potency",
+    "UI_SkillTreeNode_Small_515": "Explosion Potency",
+    "UI_SkillTreeNode_Small_516": "Explosion Potency",
+    "UI_SkillTreeNode_Small_517": "Explosion Potency",
+    "UI_SkillTreeNode_Small_527": "Ground Speed",
+    "UI_SkillTreeNode_Small_528": "Ground Speed",
+    "UI_SkillTreeNode_Small_529": "Ground Speed",
+    "UI_SkillTreeNode_Small_530": "Ground Speed",
+    "UI_SkillTreeNode_Small_531": "Ground Speed",
+    "UI_SkillTreeNode_Small_532": "Ground Speed",
+    "UI_SkillTreeNode_Small_533": "Ground Speed",
+    "UI_SkillTreeNode_Small_534": "Ground Speed",
+    "UI_SkillTreeNode_Small_535": "Ground Speed",
+    "UI_SkillTreeNode_Small_536": "Ground Force",
+    "UI_SkillTreeNode_Small_537": "Ground Force",
+    "UI_SkillTreeNode_Small_538": "Ground Force",
+    "UI_SkillTreeNode_Small_539": "Ground Force",
+    "UI_SkillTreeNode_Small_540": "Ground Force",
+    "UI_SkillTreeNode_Small_541": "Ground Force",
+    "UI_SkillTreeNode_Small_542": "Ground Force",
+    "UI_SkillTreeNode_Small_543": "Ground Force",
+    "UI_SkillTreeNode_Small_544": "Ground Force",
+    "UI_SkillTreeNode_Small_545": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_546": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_547": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_548": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_549": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_550": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_551": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_552": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_553": "Projectile Velocity",
+    "UI_SkillTreeNode_Small_554": "Projectile Power",
+    "UI_SkillTreeNode_Small_555": "Projectile Power",
+    "UI_SkillTreeNode_Small_556": "Projectile Power",
+    "UI_SkillTreeNode_Small_557": "Projectile Power",
+    "UI_SkillTreeNode_Small_558": "Projectile Power",
+    "UI_SkillTreeNode_Small_559": "Projectile Power",
+    "UI_SkillTreeNode_Small_560": "Projectile Power",
+    "UI_SkillTreeNode_Small_561": "Projectile Power",
+    "UI_SkillTreeNode_Small_562": "Projectile Power",
+    "UI_SkillTreeNode_Small_563": "Projectile Power",
+    "UI_SkillTreeNode_Small_573": "Momentum Pace",
+    "UI_SkillTreeNode_Small_574": "Momentum Pace",
+    "UI_SkillTreeNode_Small_575": "Momentum Pace",
+    "UI_SkillTreeNode_Small_576": "Momentum Pace",
+    "UI_SkillTreeNode_Small_577": "Momentum Pace",
+    "UI_SkillTreeNode_Small_578": "Momentum Pace",
+    "UI_SkillTreeNode_Small_579": "Momentum Pace",
+    "UI_SkillTreeNode_Small_580": "Momentum Pace",
+    "UI_SkillTreeNode_Small_581": "Momentum Pace",
+    "UI_SkillTreeNode_Small_582": "Momentum Potency",
+    "UI_SkillTreeNode_Small_583": "Momentum Potency",
+    "UI_SkillTreeNode_Small_584": "Momentum Potency",
+    "UI_SkillTreeNode_Small_585": "Momentum Potency",
+    "UI_SkillTreeNode_Small_586": "Momentum Potency",
+    "UI_SkillTreeNode_Small_587": "Momentum Potency",
+    "UI_SkillTreeNode_Small_588": "Momentum Potency",
+    "UI_SkillTreeNode_Small_589": "Momentum Potency",
+    "UI_SkillTreeNode_Small_590": "Momentum Pace",
+    "UI_SkillTreeNode_Small_591": "Blade Rush",
+    "UI_SkillTreeNode_Small_592": "Blade Rush",
+    "UI_SkillTreeNode_Small_593": "Blade Rush",
+    "UI_SkillTreeNode_Small_594": "Blade Rush",
+    "UI_SkillTreeNode_Small_595": "Blade Rush",
+    "UI_SkillTreeNode_Small_596": "Blade Rush",
+    "UI_SkillTreeNode_Small_597": "Blade Rush",
+    "UI_SkillTreeNode_Small_598": "Blade Rush",
+    "UI_SkillTreeNode_Small_600": "Blade Might",
+    "UI_SkillTreeNode_Small_601": "Blade Might",
+    "UI_SkillTreeNode_Small_602": "Blade Might",
+    "UI_SkillTreeNode_Small_603": "Blade Might",
+    "UI_SkillTreeNode_Small_604": "Blade Might",
+    "UI_SkillTreeNode_Small_605": "Blade Might",
+    "UI_SkillTreeNode_Small_606": "Blade Might",
+    "UI_SkillTreeNode_Small_607": "Blade Might",
+    "UI_SkillTreeNode_Small_616": "Area Tempo",
+    "UI_SkillTreeNode_Small_617": "Area Tempo",
+    "UI_SkillTreeNode_Small_618": "Area Tempo",
+    "UI_SkillTreeNode_Small_619": "Area Tempo",
+    "UI_SkillTreeNode_Small_620": "Area Tempo",
+    "UI_SkillTreeNode_Small_621": "Area Tempo",
+    "UI_SkillTreeNode_Small_622": "Area Tempo",
+    "UI_SkillTreeNode_Small_623": "Area Tempo",
+    "UI_SkillTreeNode_Small_624": "Area Capacity",
+    "UI_SkillTreeNode_Small_625": "Area Capacity",
+    "UI_SkillTreeNode_Small_626": "Area Capacity",
+    "UI_SkillTreeNode_Small_627": "Area Capacity",
+    "UI_SkillTreeNode_Small_628": "Area Capacity",
+    "UI_SkillTreeNode_Small_629": "Area Capacity",
+    "UI_SkillTreeNode_Small_630": "Area Capacity",
+    "UI_SkillTreeNode_Small_631": "Area Capacity",
+    "UI_SkillTreeNode_Small_632": "Totem Brawn",
+    "UI_SkillTreeNode_Small_633": "Totem Brawn",
+    "UI_SkillTreeNode_Small_634": "Totem Brawn",
+    "UI_SkillTreeNode_Small_635": "Totem Brawn",
+    "UI_SkillTreeNode_Small_636": "Totem Brawn",
+    "UI_SkillTreeNode_Small_637": "Totem Brawn",
+    "UI_SkillTreeNode_Small_638": "Totem Brawn",
+    "UI_SkillTreeNode_Small_639": "Totem Brawn",
+    "UI_SkillTreeNode_Small_640": "Totem Haste",
+    "UI_SkillTreeNode_Small_641": "Totem Haste",
+    "UI_SkillTreeNode_Small_642": "Totem Haste",
+    "UI_SkillTreeNode_Small_643": "Totem Haste",
+    "UI_SkillTreeNode_Small_644": "Totem Haste",
+    "UI_SkillTreeNode_Small_645": "Totem Haste",
+    "UI_SkillTreeNode_Small_646": "Totem Haste",
+    "UI_SkillTreeNode_Small_647": "Totem Haste",
+    "UI_SkillTreeNode_Small_648": "Totem Haste",
+    "UI_SkillTreeNode_Small_649": "Totem Brawn",
+    "UI_SkillTreeNode_Small_650": "Hazard Force",
+    "UI_SkillTreeNode_Small_651": "Hazard Force",
+    "UI_SkillTreeNode_Small_652": "Hazard Force",
+    "UI_SkillTreeNode_Small_653": "Hazard Force",
+    "UI_SkillTreeNode_Small_654": "Hazard Force",
+    "UI_SkillTreeNode_Small_655": "Hazard Force",
+    "UI_SkillTreeNode_Small_656": "Hazard Force",
+    "UI_SkillTreeNode_Small_657": "Hazard Force",
+    "UI_SkillTreeNode_Small_658": "Hazard Force",
+    "UI_SkillTreeNode_Small_891": "Hazard Speed",
+    "UI_SkillTreeNode_Small_892": "Hazard Speed",
+    "UI_SkillTreeNode_Small_893": "Hazard Speed",
+    "UI_SkillTreeNode_Small_894": "Hazard Speed",
+    "UI_SkillTreeNode_Small_895": "Hazard Speed",
+    "UI_SkillTreeNode_Small_896": "Hazard Speed",
+    "UI_SkillTreeNode_Small_897": "Blade Might",
+    "UI_SkillTreeNode_Small_914": "Hazard Speed",
+    "UI_SkillTreeNode_Small_915": "Hazard Speed",
+    "UI_SkillTreeNode_Small_916": "Hazard Speed"
+  }
+}

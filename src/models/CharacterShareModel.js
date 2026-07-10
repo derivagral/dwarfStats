@@ -20,7 +20,7 @@ import {
 } from '../utils/shareCodec.js';
 import { findStatForAttribute, getStatById } from '../utils/statRegistry.js';
 import { getWeaponSkillDef } from '../utils/skillTreeRegistry.js';
-import { hasMainTreeHealthEffect } from '../utils/skillEffectAggregator.js';
+import { hasMainTreeHealthEffect, hasMainTreeAffinityEffect } from '../utils/skillEffectAggregator.js';
 import { createEmptySkillTreeData } from './SkillTree.js';
 import { createEmptyItem } from './Item.js';
 
@@ -167,12 +167,13 @@ export function createSkillTreeShare(skillTree) {
   if (ws.length > 0) st.ws = ws;
 
   // Main-tree rows are normally too numerous for a share URL. Preserve only
-  // the generated nodes with known health effects so shared health remains
-  // consistent with an imported save.
-  const mainHealth = (skillTree.mainTree ?? [])
-    .filter(skill => skill.rowName && hasMainTreeHealthEffect(skill.rowName))
+  // the generated nodes with known effects (health + offhand affinity) so
+  // shared health and affinity eDPS remain consistent with an imported save.
+  const mainNodes = (skillTree.mainTree ?? [])
+    .filter(skill => skill.rowName
+      && (hasMainTreeHealthEffect(skill.rowName) || hasMainTreeAffinityEffect(skill.rowName)))
     .map(skill => skill.rowName);
-  if (mainHealth.length > 0) st.mh = mainHealth;
+  if (mainNodes.length > 0) st.mh = mainNodes;
 
   return Object.keys(st).length > 0 ? st : null;
 }
@@ -201,7 +202,7 @@ export function skillTreeShareToData(st) {
   }
 
   for (const rowName of st.mh || []) {
-    if (!rowName || !hasMainTreeHealthEffect(rowName)) continue;
+    if (!rowName || !(hasMainTreeHealthEffect(rowName) || hasMainTreeAffinityEffect(rowName))) continue;
     tree.mainTree.push({ rowName, level: 1, category: 'main' });
   }
 

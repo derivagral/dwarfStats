@@ -123,8 +123,16 @@ node extraction/generate-registries.mjs
 ```
 
 `DT_GENERATED_SkillTree_Main.json` is optional. When present, the generator
-emits a compact `mainTreeHealth.generated.json` containing only MaxHealth and
-MaxHealth% effects keyed by the opaque `UI_SkillTreeNode_*` save row names.
+emits compact maps keyed by the opaque `UI_SkillTreeNode_*` save row names:
+`mainTreeHealth.generated.json` (MaxHealth/MaxHealth% effects) and
+`mainTreeAffinity.generated.json` (EasyRPG.OffhandCategories.* affinity
+damage%/cooldown effects, plus node display names).
+
+`DT_PlayerAbilities.json` is optional. When present, the generator emits
+`playerAbilities.generated.json` — the 26 offhand proc abilities with their
+affinity categories, element, base damage multiplier, offhand-count cooldown
+steps, and `AffinityBehaviours` (ability modifiers that add an affinity when
+rolled on an offhand item).
 
 ## Handing data back to a remote Claude session
 

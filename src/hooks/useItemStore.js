@@ -3,7 +3,7 @@ import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
 import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, convertMasteryToStanceContext } from '../utils/stanceSkills';
 import { extractSkillTree } from '../utils/skillTreeParser';
-import { parseHealthProgression, parseCharacterName, calculateLevelHealth, CAMPAIGN_BOSS_HEALTH } from '../utils/healthParser';
+import { parseHealthProgression, parseCharacterName, parseCharacterRace, calculateLevelHealth, CAMPAIGN_BOSS_HEALTH } from '../utils/healthParser';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -76,6 +76,9 @@ export function useItemStore() {
       // HostPlayerData.PlayerName
       characterName: parseCharacterName(saveJson),
       characterLevel: healthProgression.level,
+      // E_CharacterRace enum index; index→name/bonus mapping pending the race
+      // table extraction. Racial grants scale with level capped at 200.
+      characterRace: parseCharacterRace(saveJson),
       stanceContext,
       allocatedAttributes,
       characterStats,

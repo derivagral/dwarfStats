@@ -60,6 +60,7 @@ uesave-wasm/pkg/         # Pre-built WASM module (do not modify)
 | Skill tree extraction | `src/utils/skillTreeParser.js` |
 | Skill→stat contributions (cards/skills/buffs) | `src/utils/skillEffectAggregator.js` |
 | Skill/card/keystone registry | `src/utils/skillTreeRegistry.js` |
+| Offhand ability/affinity detection | `src/utils/offhandAbilities.js` |
 | Styling/theming | `src/styles/index.css` |
 
 ## Tab Architecture
@@ -275,7 +276,7 @@ Key structural points (vs the pre-split single-line model):
 | BasePhys | `edpsPhysFlat` | raw `damage` + damageFromHealth + statDamageFlat + paragon + flat monograms |
 | BaseElem | `edpsElemFlat` | `elementalDamage` + damageFromHealth + statDamageFlat + paragon + energy→elem + essence→elem |
 | Phys bucket | `edpsPhysAdditive` | StanceCrit + Crit + PhysDmg% + StanceDmg + bloodlust/armor crit + phys monograms + both-types |
-| Elem bucket | `edpsElemAdditive` | item offhand% + affinity + both-types (skill mult added per skill) |
+| Elem bucket | `edpsElemAdditive` | item offhand% + routed affinity damage (auto from equipped abilities) + manual affinity + both-types (skill mult added per skill) |
 | both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + phasingDuration + essence-drain(2%/10) |
 | ED | `edpsED` | active element (+ pet-conversion source element) + elemFromCrit + routed mines + elemental monograms |
 | ElemCrit | `edpsElemCrit` | 1 + regular crit dmg + stance crit dmg (provisional elemental crit bucket) |
@@ -306,9 +307,49 @@ fold into eDPS yet.
 - `edpsElemPrimary` / `edpsElemQ` / `edpsElemR` — elemental on-hit (Left/Q/R)
 
 **Configurable via overrides:** result-stat `multiplier` (skill %), `edpsElemAdditive`
-(offhandItemBonus + affinity), `edpsEMulti` (classWeaponBonus), `edpsOffhandMods` (multiplier),
+(offhandItemBonus + affinity + activeAffinities), `edpsEMulti` (classWeaponBonus), `edpsOffhandMods` (multiplier),
 `edpsElemCrit` (offhandCritFactor), `edpsPhysFlat`/`edpsPhysAdditive` (elem→phys conversion ratios),
 `edpsED` (activeElement — force the routed element instead of the auto pick).
+
+### Offhand Affinities (OffhandCategories)
+
+The 12 offhand affinity categories (`EasyRPG.OffhandCategories.*`): Dragon,
+Creature, Sky, Explosion, Projectile, Ground, Orbit, Blade, Charging (displayed
+"Momentum"), Totem, Area, Hazard. Each has a `Damage%Bonus` and a
+`CooldownBonus` stat, registered in `statRegistry` as
+`<cat>AffinityDamage`/`<cat>AffinityCooldown` (category `affinity`, appended
+zone — `OFFHAND_AFFINITY_CATEGORIES` order is share-codec wire format, append
+only). Exact full-tag patterns keep the loose `Damage%` regex from swallowing
+them into physical `damageBonus`.
+
+**Sources of affinity bonuses:**
+- **Main skill tree**: 236 nodes grant affinity damage%/CDR
+  (`src/data/mainTreeAffinity.generated.json`, with node display names like
+  "Dragon Force"). Aggregated by `skillEffectAggregator` alongside health nodes
+  and preserved in v2 character shares (`st.mh` carries health + affinity rows).
+- **Race** (pending): races grant affinity bonuses scaling with character level
+  capped at 200 (`RACE_LEVEL_CAP`). Race enum index is detected from the save
+  (`parseCharacterRace` → `metadata.characterRace`; `E_CharacterRace::NewEnumeratorN`),
+  but the index→name/bonus mapping awaits a race table extraction.
+
+**Which affinities are active** (`src/utils/offhandAbilities.js`): equipped
+offhand items carry `EasyRPG.Attributes.Abilities.<Ability>.*` stats;
+`detectEquippedAbilities()` resolves them against
+`src/data/playerAbilities.generated.json` (from `DT_PlayerAbilities`, all 26
+proc abilities: base affinities, element, base damage multiplier, cooldown
+steps). Some rolled ability modifiers ADD an affinity via the table's
+`AffinityBehaviours` (e.g. ElectricDragons' `Modifier.AdditionalDragons` adds
+Area → Dragon+Orbit+Area). Only offhand items count — weapons can never carry
+an affinity tag. `useDerivedStats` feeds the union of active categories into
+`edpsElemAdditive.config.activeAffinities`, which routes the matching
+`<cat>AffinityDamage` totals into the elemental bucket.
+
+**Cooldown:** affinity CDR is additive with item `cooldownReduction` →
+`offhandCooldownReduction`. Ability base cooldowns step down with equipped
+offhand count (`Initial`/`TwoOffhands`/`ThreeOffhands` per ability; 3+ offhands
+share the last step — no fourth exists). `offhandCooldownSeconds` shows the
+dominant ability's effective cooldown as `stepBase × (1 − CDR)` (provisional
+application model).
 
 **Stance detection:** `inferWeaponStance(rowName)` in `equipmentParser.js` maps weapon keywords to stance prefixes. `useDerivedStats` auto-detects stance from the equipped weapon's row name and passes it to eDPS calcs via config override. Falls back to highest-stat heuristic if no weapon detected.
 
@@ -438,6 +479,7 @@ npm run test:coverage  # With coverage report
 - `test/shareUrl.test.js` - URL sharing encode/decode tests (filter)
 - `test/characterShare.test.js` - Character sharing codec/round-trip tests
 - `test/skillTreeParser.test.js` - Skill tree parsing/registry tests
+- `test/offhandAffinities.test.js` - Offhand ability/affinity detection, tree affinity aggregation, race/level parse
 
 ### Key Testable Modules
 | Module | Pure Functions | Notes |
@@ -450,12 +492,14 @@ npm run test:coverage  # With coverage report
 | `CharacterShareModel.js` | `createItemShare()`, `itemShareToItem()`, `createCharacterSharePayload()` | Character data round-trip |
 | `skillTreeParser.js` | `extractSkillTree()`, `categorizeSkill()` | Skill tree extraction |
 | `skillTreeRegistry.js` | `getWeaponSkillDef()`, `getCraftingSkillDef()`, `getCardDef()` | Skill/card/keystone lookups |
+| `offhandAbilities.js` | `detectEquippedAbilities()`, `getStepCooldown()`, `unionAffinities()` | Offhand ability/affinity detection |
+| `healthParser.js` | `parseCharacterRace()`, `parseCharacterLevel()`, `parseHealthProgression()` | Character identity/progression |
 
 ## Test Fixtures
 
 Located in `test/fixtures/`. Kept lean — fixtures back current-season tests, not a
 lifetime archive. Old unreferenced save dumps were pruned.
-- `dr-full-inventory.json` - Complete parsed save file (~7.8MB) with full character data (parsing/extract/share/stance tests)
+- `dr-full-inventory.json` - Complete parsed save file (~7.8MB) with full character data; Electric Dragons build with all 4 offhands + Dragon/Orbit/Area tree nodes (parsing/extract/share/stance/affinity tests)
 - `dr-character-skills.json` - CharacterSkills array + metadata (381 skills, weapon XP, skill points)
 - `chaos-dual-bow-equipped.json` - Slim extracted equipped items from a dual-bow build; has both `Base.Damage` and `Base.ElementalDamage` flats (ele/phys split regression test)
 
@@ -599,6 +643,8 @@ node extraction/generate-registries.mjs
 | `src/data/cards.generated.json` | 81 crystal cards: per-level `{tag, value}` effects (× card level) | `skillTreeRegistry.js` `getCardDef()` merge |
 | `src/data/weaponSkills.generated.json` | 112 weapon skills: per-level effects, game max level, buff join | `skillTreeRegistry.js` `getWeaponSkillDef()` merge |
 | `src/data/statusEffects.generated.json` | 170 buffs/debuffs: name, description, duration, stacks, effect values | joined into weapon skills; standalone lookup TBD |
+| `src/data/mainTreeAffinity.generated.json` | 236 main-tree affinity nodes: OffhandCategories effects + node names | `skillEffectAggregator.js` main-tree pass |
+| `src/data/playerAbilities.generated.json` | 26 offhand proc abilities: affinities, element, cooldown steps, AffinityBehaviours | `offhandAbilities.js` detection |
 
 The generator also emits a drift report (`extraction/out/drift-report.md`,
 gitignored) flagging rollable affix tags `findStatForAttribute()` cannot
@@ -613,6 +659,8 @@ Key source tables in `extraction/data/`:
 - `DT_Crystal_Cards_Skills.json` — card effects (registry integration TBD)
 - `DT_Skills_*.json` (8 weapons), `DT_Stance_Levels.json` — weapon skill trees
 - `DT_StatusEffects.json` — buff/status lexicon
+- `DT_GENERATED_SkillTree_Main.json` — main passive tree (1677 nodes; health + affinity extraction)
+- `DT_PlayerAbilities.json` — offhand proc abilities (affinities, AffinityBehaviours, cooldown steps)
 
 ## Integration TODOs
 
@@ -649,9 +697,21 @@ adjusted to game values.
   Replace with the proper `0.1 × critChance` expected-value weighting once confirmed.
 
 ### Skill Tree / Affinity Data
-- **AFFIN** (affinity damage from skill tree): Currently manual config in `edpsAD`. Need to parse skill tree data from save or provide UI input.
-- Skill tree also provides **racial bonuses** — broad damage/crit damage totals that feed into eDPS buckets.
-- Affinities contribute to AD (offhand ability damage) and potentially to other buckets.
+- **AFFIN — DONE**: main-tree affinity nodes are parsed from the save
+  (`mainTreeAffinity.generated.json`), routed by the equipped offhand abilities'
+  affinities, and fed into `edpsElemAdditive` automatically. Manual `affinity`
+  config remains as an extra/override.
+- **Racial bonuses — pending race table**: race grants affinity bonuses scaling
+  with character level capped at 200 (`RACE_LEVEL_CAP`). The save's race enum
+  index is detected (`metadata.characterRace`), but `E_CharacterRace`
+  enumerator→name and race→affinity-grant data still need extraction from game
+  files (likely the race blueprints under
+  `/Game/EasySurvivalRPG/Blueprints/Characters/Base/Races/`). The generated
+  `Affinity_*` affix rows (base 3, +0.5/level, canRoll=false) look like the
+  scaling definition those grants use.
+- **Cooldown application model — provisional**: `offhandCooldownSeconds` uses
+  `stepBase × (1 − CDR)`; confirm in-game whether CDR applies that way or as
+  `base / (1 + CDR)`, and whether a CDR cap exists.
 
 ### Ability Damage (AD)
 - AD exists on offhand items as skill damage affixes (gear `DamageMultiplier` stats).

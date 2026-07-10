@@ -38,6 +38,33 @@ export function parseCharacterName(saveData) {
   return typeof name === 'string' ? name : '';
 }
 
+/**
+ * Character race from HostPlayerData customization data. Stored as a byte of
+ * the game's E_CharacterRace enum ("E_CharacterRace::NewEnumerator2") — the
+ * enum labels are opaque indices; the index→name/bonus mapping awaits a race
+ * table extraction. Race grants scale with character level capped at 200
+ * (see RACE_LEVEL_CAP), so the index + capped level are what downstream
+ * racial-affinity calculations will need.
+ *
+ * @returns {number|null} Race enum index (e.g. 2), or null when unavailable.
+ */
+export function parseCharacterRace(saveData) {
+  const hostPlayerStruct = findHostPlayerStruct(saveData);
+  if (!hostPlayerStruct) return null;
+  const customizationKey = Object.keys(hostPlayerStruct).find(k => k.startsWith('CustumizationData_'));
+  const customization = customizationKey
+    ? hostPlayerStruct[customizationKey]?.Struct?.Struct
+    : null;
+  if (!customization) return null;
+  const raceKey = Object.keys(customization).find(k => k.startsWith('Race_'));
+  const label = raceKey ? customization[raceKey]?.Byte?.Label : null;
+  const match = typeof label === 'string' ? label.match(/NewEnumerator(\d+)$/) : null;
+  return match ? Number(match[1]) : null;
+}
+
+/** Racial bonuses scale with character level up to this cap. */
+export const RACE_LEVEL_CAP = 200;
+
 /** @returns {number[]} Completed rupture numbers from the map-select save data. */
 export function parseCompletedRuptures(saveData) {
   const props = saveData?.root?.properties || saveData?.properties;

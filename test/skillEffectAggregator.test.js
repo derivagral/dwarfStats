@@ -72,8 +72,12 @@ describe('skillEffectAggregator', () => {
     });
 
     it('skips non-attribute grant tags (modifier grants)', () => {
+      // Stat-granting prefixes only — EasyRPG.Items.Modifiers.* behavior
+      // grants must never leak in. OffhandCategories.* are affinity stats.
       const contributions = aggregateSkillEffects(skillTree);
-      expect(contributions.every(c => c.tag.startsWith('EasyRPG.Attributes.'))).toBe(true);
+      expect(contributions.every(c =>
+        c.tag.startsWith('EasyRPG.Attributes.') || c.tag.startsWith('EasyRPG.OffhandCategories.'),
+      )).toBe(true);
     });
   });
 

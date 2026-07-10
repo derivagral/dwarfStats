@@ -685,10 +685,12 @@ export function useDerivedStats(options = {}) {
 
 /**
  * Resolve a raw tag or stat name to a statId
+ * Exported for tests — this is the aggregation path every equipped item stat
+ * (including pet conversion flags) goes through on save load.
  * @param {string} rawTag - Raw attribute tag or stat name
  * @returns {string|null} Normalized stat ID
  */
-function resolveStatId(rawTag) {
+export function resolveStatId(rawTag) {
   if (!rawTag) return null;
 
   // Try direct lookup first

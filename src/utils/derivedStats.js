@@ -39,6 +39,70 @@ export const LAYERS = {
 
 const MONOGRAM_CATEGORIES = new Set(['monogram-buff', 'monogram-chain', 'monogram', 'chained']);
 
+// ============================================================================
+// ELEMENT ROUTING (pet conversion abilities)
+// ============================================================================
+
+/**
+ * The six pet (dragon) elemental conversion abilities. Each is a flag stat
+ * (see statRegistry) meaning "<to> abilities also benefit from <from> damage
+ * bonus" — an additive merge of two element buckets, not a replacement.
+ */
+export const ELEMENT_CONVERSIONS = [
+  { statId: 'fireToArcane', from: 'fire', to: 'arcane' },
+  { statId: 'fireToLightning', from: 'fire', to: 'lightning' },
+  { statId: 'arcaneToFire', from: 'arcane', to: 'fire' },
+  { statId: 'arcaneToLightning', from: 'arcane', to: 'lightning' },
+  { statId: 'lightningToFire', from: 'lightning', to: 'fire' },
+  { statId: 'lightningToArcane', from: 'lightning', to: 'arcane' },
+];
+
+const ELEMENT_IDS = ['fire', 'arcane', 'lightning'];
+export const ELEMENT_LABELS = { fire: 'Fire', arcane: 'Arcane', lightning: 'Lightning' };
+
+/**
+ * Decide which element bonuses count toward the elemental damage multiplier.
+ *
+ * Abilities only benefit from their own element's damage bonus, plus any
+ * source element a pet conversion redirects into it. So exactly one element is
+ * "active" (the one the build's abilities deal), and the included set is that
+ * element plus every conversion source targeting it.
+ *
+ * Active element resolution: config.activeElement (manual override) wins;
+ * otherwise auto-pick the element with the highest effective bonus
+ * (own total + conversion sources), which assumes the player attacks with the
+ * element they invested in.
+ *
+ * @param {Object} stats - Calculated stats (needs total*DamageBonus, *MineBonus, conversion flags)
+ * @param {{activeElement?: string|null}} [config]
+ * @returns {{active: string, included: Set<string>, conversions: Array, totals: Object}}
+ */
+export function resolveElementRouting(stats, config = {}) {
+  // Per-element bonus totals (decimal). Mine buffs are element-typed too, so
+  // they route with their element (stored in percent-points, hence /100).
+  const totals = {
+    fire: (stats.totalFireDamageBonus || 0) + (stats.fireMineBonus || 0) / 100,
+    arcane: (stats.totalArcaneDamageBonus || 0) + (stats.arcaneMineBonus || 0) / 100,
+    lightning: (stats.totalLightningDamageBonus || 0) + (stats.lightningMineBonus || 0) / 100,
+  };
+
+  const conversions = ELEMENT_CONVERSIONS.filter(c => (stats[c.statId] || 0) > 0);
+  const score = el => totals[el]
+    + conversions.filter(c => c.to === el).reduce((sum, c) => sum + totals[c.from], 0);
+
+  let active = ELEMENT_IDS.includes(config?.activeElement) ? config.activeElement : null;
+  if (!active) {
+    active = ELEMENT_IDS.reduce((best, el) => (score(el) > score(best) ? el : best), ELEMENT_IDS[0]);
+  }
+
+  const included = new Set([active]);
+  for (const c of conversions) {
+    if (c.to === active) included.add(c.from);
+  }
+
+  return { active, included, conversions, totals };
+}
+
 /**
  * Build a breakdown term for a derived stat's formula tooltip.
  * Looks up the stat's display name and auto-tags monogram-sourced terms so the
@@ -2495,7 +2559,15 @@ export const DERIVED_STATS = {
   },
 
   /**
-   * edpsED — elemental damage multiplier (Fire/Arcane/Lightning + elemental monograms).
+   * edpsED — elemental damage multiplier (element-routed Fire/Arcane/Lightning
+   * + element-agnostic elemental monograms).
+   *
+   * Abilities only benefit from their own element's damage bonus, so a single
+   * "active" element counts — plus any element a pet (dragon) conversion
+   * ability merges into it ("<To> abilities also benefit from <From> damage
+   * bonus", additive). Without a conversion exactly one element counts; with
+   * one, two elements add together. See resolveElementRouting.
+   *
    * Strictly elemental-type %; applied as (1 + ED) on the elemental line only.
    */
   edpsED: {
@@ -2506,16 +2578,19 @@ export const DERIVED_STATS = {
     dependencies: ['elementFromCritChance', 'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
       'elementalFromEssence', 'elementalFromHighest', 'damagePercentForStat2',
       'berserkerElementalFromHighest',
-      'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus'],
-    calculate: (stats) => {
-      const fire = stats.totalFireDamageBonus || 0;
-      const arcane = stats.totalArcaneDamageBonus || 0;
-      const lightning = stats.totalLightningDamageBonus || 0;
+      'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus',
+      // Pet conversion flags (base stats from the dragon-slot item)
+      'fireToArcane', 'fireToLightning', 'arcaneToFire', 'arcaneToLightning',
+      'lightningToFire', 'lightningToArcane'],
+    // activeElement: 'fire' | 'arcane' | 'lightning' | null (null = auto:
+    // highest effective element bonus, conversion sources counted in)
+    config: { activeElement: null },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsED.config;
+      const { included, totals } = resolveElementRouting(stats, config);
+      const elemental = [...included].reduce((sum, el) => sum + totals[el], 0);
       const elemFromCrit = (stats.elementFromCritChance || 0) / 100;
-      const arcMine = (stats.arcaneMineBonus || 0) / 100;
-      const fireMine = (stats.fireMineBonus || 0) / 100;
-      const ltngMine = (stats.lightningMineBonus || 0) / 100;
-      // New elemental-split monogram sources
+      // Element-agnostic elemental monogram sources
       const essenceElem = (stats.elementalFromEssence || 0) / 100;
       const highestElem = (stats.elementalFromHighest || 0) / 100;
       const perStat2Elem = (stats.damagePercentForStat2 || 0) / 100; // 1%/40, elemental
@@ -2524,30 +2599,68 @@ export const DERIVED_STATS = {
       const shroudElemHi = (stats.shroudElementalFromHighest || 0) / 100;
       const phasingElem = (stats.phasingElementalBonus || 0) / 100;
       const noPotionElem = (stats.damageNoPotionBonus || 0) / 100; // now elemental (15%/slot)
-      return 1 + fire + arcane + lightning + elemFromCrit + arcMine + fireMine + ltngMine
+      return 1 + elemental + elemFromCrit
         + essenceElem + highestElem + perStat2Elem + berserkerElem + shroudElem + shroudElemHi + phasingElem + noPotionElem;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
-    description: 'Elemental damage multiplier (Fire/Arcane/Lightning + elemental monograms, additive)',
-    breakdown: (stats) => [
-      { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
-      term(stats, 'totalFireDamageBonus', '+', 'pct'),
-      term(stats, 'totalArcaneDamageBonus', '+', 'pct'),
-      term(stats, 'totalLightningDamageBonus', '+', 'pct'),
-      { label: 'elementFromCritChance', fullName: DERIVED_STATS.elementFromCritChance.name, op: '+', value: (stats.elementFromCritChance || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'arcaneMineBonus', fullName: DERIVED_STATS.arcaneMineBonus.name, op: '+', value: (stats.arcaneMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'fireMineBonus', fullName: DERIVED_STATS.fireMineBonus.name, op: '+', value: (stats.fireMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'lightningMineBonus', fullName: DERIVED_STATS.lightningMineBonus.name, op: '+', value: (stats.lightningMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'elementalFromEssence', fullName: DERIVED_STATS.elementalFromEssence.name, op: '+', value: (stats.elementalFromEssence || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'elementalFromHighest', fullName: DERIVED_STATS.elementalFromHighest.name, op: '+', value: (stats.elementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'damagePercentForStat2', fullName: DERIVED_STATS.damagePercentForStat2.name, op: '+', value: (stats.damagePercentForStat2 || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'berserkerElementalFromHighest', fullName: DERIVED_STATS.berserkerElementalFromHighest.name, op: '+', value: (stats.berserkerElementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'shroudElementalBonus', fullName: DERIVED_STATS.shroudElementalBonus.name, op: '+', value: (stats.shroudElementalBonus || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'shroudElementalFromHighest', fullName: DERIVED_STATS.shroudElementalFromHighest.name, op: '+', value: (stats.shroudElementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'phasingElementalBonus', fullName: DERIVED_STATS.phasingElementalBonus.name, op: '+', value: (stats.phasingElementalBonus || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'damageNoPotionBonus', fullName: DERIVED_STATS.damageNoPotionBonus.name, op: '+', value: (stats.damageNoPotionBonus || 0) / 100, fmt: 'pct', isMonogram: true },
-      { label: 'ED', fullName: 'Elemental Damage', op: '=', value: stats.edpsED, fmt: 'pct', isSubtotal: true },
-    ],
+    description: 'Elemental damage multiplier (active element + pet conversions + elemental monograms, additive)',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.edpsED.config;
+      const { active, included, conversions, totals } = resolveElementRouting(stats, config);
+      const activeConversions = conversions.filter(c => c.to === active);
+      const routeNote = activeConversions
+        .map(c => `${ELEMENT_LABELS[c.from]}→${ELEMENT_LABELS[c.to]}`)
+        .join(', ');
+      const routeSource = config?.activeElement
+        ? 'manual override'
+        : 'auto: highest bonus';
+
+      const rows = [
+        { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
+        {
+          label: `active: ${ELEMENT_LABELS[active]}`,
+          fullName: routeNote
+            ? `Active element (${routeSource}; pet conversion ${routeNote})`
+            : `Active element (${routeSource}; no pet conversion)`,
+          op: '·', value: null,
+        },
+      ];
+
+      const ELEMENT_ROWS = [
+        { el: 'fire', totalId: 'totalFireDamageBonus', mineId: 'fireMineBonus' },
+        { el: 'arcane', totalId: 'totalArcaneDamageBonus', mineId: 'arcaneMineBonus' },
+        { el: 'lightning', totalId: 'totalLightningDamageBonus', mineId: 'lightningMineBonus' },
+      ];
+      for (const { el, totalId, mineId } of ELEMENT_ROWS) {
+        const mineValue = (stats[mineId] || 0) / 100;
+        if (included.has(el)) {
+          rows.push(term(stats, totalId, '+', 'pct'));
+          if (mineValue) {
+            rows.push({ label: mineId, fullName: DERIVED_STATS[mineId].name, op: '+', value: mineValue, fmt: 'pct', isMonogram: true });
+          }
+        } else if (totals[el]) {
+          rows.push({
+            label: totalId,
+            fullName: `${DERIVED_STATS[totalId].name} — excluded (off-element)`,
+            op: '·', value: totals[el], fmt: 'pct',
+          });
+        }
+      }
+
+      rows.push(
+        { label: 'elementFromCritChance', fullName: DERIVED_STATS.elementFromCritChance.name, op: '+', value: (stats.elementFromCritChance || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'elementalFromEssence', fullName: DERIVED_STATS.elementalFromEssence.name, op: '+', value: (stats.elementalFromEssence || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'elementalFromHighest', fullName: DERIVED_STATS.elementalFromHighest.name, op: '+', value: (stats.elementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'damagePercentForStat2', fullName: DERIVED_STATS.damagePercentForStat2.name, op: '+', value: (stats.damagePercentForStat2 || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'berserkerElementalFromHighest', fullName: DERIVED_STATS.berserkerElementalFromHighest.name, op: '+', value: (stats.berserkerElementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'shroudElementalBonus', fullName: DERIVED_STATS.shroudElementalBonus.name, op: '+', value: (stats.shroudElementalBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'shroudElementalFromHighest', fullName: DERIVED_STATS.shroudElementalFromHighest.name, op: '+', value: (stats.shroudElementalFromHighest || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'phasingElementalBonus', fullName: DERIVED_STATS.phasingElementalBonus.name, op: '+', value: (stats.phasingElementalBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'damageNoPotionBonus', fullName: DERIVED_STATS.damageNoPotionBonus.name, op: '+', value: (stats.damageNoPotionBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'ED', fullName: 'Elemental Damage', op: '=', value: stats.edpsED, fmt: 'pct', isSubtotal: true },
+      );
+      return rows;
+    },
   },
 
   /**

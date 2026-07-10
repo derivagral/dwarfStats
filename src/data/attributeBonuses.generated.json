@@ -1,0 +1,99 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "_source": "DT_Attributes primary-characteristic dependencies",
+  "attributeBonuses": {
+    "strength": {
+      "tag": "EasyRPG.Attributes.Characteristics.Strength",
+      "name": "Strength",
+      "description": "10 Strength = 1% Armor",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "valuePerPoint": 0.001
+        }
+      ]
+    },
+    "dexterity": {
+      "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+      "name": "Dexterity",
+      "description": "1 Dexterity = 1 Attack Speed",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "valuePerPoint": 1
+        }
+      ]
+    },
+    "wisdom": {
+      "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+      "name": "Wisdom",
+      "description": "10 Wisdom = 0.5% Boss Damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "valuePerPoint": 0.0005
+        }
+      ]
+    },
+    "endurance": {
+      "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+      "name": "Endurance",
+      "description": "10 Endurance = 0.1 Energy Regen",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "valuePerPoint": 0.01
+        }
+      ]
+    },
+    "agility": {
+      "tag": "EasyRPG.Attributes.Characteristics.Agility",
+      "name": "Agility",
+      "description": "10 Agility = 0.5% Critical Damage",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "valuePerPoint": 0.0005
+        }
+      ]
+    },
+    "luck": {
+      "tag": "EasyRPG.Attributes.Characteristics.Luck",
+      "name": "Luck",
+      "description": "10 Luck = 1% XP Bonus;10 Luck = 1% Elemental Damage Bonus",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.XPBonus",
+          "valuePerPoint": 0.001
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "valuePerPoint": 0.001
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "valuePerPoint": 0.001
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "valuePerPoint": 0.001
+        }
+      ]
+    },
+    "stamina": {
+      "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+      "name": "Stamina",
+      "description": "10 Stamina = 0.1% Max Health;10 Stamina = 0.1 Health Regeneration",
+      "effects": [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "valuePerPoint": 0.0001
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "valuePerPoint": 0.01
+        }
+      ]
+    }
+  }
+}

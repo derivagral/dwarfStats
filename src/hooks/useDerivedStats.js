@@ -5,6 +5,7 @@ import { STAT_REGISTRY } from '../utils/statRegistry.js';
 import { MONOGRAM_CALC_CONFIGS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
 import { inferWeaponStance } from '../utils/equipmentParser.js';
 import { aggregateSkillEffects, hasWeaponSkillData } from '../utils/skillEffectAggregator.js';
+import { ATTRIBUTE_BONUSES } from '../utils/attributeBonuses.js';
 
 // Re-export for backward compatibility
 export { MONOGRAM_CALC_CONFIGS } from '../utils/monogramConfigs.js';
@@ -315,18 +316,27 @@ export function useDerivedStats(options = {}) {
   const categories = useMemo(() => {
     const { values, detailed } = calculatedStats;
 
-    // Map total stats to their base components and display routing.
-    // Total stats apply bonus%: base × (1 + bonus%) and replace the raw flat display.
+    // Map calculated totals to their raw sources and display routing. Primary,
+    // armor, and health totals multiply bonus%; the remaining targets add the
+    // generated primary-attribute dependency contribution.
     const TOTAL_STAT_ROUTING = {
-      totalStrength: { base: 'strength', bonus: 'strengthBonus', category: 'attributes', name: 'Strength' },
-      totalDexterity: { base: 'dexterity', bonus: 'dexterityBonus', category: 'attributes', name: 'Dexterity' },
-      totalWisdom: { base: 'wisdom', bonus: 'wisdomBonus', category: 'attributes', name: 'Wisdom' },
-      totalEndurance: { base: 'endurance', bonus: 'enduranceBonus', category: 'attributes', name: 'Endurance' },
-      totalAgility: { base: 'agility', bonus: 'agilityBonus', category: 'attributes', name: 'Agility' },
-      totalLuck: { base: 'luck', bonus: 'luckBonus', category: 'attributes', name: 'Luck' },
-      totalStamina: { base: 'stamina', bonus: 'staminaBonus', category: 'attributes', name: 'Stamina' },
-      totalArmor: { base: 'armor', bonus: 'armorBonus', category: 'defense', name: 'Armor' },
-      totalHealth: { base: 'health', bonus: 'healthBonus', category: 'defense', name: 'Health' },
+      totalStrength: { base: 'strength', bonus: 'strengthBonus', attribute: 'strength', category: 'attributes', name: 'Strength' },
+      totalDexterity: { base: 'dexterity', bonus: 'dexterityBonus', attribute: 'dexterity', category: 'attributes', name: 'Dexterity' },
+      totalWisdom: { base: 'wisdom', bonus: 'wisdomBonus', attribute: 'wisdom', category: 'attributes', name: 'Wisdom' },
+      totalEndurance: { base: 'endurance', bonus: 'enduranceBonus', attribute: 'endurance', category: 'attributes', name: 'Endurance' },
+      totalAgility: { base: 'agility', bonus: 'agilityBonus', attribute: 'agility', category: 'attributes', name: 'Agility' },
+      totalLuck: { base: 'luck', bonus: 'luckBonus', attribute: 'luck', category: 'attributes', name: 'Luck' },
+      totalStamina: { base: 'stamina', bonus: 'staminaBonus', attribute: 'stamina', category: 'attributes', name: 'Stamina' },
+      totalArmor: { base: 'armor', bonus: 'armorBonus', derivedBonus: { id: 'strengthArmorBonus', source: 'Strength' }, category: 'defense', name: 'Armor' },
+      totalHealth: { base: 'health', bonus: 'healthBonus', derivedBonus: { id: 'staminaHealthBonus', source: 'Stamina' }, category: 'defense', name: 'Health' },
+      totalCritDamage: { base: 'critDamage', additions: [{ id: 'agilityCritDamageBonus', source: 'Agility' }], isPercent: true, category: 'offense', name: 'Critical Damage' },
+      totalBossBonus: { base: 'bossBonus', additions: [{ id: 'wisdomBossBonus', source: 'Wisdom' }], isPercent: true, category: 'offense', name: 'Boss Damage Bonus' },
+      totalHealthRegen: { base: 'healthRegen', additions: [{ id: 'staminaHealthRegen', source: 'Stamina' }], category: 'defense', name: 'Health Regen' },
+      totalEnergyRegen: { base: 'energyRegen', additions: [{ id: 'enduranceEnergyRegen', source: 'Endurance' }], category: 'defense', name: 'Energy Regen' },
+      totalXpBonus: { base: 'xpBonus', additions: [{ id: 'luckXpBonus', source: 'Luck' }], isPercent: true, category: 'utility', name: 'XP Bonus' },
+      totalFireDamageBonus: { base: 'fireDamageBonus', additions: [{ id: 'luckFireDamageBonus', source: 'Luck' }], isPercent: true, category: 'elemental', name: 'Fire Damage' },
+      totalArcaneDamageBonus: { base: 'arcaneDamageBonus', additions: [{ id: 'luckArcaneDamageBonus', source: 'Luck' }], isPercent: true, category: 'elemental', name: 'Arcane Damage' },
+      totalLightningDamageBonus: { base: 'lightningDamageBonus', additions: [{ id: 'luckLightningDamageBonus', source: 'Luck' }], isPercent: true, category: 'elemental', name: 'Lightning Damage' },
       // totalDamage is intentionally omitted from the display routing: the
       // Effective Damage headline (edpsEffective) is the canonical damage
       // number and its tooltip covers the full formula. totalDamage is still
@@ -337,10 +347,10 @@ export function useDerivedStats(options = {}) {
     // Base/bonus stat IDs consumed by total stats (don't show separately).
     // damage and damageBonus are consumed manually since totalDamage no longer
     // owns them in the display routing above.
-    const consumedByTotals = new Set(['damage', 'damageBonus']);
+    const consumedByTotals = new Set(['damage', 'damageBonus', 'attackSpeed']);
     for (const info of Object.values(TOTAL_STAT_ROUTING)) {
-      consumedByTotals.add(info.base);
-      consumedByTotals.add(info.bonus);
+      if (info.base) consumedByTotals.add(info.base);
+      if (info.bonus) consumedByTotals.add(info.bonus);
     }
 
     // Monogram-derived stat IDs - these go in the monograms section
@@ -421,23 +431,51 @@ export function useDerivedStats(options = {}) {
 
         // Build combined sources from flat base + bonus%
         const baseSources = aggregatedWithSources[routing.base]?.sources || [];
-        const bonusSources = aggregatedWithSources[routing.bonus]?.sources || [];
+        const bonusSources = routing.bonus ? aggregatedWithSources[routing.bonus]?.sources || [] : [];
         const baseTotal = aggregatedWithSources[routing.base]?.total || 0;
-        const bonusTotal = aggregatedWithSources[routing.bonus]?.total || 0;
+        const rawBonusTotal = routing.bonus ? aggregatedWithSources[routing.bonus]?.total || 0 : 0;
+        const derivedBonusTotal = routing.derivedBonus ? values[routing.derivedBonus.id] || 0 : 0;
+        const additions = routing.additions || [];
+        const additionsTotal = additions.reduce((sum, addition) => sum + (values[addition.id] || 0), 0);
+        const bonusTotal = rawBonusTotal + derivedBonusTotal;
 
         const sources = [
-          ...baseSources.map(s => ({ ...s, isPercent: false })),
+          ...baseSources.map(s => ({ ...s, isPercent: Boolean(routing.isPercent) })),
           ...bonusSources.map(s => ({ ...s, itemName: `${s.itemName} (%)`, isPercent: true })),
+          ...(routing.derivedBonus && derivedBonusTotal ? [{
+            itemName: routing.derivedBonus.source,
+            slot: 'attribute',
+            value: derivedBonusTotal,
+            sourceType: 'attribute',
+            isPercent: true,
+          }] : []),
+          ...additions.filter(addition => values[addition.id]).map(addition => ({
+            itemName: addition.source,
+            slot: 'attribute',
+            value: values[addition.id],
+            sourceType: 'attribute',
+            isPercent: Boolean(routing.isPercent),
+          })),
         ];
 
         // Show both the total multiplier and bonus portion. The game reports
         // "+104%" while the formula multiplies by 204%.
         let description;
-        if (bonusTotal) {
+        if (additions.length) {
+          const formatPart = value => routing.isPercent
+            ? `${(value * 100).toFixed(1)}%`
+            : value.toFixed(2);
+          description = `${formatPart(baseTotal)} base + ${formatPart(additionsTotal)} from attributes = ${stat.formattedValue}`;
+        } else if (bonusTotal) {
           const flatDisplay = routing.base === 'health' ? baseTotal.toFixed(2) : Math.floor(baseTotal);
           description = `${flatDisplay} flat \u00d7 ${((1 + bonusTotal) * 100).toFixed(0)}% total (+${(bonusTotal * 100).toFixed(0)}% bonus) = ${stat.formattedValue}`;
         } else {
-          description = `${routing.name} from gear`;
+          description = routing.attribute ? `${routing.name} total` : `${routing.name} from gear`;
+        }
+
+        if (routing.attribute) {
+          const dependency = ATTRIBUTE_BONUSES[routing.attribute].description.replace(/;(?!\s)/g, '; ');
+          description = `${description}. ${dependency}`;
         }
 
         // For primary attributes, append bonus% to the displayed value

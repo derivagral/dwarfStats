@@ -17,6 +17,7 @@
  *   DT_GENERATED_SkillTree_Main.json — optional main-tree UI-node effects
  *
  * Outputs (committed, consumed by src/):
+ *   src/data/attributeBonuses.generated.json
  *   src/data/monograms.generated.json
  *   src/data/affixes.generated.json
  *   src/data/modifierPools.generated.json
@@ -44,6 +45,18 @@ const GEN_DIR = path.join(REPO_ROOT, 'src', 'data');
 
 const MODIFIER_PREFIX = 'EasyRPG.Items.Modifiers.';
 
+const PRIMARY_ATTRIBUTE_TAGS = {
+  strength: 'EasyRPG.Attributes.Characteristics.Strength',
+  dexterity: 'EasyRPG.Attributes.Characteristics.Dexterity',
+  wisdom: 'EasyRPG.Attributes.Characteristics.Wisdom',
+  // The game exposes this to players as Endurance but retains Intelligence in
+  // the underlying gameplay tag.
+  endurance: 'EasyRPG.Attributes.Characteristics.Intelligence',
+  agility: 'EasyRPG.Attributes.Characteristics.Agility',
+  luck: 'EasyRPG.Attributes.Characteristics.Luck',
+  stamina: 'EasyRPG.Attributes.Characteristics.Stamina',
+};
+
 function loadTable(fileName) {
   const raw = JSON.parse(fs.readFileSync(path.join(DATA_DIR, fileName), 'utf8'));
   const objects = Array.isArray(raw) ? raw : [raw];
@@ -67,6 +80,29 @@ function textOf(ftext) {
   // SourceString is the developer's current English; LocalizedString can lag
   // behind it when the localization table hasn't been rebuilt.
   return ftext.SourceString ?? ftext.LocalizedString ?? ftext.CultureInvariantString ?? null;
+}
+
+// ---------------------------------------------------------------------------
+// Primary attribute dependencies (from DT_Attributes)
+// ---------------------------------------------------------------------------
+
+function generateAttributeBonuses(attributeRows) {
+  return Object.fromEntries(Object.entries(PRIMARY_ATTRIBUTE_TAGS).map(([id, tag]) => {
+    const row = attributeRows[tag];
+    if (!row) throw new Error(`Missing primary attribute row: ${tag}`);
+
+    const effects = (prop(row, 'Dependencies') ?? []).map((dep) => ({
+      tag: prop(dep, 'GameplayTag')?.TagName,
+      valuePerPoint: prop(dep, 'Value') ?? 0,
+    })).filter(effect => effect.tag);
+
+    return [id, {
+      tag,
+      name: textOf(prop(row, 'AttributeName')) ?? id,
+      description: textOf(prop(row, 'Description')) ?? '',
+      effects,
+    }];
+  }));
 }
 
 // ---------------------------------------------------------------------------
@@ -330,6 +366,7 @@ try {
 }
 
 const monograms = generateMonograms(attributeRows);
+const attributeBonuses = generateAttributeBonuses(attributeRows);
 const affixes = generateAffixes(affixRows);
 const pools = generatePools(poolRows);
 const cards = generateCards(cardRows);
@@ -339,6 +376,8 @@ const weaponSkills = generateWeaponSkills(statusEffects);
 fs.mkdirSync(GEN_DIR, { recursive: true });
 const banner = { _generated: 'by extraction/generate-registries.mjs — do not edit by hand' };
 
+fs.writeFileSync(path.join(GEN_DIR, 'attributeBonuses.generated.json'),
+  JSON.stringify({ ...banner, _source: 'DT_Attributes primary-characteristic dependencies', attributeBonuses }, null, 2));
 fs.writeFileSync(path.join(GEN_DIR, 'monograms.generated.json'),
   JSON.stringify({ ...banner, monograms }, null, 2));
 fs.writeFileSync(path.join(GEN_DIR, 'affixes.generated.json'),
@@ -356,6 +395,7 @@ if (mainTreeHealth) {
     JSON.stringify({ ...banner, _source: 'DT_GENERATED_SkillTree_Main (MaxHealth effects only)', effectsByRow: mainTreeHealth }, null, 2));
 }
 
+console.log(`Attributes:     ${Object.keys(attributeBonuses).length}`);
 console.log(`Monograms:      ${Object.keys(monograms).length}`);
 console.log(`Affixes:        ${Object.keys(affixes).length}`);
 console.log(`Pools:          ${Object.keys(pools).length}`);

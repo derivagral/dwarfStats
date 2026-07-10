@@ -1,0 +1,2572 @@
+[
+  {
+    "Type": "DataTable",
+    "Name": "DT_PlayerAbilities",
+    "Flags": "RF_Public | RF_Standalone | RF_Transactional | RF_WasLoaded | RF_LoadCompleted",
+    "Class": "UScriptClass'DataTable'",
+    "Package": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Abilities/SkillAbilities/Localized/DT_PlayerAbilities",
+    "Properties": {
+      "RowStruct": {
+        "ObjectName": "UserDefinedStruct'STR_PlayerAbilityDescriptor'",
+        "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Abilities/SkillAbilities/STR_PlayerAbilityDescriptor.0"
+      }
+    },
+    "Rows": {
+      "RainOfFlames": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.FlameShowerMeteor"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator1",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.58
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Sky"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Explosion"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "E7DC78904DA59906F8E3AA951FC1BB55",
+          "SourceString": "Conjures a barrage of meteors. Celestial projectiles rain down, inflicting area-of-effect damage to adversaries within range.",
+          "LocalizedString": "Conjures a barrage of meteors. Celestial projectiles rain down, inflicting area-of-effect damage to adversaries within range."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'RoF-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/RoF-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_FlameShower_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/RainOfFire/BP_FlameShower_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Fire_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Fire.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 5.4,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 4.2,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 3.0
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.Modifier.Damage"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.Modifier.LavaRainTicks"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.Modifier.Ticks"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "C3EE035B4B31A2FC72271BAC0151E9CF",
+          "SourceString": "Rain of Flames",
+          "LocalizedString": "Rain of Flames"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.FlameShowerMeteor.Modifier.Ticks"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Hazard"
+            }
+          }
+        ]
+      },
+      "CarnageOfFire": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.CarnageOfFire"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator1",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.CarnageOfFire.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.CarnageOfFire.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.12
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Sky"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Explosion"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "E72C644643CDD3643CAE1AAC19E7038B",
+          "SourceString": "Generates volatile lava droplets. Molten projectiles detonate on impact, dealing area-of-effect damage to enemies within the blast radius.",
+          "LocalizedString": "Generates volatile lava droplets. Molten projectiles detonate on impact, dealing area-of-effect damage to enemies within the blast radius."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.CarnageOfFire.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'CoF-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/CoF-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_PlayerSkill_FireCarnage_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Abilities/SkillAbilities/BP_PlayerSkill_FireCarnage.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Fire_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Fire.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 10.8,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 8.4,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 6.0
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.CarnageOfFire.Modifier.Scortch"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.CarnageOfFire.Modifier.Radius"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.CarnageOfFire.Modifier.LavaSpike"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "A09DB3044BCB10E59012C3AD77F51325",
+          "SourceString": "Carnage of Fire",
+          "LocalizedString": "Carnage of Fire"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.CarnageOfFire.Modifier.LavaSpike"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Ground"
+            }
+          }
+        ]
+      },
+      "DelusionOfZelkors": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.DelusionOfZelkors"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator1",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 2.2
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Creature"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Explosion"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "D5C6236D444487237053EFBE9F21A0BB",
+          "SourceString": "Channels the combined energies of two Zelkorian spellcasters. Unleashes a potent area-of-effect explosion, engulfing the targeted zone in magical devastation.",
+          "LocalizedString": "Channels the combined energies of two Zelkorian spellcasters. Unleashes a potent area-of-effect explosion, engulfing the targeted zone in magical devastation."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'DoZ-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/DoZ-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DelusionOfZelkors_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/DelusionOfZelkors/BP_DelusionOfZelkors_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Fire_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Fire.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 4.2,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 3.6,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 3.0
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.Modifier.AdditionalCasts"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.Modifier.AdditionalMages"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.Modifier.FireSpikeTicks"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "013E91804D3561E881783D80294BA944",
+          "SourceString": "Delusion of Zelkors",
+          "LocalizedString": "Delusion of Zelkors"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.DelusionOfZelkors.Modifier.FireSpikeTicks"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Ground"
+            }
+          }
+        ]
+      },
+      "BurningShield": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.BurningShield.ProcChance"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator1",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.BurningShield.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.BurningShield.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Orbit"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "D07F419845C20E8BB5661A9E904E9C43",
+          "SourceString": "Conjures a blazing barrier that protects the caster and damages nearby foes. Creates a hazardous zone, deterring close-quarters engagement.",
+          "LocalizedString": "Conjures a blazing barrier that protects the caster and damages nearby foes. Creates a hazardous zone, deterring close-quarters engagement."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.BurningShield.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'BS-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/BS-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": true,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_BurningShield_New_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/BurningShield/BP_BurningShield_New.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Fire_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Fire.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 10.13,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 7.6,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 6.33
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.BruningDragonsRadius"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.StackBuff"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.LegendaryShield"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "4D2F4AC34AC86D391CD37C82C70CBF95",
+          "SourceString": "Burning Shield",
+          "LocalizedString": "Burning Shield"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.BruningDragonsRadius"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Blade"
+            }
+          },
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.BurningShield.Modifier.StackBuff"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          }
+        ]
+      },
+      "FireBeam": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.FireBeam"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator1",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FireBeam.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FireBeam.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.8
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Projectile"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Hazard"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "73A17DF24FA51BA9D1ED28A744D19907",
+          "SourceString": "Projects an intense beam of concentrated fire forward. Inflicts damage to enemies in its path, creating a linear zone of destruction.",
+          "LocalizedString": "Projects an intense beam of concentrated fire forward. Inflicts damage to enemies in its path, creating a linear zone of destruction."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FireBeam.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'FB-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/FB-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": true,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_FireBeam_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/FireBeam/BP_FireBeam_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Fire_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Fire.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 6.3,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 5.2,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 3.9
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FireBeam.Modifier.AdditionalBeam"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FireBeam.Modifier.ExpandedBeam"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FireBeam.Modifier.Ring"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "4DDC3F984DCD48B2CEDDD9B0B3EE9DEA",
+          "SourceString": "Fire Beam",
+          "LocalizedString": "Fire Beam"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.FireBeam.Modifier.ExpandedBeam"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Charging"
+            }
+          }
+        ]
+      },
+      "DragonFlame": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.DragonFlame"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator1",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.DragonFlame.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.DragonFlame.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 2.0
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Dragon"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Creature"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "C5A66C0D4DE86BAD5CEAE89B3D04A450",
+          "SourceString": "Manifests a colossal fire dragon on the battlefield. Unleashes devastating waves of fire, incinerating foes within its vicinity.",
+          "LocalizedString": "Manifests a colossal fire dragon on the battlefield. Unleashes devastating waves of fire, incinerating foes within its vicinity."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.DragonFlame.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'DF-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/DF-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_FlameDragon_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/DragonFlames/BP_FlameDragon.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Fire_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Fire.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 8.67,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 6.93,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 5.2
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.DragonFlame.Modifier.AdditionalFlame"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.DragonFlame.Modifier.BonusRadius"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.DragonFlame.Modifier.BonusTickTime"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "06F619484FDFFD2854CFBAB00C812C69",
+          "SourceString": "Dragon Flame",
+          "LocalizedString": "Dragon Flame"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.DragonFlame.Modifier.BonusRadius"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Area"
+            }
+          }
+        ]
+      },
+      "ChainLightning": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.ChainLightning"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ChainLightning.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ChainLightning.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 2.4
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Charging"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "68B3956F4A8E0E055DBB6B96FD965C9F",
+          "SourceString": "Unleashes electrical energy that arcs between targets. Creates a chain reaction of lightning, damaging multiple enemies in rapid succession.",
+          "LocalizedString": "Unleashes electrical energy that arcs between targets. Creates a chain reaction of lightning, damaging multiple enemies in rapid succession."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ChainLightning.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'CL-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/CL-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_ChainLightning_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/ChainLightning/BP_ChainLightning_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 5.06,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 4.06,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 3.54
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.AdditionalJumps"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.BonusDamage"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.Overload"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "3E59AA8A4B75DB9373A8B2A9B1D9F159",
+          "SourceString": "Chain Lightning",
+          "LocalizedString": "Chain Lightning"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.Overload"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Sky"
+            }
+          },
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.AdditionalJumps"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Area"
+            }
+          }
+        ]
+      },
+      "Spark": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.Spark"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.Spark.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.Spark.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.75
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Charging"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Sky"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "97E476634CD608A32D95BC9521169D22",
+          "SourceString": "Generates electric sparks. Sparks leap between nearby adversaries, creating unpredictable patterns of electrical damage.",
+          "LocalizedString": "Generates electric sparks. Sparks leap between nearby adversaries, creating unpredictable patterns of electrical damage."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.Spark.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'Spark-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/Spark-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_PlayerSkill_SparkManagerNew_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/Spark/BP_PlayerSkill_SparkManagerNew.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 6.4,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 5.6,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 4.8
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.Spark.Modifier.AdditionalJumps"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.Spark.Modifier.PlasmaSphere"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.Spark.Modifier.Split"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "59E62E15483B103CB6A5078E79D5E318",
+          "SourceString": "Spark",
+          "LocalizedString": "Spark"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.Spark.Modifier.PlasmaSphere"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          }
+        ]
+      },
+      "Vortex": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.Vortex"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.Vortex.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.Vortex.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.2
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Sky"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Hazard"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "D5780A344255193C77F320B477313C77",
+          "SourceString": "Conjures a powerful wind vortex at the target location. Lifts and suspends enemies, dealing continuous damage from intense pressure and turbulent forces.",
+          "LocalizedString": "Conjures a powerful wind vortex at the target location. Lifts and suspends enemies, dealing continuous damage from intense pressure and turbulent forces."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.Vortex.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'Vortex-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/Vortex-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_Vortex_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/Vortex/BP_Vortex.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 4.0,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 3.33,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 2.67
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.Vortex.Modifier.MiniTornados"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.Vortex.Modifier.StackBuff"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.Vortex.Modifier.Tornados"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "1F78D4C340E9FB89B21655BCC97161B8",
+          "SourceString": "Vortex",
+          "LocalizedString": "Vortex"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.Vortex.Modifier.Tornados"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Area"
+            }
+          }
+        ]
+      },
+      "EyeOfTheStorm": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 2.6
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Sky"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "FC43987641FA2189D68B7FB6BE15F950",
+          "SourceString": "Summons a localized maelstrom around the caster. Unleashes destructive forces on nearby enemies, combining violent winds and lightning.",
+          "LocalizedString": "Summons a localized maelstrom around the caster. Unleashes destructive forces on nearby enemies, combining violent winds and lightning."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'eots-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/eots-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": true,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_EyeOfStorm_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/EyeOfTheStorm/BP_EyeOfStorm.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 10.67,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 8.53,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 6.4
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.Modifier.Cloud"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.Modifier.Radius"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.Modifier.Ticks"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "312ADE6145A1429CA0FDC3B49C0DB722",
+          "SourceString": "Eye of the Storm",
+          "LocalizedString": "Eye of the Storm"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.Modifier.Radius"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Area"
+            }
+          },
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.EyeOfTheStorm.Modifier.Cloud"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Hazard"
+            }
+          }
+        ]
+      },
+      "FerocityOfWolves": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.FerocityOfWolves"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FerocityOfWolves.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FerocityOfWolves.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.4
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Creature"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Ground"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "096BFC56428446B3DDFE9E80549696CC",
+          "SourceString": "Manifests spectral wolves charged with electrical energy. Unleashes ethereal canines that materialize near the caster. Wolves lunge at nearby foes, delivering shocking assaults.",
+          "LocalizedString": "Manifests spectral wolves charged with electrical energy. Unleashes ethereal canines that materialize near the caster. Wolves lunge at nearby foes, delivering shocking assaults."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FerocityOfWolves.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'fow-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/fow-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_PlayerSkill_FerocityOfWolvesNew_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/FerocityOfWolves/BP_PlayerSkill_FerocityOfWolvesNew.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 5.58,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 4.68,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 4.14
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FerocityOfWolves.Modifier.AdditionalWolves"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FerocityOfWolves.Modifier.Bats"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FerocityOfWolves.Modifier.BearsDamageBonus"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "EAD9F77D4865173C96A4CFA225751DE8",
+          "SourceString": "Ferocity of Wolves",
+          "LocalizedString": "Ferocity of Wolves"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.FerocityOfWolves.Modifier.AdditionalWolves"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Charging"
+            }
+          }
+        ]
+      },
+      "StaticCharge": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.StaticCharge"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.StaticCharge.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.StaticCharge.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.65
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Ground"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Charging"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "0584DAD44E171D64E1B4628B966698A3",
+          "SourceString": "Transfers static charge to the ground. Creates an electrified field in the targeted area. Damages enemies who traverse the charged terrain.",
+          "LocalizedString": "Transfers static charge to the ground. Creates an electrified field in the targeted area. Damages enemies who traverse the charged terrain."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.StaticCharge.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'StaticCharge-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/StaticCharge-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_StaticCharge_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/StaticCharge/BP_StaticCharge.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 3.48,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 2.71,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 1.93
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.StaticCharge.Modifier.AdditionalCharges"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.StaticCharge.Modifier.ExplodeChargeBuff"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.StaticCharge.Modifier.Radius"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "2FE66C06495172778678DCB17943ECC1",
+          "SourceString": "Static Charge",
+          "LocalizedString": "Static Charge"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.StaticCharge.Modifier.ExplodeChargeBuff"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Sky"
+            }
+          }
+        ]
+      },
+      "StarBlades": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.StarBlades"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.StarBlades.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.StarBlades.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.6
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Sky"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Blade"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "8CF54DA9478A3435A85E9D96B146ACEA",
+          "SourceString": "Invokes cosmic forces to manifest razor-sharp blades from the sky. Blades rain down and embed in the ground in a radial pattern, damaging nearby adversaries.",
+          "LocalizedString": "Invokes cosmic forces to manifest razor-sharp blades from the sky. Blades rain down and embed in the ground in a radial pattern, damaging nearby adversaries."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.StarBlades.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'StarBlades-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/StarBlades-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_StarBladeInstigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/Starblades/BP_StarBladeInstigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 3.76,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 3.04,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 2.54
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.StarBlades.Modifier.AdditionalBlades"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.StarBlades.Modifier.DamageBonusFirst"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.StarBlades.Modifier.KunamiDaggers"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "AEF2F059495B4F85F6C302A24CF883C9",
+          "SourceString": "Starblades",
+          "LocalizedString": "Starblades"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.StarBlades.Modifier.KunamiDaggers"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Charging"
+            }
+          }
+        ]
+      },
+      "ElectricDragons": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.ElectricDragons"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ElectricDragons.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ElectricDragons.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 2.0
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Dragon"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Orbit"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "DAD1CE1F4322D6589C777CA04F686B6A",
+          "SourceString": "Manifests a ring of electric dragons around the caster. Dragons orbit the user, crackling with intense electrical energy. Inflicts damage to foes who come into contact with the ethereal serpents.",
+          "LocalizedString": "Manifests a ring of electric dragons around the caster. Dragons orbit the user, crackling with intense electrical energy. Inflicts damage to foes who come into contact with the ethereal serpents."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ElectricDragons.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'ED-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/ED-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": true,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_ElectricDragon_New_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/ElectricDragons/BP_ElectricDragon_New.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 8.07,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 6.6,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 5.13
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.BonusDamage"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.ElectricMeteors"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "FA499B0B4D1BFCF17565C6AB6A69FD8A",
+          "SourceString": "Electric Dragons",
+          "LocalizedString": "Electric Dragons"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Area"
+            }
+          }
+        ]
+      },
+      "SpinnigBlade": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.SpinningBlade"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator3",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.SpinningBlade.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.SpinningBlade.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Orbit"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Blade"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "9B0B6F684D8D27789FA835A1A65C28DD",
+          "SourceString": "Conjures a rotating array of razor-sharp blades around the caster. Creates a mobile zone of cutting force, damaging enemies who venture too close.",
+          "LocalizedString": "Conjures a rotating array of razor-sharp blades around the caster. Creates a mobile zone of cutting force, damaging enemies who venture too close."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.SpinningBlade.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'SB-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/SB-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": true,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_PlayerSkill_SpiningBlade_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Abilities/SkillAbilities/BP_PlayerSkill_SpiningBlade.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Arcane_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Arcane.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 8.23,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 6.5,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 4.77
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.SpinningBlade.Modifier.DamageBonus"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.SpinningBlade.Modifier.ElementalDamage"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.SpinningBlade.Modifier.Shurikans"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "C109B9F8454B217FC5D0EC9731E5E5E4",
+          "SourceString": "Spinning Blade",
+          "LocalizedString": "Spinning Blade"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.SpinningBlade.Modifier.Shurikans"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Projectile"
+            }
+          }
+        ]
+      },
+      "Toxicity": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator3",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.25
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Ground"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Hazard"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "BE15FBB345ABFEDFFA1B008DAB5C42D1",
+          "SourceString": "Generates pools of poison around the caster. Creates hazardous zones on the ground that persist briefly. Damages enemies who come into contact with or traverse the toxic areas.",
+          "LocalizedString": "Generates pools of poison around the caster. Creates hazardous zones on the ground that persist briefly. Damages enemies who come into contact with or traverse the toxic areas."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'Toxicity-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/Toxicity-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_Toxicity_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/Toxicity/BP_Toxicity.1"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Arcane_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Arcane.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 8.27,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 6.2,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 4.13
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.ToxicProjectile"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.ChemicalExplosion"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.Lifetime"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.Radius"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "2DE4DC7140B73075E3B8C9A1883C8A51",
+          "SourceString": "Toxicity",
+          "LocalizedString": "Toxicity"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.ToxicProjectile"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Projectile"
+            }
+          }
+        ]
+      },
+      "DeathBlades": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.EnemyDeath"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator3",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.EnemyDeath.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.EnemyDeath.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 2.4
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Blade"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Hazard"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "57A8E6EE49B80381B82097A46BDA00D5",
+          "SourceString": "Manifests an ethereal blade imbued with arcane energy. Blade rotates, emitting waves of force that damage nearby foes.",
+          "LocalizedString": "Manifests an ethereal blade imbued with arcane energy. Blade rotates, emitting waves of force that damage nearby foes."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.EnemyDeath.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'DB-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/DB-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DeathBlade_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/DeathBlade/BP_DeathBlade.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Arcane_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Arcane.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 9.18,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 7.14,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 5.1
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.EnemyDeath.Modifier.ArcaneSpikeTicks"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.EnemyDeath.Modifier.LifetimeBuff"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.EnemyDeath.Modifier.VesselBuff"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "4023EFA54114CB20B24E189EB40CF56C",
+          "SourceString": "Death Blades",
+          "LocalizedString": "Death Blades"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.EnemyDeath.Modifier.ArcaneSpikeTicks"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Ground"
+            }
+          }
+        ]
+      },
+      "ArcaneOrb": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator3",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.9
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Projectile"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Charging"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "75A52FD54A0C4DC1F4C8C8A7ED0D23CB",
+          "SourceString": "Unleashes a homing orb of arcane energy. Orb phase-shifts through enemies, damaging them as it travels outward. On its return path, it continues to damage foes in its way back to the caster.",
+          "LocalizedString": "Unleashes a homing orb of arcane energy. Orb phase-shifts through enemies, damaging them as it travels outward. On its return path, it continues to damage foes in its way back to the caster."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'AOrbs-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/AOrbs-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_ArcaneOrb_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/ArcaneOrb/BP_ArcaneOrb_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Arcane_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Arcane.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 4.46,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 3.53,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 2.6
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb.Modifier.AdditionalOrbs"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb.Modifier.ChaosOrb"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb.Modifier.SpawnOnHit"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "AA4B89224E46EA92BA0D0D97FACF92A2",
+          "SourceString": "Arcane Orb",
+          "LocalizedString": "Arcane Orb"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb.Modifier.SpawnOnHit"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          },
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneOrb.Modifier.ChaosOrb"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          }
+        ]
+      },
+      "BloodDragons": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.BloodDragons"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator3",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.BloodDragons.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.BloodDragons.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.85
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Dragon"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Ground"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "0DA60C8742B7937CECC9169AA1F36F1B",
+          "SourceString": "Summons ethereal blood dragons from thin air. Dragons surge towards foes, leaving trails of caustic mist that damage enemies.",
+          "LocalizedString": "Summons ethereal blood dragons from thin air. Dragons surge towards foes, leaving trails of caustic mist that damage enemies."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.BloodDragons.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'BD-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/BD-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_BloodDragons_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/BloodDragons/BP_BloodDragons_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Arcane_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Arcane.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 12.0,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 9.33,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 6.67
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.BloodDragons.Modifier.BonusSizeDamage"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.BloodDragons.Modifier.ExplosionChance"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.BloodDragons.Modifier.SpawnOnHit"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "104CB413448C63A2BC9C0BA4A914073C",
+          "SourceString": "Blood Dragons",
+          "LocalizedString": "Blood Dragons"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.BloodDragons.Modifier.ExplosionChance"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          }
+        ]
+      },
+      "ArcaneApocalypse": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.ArcaneApocalypse"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator3",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.86
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Explosion"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Ground"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "F88100AF42B2F1A16921C9BC4F699EB5",
+          "SourceString": "Unleashes chaotic bursts of reality-warping arcane energy. Creates multiple explosions, forming a sphere of otherworldly devastation around the battlefield.",
+          "LocalizedString": "Unleashes chaotic bursts of reality-warping arcane energy. Creates multiple explosions, forming a sphere of otherworldly devastation around the battlefield."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'AA-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/AA-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_ArcaneApocalypse_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/ArcaneApocalypse/BP_ArcaneApocalypse_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Arcane_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Arcane.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 3.99,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 3.36,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 2.31
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.Modifier.AdditionalExplosions"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.Modifier.AftermathExplosion"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.Modifier.BuffStack"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "D51BC3664321EEE8FD298397AE4BB712",
+          "SourceString": "Arcane Apocalypse",
+          "LocalizedString": "Arcane Apocalypse"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneApocalypse.Modifier.AdditionalExplosions"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Hazard"
+            }
+          }
+        ]
+      },
+      "FireAtom": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.FireAtom"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator1",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FireAtom.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FireAtom.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.3
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Ground"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Area"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "D079F7F544E3BACBEC14DCB1DB78C2BA",
+          "SourceString": "Conjures a pulsating orb on the ground. Orb accumulates charge over time, periodically releasing damaging waves of increasing intensity.",
+          "LocalizedString": "Conjures a pulsating orb on the ground. Orb accumulates charge over time, periodically releasing damaging waves of increasing intensity."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FireAtom.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'FOrb-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/FOrb-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_PlayerSkill_Fire_Atom_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Abilities/SkillAbilities/BP_PlayerSkill_Fire_Atom.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Fire_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Fire.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 4.73,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 3.79,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 2.84
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FireAtom.Modifier.ChargeLonger"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FireAtom.Modifier.Explode"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FireAtom.Modifier.MiniOrbs"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "24A1D3134AA249F34E280A9248CDB84F",
+          "SourceString": "Fire Orb",
+          "LocalizedString": "Fire Orb"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.FireAtom.Modifier.Explode"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          }
+        ]
+      },
+      "FieryTotem": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.FieryTotem"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator1",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FieryTotem.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FieryTotem.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 2.2
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Totem"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Hazard"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "A3322AA048CD95265DF31DB957F77F9F",
+          "SourceString": "Manifests incendiary totems around the caster. Totems explode on contact, creating a tactical minefield of fiery eruptions.",
+          "LocalizedString": "Manifests incendiary totems around the caster. Totems explode on contact, creating a tactical minefield of fiery eruptions."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.FieryTotem.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'FT-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/FT-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_FieryTotem_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/FireyTotem/BP_FieryTotem_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Fire_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Fire.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 7.0,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 5.6,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 4.2
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.DamageBonus"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.ExplodeOnOverlap"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.FireWall"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.FireVortex"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "FA9BF56A48537366F8806F80C4D2269D",
+          "SourceString": "Fiery Totem",
+          "LocalizedString": "Fiery Totem"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.ExplodeOnOverlap"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          }
+        ]
+      },
+      "ArcaneTotem": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.ArcaneTotem"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator3",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneTotem.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneTotem.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.8
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Totem"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Ground"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "83628DFC4A66F35B4EA9A1BDC1E3654C",
+          "SourceString": "Erects a mystical totem infused with arcane and primordial fire. Totem radiates waves of eldritch flame, searing nearby foes.",
+          "LocalizedString": "Erects a mystical totem infused with arcane and primordial fire. Totem radiates waves of eldritch flame, searing nearby foes."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneTotem.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'AT-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/AT-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_ArcaneTotem_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/ArcaneTotem/BP_ArcaneTotem_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Arcane_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Arcane.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 8.8,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 7.2,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 5.6
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneTotem.Modifier.AdditionalFlames"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneTotem.Modifier.ArcaneExplosion"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneTotem.Modifier.ExtraTotem"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "B4025BCC4FB27D15DAE81DA1E96CC86B",
+          "SourceString": "Arcane Totem",
+          "LocalizedString": "Arcane Totem"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneTotem.Modifier.ArcaneExplosion"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          }
+        ]
+      },
+      "LightningTotem": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.LightningTotem"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.LightningTotem.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.LightningTotem.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.9
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Totem"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "28537DB2436FE0142D3DFB9236FEB126",
+          "SourceString": "Erects an electrified totem channeling celestial lightning. Obelisk draws down lightning bolts, creating a field of electrical havoc around it.",
+          "LocalizedString": "Erects an electrified totem channeling celestial lightning. Obelisk draws down lightning bolts, creating a field of electrical havoc around it."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.LightningTotem.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'LT-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/LT-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_Lightning_Totem_Instigator_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/LightningTotem/BP_Lightning_Totem_Instigator.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 9.8,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 8.4,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 7.0
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.AdditionalStrike"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.LargerRadius"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.TimedExplosions"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "09BD81374229579E408264B3383125AC",
+          "SourceString": "Lightning Totem",
+          "LocalizedString": "Lightning Totem"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.LargerRadius"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Area"
+            }
+          },
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.TimedExplosions"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Explosion"
+            }
+          }
+        ]
+      },
+      "ArcaneSeed": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator3",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.4
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Creature"
+          },
+          {
+            "TagName": "EasyRPG.OffhandCategories.Ground"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "C56E5D964B665D6F699AFDB9A43692CC",
+          "SourceString": "Spawns a Kraken Seed near the target. Seeds appear in random locations around struck enemies, ready to unleash aquatic fury.",
+          "LocalizedString": "Spawns a Kraken Seed near the target. Seeds appear in random locations around struck enemies, ready to unleash aquatic fury."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'KS-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/KS-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": false,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": false,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_ArcaneSeedManager_C'",
+          "ObjectPath": "ProjectAlpha/Content/CombatBlueprints/OffhandAbilities/ArcaneSeed/BP_ArcaneSeedManager.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Arcane_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Arcane.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 8.4,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 6.53,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 4.67
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.Darts"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.ExtraTime"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.Flowers"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.TentacleExplosion"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "C9C50A864CB850F36256EA95297C80B2",
+          "SourceString": "Kraken Seed",
+          "LocalizedString": "Kraken Seed"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.Darts"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Projectile"
+            }
+          },
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.TentacleExplosion"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Projectile"
+            }
+          }
+        ]
+      },
+      "LightningPlasma": {
+        "IdentifierTag_56_0CF7BF3C447BC0CCF0DB469300C705CD": {
+          "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma"
+        },
+        "ElementalType_3_B2C3030443E4F7079FE87184418417F2": "E_DamageType_DR::NewEnumerator2",
+        "ProcChanceAttribute_6_D200BE82495037E2E80AD5B0244944D4": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma.ProcChance"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "DmgModifierAttribute_8_12B2ECB341889570640D9186A840C4BB": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma.DamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+        },
+        "Affinities_53_4D6608764776039B35DE40A12DBEDB29": [
+          {
+            "TagName": "EasyRPG.OffhandCategories.Projectile"
+          }
+        ],
+        "Description_12_69733E474E7851A5EF4441AEF4629D32": {
+          "Namespace": "",
+          "Key": "204337A649BF3983BA337EACEFD5FBF2",
+          "SourceString": "Channels crackling lightning force through both arms. Emits damaging electrical energy to enemies on either side of the caster.",
+          "LocalizedString": "Channels crackling lightning force through both arms. Emits damaging electrical energy to enemies on either side of the caster."
+        },
+        "DmgBonusModifierAttribute_15_A636FA274D713767B370FB907816EECA": {
+          "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+            "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma.AdditionalDamageMultiplier"
+          },
+          "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 0.0
+        },
+        "Icon_19_E256816E415C24FDF6E36CB2408B31BF": {
+          "ObjectName": "Texture2D'LP-lp'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Textures/NewOffhandsIcons/LP-lp.0"
+        },
+        "IsOnCharacter?_21_1A37C72A40D6D724D8FD42AA01EAE8DB": true,
+        "IsAttached?_23_22E91ABC4478D049B04C3DA908DFF605": true,
+        "BP_Class_31_659570CD4D35DEC1DBDDACB77FA56183": {
+          "ObjectName": "BlueprintGeneratedClass'BP_PlayerSkill_LightningPlasma_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Abilities/SkillAbilities/BP_PlayerSkill_LightningPlasma.0"
+        },
+        "DamageType_30_1DA5731144C687BA1A573EA17A36F11C": {
+          "ObjectName": "BlueprintGeneratedClass'BP_DamageType_Lightning_C'",
+          "ObjectPath": "ProjectAlpha/Content/EasySurvivalRPG/Blueprints/Misc/DamageTypes/BP_DamageType_Lightning.0"
+        },
+        "CooldownSettings_34_4750C98847B3AED095ECB883D336AB44": {
+          "HasCooldown?_1_2F259F9F493AAD1ADF4FB28FBD6AC83F": true,
+          "Initial_4_68FC3A1440A654ABC9BE94938DF81148": 6.67,
+          "TwoOffhandsCooldown_10_597873844E5BFC03862D4E908D249F4D": 5.0,
+          "ThreeOffhandsCooldown_11_137B731941C52512A5E02896E3E268D5": 3.33
+        },
+        "CanRollonOffhandItems?_36_59420F11496E4614E58B1BABD9BE50EF": true,
+        "AdditionalModifiers_40_7C0F20484F9C4262D4FB1A836668F976": [
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.AdditionalBeam"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.Ticks"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          },
+          {
+            "GameplayTag_2_9682C35B48A5160809F4BFB3A6AECB2C": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.GrowLarger"
+            },
+            "Value_5_43BD33CA455ADE70795B28BCBCDB22CD": 1.0
+          }
+        ],
+        "Title_44_90FF289F46DAE514B308F5915C0A69AA": {
+          "Namespace": "",
+          "Key": "165AB2F94266DA5AEA2E3E96EC795D5D",
+          "SourceString": "Lightning Plasma",
+          "LocalizedString": "Lightning Plasma"
+        },
+        "DeathVFX_47_BDFB63D34C325C95BA6EDF8407B4B3B6": null,
+        "AffinityBehaviours_61_ED1735EC417D3BC8111B188B1B7CFE17": [
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.GrowLarger"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Area"
+            }
+          },
+          {
+            "Key": {
+              "TagName": "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.Ticks"
+            },
+            "Value": {
+              "TagName": "EasyRPG.OffhandCategories.Charging"
+            }
+          }
+        ]
+      }
+    }
+  }
+]

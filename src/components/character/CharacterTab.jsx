@@ -15,7 +15,7 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
     equippedItems: itemStore.equipped,
     timestamp: itemStore.metadata.loadedAt,
     stanceContext: itemStore.metadata.stanceContext,
-    characterStats: itemStore.metadata.allocatedAttributes,
+    characterStats: itemStore.metadata.characterStats || itemStore.metadata.allocatedAttributes,
     maxHealth: itemStore.metadata.maxHealth,
     skillTree: itemStore.metadata.skillTree,
   } : saveData ? {

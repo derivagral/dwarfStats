@@ -169,24 +169,21 @@ The save file is an "import shortcut" - all UI components work from the internal
 |---------|----------------------|----------------|
 | Drag & drop | Yes | Yes |
 | File picker | Yes | Yes |
-| Live watch (single-file polling) | Yes (Upload tab checkbox → `showOpenFilePicker`, 10s poll) | No (snapshot `File` semantics — re-reading a changed file throws; UI shows a re-drop note) |
+| Live save watching | **No — do not re-attempt** | No |
 
-Detection in `src/utils/platform.js` (`hasFilePicker()`).
+Detection in `src/utils/platform.js`.
 
-**Live watch architecture:** file acquisition is consolidated on the Upload
-tab. `useSaveWatcher` (instantiated in `App.jsx` so polling survives tab
-switches) holds a `FileSystemFileHandle` for ONE user-picked `.sav`, polls
-`getFile()` for lastModified changes, and re-processes it through the normal
-load path WITHOUT switching tabs (initial start lands on Filter). Character
-stats and Filter results update reactively from the item store — the Filter
-tab has no file inputs of its own.
-
-**Why a FILE handle, not a directory:** Chrome's File System Access blocklist
-forbids DIRECTORY handles anywhere under AppData — which is where UE saves
-live (`%LOCALAPPDATA%\...\Saved\SaveGames`) — but individual FILE handles
-inside AppData are allowed. A folder-watching variant was tried and removed
-(commit history: PR #67 → fixed here); `showDirectoryPicker` on the real save
-location is blocked by policy, full stop.
+**Live watching was tried twice and removed (see PR #67 and follow-ups):**
+Chrome's File System Access blocklist classifies Windows Local AppData — where
+UE saves live (`%LOCALAPPDATA%\...\Saved\SaveGames`) — as `kBlockAllChildren`:
+BOTH `showDirectoryPicker` (folder polling) and `showOpenFilePicker` (single
+file handle + `getFile()` polling) are rejected there. The traditional
+`<input type="file">` works but yields a one-time snapshot that cannot be
+re-read after the game writes (throws per spec). Refresh = user re-drops the
+save; live monitoring is out of scope for a hosted web page (an installed
+agent/local tool could do it). File acquisition stays consolidated on the
+Upload tab; Character stats and Filter results update reactively from the
+item store when a save (re)loads — the Filter tab has no file inputs.
 
 ## Patterns & Conventions
 
@@ -313,10 +310,12 @@ contributions using generated game data:
   per-stack customization is post-launch). Disable via
   `aggregateSkillEffects(tree, { includeBuffs: false })`.
 Contributions enter the same BASE-layer aggregation as item stats
-(`sourceType: 'skill'` in breakdowns). When real skill data is present the
+(`sourceType: 'skill'` in breakdowns). Main-tree MaxHealth/MaxHealth% nodes are
+resolved from a compact map generated from `DT_GENERATED_SkillTree_Main`.
+When real skill data is present the
 legacy "+1% stance damage per mastery level" approximation is skipped; shared
-builds (no skill tree in the payload) still use it. Main passive tree and
-crafting tree are NOT aggregated yet (opaque node IDs — next MR).
+builds without weapon skill data still use it. Crafting-tree effects are not
+aggregated yet.
 Row-name lookups are case-insensitive (UE FNames: save `Spear_Crit_Damage_buff`
 vs table `Spear_Crit_Damage_Buff`).
 

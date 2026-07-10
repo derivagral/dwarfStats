@@ -3,14 +3,14 @@
  *
  * Converts a parsed skill tree (extractSkillTree) into flat stat
  * contributions using generated game data:
+ * - Main passive tree: health effects mapped from generated UI node IDs
  * - Crystal cards: per-level {tag, value} effects × card level
  * - Weapon stance skills: per-level effects × skill level (covers paragon
  *   nodes, which scale linearly to their game max level)
  * - Weapon skill buffs: force-enabled at max stacks (temporal buff state is
  *   not stored in saves; per-stack customization is a post-launch concern)
  *
- * Main passive tree and crafting/elven tree are intentionally NOT handled
- * here (opaque node IDs / separate effort).
+ * Crafting/elven tree is intentionally NOT handled here yet.
  *
  * Output values are raw save-format decimals (0.05 = 5%), matching item
  * baseStats, so useDerivedStats can aggregate them through the same path.
@@ -20,10 +20,16 @@
 
 import cardsGenerated from '../data/cards.generated.json';
 import weaponSkillsGenerated from '../data/weaponSkills.generated.json';
+import mainTreeHealthGenerated from '../data/mainTreeHealth.generated.json';
 import { findStatForAttribute } from './statRegistry.js';
 
 const GENERATED_CARDS = cardsGenerated.cards || {};
 const GENERATED_WEAPON_SKILLS = weaponSkillsGenerated.weaponSkills || {};
+const MAIN_TREE_HEALTH_EFFECTS = mainTreeHealthGenerated.effectsByRow || {};
+
+export function hasMainTreeHealthEffect(rowName) {
+  return !!MAIN_TREE_HEALTH_EFFECTS[rowName];
+}
 
 // UE row names (FNames) are case-insensitive: saves contain e.g.
 // "Spear_Crit_Damage_buff" while the DataTable row is "Spear_Crit_Damage_Buff".
@@ -55,7 +61,7 @@ const ATTR_PREFIX = 'EasyRPG.Attributes.';
  * @property {string|null} statId - Resolved STAT_REGISTRY id (null if unknown)
  * @property {number} value - Total contribution (per-level value × level/stacks)
  * @property {string} source - Human-readable origin ("Card 3-2 (L6)")
- * @property {'card'|'weaponSkill'|'buff'} kind
+ * @property {'mainTree'|'card'|'weaponSkill'|'buff'} kind
  */
 
 function pushEffects(contributions, effects, multiplier, source, kind) {
@@ -85,6 +91,17 @@ export function aggregateSkillEffects(skillTree, options = {}) {
   const { includeBuffs = true } = options;
   const contributions = [];
   if (!skillTree) return contributions;
+
+  // --- Main passive tree: generated node IDs → health effects -----------
+  // The save stores opaque UI_SkillTreeNode_* row names. The compact map is
+  // generated from DT_GENERATED_SkillTree_Main and intentionally contains
+  // only MaxHealth/MaxHealth% effects for now.
+  for (const skill of skillTree.mainTree ?? []) {
+    const effects = MAIN_TREE_HEALTH_EFFECTS[skill.rowName];
+    if (!effects) continue;
+    const level = skill.level || 1;
+    pushEffects(contributions, effects, level, `${skill.rowName} (L${level})`, 'mainTree');
+  }
 
   // --- Crystal cards: effects scale linearly with card level -------------
   for (const card of skillTree.cards ?? []) {

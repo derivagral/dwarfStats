@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import { Button, DropZone } from '../common';
 import { useFileProcessor } from '../../hooks/useFileProcessor';
 
-export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare, saveWatcher }) {
+export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare }) {
   const [recentFiles, setRecentFiles] = useState([]);
   const [importText, setImportText] = useState('');
   const fileInputRef = useRef(null);
@@ -13,25 +13,6 @@ export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare, 
     const ok = await onImportShare(importText);
     if (ok) setImportText('');
   }, [onImportShare, importText]);
-
-  // Live watch toggle: checking it opens a FILE picker (pick the character's
-  // .sav) and starts polling; the checkbox stays unchecked if the picker is
-  // cancelled or blocked because `watching` is the source of truth.
-  const handleWatchToggle = useCallback(async (e) => {
-    if (!saveWatcher) return;
-    if (e.target.checked) {
-      const result = await saveWatcher.start();
-      if (!result.ok) {
-        if (result.reason === 'cancelled') {
-          onLog('Live watch not started (file picker cancelled)');
-        } else {
-          onLog(`❌ Live watch failed: ${result.reason}`);
-        }
-      }
-    } else {
-      saveWatcher.stop();
-    }
-  }, [saveWatcher, onLog]);
 
   const handleFileSelect = useCallback(async (file) => {
     try {
@@ -106,35 +87,10 @@ export function UploadTab({ onFileLoaded, onLog, onStatusChange, onImportShare, 
             Pick .sav File
           </Button>
         </div>
-        {saveWatcher?.supported ? (
-          <>
-            <div className="control-row" style={{ justifyContent: 'center', marginTop: '0.5rem' }}>
-              <label
-                className="live-watch-toggle"
-                title="Opens a file picker: choose your character's .sav once, and the app re-scans automatically whenever the game saves (checked every 10s)"
-              >
-                <input
-                  type="checkbox"
-                  checked={saveWatcher.watching}
-                  onChange={handleWatchToggle}
-                />
-                <span>Live watch a save file (pick it once, auto re-scan while you play)</span>
-              </label>
-            </div>
-            {saveWatcher.watching && (
-              <div className="live-watch-status">
-                👁️ Watching <strong>{saveWatcher.watchedName}</strong> — checks every 10s
-                {saveWatcher.lastChangeAt && (
-                  <> · last change {new Date(saveWatcher.lastChangeAt).toLocaleTimeString()}</>
-                )}
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="live-watch-note">
-            Live watch (auto re-scan while you play) needs Chrome or Edge — re-drop your save here to refresh on this browser.
-          </div>
-        )}
+        <div className="live-watch-note">
+          After playing, re-drop or re-pick your save to refresh — browsers can't
+          watch the save folder (Chrome blocks handles under AppData).
+        </div>
       </div>
 
       <DropZone

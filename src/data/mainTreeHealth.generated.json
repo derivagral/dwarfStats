@@ -1,0 +1,210 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "_source": "DT_GENERATED_SkillTree_Main (MaxHealth effects only)",
+  "effectsByRow": {
+    "UI_SkillTreeNode_Large": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_1": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 3
+      }
+    ],
+    "UI_SkillTreeNode_Small_3": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 3
+      }
+    ],
+    "UI_SkillTreeNode_Small_4": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_6": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 3
+      }
+    ],
+    "UI_SkillTreeNode_Small_9": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_10": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_11": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 3
+      }
+    ],
+    "UI_SkillTreeNode_Small_40": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 3
+      }
+    ],
+    "UI_SkillTreeNode_Small_45": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 3
+      }
+    ],
+    "UI_SkillTreeNode_Small_78": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 3
+      }
+    ],
+    "UI_SkillTreeNode_Large_8": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 10
+      }
+    ],
+    "UI_SkillTreeNode_Small_63": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth",
+        "value": 3
+      }
+    ],
+    "UI_SkillTreeNode_Small_310": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_311": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_312": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_313": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_314": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_315": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_316": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_317": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Large_62": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.1
+      }
+    ],
+    "UI_SkillTreeNode_Small_384": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Large_100": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.05
+      }
+    ],
+    "UI_SkillTreeNode_Small_689": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_690": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_691": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_692": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_693": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_694": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_695": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_696": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_697": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ],
+    "UI_SkillTreeNode_Small_698": [
+      {
+        "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+        "value": 0.01
+      }
+    ]
+  }
+}

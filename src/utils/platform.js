@@ -15,14 +15,12 @@ export function detectPlatform() {
   return { icon: '🌐', name: 'Browser', isChromium: false };
 }
 
+// NOTE: live save-watching via the File System Access API was tried and
+// removed. Chrome's blocklist classifies Windows Local AppData — where UE
+// saves live — as kBlockAllChildren: BOTH directory and file handles are
+// rejected there (showDirectoryPicker and showOpenFilePicker alike). Only the
+// traditional <input type="file"> snapshot works, which cannot be re-read
+// after the game writes. Refresh = user re-drops the save.
 export function hasDirPicker() {
   return 'showDirectoryPicker' in window;
-}
-
-// Single-file handle picker (Chromium). Unlike DIRECTORY handles — which
-// Chrome's File System Access blocklist forbids anywhere under AppData, where
-// UE save games actually live — FILE handles inside AppData are allowed, so
-// live watch uses this instead of showDirectoryPicker.
-export function hasFilePicker() {
-  return 'showOpenFilePicker' in window;
 }

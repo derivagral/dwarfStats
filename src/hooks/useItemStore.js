@@ -3,6 +3,7 @@ import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
 import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, convertMasteryToStanceContext } from '../utils/stanceSkills';
 import { extractSkillTree } from '../utils/skillTreeParser';
+import { parseHealthProgression } from '../utils/healthParser';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -32,6 +33,7 @@ export function useItemStore() {
     loadedAt: null,
     stanceContext: null,
     allocatedAttributes: {},
+    characterStats: {},
   });
 
   /**
@@ -47,6 +49,16 @@ export function useItemStore() {
     const stanceContext = parseStanceContext(saveJson, equippedItems);
     const allocatedAttributes = parseAllocatedAttributes(saveJson);
     const maxHealth = parseMaxHealth(saveJson);
+    const healthProgression = parseHealthProgression(saveJson);
+    const characterStats = { ...allocatedAttributes };
+    if (healthProgression.totalFlatHealth > 0) {
+      const bossCount = healthProgression.campaignBosses.length;
+      characterStats.health = {
+        value: healthProgression.totalFlatHealth,
+        sourceName: `Base + level ${healthProgression.level} + ${bossCount} campaign bosses`,
+        sourceType: 'progression',
+      };
+    }
     // Parsed skill tree (cards + weapon skills with levels) — feeds
     // skillEffectAggregator via useDerivedStats
     const skillTree = extractSkillTree(saveJson);
@@ -62,7 +74,9 @@ export function useItemStore() {
       loadedAt: new Date().toISOString(),
       stanceContext,
       allocatedAttributes,
+      characterStats,
       maxHealth,
+      healthProgression,
       skillTree,
     });
   }, []);
@@ -86,6 +100,7 @@ export function useItemStore() {
       loadedAt: new Date().toISOString(),
       stanceContext: convertMasteryToStanceContext(masteryData),
       allocatedAttributes: allocatedAttributes || {},
+      characterStats: allocatedAttributes || {},
       maxHealth: maxHealth || 0,
       sharedMastery: masteryData,
       // v2 shares carry the skill tree; when present, useDerivedStats computes
@@ -105,6 +120,8 @@ export function useItemStore() {
       filename: null,
       loadedAt: null,
       stanceContext: null,
+      allocatedAttributes: {},
+      characterStats: {},
     });
   }, []);
 

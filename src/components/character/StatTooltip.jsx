@@ -16,7 +16,9 @@ const sourceChip = (source) => {
     case 'skill':
       if (source.kind === 'card') return { label: 'Card', cls: 'card' };
       if (source.kind === 'buff') return { label: 'Buff', cls: 'buff' };
+      if (source.kind === 'mainTree') return { label: 'Tree', cls: 'skill' };
       return { label: 'Skill', cls: 'skill' };
+    case 'progression': return { label: 'Base', cls: 'base' };
     case 'monogram': return { label: 'Mono', cls: 'monogram' };
     case 'allocated': return { label: 'Base', cls: 'base' };
     case 'stance': return { label: 'Stance', cls: 'stance' };

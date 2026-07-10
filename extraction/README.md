@@ -102,7 +102,7 @@ node extraction/summarize-datatable.mjs path\to\DT_Crystal_Cards_Skills.json
 Prints row names, the union of property keys/types, and a sample row — enough to
 design the effect mapping without eyeballing megabytes of JSON.
 
-### Step 3 — Generate card registry data
+### Step 3 — Generate registry data
 
 ```
 node extraction/transform-cards.mjs path\to\DT_Crystal_Cards_Skills.json
@@ -114,6 +114,17 @@ Writes:
 - `extraction/out/cardRegistry.draft.js` — draft `CARD_REGISTRY` entries in the
   shape `src/utils/skillTreeRegistry.js` expects (name/description auto-filled
   where the table provides them; `effects` mapping is the follow-up step)
+
+For the app's committed generated registries, place the reviewed DataTable
+exports under `extraction/data/` and run:
+
+```
+node extraction/generate-registries.mjs
+```
+
+`DT_GENERATED_SkillTree_Main.json` is optional. When present, the generator
+emits a compact `mainTreeHealth.generated.json` containing only MaxHealth and
+MaxHealth% effects keyed by the opaque `UI_SkillTreeNode_*` save row names.
 
 ## Handing data back to a remote Claude session
 
@@ -144,7 +155,8 @@ Remote sessions can't see your filesystem — use the branch as the transport:
 - Monograms: export the GameplayTags table / item-modifier DataTables to resolve
   the unconfirmed `EasyRPG.Items.Modifiers.*` placeholder keys (see CLAUDE.md
   "Integration TODOs").
-- Main skill tree: export `DT_GENERATED_SkillTree_Main` to de-opaque
-  `UI_SkillTreeNode_Small_*` ids and replace the manual `TREE_KEYSTONES` checklist.
+- Main skill tree: MaxHealth nodes are generated from
+  `DT_GENERATED_SkillTree_Main`; extend the same compact mapping approach for
+  additional numeric effects and replace the remaining manual keystone checklist.
 - Locres: export `Game.locres` (FModel saves it as JSON too) for display
   names/descriptions if the DataTables only store string-table keys.

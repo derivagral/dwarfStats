@@ -3,6 +3,7 @@ import {
   calculateCampaignHealth,
   calculateLevelHealth,
   parseCharacterLevel,
+  parseCharacterName,
   parseCompletedRuptures,
   parseHealthProgression,
 } from '../src/utils/healthParser.js';
@@ -15,6 +16,7 @@ function makeSave(level, completedRuptures = []) {
           Struct: {
             Struct: {
               Level_11_TEST_0: { Int: level },
+              PlayerName_2_TEST_0: { Str: 'NesPasJeter' },
             },
           },
         },
@@ -39,6 +41,11 @@ describe('health progression parsing', () => {
     const save = makeSave(560, [1, 6, 12, 18, 24, 30, 36, 160]);
     expect(parseCharacterLevel(save)).toBe(560);
     expect(parseCompletedRuptures(save)).toEqual([1, 6, 12, 18, 24, 30, 36, 160]);
+  });
+
+  it('reads the character name from HostPlayerData', () => {
+    expect(parseCharacterName(makeSave(560))).toBe('NesPasJeter');
+    expect(parseCharacterName({})).toBe('');
   });
 
   it('awards 100 flat health for each of the six campaign bosses', () => {

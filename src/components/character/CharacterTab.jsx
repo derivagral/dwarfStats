@@ -12,6 +12,8 @@ export function CharacterTab({ saveData, itemStore, onClearSave, onLog }) {
   // Falls back to saveData for backward compatibility
   const characterData = itemStore?.hasItems ? {
     filename: itemStore.metadata.filename || saveData?.filename,
+    characterName: itemStore.metadata.characterName,
+    characterLevel: itemStore.metadata.characterLevel,
     equippedItems: itemStore.equipped,
     timestamp: itemStore.metadata.loadedAt,
     stanceContext: itemStore.metadata.stanceContext,

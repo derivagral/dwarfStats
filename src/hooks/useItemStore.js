@@ -3,7 +3,7 @@ import { extractEquippedItems } from '../utils/equipmentParser';
 import { transformAllItems } from '../models/itemTransformer';
 import { parseStanceContext, parseAllocatedAttributes, parseMaxHealth, convertMasteryToStanceContext } from '../utils/stanceSkills';
 import { extractSkillTree } from '../utils/skillTreeParser';
-import { parseHealthProgression } from '../utils/healthParser';
+import { parseHealthProgression, parseCharacterName } from '../utils/healthParser';
 import { itemShareToItem } from '../models/CharacterShareModel';
 
 /**
@@ -72,6 +72,10 @@ export function useItemStore() {
     setMetadata({
       filename,
       loadedAt: new Date().toISOString(),
+      // Save filenames are character-id hashes; the real name lives in
+      // HostPlayerData.PlayerName
+      characterName: parseCharacterName(saveJson),
+      characterLevel: healthProgression.level,
       stanceContext,
       allocatedAttributes,
       characterStats,

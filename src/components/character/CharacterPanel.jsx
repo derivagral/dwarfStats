@@ -13,7 +13,11 @@ export function CharacterPanel({ characterData }) {
 
   if (!characterData) return null;
 
-  const baseName = characterData.filename.replace(/\.sav$/i, '');
+  // Prefer the character's real name (HostPlayerData.PlayerName) — save
+  // filenames are character-id hashes. Shares fall back to the filename stub.
+  const displayName = characterData.characterName
+    || characterData.filename?.replace(/\.sav$/i, '')
+    || 'Character';
 
   // Map equipped items to their slots
   const equippedItems = characterData.equippedItems || [];
@@ -151,8 +155,10 @@ export function CharacterPanel({ characterData }) {
   return (
     <div className="character-panel">
       <div className="character-header">
-        <span className="character-name">{baseName}</span>
-        <span className="character-class">Unknown Class</span>
+        <span className="character-name">{displayName}</span>
+        {characterData.characterLevel > 0 && (
+          <span className="character-class">Level {characterData.characterLevel}</span>
+        )}
       </div>
 
       <div className="character-content">

@@ -169,6 +169,36 @@ describe('CharacterShareModel — item round-trip', () => {
     expect(restored.displayName).toBe('Tiger Bracers');
   });
 
+  it('round-trips pet conversion abilities via the stat dictionary', () => {
+    const petItem = {
+      ...sampleItem,
+      rowName: 'Equipment_Pet_Fire',
+      displayName: 'Gralagg',
+      slot: 'dragon',
+      baseStats: [
+        { stat: 'ToFire', value: 1, rawTag: 'EasyRPG.Attributes.GlobalModifiers.Arcane.ToFire' },
+      ],
+      monograms: [],
+    };
+    const share = createItemShare(petItem);
+    // Registry hit → integer-encoded (not the ambiguous 'ToFire' string)
+    expect(typeof share.bs[0][0]).toBe('number');
+    expect(decodeIdOrString(STAT_DICT, share.bs[0][0])).toBe('arcaneToFire');
+
+    const restored = itemShareToItem(share, 0);
+    expect(restored.baseStats[0].stat).toBe('arcaneToFire');
+    expect(restored.baseStats[0].value).toBe(1);
+    // Canonical rawTag re-resolves on the receiving side's aggregation path
+    expect(restored.baseStats[0].rawTag).toBe('GlobalModifiers.Arcane.ToFire');
+
+    // And the flag drives ED routing after decode: fire+arcane merge
+    const r = calculateDerivedStats({
+      fireDamageBonus: 0.5, arcaneDamageBonus: 0.3, lightningDamageBonus: 0.6,
+      [restored.baseStats[0].stat]: restored.baseStats[0].value,
+    });
+    expect(r.edpsED).toBeCloseTo(1.8, 2);
+  });
+
   it('preserves unknown stat IDs as strings through round-trip', () => {
     const itemWithFutureStat = {
       ...sampleItem,

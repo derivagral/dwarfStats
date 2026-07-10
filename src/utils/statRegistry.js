@@ -1527,6 +1527,71 @@ export const STAT_REGISTRY = {
     // Anchored so the generic `damage` regex (Damage$) can never claim this.
     regexPatterns: ['ElementalDamage$', '\\.ElementalDamage$'],
   },
+
+  // Pet (dragon) elemental conversion abilities. Flag stats (value 1 when the
+  // equipped pet rolled the ability): "<To> abilities will also benefit from
+  // <From> damage bonus." Consumed by edpsED element routing — they gate which
+  // of the three element bonuses actually count toward elemental damage.
+  fireToArcane: {
+    id: 'fireToArcane',
+    name: 'Fire to Arcane',
+    category: 'elemental',
+    patterns: ['GlobalModifiers.Fire.ToArcane', 'Fire.ToArcane'],
+    canonical: 'GlobalModifiers.Fire.ToArcane',
+    isPercent: false,
+    format: v => (v ? 'Active' : '—'),
+    description: 'Arcane abilities also benefit from Fire damage bonus (pet conversion)',
+  },
+  fireToLightning: {
+    id: 'fireToLightning',
+    name: 'Fire to Lightning',
+    category: 'elemental',
+    patterns: ['GlobalModifiers.Fire.ToLightning', 'Fire.ToLightning'],
+    canonical: 'GlobalModifiers.Fire.ToLightning',
+    isPercent: false,
+    format: v => (v ? 'Active' : '—'),
+    description: 'Lightning abilities also benefit from Fire damage bonus (pet conversion)',
+  },
+  arcaneToFire: {
+    id: 'arcaneToFire',
+    name: 'Arcane to Fire',
+    category: 'elemental',
+    patterns: ['GlobalModifiers.Arcane.ToFire', 'Arcane.ToFire'],
+    canonical: 'GlobalModifiers.Arcane.ToFire',
+    isPercent: false,
+    format: v => (v ? 'Active' : '—'),
+    description: 'Fire abilities also benefit from Arcane damage bonus (pet conversion)',
+  },
+  arcaneToLightning: {
+    id: 'arcaneToLightning',
+    name: 'Arcane to Lightning',
+    category: 'elemental',
+    patterns: ['GlobalModifiers.Arcane.ToLightning', 'Arcane.ToLightning'],
+    canonical: 'GlobalModifiers.Arcane.ToLightning',
+    isPercent: false,
+    format: v => (v ? 'Active' : '—'),
+    description: 'Lightning abilities also benefit from Arcane damage bonus (pet conversion)',
+  },
+  lightningToFire: {
+    id: 'lightningToFire',
+    name: 'Lightning to Fire',
+    category: 'elemental',
+    patterns: ['GlobalModifiers.Lightning.ToFire', 'Lightning.ToFire'],
+    canonical: 'GlobalModifiers.Lightning.ToFire',
+    isPercent: false,
+    format: v => (v ? 'Active' : '—'),
+    description: 'Fire abilities also benefit from Lightning damage bonus (pet conversion)',
+  },
+  lightningToArcane: {
+    id: 'lightningToArcane',
+    name: 'Lightning to Arcane',
+    category: 'elemental',
+    patterns: ['GlobalModifiers.Lightning.ToArcane', 'Lightning.ToArcane'],
+    canonical: 'GlobalModifiers.Lightning.ToArcane',
+    isPercent: false,
+    format: v => (v ? 'Active' : '—'),
+    description: 'Arcane abilities also benefit from Lightning damage bonus (pet conversion)',
+  },
 };
 
 // ============================================================================

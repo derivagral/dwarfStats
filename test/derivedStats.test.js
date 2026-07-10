@@ -10,6 +10,7 @@ import {
 } from '../src/utils/derivedStats.js';
 import { extractEquippedItems, inferWeaponStance } from '../src/utils/equipmentParser.js';
 import { findStatForAttribute } from '../src/utils/statRegistry.js';
+import { resolveStatId } from '../src/hooks/useDerivedStats.js';
 import fixtureData from './fixtures/dr-full-inventory.json';
 import dualBowFixture from './fixtures/chaos-dual-bow-equipped.json';
 
@@ -339,9 +340,10 @@ describe('derivedStats', () => {
       expect(result.edpsPhysAdditive).toBeCloseTo(1.75, 2);
     });
 
-    it('Fire/Arcane/Lightning% feed only the elemental ED multiplier', () => {
+    it('Fire/Arcane/Lightning% feed only the elemental ED multiplier (single active element)', () => {
       const result = calculateDerivedStats({ fireDamageBonus: 0.5, lightningDamageBonus: 0.3 });
-      expect(result.edpsED).toBeCloseTo(1.80, 2);
+      // No pet conversion → only the active element counts (auto = highest: fire)
+      expect(result.edpsED).toBeCloseTo(1.50, 2);
       // physical additive untouched by elemental %
       expect(result.edpsPhysAdditive).toBeCloseTo(0, 2);
     });
@@ -439,6 +441,93 @@ describe('derivedStats', () => {
     });
   });
 
+  describe('ED element routing (pet conversion abilities)', () => {
+    it('without a conversion, only the highest element bonus counts', () => {
+      const r = calculateDerivedStats({ fireDamageBonus: 0.3, arcaneDamageBonus: 0.9, lightningDamageBonus: 0.5 });
+      expect(r.edpsED).toBeCloseTo(1.9, 2);
+    });
+
+    it('a pet conversion additively merges the source element into the target', () => {
+      // Fire→Lightning pet: lightning abilities also get the fire bonus.
+      const r = calculateDerivedStats({
+        fireDamageBonus: 0.5, lightningDamageBonus: 0.3, fireToLightning: 1,
+      });
+      // score(lightning) = 0.3 + 0.5 = 0.8 beats score(fire) = 0.5 → both count
+      expect(r.edpsED).toBeCloseTo(1.8, 2);
+    });
+
+    it('a conversion into an off-element does not beat a dominant element', () => {
+      // Build stacks arcane; the Fire→Lightning conversion target is weaker.
+      const r = calculateDerivedStats({
+        arcaneDamageBonus: 1.0, fireDamageBonus: 0.1, lightningDamageBonus: 0.1,
+        fireToLightning: 1,
+      });
+      // score(arcane)=1.0 > score(lightning)=0.2 → arcane alone
+      expect(r.edpsED).toBeCloseTo(2.0, 2);
+    });
+
+    it('manual activeElement override wins and still applies matching conversions', () => {
+      const base = {
+        fireDamageBonus: 1.0, arcaneDamageBonus: 0.2, lightningDamageBonus: 0.4,
+        lightningToArcane: 1,
+      };
+      const r = calculateDerivedStats(base, { edpsED: { activeElement: 'arcane' } });
+      // Forced arcane: arcane(0.2) + lightning(0.4 via conversion); fire excluded
+      expect(r.edpsED).toBeCloseTo(1.6, 2);
+    });
+
+    it('element-typed mine buffs route with their element', () => {
+      const r = calculateDerivedStats(
+        { lightningDamageBonus: 2.0, fireDamageBonus: 0.1 },
+        { fireMineBonus: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } }
+      );
+      // Fire mines (+100% fire) lose to lightning 200% → excluded from ED
+      expect(r.fireMineBonus).toBe(100);
+      expect(r.edpsED).toBeCloseTo(3.0, 2);
+
+      const withConversion = calculateDerivedStats(
+        { lightningDamageBonus: 2.0, fireDamageBonus: 0.1, fireToLightning: 1 },
+        { fireMineBonus: { enabled: true, bonusPerStack: 5, maxStacks: 20, currentStacks: 20 } }
+      );
+      // Fire→Lightning merges fire gear% AND fire mines into the lightning line
+      expect(withConversion.edpsED).toBeCloseTo(4.1, 2);
+    });
+
+    it('luck feeds all three elements but only routed elements reach ED', () => {
+      const r = calculateDerivedStats({ luck: 300, fireDamageBonus: 0.5 });
+      // Each element gets +30% from luck; active = fire (0.5 + 0.3)
+      expect(r.totalArcaneDamageBonus).toBeCloseTo(0.3, 2);
+      expect(r.edpsED).toBeCloseTo(1.8, 2);
+    });
+
+    it('all six conversion tags resolve on both aggregation paths (save load + share)', () => {
+      const TAGS = {
+        'EasyRPG.Attributes.GlobalModifiers.Fire.ToArcane': 'fireToArcane',
+        'EasyRPG.Attributes.GlobalModifiers.Fire.ToLightning': 'fireToLightning',
+        'EasyRPG.Attributes.GlobalModifiers.Arcane.ToFire': 'arcaneToFire',
+        'EasyRPG.Attributes.GlobalModifiers.Arcane.ToLightning': 'arcaneToLightning',
+        'EasyRPG.Attributes.GlobalModifiers.Lightning.ToFire': 'lightningToFire',
+        'EasyRPG.Attributes.GlobalModifiers.Lightning.ToArcane': 'lightningToArcane',
+      };
+      for (const [tag, statId] of Object.entries(TAGS)) {
+        expect(resolveStatId(tag)).toBe(statId);            // useDerivedStats save-load path
+        expect(findStatForAttribute(tag)?.id).toBe(statId); // share-encode path
+      }
+    });
+
+    it('full-inventory save: the lightning pet carries Fire→Lightning and it resolves via the hook path', () => {
+      const items = extractEquippedItems(fixtureData);
+      const pet = items.find(i => (i.rowName || '').includes('Equipment_Pet_'));
+      expect(pet).toBeDefined();
+      expect(pet.rowName).toBe('Equipment_Pet_Lightning');
+
+      const conversion = (pet.baseStats || []).find(s => /\.To(Fire|Arcane|Lightning)$/.test(s.rawTag || ''));
+      expect(conversion).toBeDefined();
+      expect(resolveStatId(conversion.rawTag)).toBe('fireToLightning');
+      expect(conversion.value).toBe(1);
+    });
+  });
+
   describe('ele/phys flat resolution (regex guard + real save)', () => {
     it('resolves Base.ElementalDamage to elementalDamage, NOT the generic damage stat', () => {
       // Guard against the `Damage$` regex on the generic `damage` stat claiming
@@ -471,6 +560,24 @@ describe('derivedStats', () => {
       expect(r.edpsElemFlat).toBe(Math.floor(base.elementalDamage));
       expect(r.edpsPhysPrimary).toBeGreaterThan(0);
       expect(r.edpsElemPrimary).toBeGreaterThan(0);
+    });
+
+    it('dual-bow save: fire pet Arcane→Fire conversion resolves and routes ED to fire+arcane', () => {
+      const base = {};
+      for (const item of dualBowFixture.equipped) {
+        for (const s of item.baseStats || []) {
+          const def = findStatForAttribute(s.rawTag || s.stat || '');
+          if (!def) continue;
+          base[def.id] = (base[def.id] || 0) + (s.value || 0);
+        }
+      }
+      // The Equipment_Pet_Fire dragon carries GlobalModifiers.Arcane.ToFire
+      expect(base.arcaneToFire).toBe(1);
+
+      const r = calculateDerivedStats(base);
+      // Ring grants Fire% 0.1 and Lightning% 0.1, no arcane gear. The
+      // conversion keeps fire competitive; ED counts fire + arcane only.
+      expect(r.edpsED).toBeCloseTo(1 + (r.totalFireDamageBonus + r.totalArcaneDamageBonus), 2);
     });
   });
 

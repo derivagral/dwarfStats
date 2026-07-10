@@ -251,7 +251,19 @@ Key structural points (vs the pre-split single-line model):
   (config `multiplier` on each result stat).
 - **"Both damage types"** monogram bonuses feed `edpsBothTypesDamageBonus`, which
   is added into BOTH additive buckets.
-- **Fire/Arcane/Lightning%** stay elemental-only (`edpsED`).
+- **Fire/Arcane/Lightning%** stay elemental-only (`edpsED`) and are now
+  **element-routed**: abilities only benefit from their own element's bonus, so
+  only ONE element counts — plus any element merged in by a pet (dragon)
+  conversion ability. The six `GlobalModifiers.{Fire|Arcane|Lightning}.To{…}`
+  flags on the equipped pet mean "<To> abilities also benefit from <From> damage
+  bonus" (additive merge → two elements added together). They're registered as
+  flag stats (`fireToArcane` … `lightningToArcane`, appended to `statRegistry`,
+  so they travel in character shares like any other pet stat). Routing lives in
+  `resolveElementRouting()` (`derivedStats.js`, exported): active element =
+  `edpsED.config.activeElement` override, else auto-picked as the highest
+  effective bonus with conversion sources counted in. Element-typed mine buffs
+  (`fire/arcane/lightningMineBonus`) route with their element. No pet or no
+  conversion just means a single-element ED.
 - **OffhandMods** (`edpsOffhandMods`, skill-specific extra multipliers) defaults to 1.
 - **OffhandItemBonus** = total offhand/ability damage% from items (auto from
   `damageMultiplier` aggregate + manual `offhandItemBonus` config).
@@ -265,7 +277,7 @@ Key structural points (vs the pre-split single-line model):
 | Phys bucket | `edpsPhysAdditive` | StanceCrit + Crit + PhysDmg% + StanceDmg + bloodlust/armor crit + phys monograms + both-types |
 | Elem bucket | `edpsElemAdditive` | item offhand% + affinity + both-types (skill mult added per skill) |
 | both-types% | `edpsBothTypesDamageBonus` | phasing + shroud + highestStat + phasingDuration + essence-drain(2%/10) |
-| ED | `edpsED` | fire + arcane + lightning + elemFromCrit + mines + new elemental monograms |
+| ED | `edpsED` | active element (+ pet-conversion source element) + elemFromCrit + routed mines + elemental monograms |
 | ElemCrit | `edpsElemCrit` | 1 + regular crit dmg + stance crit dmg (provisional elemental crit bucket) |
 | BD | `edpsBD` | bossBonus (gear) + phasing boss dmg |
 | EMulti | `edpsEMulti` | classWeapon × distance procs × shroud flat% (physical line) |
@@ -295,7 +307,8 @@ fold into eDPS yet.
 
 **Configurable via overrides:** result-stat `multiplier` (skill %), `edpsElemAdditive`
 (offhandItemBonus + affinity), `edpsEMulti` (classWeaponBonus), `edpsOffhandMods` (multiplier),
-`edpsElemCrit` (offhandCritFactor), `edpsPhysFlat`/`edpsPhysAdditive` (elem→phys conversion ratios).
+`edpsElemCrit` (offhandCritFactor), `edpsPhysFlat`/`edpsPhysAdditive` (elem→phys conversion ratios),
+`edpsED` (activeElement — force the routed element instead of the auto pick).
 
 **Stance detection:** `inferWeaponStance(rowName)` in `equipmentParser.js` maps weapon keywords to stance prefixes. `useDerivedStats` auto-detects stance from the equipped weapon's row name and passes it to eDPS calcs via config override. Falls back to highest-stat heuristic if no weapon detected.
 

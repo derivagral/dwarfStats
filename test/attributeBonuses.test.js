@@ -47,7 +47,8 @@ describe('primary attribute bonuses', () => {
     expect(result.totalArcaneDamageBonus).toBeCloseTo(0.1);
     expect(result.totalFireDamageBonus).toBeCloseTo(0.1);
     expect(result.totalLightningDamageBonus).toBeCloseTo(0.1);
-    expect(result.edpsED).toBeCloseTo(1.3);
+    // Element routing: only the single active element reaches ED (no pet conversion)
+    expect(result.edpsED).toBeCloseTo(1.1);
     expect(result.totalHealth).toBeCloseTo(1010);        // +1% from Stamina
     expect(result.totalHealthRegen).toBeCloseTo(1);      // +1.0/s from Stamina
   });
@@ -61,7 +62,8 @@ describe('primary attribute bonuses', () => {
     expect(result.luckArcaneDamageBonus).toBeCloseTo(0.741);
     expect(result.luckFireDamageBonus).toBeCloseTo(0.741);
     expect(result.luckLightningDamageBonus).toBeCloseTo(0.741);
-    expect(result.edpsED).toBeCloseTo(3.223);
+    // Luck feeds all three, but ED only counts the active element
+    expect(result.edpsED).toBeCloseTo(1.741);
   });
 });
 

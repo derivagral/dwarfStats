@@ -652,9 +652,13 @@ adjusted to game values.
 - These edge cases can use config overrides for now.
 
 ### Attribute → Stat Mappings
-- Primary attributes are NOT balanced and do NOT all map to damage.
-- Known: STR→Armor, DEX→Crit, VIT→Health. Others TBD.
-- Once confirmed, these can feed into appropriate eDPS buckets or defense calcs.
+- Generated from the primary-characteristic dependency rows in
+  `DT_Attributes.json` (`src/data/attributeBonuses.generated.json`).
+- STR→Armor%, DEX→Attack Speed, WIS→Boss Damage%, END→Energy Regen,
+  AGI→Critical Damage%, LUCK→XP% + Fire/Arcane/Lightning%,
+  STA→Max Health% + Health Regen.
+- Runtime values are calculated from total attributes (including attribute%)
+  and feed the matching defense, utility, and eDPS buckets.
 
 ### WAD Monogram Bonuses
 - Various monograms add to WAD (weapon ability damage multiplier).

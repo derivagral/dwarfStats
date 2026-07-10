@@ -21,6 +21,7 @@ const sourceChip = (source) => {
     case 'progression': return { label: 'Base', cls: 'base' };
     case 'monogram': return { label: 'Mono', cls: 'monogram' };
     case 'allocated': return { label: 'Base', cls: 'base' };
+    case 'attribute': return { label: 'Stat', cls: 'base' };
     case 'stance': return { label: 'Stance', cls: 'stance' };
     case 'save': return { label: 'Save', cls: 'base' };
     default: return { label: 'Item', cls: 'item' };

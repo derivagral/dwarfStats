@@ -18,6 +18,7 @@
  */
 
 import { STAT_REGISTRY } from './statRegistry.js';
+import { ATTRIBUTE_BONUSES, getAttributeBonusEffect } from './attributeBonuses.js';
 
 // ============================================================================
 // LAYER DEFINITIONS
@@ -56,6 +57,24 @@ function term(stats, id, op, fmt, overrides = {}) {
   };
 }
 
+function attributeEffect({ id, name, attributeId, totalId, targetStatId }) {
+  const effect = getAttributeBonusEffect(attributeId, targetStatId);
+  if (!effect) throw new Error(`Missing ${attributeId} → ${targetStatId} dependency`);
+
+  return {
+    id,
+    name,
+    category: 'attribute-bonus',
+    layer: LAYERS.TOTALS,
+    dependencies: [totalId],
+    calculate: stats => (stats[totalId] || 0) * effect.valuePerPoint,
+    format: effect.isPercent
+      ? value => `+${(value * 100).toFixed(1)}%`
+      : value => `+${value.toFixed(2)}`,
+    description: ATTRIBUTE_BONUSES[attributeId].description,
+  };
+}
+
 // ============================================================================
 // DERIVED STAT DEFINITIONS
 // ============================================================================
@@ -76,7 +95,7 @@ export const DERIVED_STATS = {
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
-    description: 'Strength after bonuses applied',
+    description: ATTRIBUTE_BONUSES.strength.description,
   },
   totalDexterity: {
     id: 'totalDexterity',
@@ -90,7 +109,7 @@ export const DERIVED_STATS = {
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
-    description: 'Dexterity after bonuses applied',
+    description: ATTRIBUTE_BONUSES.dexterity.description,
   },
   totalWisdom: {
     id: 'totalWisdom',
@@ -104,7 +123,7 @@ export const DERIVED_STATS = {
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
-    description: 'Wisdom after bonuses applied',
+    description: ATTRIBUTE_BONUSES.wisdom.description,
   },
   totalEndurance: {
     id: 'totalEndurance',
@@ -118,7 +137,7 @@ export const DERIVED_STATS = {
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
-    description: 'Endurance after bonuses applied',
+    description: ATTRIBUTE_BONUSES.endurance.description,
   },
   totalAgility: {
     id: 'totalAgility',
@@ -132,7 +151,7 @@ export const DERIVED_STATS = {
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
-    description: 'Agility after bonuses applied',
+    description: ATTRIBUTE_BONUSES.agility.description,
   },
   totalLuck: {
     id: 'totalLuck',
@@ -146,7 +165,7 @@ export const DERIVED_STATS = {
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
-    description: 'Luck after bonuses applied',
+    description: ATTRIBUTE_BONUSES.luck.description,
   },
   totalStamina: {
     id: 'totalStamina',
@@ -160,8 +179,56 @@ export const DERIVED_STATS = {
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
-    description: 'Stamina after bonuses applied',
+    description: ATTRIBUTE_BONUSES.stamina.description,
   },
+
+  // Attribute dependency values come directly from DT_Attributes. Keep them
+  // as named intermediates so downstream totals and tooltip sources can show
+  // exactly what each primary characteristic contributes.
+  strengthArmorBonus: attributeEffect({
+    id: 'strengthArmorBonus', name: 'Armor from Strength',
+    attributeId: 'strength', totalId: 'totalStrength', targetStatId: 'armorBonus',
+  }),
+  dexterityAttackSpeed: attributeEffect({
+    id: 'dexterityAttackSpeed', name: 'Attack Speed from Dexterity',
+    attributeId: 'dexterity', totalId: 'totalDexterity', targetStatId: 'attackSpeed',
+  }),
+  wisdomBossBonus: attributeEffect({
+    id: 'wisdomBossBonus', name: 'Boss Damage from Wisdom',
+    attributeId: 'wisdom', totalId: 'totalWisdom', targetStatId: 'bossBonus',
+  }),
+  enduranceEnergyRegen: attributeEffect({
+    id: 'enduranceEnergyRegen', name: 'Energy Regen from Endurance',
+    attributeId: 'endurance', totalId: 'totalEndurance', targetStatId: 'energyRegen',
+  }),
+  agilityCritDamageBonus: attributeEffect({
+    id: 'agilityCritDamageBonus', name: 'Critical Damage from Agility',
+    attributeId: 'agility', totalId: 'totalAgility', targetStatId: 'critDamage',
+  }),
+  luckXpBonus: attributeEffect({
+    id: 'luckXpBonus', name: 'XP Bonus from Luck',
+    attributeId: 'luck', totalId: 'totalLuck', targetStatId: 'xpBonus',
+  }),
+  luckArcaneDamageBonus: attributeEffect({
+    id: 'luckArcaneDamageBonus', name: 'Arcane Damage from Luck',
+    attributeId: 'luck', totalId: 'totalLuck', targetStatId: 'arcaneDamageBonus',
+  }),
+  luckFireDamageBonus: attributeEffect({
+    id: 'luckFireDamageBonus', name: 'Fire Damage from Luck',
+    attributeId: 'luck', totalId: 'totalLuck', targetStatId: 'fireDamageBonus',
+  }),
+  luckLightningDamageBonus: attributeEffect({
+    id: 'luckLightningDamageBonus', name: 'Lightning Damage from Luck',
+    attributeId: 'luck', totalId: 'totalLuck', targetStatId: 'lightningDamageBonus',
+  }),
+  staminaHealthBonus: attributeEffect({
+    id: 'staminaHealthBonus', name: 'Max Health from Stamina',
+    attributeId: 'stamina', totalId: 'totalStamina', targetStatId: 'healthBonus',
+  }),
+  staminaHealthRegen: attributeEffect({
+    id: 'staminaHealthRegen', name: 'Health Regen from Stamina',
+    attributeId: 'stamina', totalId: 'totalStamina', targetStatId: 'healthRegen',
+  }),
 
   // Defense totals
   totalArmor: {
@@ -169,10 +236,10 @@ export const DERIVED_STATS = {
     name: 'Total Armor',
     category: 'totals',
     layer: LAYERS.TOTALS,
-    dependencies: ['armor', 'armorBonus'],
+    dependencies: ['armor', 'armorBonus', 'strengthArmorBonus'],
     calculate: (stats) => {
       const base = stats.armor || 0;
-      const bonus = stats.armorBonus || 0;
+      const bonus = (stats.armorBonus || 0) + (stats.strengthArmorBonus || 0);
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
@@ -183,10 +250,10 @@ export const DERIVED_STATS = {
     name: 'Total Health',
     category: 'totals',
     layer: LAYERS.TOTALS,
-    dependencies: ['health', 'healthBonus'],
+    dependencies: ['health', 'healthBonus', 'staminaHealthBonus'],
     calculate: (stats) => {
       const base = stats.health || 0;
-      const bonus = stats.healthBonus || 0;
+      const bonus = (stats.healthBonus || 0) + (stats.staminaHealthBonus || 0);
       return base * (1 + bonus);
     },
     format: v => v.toFixed(2),
@@ -205,6 +272,62 @@ export const DERIVED_STATS = {
     },
     format: v => v.toFixed(0),
     description: 'Damage after bonuses applied',
+  },
+  totalCritDamage: {
+    id: 'totalCritDamage', name: 'Critical Damage', category: 'totals', layer: LAYERS.TOTALS,
+    dependencies: ['critDamage', 'agilityCritDamageBonus'],
+    calculate: stats => (stats.critDamage || 0) + (stats.agilityCritDamageBonus || 0),
+    format: v => `+${(v * 100).toFixed(1)}%`,
+    description: 'Critical damage including the Agility dependency',
+  },
+  totalBossBonus: {
+    id: 'totalBossBonus', name: 'Boss Damage Bonus', category: 'totals', layer: LAYERS.TOTALS,
+    dependencies: ['bossBonus', 'wisdomBossBonus'],
+    calculate: stats => (stats.bossBonus || 0) + (stats.wisdomBossBonus || 0),
+    format: v => `+${(v * 100).toFixed(1)}%`,
+    description: 'Boss damage including the Wisdom dependency',
+  },
+  totalHealthRegen: {
+    id: 'totalHealthRegen', name: 'Health Regen', category: 'totals', layer: LAYERS.TOTALS,
+    dependencies: ['healthRegen', 'staminaHealthRegen'],
+    calculate: stats => (stats.healthRegen || 0) + (stats.staminaHealthRegen || 0),
+    format: v => `+${v.toFixed(2)}/s`,
+    description: 'Health regeneration including the Stamina dependency',
+  },
+  totalEnergyRegen: {
+    id: 'totalEnergyRegen', name: 'Energy Regen', category: 'totals', layer: LAYERS.TOTALS,
+    dependencies: ['energyRegen', 'enduranceEnergyRegen'],
+    calculate: stats => (stats.energyRegen || 0) + (stats.enduranceEnergyRegen || 0),
+    format: v => `+${v.toFixed(2)}/s`,
+    description: 'Energy regeneration including the Endurance dependency',
+  },
+  totalXpBonus: {
+    id: 'totalXpBonus', name: 'XP Bonus', category: 'totals', layer: LAYERS.TOTALS,
+    dependencies: ['xpBonus', 'luckXpBonus'],
+    calculate: stats => (stats.xpBonus || 0) + (stats.luckXpBonus || 0),
+    format: v => `+${(v * 100).toFixed(1)}%`,
+    description: 'Experience bonus including the Luck dependency',
+  },
+  totalFireDamageBonus: {
+    id: 'totalFireDamageBonus', name: 'Fire Damage', category: 'totals', layer: LAYERS.TOTALS,
+    dependencies: ['fireDamageBonus', 'luckFireDamageBonus'],
+    calculate: stats => (stats.fireDamageBonus || 0) + (stats.luckFireDamageBonus || 0),
+    format: v => `${(v * 100).toFixed(1)}%`,
+    description: 'Fire damage including the Luck dependency',
+  },
+  totalArcaneDamageBonus: {
+    id: 'totalArcaneDamageBonus', name: 'Arcane Damage', category: 'totals', layer: LAYERS.TOTALS,
+    dependencies: ['arcaneDamageBonus', 'luckArcaneDamageBonus'],
+    calculate: stats => (stats.arcaneDamageBonus || 0) + (stats.luckArcaneDamageBonus || 0),
+    format: v => `${(v * 100).toFixed(1)}%`,
+    description: 'Arcane damage including the Luck dependency',
+  },
+  totalLightningDamageBonus: {
+    id: 'totalLightningDamageBonus', name: 'Lightning Damage', category: 'totals', layer: LAYERS.TOTALS,
+    dependencies: ['lightningDamageBonus', 'luckLightningDamageBonus'],
+    calculate: stats => (stats.lightningDamageBonus || 0) + (stats.luckLightningDamageBonus || 0),
+    format: v => `${(v * 100).toFixed(1)}%`,
+    description: 'Lightning damage including the Luck dependency',
   },
 
   // ---------------------------------------------------------------------------
@@ -1508,7 +1631,7 @@ export const DERIVED_STATS = {
     name: 'Crit% (Energy Regen)',
     category: 'monogram-buff',
     layer: LAYERS.PRIMARY_DERIVED,
-    dependencies: [],
+    dependencies: ['totalEnergyRegen'],
     config: {
       enabled: false,
       ratio: 1, // 1% crit per 1 energy regen
@@ -1516,7 +1639,7 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.critChanceFromEnergyRegen.config;
       if (!config.enabled) return 0;
-      const energyRegen = stats.energyRegen || 0;
+      const energyRegen = stats.totalEnergyRegen || 0;
       return energyRegen * config.ratio;
     },
     format: v => `+${v.toFixed(0)}%`,
@@ -2067,7 +2190,7 @@ export const DERIVED_STATS = {
     name: 'Effective Attack Speed',
     category: 'offense',
     layer: LAYERS.SECONDARY_DERIVED,
-    dependencies: ['bloodlustAttackSpeedBonus', 'eliteAttackSpeedBonus'],
+    dependencies: ['dexterityAttackSpeed', 'bloodlustAttackSpeedBonus', 'eliteAttackSpeedBonus'],
     config: {
       cap: 3.0,           // 300% hard cap
       effectiveness: 0.5, // all AS bonuses at 50% effectiveness
@@ -2075,9 +2198,10 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.effectiveAttackSpeed.config;
       const gear = stats.attackSpeed || 0;                          // decimal from items
+      const dexterity = stats.dexterityAttackSpeed || 0;
       const bloodlust = (stats.bloodlustAttackSpeedBonus || 0) / 100;
       const elite = (stats.eliteAttackSpeedBonus || 0) / 100;
-      const raw = gear + bloodlust + elite;
+      const raw = gear + dexterity + bloodlust + elite;
       return Math.min(config.cap, raw * config.effectiveness);
     },
     format: v => `${(v * 100).toFixed(0)}%`,
@@ -2085,11 +2209,13 @@ export const DERIVED_STATS = {
     breakdown: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.effectiveAttackSpeed.config;
       const gear = stats.attackSpeed || 0;
+      const dexterity = stats.dexterityAttackSpeed || 0;
       const bloodlust = (stats.bloodlustAttackSpeedBonus || 0) / 100;
       const elite = (stats.eliteAttackSpeedBonus || 0) / 100;
-      const raw = gear + bloodlust + elite;
+      const raw = gear + dexterity + bloodlust + elite;
       return [
         { label: 'attackSpeed', fullName: 'Gear Attack Speed', op: '+', value: gear, fmt: 'pct' },
+        { label: 'dexterityAttackSpeed', fullName: DERIVED_STATS.dexterityAttackSpeed.name, op: '+', value: dexterity, fmt: 'pct' },
         { label: 'bloodlustAttackSpeedBonus', fullName: DERIVED_STATS.bloodlustAttackSpeedBonus.name, op: '+', value: bloodlust, fmt: 'pct', isMonogram: true },
         { label: 'eliteAttackSpeedBonus', fullName: DERIVED_STATS.eliteAttackSpeedBonus.name, op: '+', value: elite, fmt: 'pct', isMonogram: true },
         { label: 'raw', fullName: 'Raw AS (sum)', op: '=', value: raw, fmt: 'pct', isSubtotal: true },
@@ -2258,7 +2384,7 @@ export const DERIVED_STATS = {
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsPhysAdditive.config;
-      const critDmg = stats.critDamage || 0;
+      const critDmg = stats.totalCritDamage || 0;
       const physBonus = stats.damageBonus || 0; // generic damage bonus = physical
       const STANCE_DMG_IDS = {
         maul: 'maulDamage', sword: 'swordDamage', archery: 'archeryDamage',
@@ -2316,7 +2442,7 @@ export const DERIVED_STATS = {
       return [
         scId ? term(stats, scId, '+', 'pct', { fullName: `Stance Crit Damage (${config.stance || 'highest'})` })
              : { label: 'stanceCritDamage', fullName: 'Stance Crit Damage', op: '+', value: 0, fmt: 'pct' },
-        term(stats, 'critDamage', '+', 'pct'),
+        term(stats, 'totalCritDamage', '+', 'pct'),
         term(stats, 'damageBonus', '+', 'pct', { fullName: 'Physical Damage Bonus' }),
         sdId ? term(stats, sdId, '+', 'pct', { fullName: `Stance Damage (${config.stance || 'highest'})` })
              : { label: 'stanceDamage', fullName: 'Stance Damage', op: '+', value: 0, fmt: 'pct' },
@@ -2382,9 +2508,9 @@ export const DERIVED_STATS = {
       'berserkerElementalFromHighest',
       'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus'],
     calculate: (stats) => {
-      const fire = stats.fireDamageBonus || 0;
-      const arcane = stats.arcaneDamageBonus || 0;
-      const lightning = stats.lightningDamageBonus || 0;
+      const fire = stats.totalFireDamageBonus || 0;
+      const arcane = stats.totalArcaneDamageBonus || 0;
+      const lightning = stats.totalLightningDamageBonus || 0;
       const elemFromCrit = (stats.elementFromCritChance || 0) / 100;
       const arcMine = (stats.arcaneMineBonus || 0) / 100;
       const fireMine = (stats.fireMineBonus || 0) / 100;
@@ -2405,9 +2531,9 @@ export const DERIVED_STATS = {
     description: 'Elemental damage multiplier (Fire/Arcane/Lightning + elemental monograms, additive)',
     breakdown: (stats) => [
       { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
-      term(stats, 'fireDamageBonus', '+', 'pct'),
-      term(stats, 'arcaneDamageBonus', '+', 'pct'),
-      term(stats, 'lightningDamageBonus', '+', 'pct'),
+      term(stats, 'totalFireDamageBonus', '+', 'pct'),
+      term(stats, 'totalArcaneDamageBonus', '+', 'pct'),
+      term(stats, 'totalLightningDamageBonus', '+', 'pct'),
       { label: 'elementFromCritChance', fullName: DERIVED_STATS.elementFromCritChance.name, op: '+', value: (stats.elementFromCritChance || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'arcaneMineBonus', fullName: DERIVED_STATS.arcaneMineBonus.name, op: '+', value: (stats.arcaneMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'fireMineBonus', fullName: DERIVED_STATS.fireMineBonus.name, op: '+', value: (stats.fireMineBonus || 0) / 100, fmt: 'pct', isMonogram: true },
@@ -2453,7 +2579,7 @@ export const DERIVED_STATS = {
       } else {
         for (const id of Object.values(STANCE_CRIT_IDS)) if ((stats[id] || 0) > stanceCrit) stanceCrit = stats[id];
       }
-      const critDmg = stats.critDamage || 0;
+      const critDmg = stats.totalCritDamage || 0;
       const factor = config.offhandCritFactor ?? 1;
       return 1 + factor * (critDmg + stanceCrit);
     },
@@ -2472,7 +2598,7 @@ export const DERIVED_STATS = {
       const factor = config.offhandCritFactor ?? 1;
       return [
         { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
-        term(stats, 'critDamage', '+', 'pct'),
+        term(stats, 'totalCritDamage', '+', 'pct'),
         scId ? term(stats, scId, '+', 'pct', { fullName: `Stance Crit Damage (${config.stance || 'highest'})` })
              : { label: 'stanceCritDamage', fullName: 'Stance Crit Damage', op: '+', value: 0, fmt: 'pct' },
         { label: 'offhandCritFactor', fullName: 'Offhand crit weighting (TODO: 10% of crit chance)', op: '×', value: factor, fmt: 'pct' },
@@ -2512,7 +2638,7 @@ export const DERIVED_STATS = {
     layer: LAYERS.EDPS,
     dependencies: ['phasingBossDamageBonus'],
     calculate: (stats) => {
-      const bossBonus = stats.bossBonus || 0;
+      const bossBonus = stats.totalBossBonus || 0;
       const phasingBoss = (stats.phasingBossDamageBonus || 0) / 100;
       return 1 + bossBonus + phasingBoss;
     },
@@ -2520,7 +2646,7 @@ export const DERIVED_STATS = {
     description: 'Boss/Elite damage multiplier',
     breakdown: (stats) => [
       { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
-      term(stats, 'bossBonus', '+', 'pct'),
+      term(stats, 'totalBossBonus', '+', 'pct'),
       { label: 'phasingBossDamageBonus', fullName: DERIVED_STATS.phasingBossDamageBonus.name, op: '+', value: (stats.phasingBossDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
       { label: 'BD', fullName: 'Boss Damage', op: '=', value: stats.edpsBD, fmt: 'pct', isSubtotal: true },
     ],

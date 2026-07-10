@@ -311,6 +311,26 @@ export function mapItemsToSlots(equippedItems) {
 }
 
 /**
+ * Per-item unique slot keys ('head', 'ring2', 'offhand3') for a list of
+ * equipped items — the inverse of mapItemsToSlots, so numbering is identical
+ * to the Character panel layout. This is the canonical key space for what-if
+ * item overrides: the editor stores under these keys and useDerivedStats
+ * looks items up by them (a bare item.slot like 'offhand' is ambiguous across
+ * the four offhand slots).
+ *
+ * @param {Array} equippedItems - Equipped items in Item model format
+ * @returns {Map<Object, string>} item reference → unique slot key
+ */
+export function getUniqueSlotKeyMap(equippedItems) {
+  const slots = mapItemsToSlots(equippedItems || []);
+  const map = new Map();
+  for (const [slotKey, item] of Object.entries(slots)) {
+    if (item) map.set(item, slotKey);
+  }
+  return map;
+}
+
+/**
  * Create compressed log output for console
  * Updated to use Item model format
  * @param {Array} equippedItems - Array of equipped items in Item model format

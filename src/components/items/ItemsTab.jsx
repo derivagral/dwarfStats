@@ -3,7 +3,7 @@ import { ItemDetailTooltip } from '../character/ItemDetailTooltip';
 import { ItemEditor } from '../character/ItemEditor';
 import { transformAllItems } from '../../models/itemTransformer';
 import { useItemOverrides } from '../../hooks/useItemOverrides';
-import { inferEquipmentSlot, formatSlotLabel } from '../../utils/equipmentParser';
+import { inferEquipmentSlot, formatSlotLabel, getUniqueSlotKeyMap } from '../../utils/equipmentParser';
 
 const DEFAULT_FILTERS = '';
 
@@ -29,7 +29,7 @@ function parseFilterString(filterStr) {
   return filterStr.split(',').map(pattern => pattern.trim()).filter(Boolean);
 }
 
-export function ItemsTab({ saveData, itemStore, onLog }) {
+export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
   const [filterValue, setFilterValue] = useState(DEFAULT_FILTERS);
   const [filterPatterns, setFilterPatterns] = useState(parseFilterString(DEFAULT_FILTERS));
   const [showEquippedOnly, setShowEquippedOnly] = useState(true);
@@ -39,7 +39,10 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
   const [singleSelectMode, setSingleSelectMode] = useState(true);
   const [selectedSlots, setSelectedSlots] = useState(new Set());
 
-  // Item overrides for editing
+  // Item overrides for editing. App shares one instance across tabs so edits
+  // flow into the Character tab's stats and survive tab switches (this tab
+  // unmounts when inactive). Local instance is a fallback for direct use.
+  const localOverrides = useItemOverrides();
   const {
     overrides,
     hasSlotOverrides,
@@ -55,7 +58,7 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
     addSkillModifier,
     removeSkillModifier,
     clearSlot,
-  } = useItemOverrides();
+  } = itemOverrides || localOverrides;
 
   const equippedLookup = useMemo(() => {
     const lookup = new Map();
@@ -79,6 +82,18 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
       lookup.set(item.rowName, item.slot || 'unknown');
     }
 
+    return lookup;
+  }, [itemStore?.equipped]);
+
+  // Override keys for EQUIPPED items are their unique slot keys ('head',
+  // 'ring2', 'offhand3') — the key space useDerivedStats and the Character
+  // panel read, so edits made here flow into the stats panel. Non-equipped
+  // items fall back to the list key (their edits are tooltip-only).
+  const equippedOverrideKeyLookup = useMemo(() => {
+    const lookup = new Map();
+    for (const [item, slotKey] of getUniqueSlotKeyMap(itemStore?.equipped || [])) {
+      if (item.rowName) lookup.set(item.rowName, slotKey);
+    }
     return lookup;
   }, [itemStore?.equipped]);
 
@@ -177,6 +192,12 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
   }, [onLog]);
 
   // Build item attributes for display, applying any overrides
+  // Overrides for the selected item live under its unique slot key when it's
+  // equipped (so they reach the Character tab stats); list key otherwise.
+  const selectedOverrideKey = selectedItem
+    ? (equippedOverrideKeyLookup.get(selectedItem.rowName) || selectedItemKey)
+    : selectedItemKey;
+
   const itemAttributes = useMemo(() => {
     if (!selectedItem) return [];
 
@@ -186,11 +207,11 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
     }));
 
     // Apply overrides if we have a selected item key
-    if (selectedItemKey && hasSlotOverrides(selectedItemKey)) {
-      return applyOverridesToItem(selectedItemKey, baseAttributes);
+    if (selectedOverrideKey && hasSlotOverrides(selectedOverrideKey)) {
+      return applyOverridesToItem(selectedOverrideKey, baseAttributes);
     }
     return baseAttributes;
-  }, [selectedItem, selectedItemKey, hasSlotOverrides, applyOverridesToItem]);
+  }, [selectedItem, selectedOverrideKey, hasSlotOverrides, applyOverridesToItem]);
 
   // Build item object for ItemEditor (matches character tab format)
   const editorItem = useMemo(() => {
@@ -323,13 +344,14 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
             slotFilteredItems.map((item, index) => {
               const itemKey = `${item.rowName || item.displayName}-${index}`;
               const equippedLabel = equippedLookup.get(item.rowName);
+              const overrideKey = equippedOverrideKeyLookup.get(item.rowName) || itemKey;
               return (
                 <ItemListRow
                   key={itemKey}
                   item={item}
                   equippedLabel={equippedLabel}
                   isSelected={selectedItemKeys.has(itemKey)}
-                  hasOverrides={hasSlotOverrides(itemKey)}
+                  hasOverrides={hasSlotOverrides(overrideKey)}
                   onSelect={() => {
                     setSelectedItem(item);
                     setSelectedItemKey(itemKey);
@@ -356,18 +378,18 @@ export function ItemsTab({ saveData, itemStore, onLog }) {
           {selectedItem && editorItem ? (
             <ItemEditor
               item={editorItem}
-              slotKey={selectedItemKey}
-              slotOverrides={getSlotOverrides(selectedItemKey)}
-              onUpdateMod={(modIndex, updates) => updateMod(selectedItemKey, modIndex, updates)}
-              onAddMod={(mod) => addMod(selectedItemKey, mod)}
-              onRemoveMod={(modIndex) => removeMod(selectedItemKey, modIndex)}
-              onRemoveBaseStat={(index) => removeBaseStat(selectedItemKey, index)}
-              onRestoreBaseStat={(index) => restoreBaseStat(selectedItemKey, index)}
-              onAddMonogram={(mono) => addMonogram(selectedItemKey, mono)}
-              onRemoveMonogram={(index) => removeMonogram(selectedItemKey, index)}
-              onAddSkillModifier={(mod) => addSkillModifier(selectedItemKey, mod)}
-              onRemoveSkillModifier={(index) => removeSkillModifier(selectedItemKey, index)}
-              onClearSlot={() => clearSlot(selectedItemKey)}
+              slotKey={selectedOverrideKey}
+              slotOverrides={getSlotOverrides(selectedOverrideKey)}
+              onUpdateMod={(modIndex, updates) => updateMod(selectedOverrideKey, modIndex, updates)}
+              onAddMod={(mod) => addMod(selectedOverrideKey, mod)}
+              onRemoveMod={(modIndex) => removeMod(selectedOverrideKey, modIndex)}
+              onRemoveBaseStat={(index) => removeBaseStat(selectedOverrideKey, index)}
+              onRestoreBaseStat={(index) => restoreBaseStat(selectedOverrideKey, index)}
+              onAddMonogram={(mono) => addMonogram(selectedOverrideKey, mono)}
+              onRemoveMonogram={(index) => removeMonogram(selectedOverrideKey, index)}
+              onAddSkillModifier={(mod) => addSkillModifier(selectedOverrideKey, mod)}
+              onRemoveSkillModifier={(index) => removeSkillModifier(selectedOverrideKey, index)}
+              onClearSlot={() => clearSlot(selectedOverrideKey)}
               onClose={handleCloseEditor}
               currentMonograms={selectedItem?.monograms || []}
               currentSkillModifiers={selectedItem?.skillModifiers || []}

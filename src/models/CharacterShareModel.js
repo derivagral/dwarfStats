@@ -286,6 +286,9 @@ export function createCharacterSharePayload(equippedItems, stanceContext = null,
   if (identity?.name) payload.cn = identity.name;
   if (identity?.level > 0) payload.lv = identity.level;
   if (identity?.campaignBossCount > 0) payload.cb = identity.campaignBossCount;
+  // Race enum index (0 = Human is meaningful, so only null/undefined omit).
+  // Level + race let the receiving side recompute racial skill bonuses.
+  if (identity?.race != null) payload.rc = identity.race;
 
   return payload;
 }

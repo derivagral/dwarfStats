@@ -1,0 +1,446 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "_source": "DT_PlayerRaces + E_CharacterRace enum",
+  "races": {
+    "0": {
+      "key": "HUMAN",
+      "name": "Human",
+      "racialSkills": [
+        {
+          "requiredLevel": 10,
+          "name": "Disciplined Edge",
+          "effects": [
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 25,
+          "name": "Awakened Spirit",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 50,
+          "name": "Tactical Strikes",
+          "effects": [
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalChance%",
+              "value": 0.05
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalChance%",
+              "value": 0.05
+            }
+          ]
+        },
+        {
+          "requiredLevel": 100,
+          "name": "Rhythm of the Cosmos",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Sky.CooldownBonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Charging.CooldownBonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Hazard.CooldownBonus",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 150,
+          "name": "Master’s Execution",
+          "effects": [
+            {
+              "tag": "EasyRPG.StanceMultiplier.Spear",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.StanceMultiplier.Archery",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 200,
+          "name": "Grandmaster’s Legacy",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Sky.Damage%Bonus",
+              "value": 0.25
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Charging.Damage%Bonus",
+              "value": 0.25
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Hazard.Damage%Bonus",
+              "value": 0.25
+            }
+          ]
+        }
+      ]
+    },
+    "1": {
+      "key": "ORC",
+      "name": "Orc",
+      "racialSkills": [
+        {
+          "requiredLevel": 10,
+          "name": "Brutal Foundation",
+          "effects": [
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 25,
+          "name": "Primal Awakening",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 50,
+          "name": "Unchained Fury",
+          "effects": [
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+              "value": 0.05
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalChance%",
+              "value": 0.05
+            }
+          ]
+        },
+        {
+          "requiredLevel": 100,
+          "name": "Blood of the Ancients",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Explosion.CooldownBonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Totem.CooldownBonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Dragon.CooldownBonus",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 150,
+          "name": "Tribal Wrath",
+          "effects": [
+            {
+              "tag": "EasyRPG.StanceMultiplier.Axes",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.StanceMultiplier.Fists",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 200,
+          "name": "Warlord's Dominion",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Explosion.Damage%Bonus",
+              "value": 0.25
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Totem.Damage%Bonus",
+              "value": 0.25
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Dragon.Damage%Bonus",
+              "value": 0.25
+            }
+          ]
+        }
+      ]
+    },
+    "2": {
+      "key": "DWARF",
+      "name": "Dwarf",
+      "racialSkills": [
+        {
+          "requiredLevel": 10,
+          "name": "Ancestral Craft",
+          "effects": [
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 25,
+          "name": "Runes of Power",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 50,
+          "name": "Iron Nerves",
+          "effects": [
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+              "value": 0.05
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalChance%",
+              "value": 0.05
+            }
+          ]
+        },
+        {
+          "requiredLevel": 100,
+          "name": "Pulse of the Forge",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Blade.CooldownBonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Creature.CooldownBonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Area.CooldownBonus",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 150,
+          "name": "Mountain’s Grasp",
+          "effects": [
+            {
+              "tag": "EasyRPG.StanceMultiplier.Mauls",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.StanceMultiplier.Magery",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 200,
+          "name": "Runecrafted Legacy",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Blade.Damage%Bonus",
+              "value": 0.25
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Creature.Damage%Bonus",
+              "value": 0.25
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Area.Damage%Bonus",
+              "value": 0.25
+            }
+          ]
+        }
+      ]
+    },
+    "3": {
+      "key": "UNDEAD",
+      "name": "Undead",
+      "racialSkills": [
+        {
+          "requiredLevel": 10,
+          "name": "Cold Resolve",
+          "effects": [
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 25,
+          "name": "Dark Ascension",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 50,
+          "name": "Final Judgement",
+          "effects": [
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandedCritcalChance%",
+              "value": 0.05
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%",
+              "value": 0.05
+            }
+          ]
+        },
+        {
+          "requiredLevel": 100,
+          "name": "Cadence of the Dead",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Projectile.CooldownBonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Ground.CooldownBonus",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Orbit.CooldownBonus",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 150,
+          "name": "Revenant’s Force",
+          "effects": [
+            {
+              "tag": "EasyRPG.StanceMultiplier.Swords",
+              "value": 0.1
+            },
+            {
+              "tag": "EasyRPG.StanceMultiplier.Scythe",
+              "value": 0.1
+            }
+          ]
+        },
+        {
+          "requiredLevel": 200,
+          "name": "Ethereal Surge",
+          "effects": [
+            {
+              "tag": "EasyRPG.OffhandCategories.Projectile.Damage%Bonus",
+              "value": 0.25
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Ground.Damage%Bonus",
+              "value": 0.25
+            },
+            {
+              "tag": "EasyRPG.OffhandCategories.Orbit.Damage%Bonus",
+              "value": 0.25
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

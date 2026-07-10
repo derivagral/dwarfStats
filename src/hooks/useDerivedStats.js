@@ -5,6 +5,7 @@ import { STAT_REGISTRY } from '../utils/statRegistry.js';
 import { MONOGRAM_CALC_CONFIGS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
 import { inferWeaponStance } from '../utils/equipmentParser.js';
 import { aggregateSkillEffects, hasWeaponSkillData } from '../utils/skillEffectAggregator.js';
+import { detectEquippedAbilities, getStepCooldown, unionAffinities } from '../utils/offhandAbilities.js';
 import { ATTRIBUTE_BONUSES } from '../utils/attributeBonuses.js';
 
 // Re-export for backward compatibility
@@ -260,6 +261,15 @@ export function useDerivedStats(options = {}) {
     return null;
   }, [equippedItems]);
 
+  // Detect proc abilities on the equipped offhand items. Affinities (base +
+  // modifier-added) route the main-tree affinity damage/cooldown stats into
+  // the eDPS elemental bucket and the offhand cooldown stat. Only offhand
+  // items count — weapons can never carry an affinity tag.
+  const offhandAbilities = useMemo(
+    () => detectEquippedAbilities(equippedItems),
+    [equippedItems],
+  );
+
   // Merge stance detection into config overrides for eDPS.
   // Post ele/phys split, stance feeds the single physical additive bucket
   // (SCHD is merged in — no separate standalone multiplier).
@@ -271,6 +281,31 @@ export function useDerivedStats(options = {}) {
       merged.edpsElemCrit = { ...(configOverrides.edpsElemCrit || {}), stance: detectedStance };
     }
 
+    // Route equipped offhand ability affinities into the elemental bucket and
+    // the offhand cooldown stats. activeAffinities is the union across all
+    // equipped abilities (builds in practice stack one ability across the four
+    // offhand slots); the cooldown row tracks the dominant ability.
+    const { abilities, offhandCount } = offhandAbilities;
+    if (abilities.length > 0) {
+      const activeAffinities = unionAffinities(abilities);
+      merged.edpsElemAdditive = {
+        ...DERIVED_STATS.edpsElemAdditive.config,
+        ...(merged.edpsElemAdditive || {}),
+        activeAffinities,
+      };
+      merged.offhandCooldownReduction = {
+        ...(merged.offhandCooldownReduction || {}),
+        activeAffinities,
+      };
+      const dominant = abilities[0];
+      merged.offhandCooldownSeconds = {
+        ...(merged.offhandCooldownSeconds || {}),
+        baseCooldown: getStepCooldown(dominant, offhandCount),
+        abilityName: dominant.name,
+        offhandCount,
+      };
+    }
+
     // The 1%-of-max-Health monogram needs real max health (gear can't supply it).
     // Inject it into the damageFromHealth override the monogram already created.
     if (maxHealth > 0 && merged.damageFromHealth) {
@@ -278,7 +313,7 @@ export function useDerivedStats(options = {}) {
     }
 
     return merged;
-  }, [configOverrides, detectedStance, maxHealth]);
+  }, [configOverrides, detectedStance, offhandAbilities, maxHealth]);
 
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {
@@ -404,6 +439,7 @@ export function useDerivedStats(options = {}) {
       stance: [],
       defense: [],
       elemental: [],
+      affinity: [],
       edps: [],
       monograms: [],
       abilities: [],
@@ -677,6 +713,9 @@ export function useDerivedStats(options = {}) {
 
     // Applied monograms list
     appliedMonograms,
+
+    // Detected offhand proc abilities ({ abilities, offhandCount })
+    offhandAbilities,
 
     // Config overrides applied
     configOverrides,

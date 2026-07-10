@@ -21,14 +21,21 @@
 import cardsGenerated from '../data/cards.generated.json';
 import weaponSkillsGenerated from '../data/weaponSkills.generated.json';
 import mainTreeHealthGenerated from '../data/mainTreeHealth.generated.json';
+import mainTreeAffinityGenerated from '../data/mainTreeAffinity.generated.json';
 import { findStatForAttribute } from './statRegistry.js';
 
 const GENERATED_CARDS = cardsGenerated.cards || {};
 const GENERATED_WEAPON_SKILLS = weaponSkillsGenerated.weaponSkills || {};
 const MAIN_TREE_HEALTH_EFFECTS = mainTreeHealthGenerated.effectsByRow || {};
+const MAIN_TREE_AFFINITY_EFFECTS = mainTreeAffinityGenerated.effectsByRow || {};
+const MAIN_TREE_AFFINITY_NAMES = mainTreeAffinityGenerated.namesByRow || {};
 
 export function hasMainTreeHealthEffect(rowName) {
   return !!MAIN_TREE_HEALTH_EFFECTS[rowName];
+}
+
+export function hasMainTreeAffinityEffect(rowName) {
+  return !!MAIN_TREE_AFFINITY_EFFECTS[rowName];
 }
 
 // UE row names (FNames) are case-insensitive: saves contain e.g.
@@ -52,8 +59,10 @@ function lookupWeaponSkill(rowName) {
 
 // Only stat-granting tags flow into the calc engine. Cards/skills can also
 // grant modifier tags (e.g. EasyRPG.Items.Modifiers.AdditionalPotionSlots.1)
-// — those are behavior grants, not aggregatable stats.
+// — those are behavior grants, not aggregatable stats. Offhand affinity
+// bonuses live under their own EasyRPG.OffhandCategories.* prefix.
 const ATTR_PREFIX = 'EasyRPG.Attributes.';
+const OFFHAND_CATEGORY_PREFIX = 'EasyRPG.OffhandCategories.';
 
 /**
  * @typedef {Object} SkillContribution
@@ -66,7 +75,7 @@ const ATTR_PREFIX = 'EasyRPG.Attributes.';
 
 function pushEffects(contributions, effects, multiplier, source, kind) {
   for (const eff of effects ?? []) {
-    if (!eff.tag?.startsWith(ATTR_PREFIX)) continue;
+    if (!eff.tag?.startsWith(ATTR_PREFIX) && !eff.tag?.startsWith(OFFHAND_CATEGORY_PREFIX)) continue;
     if (!eff.value) continue;
     contributions.push({
       tag: eff.tag,
@@ -92,15 +101,22 @@ export function aggregateSkillEffects(skillTree, options = {}) {
   const contributions = [];
   if (!skillTree) return contributions;
 
-  // --- Main passive tree: generated node IDs → health effects -----------
-  // The save stores opaque UI_SkillTreeNode_* row names. The compact map is
-  // generated from DT_GENERATED_SkillTree_Main and intentionally contains
-  // only MaxHealth/MaxHealth% effects for now.
+  // --- Main passive tree: generated node IDs → health + affinity effects --
+  // The save stores opaque UI_SkillTreeNode_* row names. The compact maps are
+  // generated from DT_GENERATED_SkillTree_Main: MaxHealth/MaxHealth% effects
+  // plus OffhandCategories affinity damage%/cooldown nodes (which carry
+  // display names like "Sky Rush" for readable breakdowns).
   for (const skill of skillTree.mainTree ?? []) {
-    const effects = MAIN_TREE_HEALTH_EFFECTS[skill.rowName];
-    if (!effects) continue;
     const level = skill.level || 1;
-    pushEffects(contributions, effects, level, `${skill.rowName} (L${level})`, 'mainTree');
+    const healthEffects = MAIN_TREE_HEALTH_EFFECTS[skill.rowName];
+    if (healthEffects) {
+      pushEffects(contributions, healthEffects, level, `${skill.rowName} (L${level})`, 'mainTree');
+    }
+    const affinityEffects = MAIN_TREE_AFFINITY_EFFECTS[skill.rowName];
+    if (affinityEffects) {
+      const label = MAIN_TREE_AFFINITY_NAMES[skill.rowName] || skill.rowName;
+      pushEffects(contributions, affinityEffects, level, `${label} (L${level})`, 'mainTree');
+    }
   }
 
   // --- Crystal cards: effects scale linearly with card level -------------

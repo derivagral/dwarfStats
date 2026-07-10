@@ -10,6 +10,7 @@ const categoryLabels = {
   defense: 'Defense',
   elemental: 'Elemental',
   edps: 'eDPS',
+  affinity: 'Offhand Affinity',
   monograms: 'Monograms',
   abilities: 'Abilities',
   utility: 'Utility',
@@ -18,7 +19,7 @@ const categoryLabels = {
 
 // Vitals (in-game max health) and eDPS first — the progress-indicator numbers
 // belong above the fold; monograms last.
-const categoryOrder = ['vitals', 'edps', 'attributes', 'offense', 'stance', 'elemental', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
+const categoryOrder = ['vitals', 'edps', 'attributes', 'offense', 'stance', 'elemental', 'affinity', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
 
 /**
  * @param {Object} props

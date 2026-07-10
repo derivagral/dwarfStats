@@ -15,6 +15,8 @@
  *   DT_StatusEffects.json           — buff/status lexicon (names, durations,
  *                                     stacks, effect values)
  *   DT_GENERATED_SkillTree_Main.json — optional main-tree UI-node effects
+ *   DT_PlayerAbilities.json         — optional offhand ability definitions
+ *                                     (affinities, cooldown steps, modifiers)
  *
  * Outputs (committed, consumed by src/):
  *   src/data/attributeBonuses.generated.json
@@ -25,6 +27,8 @@
  *   src/data/weaponSkills.generated.json
  *   src/data/statusEffects.generated.json
  *   src/data/mainTreeHealth.generated.json (when the optional export exists)
+ *   src/data/mainTreeAffinity.generated.json (when the optional export exists)
+ *   src/data/playerAbilities.generated.json (when the optional export exists)
  *
  * Also prints a drift report comparing affix tags against STAT_REGISTRY
  * patterns (written to extraction/out/drift-report.md, gitignored).
@@ -233,6 +237,103 @@ function generateMainTreeHealth(mainTreeRows) {
 }
 
 // ---------------------------------------------------------------------------
+// Main passive tree offhand-affinity effects (DT_GENERATED_SkillTree_Main)
+//
+// Same opaque UI_SkillTreeNode_* rows as the health map, filtered to
+// EasyRPG.OffhandCategories.* effects (Damage%Bonus / CooldownBonus per
+// affinity). Node display names ("Sky Rush") ship alongside so stat
+// breakdowns can label sources readably.
+// ---------------------------------------------------------------------------
+
+const OFFHAND_CATEGORY_PREFIX = 'EasyRPG.OffhandCategories.';
+
+function generateMainTreeAffinity(mainTreeRows) {
+  const effectsByRow = {};
+  const namesByRow = {};
+
+  for (const [rowName, row] of Object.entries(mainTreeRows)) {
+    const effects = [];
+    for (const level of prop(row, 'SkillLevels') ?? []) {
+      effects.push(...effectList(prop(level, 'BonusAttributes'))
+        .filter(effect => effect.tag.startsWith(OFFHAND_CATEGORY_PREFIX)));
+    }
+    if (effects.length > 0) {
+      effectsByRow[rowName] = effects;
+      const name = textOf(prop(row, 'SkillName'));
+      if (name) namesByRow[rowName] = name;
+    }
+  }
+  return { effectsByRow, namesByRow };
+}
+
+// ---------------------------------------------------------------------------
+// Offhand abilities (DT_PlayerAbilities)
+//
+// One row per proc ability (Electric Dragons, Vortex, …). Each carries:
+// - Affinities: base OffhandCategories the ability benefits from
+// - AffinityBehaviours: item-rollable ability modifiers that ADD an affinity
+//   (e.g. ElectricDragons.Modifier.AdditionalDragons adds Area). Only offhand
+//   items can roll these — weapons can never contribute an affinity tag.
+// - CooldownSettings: cooldown step function by number of equipped offhands
+//   (Initial = 1, TwoOffhands = 2, ThreeOffhands = 3+; there is no 4th step)
+// ---------------------------------------------------------------------------
+
+const ABILITY_TAG_PREFIX = 'EasyRPG.Attributes.Abilities.';
+
+const DAMAGE_TYPE_ENUM = {
+  'E_DamageType_DR::NewEnumerator1': 'fire',
+  'E_DamageType_DR::NewEnumerator2': 'lightning',
+  'E_DamageType_DR::NewEnumerator3': 'arcane',
+};
+
+function generatePlayerAbilities(abilityRows) {
+  const abilities = {};
+  for (const [rowName, row] of Object.entries(abilityRows)) {
+    const identifier = prop(row, 'IdentifierTag')?.TagName ?? '';
+    // BurningShield's identifier is "…BurningShield.ProcChance" — strip the
+    // stray attribute suffix so keys always name the ability itself.
+    const key = identifier
+      .replace(ABILITY_TAG_PREFIX, '')
+      .replace(/\.ProcChance$/, '');
+    if (!key) continue;
+
+    const affinities = (prop(row, 'Affinities') ?? [])
+      .map(entry => entry?.TagName?.replace(OFFHAND_CATEGORY_PREFIX, ''))
+      .filter(Boolean);
+
+    // Modifier tag → affinity category it adds when rolled on an offhand item
+    const affinityBehaviours = {};
+    for (const entry of prop(row, 'AffinityBehaviours') ?? []) {
+      const modifierTag = entry?.Key?.TagName;
+      const category = entry?.Value?.TagName?.replace(OFFHAND_CATEGORY_PREFIX, '');
+      if (modifierTag && category) affinityBehaviours[modifierTag] = category;
+    }
+
+    const cd = prop(row, 'CooldownSettings') ?? {};
+    const cooldown = prop(cd, 'HasCooldown?')
+      ? {
+        initial: prop(cd, 'Initial') ?? 0,
+        twoOffhands: prop(cd, 'TwoOffhandsCooldown') ?? 0,
+        threeOffhands: prop(cd, 'ThreeOffhandsCooldown') ?? 0,
+      }
+      : null;
+
+    const element = prop(row, 'ElementalType');
+    abilities[key] = {
+      rowName,
+      name: textOf(prop(row, 'Title')) ?? key,
+      description: textOf(prop(row, 'Description')) ?? '',
+      element: DAMAGE_TYPE_ENUM[element] ?? element ?? null,
+      baseDamageMultiplier: prop(prop(row, 'DmgModifierAttribute') ?? {}, 'Value') ?? 0,
+      affinities,
+      affinityBehaviours,
+      ...(cooldown ? { cooldown } : {}),
+    };
+  }
+  return abilities;
+}
+
+// ---------------------------------------------------------------------------
 // Weapon stance skills (DT_Skills_* — STR_SkillInstance rows)
 //
 // Same row struct as cards: one SkillLevels entry whose BonusAttributes apply
@@ -359,10 +460,19 @@ const poolRows = loadTable('DT_Yellow_Orange_Modifiers.json');
 const cardRows = loadTable('DT_Crystal_Cards_Skills.json');
 const statusRows = loadTable('DT_StatusEffects.json');
 let mainTreeHealth = null;
+let mainTreeAffinity = null;
 try {
-  mainTreeHealth = generateMainTreeHealth(loadTable('DT_GENERATED_SkillTree_Main.json'));
+  const mainTreeRows = loadTable('DT_GENERATED_SkillTree_Main.json');
+  mainTreeHealth = generateMainTreeHealth(mainTreeRows);
+  mainTreeAffinity = generateMainTreeAffinity(mainTreeRows);
 } catch {
   console.warn('  (skipping DT_GENERATED_SkillTree_Main.json — not present)');
+}
+let playerAbilities = null;
+try {
+  playerAbilities = generatePlayerAbilities(loadTable('DT_PlayerAbilities.json'));
+} catch {
+  console.warn('  (skipping DT_PlayerAbilities.json — not present)');
 }
 
 const monograms = generateMonograms(attributeRows);
@@ -394,6 +504,19 @@ if (mainTreeHealth) {
   fs.writeFileSync(path.join(GEN_DIR, 'mainTreeHealth.generated.json'),
     JSON.stringify({ ...banner, _source: 'DT_GENERATED_SkillTree_Main (MaxHealth effects only)', effectsByRow: mainTreeHealth }, null, 2));
 }
+if (mainTreeAffinity) {
+  fs.writeFileSync(path.join(GEN_DIR, 'mainTreeAffinity.generated.json'),
+    JSON.stringify({
+      ...banner,
+      _source: 'DT_GENERATED_SkillTree_Main (EasyRPG.OffhandCategories.* effects only)',
+      effectsByRow: mainTreeAffinity.effectsByRow,
+      namesByRow: mainTreeAffinity.namesByRow,
+    }, null, 2));
+}
+if (playerAbilities) {
+  fs.writeFileSync(path.join(GEN_DIR, 'playerAbilities.generated.json'),
+    JSON.stringify({ ...banner, _source: 'DT_PlayerAbilities', abilities: playerAbilities }, null, 2));
+}
 
 console.log(`Attributes:     ${Object.keys(attributeBonuses).length}`);
 console.log(`Monograms:      ${Object.keys(monograms).length}`);
@@ -403,6 +526,8 @@ console.log(`Cards:          ${Object.keys(cards).length}`);
 console.log(`Weapon skills:  ${Object.keys(weaponSkills).length}`);
 console.log(`Status effects: ${Object.keys(statusEffects).length}`);
 if (mainTreeHealth) console.log(`Main-tree health nodes: ${Object.keys(mainTreeHealth).length}`);
+if (mainTreeAffinity) console.log(`Main-tree affinity nodes: ${Object.keys(mainTreeAffinity.effectsByRow).length}`);
+if (playerAbilities) console.log(`Player abilities: ${Object.keys(playerAbilities).length}`);
 
 const { reportPath, missing } = await driftReport(affixes);
 console.log(`Drift:     ${missing} rollable affixes unmatched by STAT_REGISTRY patterns`);

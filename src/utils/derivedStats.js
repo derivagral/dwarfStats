@@ -17,7 +17,7 @@
  * - 'custom': Arbitrary calculation function
  */
 
-import { STAT_REGISTRY } from './statRegistry.js';
+import { STAT_REGISTRY, OFFHAND_AFFINITY_CATEGORIES, affinityDamageStatId, affinityCooldownStatId } from './statRegistry.js';
 import { ATTRIBUTE_BONUSES, getAttributeBonusEffect } from './attributeBonuses.js';
 
 // ============================================================================
@@ -102,6 +102,41 @@ export function resolveElementRouting(stats, config = {}) {
 
   return { active, included, conversions, totals };
 }
+
+// ============================================================================
+// OFFHAND AFFINITY ROUTING
+// ============================================================================
+
+/**
+ * Sum the affinity damage% / cooldown% bonuses for a set of active affinity
+ * categories. Categories come from the equipped offhand abilities (base
+ * affinities + modifier-added ones, see offhandAbilities.js); the per-category
+ * bonus values are aggregated base stats (main-tree affinity nodes today,
+ * race grants once the race table is extracted).
+ *
+ * @param {Object} stats - Calculated stats (needs <cat>AffinityDamage/Cooldown)
+ * @param {string[]} activeAffinities - Category tags ('Dragon') or keys ('dragon')
+ * @returns {{damage: number, cooldown: number, perCategory: Array<{category: string, damage: number, cooldown: number}>}}
+ */
+export function resolveAffinityBonuses(stats, activeAffinities = []) {
+  let damage = 0;
+  let cooldown = 0;
+  const perCategory = [];
+  for (const category of activeAffinities) {
+    const damageId = affinityDamageStatId(category);
+    const cooldownId = affinityCooldownStatId(category);
+    if (!damageId) continue;
+    const catDamage = stats[damageId] || 0;
+    const catCooldown = stats[cooldownId] || 0;
+    damage += catDamage;
+    cooldown += catCooldown;
+    perCategory.push({ category, damage: catDamage, cooldown: catCooldown });
+  }
+  return { damage, cooldown, perCategory };
+}
+
+const AFFINITY_DAMAGE_STAT_IDS = OFFHAND_AFFINITY_CATEGORIES.map(c => `${c.key}AffinityDamage`);
+const AFFINITY_COOLDOWN_STAT_IDS = OFFHAND_AFFINITY_CATEGORIES.map(c => `${c.key}AffinityCooldown`);
 
 /**
  * Build a breakdown term for a derived stat's formula tooltip.
@@ -2533,15 +2568,20 @@ export const DERIVED_STATS = {
     name: 'Elemental Offhand Bucket',
     category: 'edps',
     layer: LAYERS.EDPS,
-    dependencies: ['edpsBothTypesDamageBonus'],
+    dependencies: ['edpsBothTypesDamageBonus', ...AFFINITY_DAMAGE_STAT_IDS],
     config: {
-      offhandItemBonus: 0, // manual extra; item DamageMultiplier affixes auto-add via stats.damageMultiplier
-      affinity: 0,         // skill tree affinity (manual until parsed)
+      offhandItemBonus: 0,  // manual extra; item DamageMultiplier affixes auto-add via stats.damageMultiplier
+      affinity: 0,          // manual affinity extra (kept for shared builds / overrides)
+      // Active affinity categories ('Dragon', 'Orbit', …) — auto-set by
+      // useDerivedStats from the equipped offhand abilities (base affinities
+      // + modifier-added ones). Routes <cat>AffinityDamage tree stats in.
+      activeAffinities: [],
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsElemAdditive.config;
       const itemOffhand = (stats.damageMultiplier || 0) + (config.offhandItemBonus || 0);
-      const affinity = config.affinity || 0;
+      const affinity = (config.affinity || 0)
+        + resolveAffinityBonuses(stats, config.activeAffinities || []).damage;
       const bothTypes = stats.edpsBothTypesDamageBonus || 0;
       return itemOffhand + affinity + bothTypes;
     },
@@ -2549,9 +2589,13 @@ export const DERIVED_STATS = {
     description: 'Elemental offhand bucket: item offhand damage% + affinity + both-types (skill mult added per skill)',
     breakdown: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsElemAdditive.config;
+      const { perCategory } = resolveAffinityBonuses(stats, config.activeAffinities || []);
       return [
         { label: 'offhandItems', fullName: 'Offhand Damage% (from items)', op: '+', value: (stats.damageMultiplier || 0) + (config.offhandItemBonus || 0), fmt: 'pct' },
-        { label: 'affinity', fullName: 'Affinity Damage (skill tree)', op: '+', value: config.affinity || 0, fmt: 'pct' },
+        ...perCategory.map(({ category, damage }) => (
+          { label: `${category} affinity`, fullName: `${category} Affinity Damage (skill tree)`, op: '+', value: damage, fmt: 'pct' }
+        )),
+        { label: 'affinity (manual)', fullName: 'Affinity Damage (manual config)', op: '+', value: config.affinity || 0, fmt: 'pct' },
         { label: 'edpsBothTypesDamageBonus', fullName: 'Damage% (Both Types)', op: '+', value: stats.edpsBothTypesDamageBonus || 0, fmt: 'pct', isMonogram: true },
         { label: 'ElemBucket', fullName: 'Elemental Offhand Bucket (sum, pre-skill)', op: '=', value: stats.edpsElemAdditive, fmt: 'pct', isSubtotal: true },
       ];
@@ -2822,6 +2866,79 @@ export const DERIVED_STATS = {
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Skill-specific extra damage multiplier on the elemental line (default 1)',
+  },
+
+  /**
+   * offhandCooldownReduction — total CDR applying to the equipped offhand
+   * abilities. Per confirmed behavior, affinity cooldown bonuses are ADDITIVE
+   * with the regular item CooldownReduction% value.
+   */
+  offhandCooldownReduction: {
+    id: 'offhandCooldownReduction',
+    name: 'Offhand Cooldown Reduction',
+    category: 'abilities',
+    layer: LAYERS.PRIMARY_DERIVED,
+    dependencies: ['cooldownReduction', ...AFFINITY_COOLDOWN_STAT_IDS],
+    config: { activeAffinities: [] }, // auto-set from equipped offhand abilities
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.offhandCooldownReduction.config;
+      const affinity = resolveAffinityBonuses(stats, config.activeAffinities || []).cooldown;
+      return (stats.cooldownReduction || 0) + affinity;
+    },
+    format: v => `${(v * 100).toFixed(1)}%`,
+    description: 'Item Cooldown Reduction% + active affinity cooldown bonuses (additive)',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.offhandCooldownReduction.config;
+      const { perCategory } = resolveAffinityBonuses(stats, config.activeAffinities || []);
+      return [
+        { label: 'cooldownReduction', fullName: 'Cooldown Reduction (items)', op: '+', value: stats.cooldownReduction || 0, fmt: 'pct' },
+        ...perCategory.map(({ category, cooldown }) => (
+          { label: `${category} affinity`, fullName: `${category} Affinity Cooldown (skill tree)`, op: '+', value: cooldown, fmt: 'pct' }
+        )),
+        { label: 'total', fullName: 'Offhand Cooldown Reduction (total)', op: '=', value: stats.offhandCooldownReduction, fmt: 'pct', isSubtotal: true },
+      ];
+    },
+  },
+
+  /**
+   * offhandCooldownSeconds — effective cooldown of the build's dominant
+   * offhand ability. The base steps down with equipped-offhand count
+   * (Initial/TwoOffhands/ThreeOffhands from DT_PlayerAbilities; 3+ share the
+   * last step). CDR application modeled as base × (1 − CDR) — provisional
+   * until confirmed in-game.
+   */
+  offhandCooldownSeconds: {
+    id: 'offhandCooldownSeconds',
+    name: 'Offhand Cooldown',
+    category: 'abilities',
+    layer: LAYERS.SECONDARY_DERIVED,
+    dependencies: ['offhandCooldownReduction'],
+    // baseCooldown/abilityName/offhandCount auto-set by useDerivedStats from
+    // the dominant equipped offhand ability (most offhands carrying it)
+    config: { baseCooldown: 0, abilityName: null, offhandCount: 0 },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.offhandCooldownSeconds.config;
+      const base = config.baseCooldown || 0;
+      if (base <= 0) return 0;
+      const cdr = stats.offhandCooldownReduction || 0;
+      return Math.max(base * (1 - cdr), 0);
+    },
+    format: v => (v > 0 ? `${v.toFixed(2)}s` : '—'),
+    description: 'Effective cooldown of the dominant offhand ability: step base (by equipped-offhand count) × (1 − CDR)',
+    breakdown: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.offhandCooldownSeconds.config;
+      return [
+        {
+          label: 'baseCooldown',
+          fullName: config.abilityName
+            ? `${config.abilityName} base cooldown (${config.offhandCount || 0} offhands equipped)`
+            : 'Base cooldown (no offhand ability detected)',
+          op: '=', value: config.baseCooldown || 0, fmt: 'flat',
+        },
+        { label: 'offhandCooldownReduction', fullName: 'Offhand Cooldown Reduction (total)', op: '−', value: stats.offhandCooldownReduction || 0, fmt: 'pct' },
+        { label: 'effective', fullName: 'Effective cooldown (seconds)', op: '=', value: stats.offhandCooldownSeconds, fmt: 'flat', isSubtotal: true },
+      ];
+    },
   },
 
   // ---------------------------------------------------------------------------

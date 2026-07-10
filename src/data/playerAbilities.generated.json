@@ -1,0 +1,502 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "_source": "DT_PlayerAbilities",
+  "abilities": {
+    "FlameShowerMeteor": {
+      "rowName": "RainOfFlames",
+      "name": "Rain of Flames",
+      "description": "Conjures a barrage of meteors. Celestial projectiles rain down, inflicting area-of-effect damage to adversaries within range.",
+      "element": "fire",
+      "baseDamageMultiplier": 0.58,
+      "affinities": [
+        "Sky",
+        "Explosion"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.FlameShowerMeteor.Modifier.Ticks": "Hazard"
+      },
+      "cooldown": {
+        "initial": 5.4,
+        "twoOffhands": 4.2,
+        "threeOffhands": 3
+      }
+    },
+    "CarnageOfFire": {
+      "rowName": "CarnageOfFire",
+      "name": "Carnage of Fire",
+      "description": "Generates volatile lava droplets. Molten projectiles detonate on impact, dealing area-of-effect damage to enemies within the blast radius.",
+      "element": "fire",
+      "baseDamageMultiplier": 1.12,
+      "affinities": [
+        "Sky",
+        "Explosion"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.CarnageOfFire.Modifier.LavaSpike": "Ground"
+      },
+      "cooldown": {
+        "initial": 10.8,
+        "twoOffhands": 8.4,
+        "threeOffhands": 6
+      }
+    },
+    "DelusionOfZelkors": {
+      "rowName": "DelusionOfZelkors",
+      "name": "Delusion of Zelkors",
+      "description": "Channels the combined energies of two Zelkorian spellcasters. Unleashes a potent area-of-effect explosion, engulfing the targeted zone in magical devastation.",
+      "element": "fire",
+      "baseDamageMultiplier": 2.2,
+      "affinities": [
+        "Creature",
+        "Explosion"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.DelusionOfZelkors.Modifier.FireSpikeTicks": "Ground"
+      },
+      "cooldown": {
+        "initial": 4.2,
+        "twoOffhands": 3.6,
+        "threeOffhands": 3
+      }
+    },
+    "BurningShield": {
+      "rowName": "BurningShield",
+      "name": "Burning Shield",
+      "description": "Conjures a blazing barrier that protects the caster and damages nearby foes. Creates a hazardous zone, deterring close-quarters engagement.",
+      "element": "fire",
+      "baseDamageMultiplier": 1,
+      "affinities": [
+        "Orbit"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.BurningShield.Modifier.BruningDragonsRadius": "Blade",
+        "EasyRPG.Attributes.Abilities.BurningShield.Modifier.StackBuff": "Explosion"
+      },
+      "cooldown": {
+        "initial": 10.13,
+        "twoOffhands": 7.6,
+        "threeOffhands": 6.33
+      }
+    },
+    "FireBeam": {
+      "rowName": "FireBeam",
+      "name": "Fire Beam",
+      "description": "Projects an intense beam of concentrated fire forward. Inflicts damage to enemies in its path, creating a linear zone of destruction.",
+      "element": "fire",
+      "baseDamageMultiplier": 0.8,
+      "affinities": [
+        "Projectile",
+        "Hazard"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.FireBeam.Modifier.ExpandedBeam": "Charging"
+      },
+      "cooldown": {
+        "initial": 6.3,
+        "twoOffhands": 5.2,
+        "threeOffhands": 3.9
+      }
+    },
+    "DragonFlame": {
+      "rowName": "DragonFlame",
+      "name": "Dragon Flame",
+      "description": "Manifests a colossal fire dragon on the battlefield. Unleashes devastating waves of fire, incinerating foes within its vicinity.",
+      "element": "fire",
+      "baseDamageMultiplier": 2,
+      "affinities": [
+        "Dragon",
+        "Creature"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.DragonFlame.Modifier.BonusRadius": "Area"
+      },
+      "cooldown": {
+        "initial": 8.67,
+        "twoOffhands": 6.93,
+        "threeOffhands": 5.2
+      }
+    },
+    "ChainLightning": {
+      "rowName": "ChainLightning",
+      "name": "Chain Lightning",
+      "description": "Unleashes electrical energy that arcs between targets. Creates a chain reaction of lightning, damaging multiple enemies in rapid succession.",
+      "element": "lightning",
+      "baseDamageMultiplier": 2.4,
+      "affinities": [
+        "Charging"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.Overload": "Sky",
+        "EasyRPG.Attributes.Abilities.ChainLightning.Modifier.AdditionalJumps": "Area"
+      },
+      "cooldown": {
+        "initial": 5.06,
+        "twoOffhands": 4.06,
+        "threeOffhands": 3.54
+      }
+    },
+    "Spark": {
+      "rowName": "Spark",
+      "name": "Spark",
+      "description": "Generates electric sparks. Sparks leap between nearby adversaries, creating unpredictable patterns of electrical damage.",
+      "element": "lightning",
+      "baseDamageMultiplier": 0.75,
+      "affinities": [
+        "Charging",
+        "Sky"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.Spark.Modifier.PlasmaSphere": "Explosion"
+      },
+      "cooldown": {
+        "initial": 6.4,
+        "twoOffhands": 5.6,
+        "threeOffhands": 4.8
+      }
+    },
+    "Vortex": {
+      "rowName": "Vortex",
+      "name": "Vortex",
+      "description": "Conjures a powerful wind vortex at the target location. Lifts and suspends enemies, dealing continuous damage from intense pressure and turbulent forces.",
+      "element": "lightning",
+      "baseDamageMultiplier": 1.2,
+      "affinities": [
+        "Sky",
+        "Hazard"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.Vortex.Modifier.Tornados": "Area"
+      },
+      "cooldown": {
+        "initial": 4,
+        "twoOffhands": 3.33,
+        "threeOffhands": 2.67
+      }
+    },
+    "EyeOfTheStorm": {
+      "rowName": "EyeOfTheStorm",
+      "name": "Eye of the Storm",
+      "description": "Summons a localized maelstrom around the caster. Unleashes destructive forces on nearby enemies, combining violent winds and lightning.",
+      "element": "lightning",
+      "baseDamageMultiplier": 2.6,
+      "affinities": [
+        "Sky"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.EyeOfTheStorm.Modifier.Radius": "Area",
+        "EasyRPG.Attributes.Abilities.EyeOfTheStorm.Modifier.Cloud": "Hazard"
+      },
+      "cooldown": {
+        "initial": 10.67,
+        "twoOffhands": 8.53,
+        "threeOffhands": 6.4
+      }
+    },
+    "FerocityOfWolves": {
+      "rowName": "FerocityOfWolves",
+      "name": "Ferocity of Wolves",
+      "description": "Manifests spectral wolves charged with electrical energy. Unleashes ethereal canines that materialize near the caster. Wolves lunge at nearby foes, delivering shocking assaults.",
+      "element": "lightning",
+      "baseDamageMultiplier": 0.4,
+      "affinities": [
+        "Creature",
+        "Ground"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.FerocityOfWolves.Modifier.AdditionalWolves": "Charging"
+      },
+      "cooldown": {
+        "initial": 5.58,
+        "twoOffhands": 4.68,
+        "threeOffhands": 4.14
+      }
+    },
+    "StaticCharge": {
+      "rowName": "StaticCharge",
+      "name": "Static Charge",
+      "description": "Transfers static charge to the ground. Creates an electrified field in the targeted area. Damages enemies who traverse the charged terrain.",
+      "element": "lightning",
+      "baseDamageMultiplier": 0.65,
+      "affinities": [
+        "Ground",
+        "Charging"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.StaticCharge.Modifier.ExplodeChargeBuff": "Sky"
+      },
+      "cooldown": {
+        "initial": 3.48,
+        "twoOffhands": 2.71,
+        "threeOffhands": 1.93
+      }
+    },
+    "StarBlades": {
+      "rowName": "StarBlades",
+      "name": "Starblades",
+      "description": "Invokes cosmic forces to manifest razor-sharp blades from the sky. Blades rain down and embed in the ground in a radial pattern, damaging nearby adversaries.",
+      "element": "lightning",
+      "baseDamageMultiplier": 0.6,
+      "affinities": [
+        "Sky",
+        "Blade"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.StarBlades.Modifier.KunamiDaggers": "Charging"
+      },
+      "cooldown": {
+        "initial": 3.76,
+        "twoOffhands": 3.04,
+        "threeOffhands": 2.54
+      }
+    },
+    "ElectricDragons": {
+      "rowName": "ElectricDragons",
+      "name": "Electric Dragons",
+      "description": "Manifests a ring of electric dragons around the caster. Dragons orbit the user, crackling with intense electrical energy. Inflicts damage to foes who come into contact with the ethereal serpents.",
+      "element": "lightning",
+      "baseDamageMultiplier": 2,
+      "affinities": [
+        "Dragon",
+        "Orbit"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.ElectricDragons.Modifier.AdditionalDragons": "Area"
+      },
+      "cooldown": {
+        "initial": 8.07,
+        "twoOffhands": 6.6,
+        "threeOffhands": 5.13
+      }
+    },
+    "SpinningBlade": {
+      "rowName": "SpinnigBlade",
+      "name": "Spinning Blade",
+      "description": "Conjures a rotating array of razor-sharp blades around the caster. Creates a mobile zone of cutting force, damaging enemies who venture too close.",
+      "element": "arcane",
+      "baseDamageMultiplier": 1,
+      "affinities": [
+        "Orbit",
+        "Blade"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.SpinningBlade.Modifier.Shurikans": "Projectile"
+      },
+      "cooldown": {
+        "initial": 8.23,
+        "twoOffhands": 6.5,
+        "threeOffhands": 4.77
+      }
+    },
+    "PoisonCloud": {
+      "rowName": "Toxicity",
+      "name": "Toxicity",
+      "description": "Generates pools of poison around the caster. Creates hazardous zones on the ground that persist briefly. Damages enemies who come into contact with or traverse the toxic areas.",
+      "element": "arcane",
+      "baseDamageMultiplier": 1.25,
+      "affinities": [
+        "Ground",
+        "Hazard"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.PoisonCloud.Modifier.ToxicProjectile": "Projectile"
+      },
+      "cooldown": {
+        "initial": 8.27,
+        "twoOffhands": 6.2,
+        "threeOffhands": 4.13
+      }
+    },
+    "EnemyDeath": {
+      "rowName": "DeathBlades",
+      "name": "Death Blades",
+      "description": "Manifests an ethereal blade imbued with arcane energy. Blade rotates, emitting waves of force that damage nearby foes.",
+      "element": "arcane",
+      "baseDamageMultiplier": 2.4,
+      "affinities": [
+        "Blade",
+        "Hazard"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.EnemyDeath.Modifier.ArcaneSpikeTicks": "Ground"
+      },
+      "cooldown": {
+        "initial": 9.18,
+        "twoOffhands": 7.14,
+        "threeOffhands": 5.1
+      }
+    },
+    "ArcaneOrb": {
+      "rowName": "ArcaneOrb",
+      "name": "Arcane Orb",
+      "description": "Unleashes a homing orb of arcane energy. Orb phase-shifts through enemies, damaging them as it travels outward. On its return path, it continues to damage foes in its way back to the caster.",
+      "element": "arcane",
+      "baseDamageMultiplier": 0.9,
+      "affinities": [
+        "Projectile",
+        "Charging"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.ArcaneOrb.Modifier.SpawnOnHit": "Explosion",
+        "EasyRPG.Attributes.Abilities.ArcaneOrb.Modifier.ChaosOrb": "Explosion"
+      },
+      "cooldown": {
+        "initial": 4.46,
+        "twoOffhands": 3.53,
+        "threeOffhands": 2.6
+      }
+    },
+    "BloodDragons": {
+      "rowName": "BloodDragons",
+      "name": "Blood Dragons",
+      "description": "Summons ethereal blood dragons from thin air. Dragons surge towards foes, leaving trails of caustic mist that damage enemies.",
+      "element": "arcane",
+      "baseDamageMultiplier": 0.85,
+      "affinities": [
+        "Dragon",
+        "Ground"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.BloodDragons.Modifier.ExplosionChance": "Explosion"
+      },
+      "cooldown": {
+        "initial": 12,
+        "twoOffhands": 9.33,
+        "threeOffhands": 6.67
+      }
+    },
+    "ArcaneApocalypse": {
+      "rowName": "ArcaneApocalypse",
+      "name": "Arcane Apocalypse",
+      "description": "Unleashes chaotic bursts of reality-warping arcane energy. Creates multiple explosions, forming a sphere of otherworldly devastation around the battlefield.",
+      "element": "arcane",
+      "baseDamageMultiplier": 1.86,
+      "affinities": [
+        "Explosion",
+        "Ground"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.ArcaneApocalypse.Modifier.AdditionalExplosions": "Hazard"
+      },
+      "cooldown": {
+        "initial": 3.99,
+        "twoOffhands": 3.36,
+        "threeOffhands": 2.31
+      }
+    },
+    "FireAtom": {
+      "rowName": "FireAtom",
+      "name": "Fire Orb",
+      "description": "Conjures a pulsating orb on the ground. Orb accumulates charge over time, periodically releasing damaging waves of increasing intensity.",
+      "element": "fire",
+      "baseDamageMultiplier": 1.3,
+      "affinities": [
+        "Ground",
+        "Area"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.FireAtom.Modifier.Explode": "Explosion"
+      },
+      "cooldown": {
+        "initial": 4.73,
+        "twoOffhands": 3.79,
+        "threeOffhands": 2.84
+      }
+    },
+    "FieryTotem": {
+      "rowName": "FieryTotem",
+      "name": "Fiery Totem",
+      "description": "Manifests incendiary totems around the caster. Totems explode on contact, creating a tactical minefield of fiery eruptions.",
+      "element": "fire",
+      "baseDamageMultiplier": 2.2,
+      "affinities": [
+        "Totem",
+        "Hazard"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.FieryTotem.Modifier.ExplodeOnOverlap": "Explosion"
+      },
+      "cooldown": {
+        "initial": 7,
+        "twoOffhands": 5.6,
+        "threeOffhands": 4.2
+      }
+    },
+    "ArcaneTotem": {
+      "rowName": "ArcaneTotem",
+      "name": "Arcane Totem",
+      "description": "Erects a mystical totem infused with arcane and primordial fire. Totem radiates waves of eldritch flame, searing nearby foes.",
+      "element": "arcane",
+      "baseDamageMultiplier": 0.8,
+      "affinities": [
+        "Totem",
+        "Ground"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.ArcaneTotem.Modifier.ArcaneExplosion": "Explosion"
+      },
+      "cooldown": {
+        "initial": 8.8,
+        "twoOffhands": 7.2,
+        "threeOffhands": 5.6
+      }
+    },
+    "LightningTotem": {
+      "rowName": "LightningTotem",
+      "name": "Lightning Totem",
+      "description": "Erects an electrified totem channeling celestial lightning. Obelisk draws down lightning bolts, creating a field of electrical havoc around it.",
+      "element": "lightning",
+      "baseDamageMultiplier": 0.9,
+      "affinities": [
+        "Totem"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.LargerRadius": "Area",
+        "EasyRPG.Attributes.Abilities.LightningTotem.Modifier.TimedExplosions": "Explosion"
+      },
+      "cooldown": {
+        "initial": 9.8,
+        "twoOffhands": 8.4,
+        "threeOffhands": 7
+      }
+    },
+    "ArcaneCrackedSeed": {
+      "rowName": "ArcaneSeed",
+      "name": "Kraken Seed",
+      "description": "Spawns a Kraken Seed near the target. Seeds appear in random locations around struck enemies, ready to unleash aquatic fury.",
+      "element": "arcane",
+      "baseDamageMultiplier": 1.4,
+      "affinities": [
+        "Creature",
+        "Ground"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.Darts": "Projectile",
+        "EasyRPG.Attributes.Abilities.ArcaneCrackedSeed.Modifier.TentacleExplosion": "Projectile"
+      },
+      "cooldown": {
+        "initial": 8.4,
+        "twoOffhands": 6.53,
+        "threeOffhands": 4.67
+      }
+    },
+    "LightningPlasma": {
+      "rowName": "LightningPlasma",
+      "name": "Lightning Plasma",
+      "description": "Channels crackling lightning force through both arms. Emits damaging electrical energy to enemies on either side of the caster.",
+      "element": "lightning",
+      "baseDamageMultiplier": 1,
+      "affinities": [
+        "Projectile"
+      ],
+      "affinityBehaviours": {
+        "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.GrowLarger": "Area",
+        "EasyRPG.Attributes.Abilities.LightningPlasma.Modifier.Ticks": "Charging"
+      },
+      "cooldown": {
+        "initial": 6.67,
+        "twoOffhands": 5,
+        "threeOffhands": 3.33
+      }
+    }
+  }
+}

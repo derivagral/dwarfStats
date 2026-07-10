@@ -1594,6 +1594,77 @@ export const STAT_REGISTRY = {
   },
 };
 
+// ---------------------------------------------------------------------------
+// OFFHAND AFFINITY STATS (still inside the append-only zone)
+//
+// The 12 EasyRPG.OffhandCategories.* affinities. Each gets a Damage%Bonus and
+// a CooldownBonus stat (main-tree nodes grant both; the matching item affix
+// rows exist but have canRoll=false — weapons can never carry affinity tags).
+// Exact full-tag patterns are load-bearing: findStatForAttribute's exact-match
+// pass must claim these before the generic `Damage%` regex on damageBonus
+// swallows them into the physical bucket.
+//
+// This array is the generation order for STAT_REGISTRY keys and therefore part
+// of the share-codec wire format: append new categories at the END only.
+// ---------------------------------------------------------------------------
+
+export const OFFHAND_AFFINITY_CATEGORIES = [
+  { key: 'dragon', tag: 'Dragon', label: 'Dragon' },
+  { key: 'creature', tag: 'Creature', label: 'Creature' },
+  { key: 'sky', tag: 'Sky', label: 'Sky' },
+  { key: 'explosion', tag: 'Explosion', label: 'Explosion' },
+  { key: 'projectile', tag: 'Projectile', label: 'Projectile' },
+  { key: 'ground', tag: 'Ground', label: 'Ground' },
+  { key: 'orbit', tag: 'Orbit', label: 'Orbit' },
+  { key: 'blade', tag: 'Blade', label: 'Blade' },
+  // The game displays the Charging category as "Momentum"
+  { key: 'charging', tag: 'Charging', label: 'Momentum' },
+  { key: 'totem', tag: 'Totem', label: 'Totem' },
+  { key: 'area', tag: 'Area', label: 'Area' },
+  { key: 'hazard', tag: 'Hazard', label: 'Hazard' },
+];
+
+/** Affinity category tag ('Dragon') → damage stat id ('dragonAffinityDamage') */
+export function affinityDamageStatId(categoryTag) {
+  const entry = OFFHAND_AFFINITY_CATEGORIES.find(c => c.tag === categoryTag || c.key === categoryTag);
+  return entry ? `${entry.key}AffinityDamage` : null;
+}
+
+/** Affinity category tag ('Dragon') → cooldown stat id ('dragonAffinityCooldown') */
+export function affinityCooldownStatId(categoryTag) {
+  const entry = OFFHAND_AFFINITY_CATEGORIES.find(c => c.tag === categoryTag || c.key === categoryTag);
+  return entry ? `${entry.key}AffinityCooldown` : null;
+}
+
+for (const { key, tag, label } of OFFHAND_AFFINITY_CATEGORIES) {
+  STAT_REGISTRY[`${key}AffinityDamage`] = {
+    id: `${key}AffinityDamage`,
+    name: `${label} Affinity Damage`,
+    category: 'affinity',
+    patterns: [
+      `EasyRPG.OffhandCategories.${tag}.Damage%Bonus`,
+      `${tag}.Damage%Bonus`,
+    ],
+    canonical: `EasyRPG.OffhandCategories.${tag}.Damage%Bonus`,
+    isPercent: true,
+    format: v => `+${(v * 100).toFixed(0)}%`,
+    description: `Damage bonus for offhand abilities with ${label} affinity`,
+  };
+  STAT_REGISTRY[`${key}AffinityCooldown`] = {
+    id: `${key}AffinityCooldown`,
+    name: `${label} Affinity Cooldown`,
+    category: 'affinity',
+    patterns: [
+      `EasyRPG.OffhandCategories.${tag}.CooldownBonus`,
+      `${tag}.CooldownBonus`,
+    ],
+    canonical: `EasyRPG.OffhandCategories.${tag}.CooldownBonus`,
+    isPercent: true,
+    format: v => `+${(v * 100).toFixed(0)}%`,
+    description: `Cooldown reduction for offhand abilities with ${label} affinity`,
+  };
+}
+
 // ============================================================================
 // ADDITIONAL DISPLAY PATTERNS (for attributes not in stat calculations)
 // ============================================================================

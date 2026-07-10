@@ -20,10 +20,12 @@ import {
 } from '../utils/shareCodec.js';
 import { findStatForAttribute, getStatById } from '../utils/statRegistry.js';
 import { getWeaponSkillDef } from '../utils/skillTreeRegistry.js';
+import { hasMainTreeHealthEffect } from '../utils/skillEffectAggregator.js';
 import { createEmptySkillTreeData } from './SkillTree.js';
 import { createEmptyItem } from './Item.js';
 
-// v2: adds the `st` skill tree section (cards + weapon skill levels) so shared
+// v2: adds the `st` skill tree section (cards + weapon skill levels, later
+// extended with additive main-tree health rows) so shared
 // builds compute real skill effects instead of the mastery approximation.
 // v2 payloads travel compressed ("2." prefix, see shareUrl.js); v1 decode is
 // unchanged for old links.
@@ -67,9 +69,9 @@ export const CHARACTER_SHARE_VERSION = 2;
  *   highestAttribute-driven derived stat.
  * @property {number} [hp] - Character max health (omitted if 0). Not derivable
  *   from gear; needed by the 1%-of-max-Health monogram.
- * @property {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]> }} [st] -
- *   Skill tree section (v2+): cards [[rowName, level]] and weapon skills
- *   [[skillEnc, level]]. Lets shared builds compute real skill effects.
+ * @property {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]>, mh?: string[] }} [st] -
+ *   Skill tree section (v2+): cards [[rowName, level]], weapon skills
+ *   [[skillEnc, level]], and known main-tree health node row names.
  */
 
 // ---------------------------------------------------------------------------
@@ -139,7 +141,7 @@ export function createMasteryShare(stanceContext) {
  * WEAPON_SKILL_DICT indices with string fallback for unknown rows.
  *
  * @param {Object|null} skillTree
- * @returns {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]> }|null}
+ * @returns {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]>, mh?: string[] }|null}
  */
 export function createSkillTreeShare(skillTree) {
   if (!skillTree) return null;
@@ -159,6 +161,14 @@ export function createSkillTreeShare(skillTree) {
   }
   if (ws.length > 0) st.ws = ws;
 
+  // Main-tree rows are normally too numerous for a share URL. Preserve only
+  // the generated nodes with known health effects so shared health remains
+  // consistent with an imported save.
+  const mainHealth = (skillTree.mainTree ?? [])
+    .filter(skill => skill.rowName && hasMainTreeHealthEffect(skill.rowName))
+    .map(skill => skill.rowName);
+  if (mainHealth.length > 0) st.mh = mainHealth;
+
   return Object.keys(st).length > 0 ? st : null;
 }
 
@@ -167,11 +177,11 @@ export function createSkillTreeShare(skillTree) {
  * enough for skillEffectAggregator (cards + weaponStances with rowName/level).
  * Weapon skills are bucketed by their registry/game-data weapon type.
  *
- * @param {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]> }|null|undefined} st
+ * @param {{ cd?: Array<[string, number]>, ws?: Array<[number|string, number]>, mh?: string[] }|null|undefined} st
  * @returns {Object|null} SkillTreeData-shaped object, or null if empty
  */
 export function skillTreeShareToData(st) {
-  if (!st || (!st.cd?.length && !st.ws?.length)) return null;
+  if (!st || (!st.cd?.length && !st.ws?.length && !st.mh?.length)) return null;
   const tree = createEmptySkillTreeData();
 
   for (const [rowName, level] of st.cd || []) {
@@ -183,6 +193,11 @@ export function skillTreeShareToData(st) {
     const weapon = getWeaponSkillDef(rowName)?.weapon;
     const stance = tree.weaponStances[weapon] ?? tree.weaponStances.spear;
     stance.skills.push({ rowName, level: level ?? 1 });
+  }
+
+  for (const rowName of st.mh || []) {
+    if (!rowName || !hasMainTreeHealthEffect(rowName)) continue;
+    tree.mainTree.push({ rowName, level: 1, category: 'main' });
   }
 
   return tree;

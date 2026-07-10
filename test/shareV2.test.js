@@ -28,10 +28,12 @@ describe('skill tree share section', () => {
     const st = createSkillTreeShare(skillTree);
     expect(st.cd.length).toBeGreaterThan(0);
     expect(st.ws.length).toBeGreaterThan(0);
+    expect(st.mh.length).toBeGreaterThan(0);
 
     const restored = skillTreeShareToData(st);
     expect(hasWeaponSkillData(restored)).toBe(true);
     expect(restored.cards.length).toBe(skillTree.cards.length);
+    expect(restored.mainTree.length).toBe(st.mh.length);
 
     // Paragon level survives (PolearmDamage L732, bucketed under mauls)
     const mauls = restored.weaponStances.mauls.skills.find(s => s.rowName === 'PolearmDamage');

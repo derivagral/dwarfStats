@@ -187,9 +187,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.health || 0;
       const bonus = stats.healthBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: 'Health after bonuses applied',
   },
   totalDamage: {
@@ -2930,4 +2930,3 @@ export default {
   getDependencyChain,
   getBaseStatIds,
 };
-

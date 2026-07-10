@@ -22,6 +22,29 @@ describe('skillEffectAggregator', () => {
     expect(hasWeaponSkillData(skillTree)).toBe(true);
   });
 
+  it('maps generated main-tree health nodes from opaque save row names', () => {
+    const tree = {
+      mainTree: [
+        { rowName: 'UI_SkillTreeNode_Small_45', level: 1 },
+        { rowName: 'UI_SkillTreeNode_Large_62', level: 1 },
+        { rowName: 'UI_SkillTreeNode_Small_310', level: 1 },
+        { rowName: 'UI_SkillTreeNode_Small_311', level: 1 },
+        { rowName: 'UI_SkillTreeNode_Small_312', level: 1 },
+        { rowName: 'UI_SkillTreeNode_Small_314', level: 1 },
+      ],
+      cards: [],
+      weaponStances: {},
+    };
+
+    const contributions = aggregateSkillEffects(tree);
+    const flat = contributions.filter(c => c.statId === 'health');
+    const percent = contributions.filter(c => c.statId === 'healthBonus');
+
+    expect(flat.reduce((sum, c) => sum + c.value, 0)).toBe(3);
+    expect(percent.reduce((sum, c) => sum + c.value, 0)).toBeCloseTo(0.14);
+    expect(contributions.every(c => c.kind === 'mainTree')).toBe(true);
+  });
+
   describe('cards', () => {
     it('scales card effects by card level', () => {
       const contributions = aggregateSkillEffects(skillTree);

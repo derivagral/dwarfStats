@@ -14,6 +14,7 @@
  *   DT_Skills_*.json (8 weapons)    — weapon stance skill trees
  *   DT_StatusEffects.json           — buff/status lexicon (names, durations,
  *                                     stacks, effect values)
+ *   DT_GENERATED_SkillTree_Main.json — optional main-tree UI-node effects
  *
  * Outputs (committed, consumed by src/):
  *   src/data/monograms.generated.json
@@ -22,6 +23,7 @@
  *   src/data/cards.generated.json
  *   src/data/weaponSkills.generated.json
  *   src/data/statusEffects.generated.json
+ *   src/data/mainTreeHealth.generated.json (when the optional export exists)
  *
  * Also prints a drift report comparing affix tags against STAT_REGISTRY
  * patterns (written to extraction/out/drift-report.md, gitignored).
@@ -170,6 +172,31 @@ function generateCards(cardRows) {
 }
 
 // ---------------------------------------------------------------------------
+// Main passive tree health effects (DT_GENERATED_SkillTree_Main)
+//
+// Saves use opaque UI_SkillTreeNode_* row names. Keep only MaxHealth facts so
+// the shipped lookup remains tiny instead of embedding the full raw export.
+// ---------------------------------------------------------------------------
+
+function generateMainTreeHealth(mainTreeRows) {
+  const effectsByRow = {};
+  const healthTags = new Set([
+    'EasyRPG.Attributes.Base.MaxHealth',
+    'EasyRPG.Attributes.Base.MaxHealth%',
+  ]);
+
+  for (const [rowName, row] of Object.entries(mainTreeRows)) {
+    const effects = [];
+    for (const level of prop(row, 'SkillLevels') ?? []) {
+      effects.push(...effectList(prop(level, 'BonusAttributes'))
+        .filter(effect => healthTags.has(effect.tag)));
+    }
+    if (effects.length > 0) effectsByRow[rowName] = effects;
+  }
+  return effectsByRow;
+}
+
+// ---------------------------------------------------------------------------
 // Weapon stance skills (DT_Skills_* — STR_SkillInstance rows)
 //
 // Same row struct as cards: one SkillLevels entry whose BonusAttributes apply
@@ -295,6 +322,12 @@ const affixRows = loadTable('DT_Base_Item_Attributes.json');
 const poolRows = loadTable('DT_Yellow_Orange_Modifiers.json');
 const cardRows = loadTable('DT_Crystal_Cards_Skills.json');
 const statusRows = loadTable('DT_StatusEffects.json');
+let mainTreeHealth = null;
+try {
+  mainTreeHealth = generateMainTreeHealth(loadTable('DT_GENERATED_SkillTree_Main.json'));
+} catch {
+  console.warn('  (skipping DT_GENERATED_SkillTree_Main.json — not present)');
+}
 
 const monograms = generateMonograms(attributeRows);
 const affixes = generateAffixes(affixRows);
@@ -318,6 +351,10 @@ fs.writeFileSync(path.join(GEN_DIR, 'weaponSkills.generated.json'),
   JSON.stringify({ ...banner, weaponSkills }, null, 2));
 fs.writeFileSync(path.join(GEN_DIR, 'statusEffects.generated.json'),
   JSON.stringify({ ...banner, statusEffects }, null, 2));
+if (mainTreeHealth) {
+  fs.writeFileSync(path.join(GEN_DIR, 'mainTreeHealth.generated.json'),
+    JSON.stringify({ ...banner, _source: 'DT_GENERATED_SkillTree_Main (MaxHealth effects only)', effectsByRow: mainTreeHealth }, null, 2));
+}
 
 console.log(`Monograms:      ${Object.keys(monograms).length}`);
 console.log(`Affixes:        ${Object.keys(affixes).length}`);
@@ -325,6 +362,7 @@ console.log(`Pools:          ${Object.keys(pools).length}`);
 console.log(`Cards:          ${Object.keys(cards).length}`);
 console.log(`Weapon skills:  ${Object.keys(weaponSkills).length}`);
 console.log(`Status effects: ${Object.keys(statusEffects).length}`);
+if (mainTreeHealth) console.log(`Main-tree health nodes: ${Object.keys(mainTreeHealth).length}`);
 
 const { reportPath, missing } = await driftReport(affixes);
 console.log(`Drift:     ${missing} rollable affixes unmatched by STAT_REGISTRY patterns`);

@@ -33,9 +33,10 @@ export function useDerivedStats(options = {}) {
     for (const [statId, rawValue] of Object.entries(characterStats)) {
       const value = typeof rawValue === 'number' ? rawValue : Number(rawValue?.value || 0);
       const sourceName = rawValue?.sourceName || 'Character';
+      const sourceType = rawValue?.sourceType || 'allocated';
       stats[statId] = {
         total: value,
-        sources: [{ itemName: sourceName, slot: 'base', value, sourceType: 'allocated' }],
+        sources: [{ itemName: sourceName, slot: 'base', value, sourceType }],
       };
     }
 
@@ -429,10 +430,12 @@ export function useDerivedStats(options = {}) {
           ...bonusSources.map(s => ({ ...s, itemName: `${s.itemName} (%)`, isPercent: true })),
         ];
 
-        // Show calculation in description when bonus% exists
+        // Show both the total multiplier and bonus portion. The game reports
+        // "+104%" while the formula multiplies by 204%.
         let description;
         if (bonusTotal) {
-          description = `${Math.floor(baseTotal)} flat \u00d7 ${((1 + bonusTotal) * 100).toFixed(0)}% = ${stat.formattedValue}`;
+          const flatDisplay = routing.base === 'health' ? baseTotal.toFixed(2) : Math.floor(baseTotal);
+          description = `${flatDisplay} flat \u00d7 ${((1 + bonusTotal) * 100).toFixed(0)}% total (+${(bonusTotal * 100).toFixed(0)}% bonus) = ${stat.formattedValue}`;
         } else {
           description = `${routing.name} from gear`;
         }
@@ -529,10 +532,8 @@ export function useDerivedStats(options = {}) {
     }
 
 
-    // Vitals: the save-reported max health is the real in-game number — the
-    // gear-only calculation misses the character's base health pool (level /
-    // class scaling), so surface both up top instead of burying Health in
-    // Defense below the fold.
+    // Health_29 is current health, but at full health it provides an exact
+    // in-game value to compare with the reconstructed calculation.
     if (maxHealth > 0) {
       const gearCalc = values.totalHealth || 0;
       result.vitals.push({
@@ -540,7 +541,7 @@ export function useDerivedStats(options = {}) {
         name: 'Max Health (in-game)',
         value: maxHealth,
         formattedValue: Math.round(maxHealth).toLocaleString(),
-        description: `Read from the save file — includes the character's base health pool plus gear and buffs active at save time. Gear-calculated health: ${Math.round(gearCalc).toLocaleString()} (difference ≈ base pool).`,
+        description: `Read from the save file (current health; equals max when full). Calculated max health: ${gearCalc.toFixed(2)}.`,
         sources: [{ itemName: 'Save file (Health_29)', value: maxHealth, sourceType: 'save' }],
         layer: LAYERS.BASE,
       });

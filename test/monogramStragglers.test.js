@@ -25,6 +25,11 @@ describe('MaxHealth% classification (health % lost as flat)', () => {
     const result = calculateDerivedStats({ health: 1000, healthBonus: 0.2 });
     expect(result.totalHealth).toBe(1200);
   });
+
+  it('preserves fractional health from item rolls', () => {
+    const result = calculateDerivedStats({ health: 2627.23391, healthBonus: 1.04 });
+    expect(result.totalHealth).toBeCloseTo(5359.5571764);
+  });
 });
 
 describe('Health%ForHighest → percent stat (was flat chain)', () => {

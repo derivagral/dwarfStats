@@ -313,10 +313,12 @@ contributions using generated game data:
   per-stack customization is post-launch). Disable via
   `aggregateSkillEffects(tree, { includeBuffs: false })`.
 Contributions enter the same BASE-layer aggregation as item stats
-(`sourceType: 'skill'` in breakdowns). When real skill data is present the
+(`sourceType: 'skill'` in breakdowns). Main-tree MaxHealth/MaxHealth% nodes are
+resolved from a compact map generated from `DT_GENERATED_SkillTree_Main`.
+When real skill data is present the
 legacy "+1% stance damage per mastery level" approximation is skipped; shared
-builds (no skill tree in the payload) still use it. Main passive tree and
-crafting tree are NOT aggregated yet (opaque node IDs — next MR).
+builds without weapon skill data still use it. Crafting-tree effects are not
+aggregated yet.
 Row-name lookups are case-insensitive (UE FNames: save `Spear_Crit_Damage_buff`
 vs table `Spear_Crit_Damage_Buff`).
 

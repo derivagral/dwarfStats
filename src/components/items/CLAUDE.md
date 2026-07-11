@@ -8,6 +8,7 @@ The Items tab provides a browsable list of all items parsed from a save file wit
 |-----------|------|---------|
 | `ItemsTab` | `ItemsTab.jsx` | Main tab container with filtering and item list |
 | `ItemListRow` | `ItemsTab.jsx` | Individual item row with tooltip and selection |
+| `MonogramSetPanel` | `MonogramSetPanel.jsx` | Named-set controls and three-position loadout preview |
 
 ## Features
 
@@ -22,11 +23,13 @@ The Items tab provides a browsable list of all items parsed from a save file wit
 - **Equipped only**: Toggle to show only equipped items
 - **Slot filter**: Checkboxes to filter by equipment slot type
 
-### Stat Editing
-- Click any item to open the ItemEditor panel
-- View and modify base stats
-- Add custom stats for theorycrafting
-- Changes reflected in real-time
+### Monogram Theorycrafting
+- Click an equipped monogram item to edit its three nullable positions
+- Overrides are engine-only and never mutate the imported item or save
+- Named sets capture the complete effective layout across equipped items
+- Sets persist in localStorage, update by name, and can be previewed/applied/deleted
+- Applying a set requires both the unique slot and item row to match; changed gear is skipped
+- Derived stats update in real time
 
 ## Data Flow
 

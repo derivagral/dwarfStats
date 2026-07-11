@@ -40,3 +40,22 @@ export function resolveEffectiveMonograms(importedMonograms = [], slotOverride =
     }];
   });
 }
+
+/**
+ * Return an item model suitable for what-if UI surfaces. The imported item is
+ * left untouched; an explicit three-slot override replaces only the displayed
+ * monograms.
+ *
+ * @param {Object} item
+ * @param {{monogramSlots?: Array<string|null>}} slotOverride
+ * @returns {Object}
+ */
+export function applyMonogramOverrideToItem(item, slotOverride = {}) {
+  if (!item || !Array.isArray(slotOverride.monogramSlots)) return item;
+
+  const importedMonograms = item.monograms || item.model?.monograms || [];
+  return {
+    ...item,
+    monograms: resolveEffectiveMonograms(importedMonograms, slotOverride),
+  };
+}

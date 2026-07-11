@@ -4,6 +4,7 @@ import { StatsPanel } from './StatsPanel';
 import { mapItemsToSlots } from '../../utils/equipmentParser';
 import { useItemOverrides } from '../../hooks/useItemOverrides';
 import { getRaceName } from '../../utils/raceBonuses';
+import { applyMonogramOverrideToItem } from '../../utils/monogramOverrides';
 
 export function CharacterPanel({ characterData, itemOverrides }) {
   // What-if edits are made in the Items tab editor; App shares that overrides
@@ -46,7 +47,10 @@ export function CharacterPanel({ characterData, itemOverrides }) {
           value: a.value,
           rawTag: a.name,
         }));
-        result[slotKey] = { ...item, baseStats: modifiedBaseStats };
+        result[slotKey] = applyMonogramOverrideToItem(
+          { ...item, baseStats: modifiedBaseStats },
+          overrides[slotKey]
+        );
       } else {
         result[slotKey] = item;
       }

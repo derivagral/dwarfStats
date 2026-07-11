@@ -8,6 +8,7 @@ import { useItemOverrides } from '../../hooks/useItemOverrides';
 import { useMonogramSets } from '../../hooks/useMonogramSets';
 import { formatSlotLabel, getUniqueSlotKeyMap } from '../../utils/equipmentParser';
 import { buildItemList, getListItemSlot } from '../../utils/itemList';
+import { applyMonogramOverrideToItem } from '../../utils/monogramOverrides';
 
 const DEFAULT_FILTERS = '';
 
@@ -98,6 +99,16 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
     return buildItemList([], transformed, totalCount);
   }, [itemStore?.equipped, itemStore?.inventory, itemStore?.totalInventoryCount, saveData]);
 
+  // Equipped rows and their hover tooltips must show the active engine state,
+  // not the immutable monograms imported from the save.
+  const effectiveItems = useMemo(() => items.map(item => {
+    if (!item.isEquipped || !item.equipmentSlotKey) return item;
+    return applyMonogramOverrideToItem(
+      item,
+      overrides[item.equipmentSlotKey] || {}
+    );
+  }), [items, overrides]);
+
   const filteredItems = useMemo(() => {
     const regexList = filterPatterns.map(pattern => new RegExp(pattern.replace(/\*/g, '.*'), 'i'));
 
@@ -117,7 +128,7 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
       return names.some(attr => regexList.some(regex => regex.test(attr)));
     };
 
-    return items.filter(item => {
+    return effectiveItems.filter(item => {
       // Filter out invalid/empty items
       const name = item.displayName || item.rowName;
       if (!name || name === 'None' || name === '(unknown)') return false;
@@ -126,7 +137,7 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
       if (!showEquippedOnly) return true;
       return item.isEquipped;
     });
-  }, [items, showEquippedOnly, filterPatterns]);
+  }, [effectiveItems, showEquippedOnly, filterPatterns]);
 
   const slotFilteredItems = useMemo(() => {
     if (selectedSlots.size === 0) return filteredItems;

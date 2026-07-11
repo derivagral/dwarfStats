@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  applyMonogramOverrideToItem,
   MONOGRAM_SLOT_COUNT,
   normalizeMonogramSlots,
   resolveEffectiveMonograms,
@@ -53,5 +54,35 @@ describe('monogram overrides', () => {
     expect(resolveEffectiveMonograms([], {
       monogramSlots: ['A', 'B', 'C', 'D'],
     }).map(monogram => monogram.id)).toEqual(['A', 'B', 'C']);
+  });
+});
+
+describe('effective monogram item display', () => {
+  const importedItem = {
+    displayName: 'Spirit Clutch',
+    monograms: [{ id: 'ElementForCritChance.Arcane', value: 7 }],
+  };
+
+  it('shows applied slots without mutating the imported save item', () => {
+    const displayed = applyMonogramOverrideToItem(importedItem, {
+      monogramSlots: ['MeleeParagon.BaseDamage', null, 'Shroud'],
+    });
+
+    expect(displayed.monograms.map(monogram => monogram.id))
+      .toEqual(['MeleeParagon.BaseDamage', 'Shroud']);
+    expect(displayed.monograms.every(monogram => monogram.source === 'override'))
+      .toBe(true);
+    expect(importedItem.monograms)
+      .toEqual([{ id: 'ElementForCritChance.Arcane', value: 7 }]);
+  });
+
+  it('uses exactly the same effective values as the calculation engine', () => {
+    const slotOverride = { monogramSlots: ['Bloodlust.Base', null, null] };
+    expect(applyMonogramOverrideToItem(importedItem, slotOverride).monograms)
+      .toEqual(resolveEffectiveMonograms(importedItem.monograms, slotOverride));
+  });
+
+  it('preserves the original item identity when there is no applied set', () => {
+    expect(applyMonogramOverrideToItem(importedItem, {})).toBe(importedItem);
   });
 });

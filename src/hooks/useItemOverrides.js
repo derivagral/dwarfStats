@@ -215,8 +215,8 @@ export function useItemOverrides(options = {}) {
   const hasSlotOverrides = useCallback((slotKey) => {
     const slotData = overrides[slotKey];
     if (!slotData) return false;
-    return slotData.mods.length > 0 ||
-           slotData.removedIndices.length > 0 ||
+    return (slotData.mods || []).length > 0 ||
+           (slotData.removedIndices || []).length > 0 ||
            Array.isArray(slotData.monogramSlots) ||
            (slotData.skillModifiers || []).length > 0;
   }, [overrides]);
@@ -233,12 +233,13 @@ export function useItemOverrides(options = {}) {
     if (!slotData) return baseAttributes;
 
     // Filter out removed base stats
+    const removedIndices = slotData.removedIndices || [];
     let result = baseAttributes.filter((_, index) =>
-      !slotData.removedIndices.includes(index)
+      !removedIndices.includes(index)
     );
 
     // Add new/modified stats using attributeName for pattern matching
-    for (const mod of slotData.mods) {
+    for (const mod of slotData.mods || []) {
       if (mod.statId && mod.value !== undefined) {
         const statType = getStatType(mod.statId);
         if (statType) {

@@ -53,8 +53,7 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
     removeMod,
     removeBaseStat,
     restoreBaseStat,
-    addMonogram,
-    removeMonogram,
+    setMonogramSlot,
     addSkillModifier,
     removeSkillModifier,
     clearSlot,
@@ -253,7 +252,7 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
       <div className="items-header">
         <h2>Items</h2>
         <p className="items-description">
-          Browse all items parsed from your save file. Equipped items are tagged and can be filtered.
+          Browse imported items and try three-slot monogram loadouts without changing the save.
         </p>
       </div>
 
@@ -380,15 +379,12 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
               item={editorItem}
               slotKey={selectedOverrideKey}
               slotOverrides={getSlotOverrides(selectedOverrideKey)}
-              onUpdateMod={(modIndex, updates) => updateMod(selectedOverrideKey, modIndex, updates)}
-              onAddMod={(mod) => addMod(selectedOverrideKey, mod)}
-              onRemoveMod={(modIndex) => removeMod(selectedOverrideKey, modIndex)}
-              onRemoveBaseStat={(index) => removeBaseStat(selectedOverrideKey, index)}
-              onRestoreBaseStat={(index) => restoreBaseStat(selectedOverrideKey, index)}
-              onAddMonogram={(mono) => addMonogram(selectedOverrideKey, mono)}
-              onRemoveMonogram={(index) => removeMonogram(selectedOverrideKey, index)}
-              onAddSkillModifier={(mod) => addSkillModifier(selectedOverrideKey, mod)}
-              onRemoveSkillModifier={(index) => removeSkillModifier(selectedOverrideKey, index)}
+              onSetMonogramSlot={(index, monogramId) => setMonogramSlot(
+                selectedOverrideKey,
+                index,
+                monogramId,
+                selectedItem?.monograms || []
+              )}
               onClearSlot={() => clearSlot(selectedOverrideKey)}
               onClose={handleCloseEditor}
               currentMonograms={selectedItem?.monograms || []}

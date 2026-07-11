@@ -37,11 +37,9 @@ export function ItemEditor({
     editorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [item]);
 
-  if (!item) return null;
-
-  const itemType = item.type || item.itemType || '';
-  const itemRow = item.rowName || item.itemRow || '';
-  const itemName = item.displayName || item.name || 'Unknown';
+  const itemType = item?.type || item?.itemType || '';
+  const itemRow = item?.rowName || item?.itemRow || '';
+  const itemName = item?.displayName || item?.name || 'Unknown';
   const monogramSlot = getMonogramSlot(itemType, itemRow);
   const availableMonograms = useMemo(
     () => monogramSlot ? getMonogramsForSlot(monogramSlot) : [],

@@ -1420,7 +1420,7 @@ export function getMonogramName(id) {
 export function getMonogramsForSlot(slot) {
   const ids = SLOT_MONOGRAMS[slot.toLowerCase()] || [];
   return ids
-    .map(id => MONOGRAM_REGISTRY[id])
+    .map(id => getMonogramById(id))
     .filter(Boolean);
 }
 

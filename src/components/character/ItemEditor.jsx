@@ -1,12 +1,18 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { getMonogramsForSlot, getMonogramName } from '../../utils/monogramRegistry';
 import { MONOGRAM_SLOT_COUNT, normalizeMonogramSlots } from '../../utils/monogramOverrides';
+import { getMonogramPoolForEquipmentSlot } from '../../models/MonogramSet.js';
 
 /**
  * Map an item type/row to its Codex recipe pool.
  */
-function getMonogramSlot(itemType, itemRow) {
-  const typeStr = (itemType || itemRow || '').toLowerCase();
+export function getMonogramSlot(itemType, itemRow, equipmentSlotKey = '') {
+  const explicitPool = getMonogramPoolForEquipmentSlot(equipmentSlotKey);
+  if (explicitPool) return explicitPool;
+
+  // Generated item types are often generic (e.g. "Armor Mythic"). Always
+  // retain the row name, which carries the actual slot (_Helmet, _Ring, etc.).
+  const typeStr = `${itemType || ''} ${itemRow || ''}`.toLowerCase();
 
   if (typeStr.includes('head') || typeStr.includes('helm') || typeStr.includes('hat') || typeStr.includes('casque')) return 'head';
   if (typeStr.includes('amulet') || typeStr.includes('neck')) return 'amulet';
@@ -25,6 +31,7 @@ function getMonogramSlot(itemType, itemRow) {
  */
 export function ItemEditor({
   item,
+  slotKey = '',
   slotOverrides = {},
   onSetMonogramSlot,
   onClearSlot,
@@ -40,7 +47,7 @@ export function ItemEditor({
   const itemType = item?.type || item?.itemType || '';
   const itemRow = item?.rowName || item?.itemRow || '';
   const itemName = item?.displayName || item?.name || 'Unknown';
-  const monogramSlot = getMonogramSlot(itemType, itemRow);
+  const monogramSlot = getMonogramSlot(itemType, itemRow, slotKey);
   const availableMonograms = useMemo(
     () => monogramSlot ? getMonogramsForSlot(monogramSlot) : [],
     [monogramSlot]

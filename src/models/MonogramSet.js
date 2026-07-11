@@ -15,6 +15,12 @@ export function isMonogramEquipmentSlot(slotKey) {
   return MONOGRAM_EQUIPMENT_SLOTS.has(baseSlot(slotKey));
 }
 
+export function getMonogramPoolForEquipmentSlot(slotKey) {
+  const slot = baseSlot(slotKey);
+  if (slot === 'neck') return 'amulet';
+  return MONOGRAM_EQUIPMENT_SLOTS.has(slot) ? slot : null;
+}
+
 export function createMonogramSet(name, equippedItems = [], overrides = {}, id = null) {
   const uniqueSlotKeys = getUniqueSlotKeyMap(equippedItems);
   const entries = [];

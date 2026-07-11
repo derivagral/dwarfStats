@@ -8,6 +8,7 @@ The Items tab provides a browsable list of all items parsed from a save file wit
 |-----------|------|---------|
 | `ItemsTab` | `ItemsTab.jsx` | Main tab container with filtering and item list |
 | `ItemListRow` | `ItemsTab.jsx` | Individual item row with tooltip and selection |
+| `MonogramSetPanel` | `MonogramSetPanel.jsx` | Named-set controls and three-position loadout preview |
 
 ## Features
 
@@ -22,11 +23,13 @@ The Items tab provides a browsable list of all items parsed from a save file wit
 - **Equipped only**: Toggle to show only equipped items
 - **Slot filter**: Checkboxes to filter by equipment slot type
 
-### Stat Editing
-- Click any item to open the ItemEditor panel
-- View and modify base stats
-- Add custom stats for theorycrafting
-- Changes reflected in real-time
+### Monogram Theorycrafting
+- Click an equipped monogram item to edit its three nullable positions
+- Overrides are engine-only and never mutate the imported item or save
+- Named sets capture the complete effective layout across equipped items
+- Sets persist in localStorage, update by name, and can be previewed/applied/deleted
+- Applying a set requires both the unique slot and item row to match; changed gear is skipped
+- Derived stats update in real time
 
 ## Data Flow
 
@@ -72,7 +75,7 @@ Items are transformed into a clean model (see `src/models/Item.js`):
     pool3: [{rowName, dataTable}],
   },
 
-  // Monograms (Codex modifiers, up to 4 per item)
+  // Imported monograms (Codex modifiers, up to 3 per item)
   monograms: [{id, value, rawTag}],
 
   upgradeCount: number, // Gamble/anvil upgrades
@@ -123,10 +126,10 @@ getMonogramsForSlot('head'); // [{id, name, category, description}, ...]
 
 ## Hooks Used
 
-- `useItemOverrides` - Manages stat and monogram modifications for theorycrafting
-  - `addMod`, `removeMod`, `updateMod` - Stat modifications
-  - `addMonogram`, `removeMonogram` - Monogram modifications
-  - `removeBaseStat`, `restoreBaseStat` - Base stat toggling
+- `useItemOverrides` - Holds engine-only theorycraft state shared across tabs
+  - `setMonogramSlot(slotKey, index, id, imported)` replaces one of three nullable positions
+  - Reset removes the override and restores all imported monograms
+  - The serializable three-position array is the foundation for named monogram sets
 
 ## Slot Types
 

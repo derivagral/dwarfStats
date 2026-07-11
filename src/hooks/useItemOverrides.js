@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { getStatType } from '../utils/statBuckets';
+import { MONOGRAM_SLOT_COUNT, normalizeMonogramSlots } from '../utils/monogramOverrides';
 
 /**
  * Hook for managing per-item stat overrides
@@ -15,12 +16,13 @@ import { getStatType } from '../utils/statBuckets';
 export function useItemOverrides(options = {}) {
   const { initialOverrides, onChange } = options;
 
-  // State: { slotKey: { mods: [...], removedIndices: [], monograms: [...], skillModifiers: [...] } }
+  // monogramSlots is null/absent until the user edits an item. Once present,
+  // its three nullable positions replace the imported monograms exactly.
   const [overrides, setOverrides] = useState(() => initialOverrides || {});
 
   // Get overrides for a specific slot
   const getSlotOverrides = useCallback((slotKey) => {
-    return overrides[slotKey] || { mods: [], removedIndices: [], monograms: [], skillModifiers: [] };
+    return overrides[slotKey] || { mods: [], removedIndices: [], monogramSlots: null, skillModifiers: [] };
   }, [overrides]);
 
   // Update a stat modification for an item
@@ -129,41 +131,23 @@ export function useItemOverrides(options = {}) {
     });
   }, [onChange]);
 
-  // Add a monogram to an item (duplicates allowed)
-  const addMonogram = useCallback((slotKey, monogram) => {
+  // Replace one of the three monogram positions. The first edit snapshots the
+  // imported positions so changing slot 2 does not discard slots 1 and 3.
+  // Null is an explicit "None" selection; duplicate IDs are valid.
+  const setMonogramSlot = useCallback((slotKey, monogramIndex, monogramId, importedMonograms = []) => {
+    if (monogramIndex < 0 || monogramIndex >= MONOGRAM_SLOT_COUNT) return;
+
     setOverrides(prev => {
-      const slotData = prev[slotKey] || { mods: [], removedIndices: [], monograms: [] };
-      const monograms = slotData.monograms || [];
+      const slotData = prev[slotKey] || { mods: [], removedIndices: [], skillModifiers: [] };
+      const monogramSlots = Array.isArray(slotData.monogramSlots)
+        ? normalizeMonogramSlots(slotData.monogramSlots)
+        : normalizeMonogramSlots(importedMonograms);
+      monogramSlots[monogramIndex] = monogramId || null;
 
       const newOverrides = {
         ...prev,
-        [slotKey]: {
-          ...slotData,
-          monograms: [...monograms, monogram],
-        },
+        [slotKey]: { ...slotData, monogramSlots },
       };
-
-      onChange?.(newOverrides);
-      return newOverrides;
-    });
-  }, [onChange]);
-
-  // Remove a monogram from an item
-  const removeMonogram = useCallback((slotKey, monogramIndex) => {
-    setOverrides(prev => {
-      const slotData = prev[slotKey] || { mods: [], removedIndices: [], monograms: [], skillModifiers: [] };
-      const monograms = (slotData.monograms || []).filter((_, i) => i !== monogramIndex);
-
-      const newOverrides = {
-        ...prev,
-        [slotKey]: { ...slotData, monograms },
-      };
-
-      // Clean up if no overrides left
-      const skillMods = slotData.skillModifiers || [];
-      if (slotData.mods.length === 0 && slotData.removedIndices.length === 0 && monograms.length === 0 && skillMods.length === 0) {
-        delete newOverrides[slotKey];
-      }
 
       onChange?.(newOverrides);
       return newOverrides;
@@ -233,7 +217,7 @@ export function useItemOverrides(options = {}) {
     if (!slotData) return false;
     return slotData.mods.length > 0 ||
            slotData.removedIndices.length > 0 ||
-           (slotData.monograms || []).length > 0 ||
+           Array.isArray(slotData.monogramSlots) ||
            (slotData.skillModifiers || []).length > 0;
   }, [overrides]);
 
@@ -286,8 +270,7 @@ export function useItemOverrides(options = {}) {
     removeMod,
     removeBaseStat,
     restoreBaseStat,
-    addMonogram,
-    removeMonogram,
+    setMonogramSlot,
     addSkillModifier,
     removeSkillModifier,
     clearSlot,

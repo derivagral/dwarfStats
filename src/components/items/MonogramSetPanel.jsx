@@ -1,13 +1,16 @@
 import React from 'react';
 import { Button } from '../common';
-import { getMonogramName } from '../../utils/monogramRegistry.js';
+import { getMonogramsForSlot, getMonogramName } from '../../utils/monogramRegistry.js';
+import { getMonogramPoolForEquipmentSlot } from '../../models/MonogramSet.js';
 
 export function MonogramSetPanel({
   name,
   onNameChange,
   savedSets,
   selectedSet,
+  currentEntries,
   onSelectSet,
+  onSetMonogramSlot,
   onSave,
   onApply,
   onDelete,
@@ -47,24 +50,63 @@ export function MonogramSetPanel({
         </Button>
       </div>
 
-      {selectedSet && (
+      {currentEntries.length > 0 ? (
         <div className="monogram-set-preview">
-          {selectedSet.entries.map(entry => (
-            <div className="monogram-set-entry" key={entry.slotKey}>
-              <span className="monogram-set-item">
-                {entry.itemName} <small>({entry.slotKey})</small>
-              </span>
-              <span className="monogram-set-values">
-                {entry.monogramSlots.map((id, index) => (
-                  <span className="item-badge" key={index}>
-                    {id ? getMonogramName(id) : 'None'}
-                  </span>
-                ))}
-              </span>
-            </div>
+          {currentEntries.map(entry => (
+            <MonogramSetEntry
+              entry={entry}
+              key={entry.slotKey}
+              onSetMonogramSlot={onSetMonogramSlot}
+            />
           ))}
         </div>
+      ) : (
+        <div className="item-editor-empty">No equipped monogram items.</div>
       )}
+    </div>
+  );
+}
+
+function MonogramSetEntry({ entry, onSetMonogramSlot }) {
+  const pool = getMonogramPoolForEquipmentSlot(entry.slotKey);
+  const available = pool ? getMonogramsForSlot(pool) : [];
+  const optionMap = new Map(available.map(monogram => [monogram.id, monogram]));
+
+  for (const id of entry.monogramSlots) {
+    if (id && !optionMap.has(id)) {
+      optionMap.set(id, { id, name: getMonogramName(id) });
+    }
+  }
+
+  const options = Array.from(optionMap.values());
+
+  return (
+    <div className="monogram-set-entry">
+      <span className="monogram-set-item">
+        {entry.itemName} <small>({entry.slotKey})</small>
+      </span>
+      <span className="monogram-set-values">
+        {entry.monogramSlots.map((id, index) => (
+          <select
+            aria-label={`${entry.itemName} monogram ${index + 1}`}
+            className="stat-row-select monogram-select"
+            key={index}
+            value={id || ''}
+            onChange={event => onSetMonogramSlot(
+              entry.slotKey,
+              index,
+              event.target.value || null
+            )}
+          >
+            <option value="">None</option>
+            {options.map(monogram => (
+              <option key={monogram.id} value={monogram.id}>
+                {monogram.name}
+              </option>
+            ))}
+          </select>
+        ))}
+      </span>
     </div>
   );
 }

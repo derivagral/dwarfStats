@@ -6,7 +6,8 @@ import { transformAllItems } from '../../models/itemTransformer';
 import { createMonogramSet, matchMonogramSet } from '../../models/MonogramSet';
 import { useItemOverrides } from '../../hooks/useItemOverrides';
 import { useMonogramSets } from '../../hooks/useMonogramSets';
-import { inferEquipmentSlot, formatSlotLabel, getUniqueSlotKeyMap } from '../../utils/equipmentParser';
+import { formatSlotLabel, getUniqueSlotKeyMap } from '../../utils/equipmentParser';
+import { buildItemList, getListItemSlot } from '../../utils/itemList';
 
 const DEFAULT_FILTERS = '';
 
@@ -66,60 +67,36 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
     clearSlot,
   } = itemOverrides || localOverrides;
 
-  const equippedLookup = useMemo(() => {
-    const lookup = new Map();
-    const equippedItems = itemStore?.equipped || [];
-
-    for (const item of equippedItems) {
-      if (!item?.rowName) continue;
-      const label = formatSlotLabel(item.slot) || item.slot || 'Equipped';
-      lookup.set(item.rowName, label);
-    }
-
-    return lookup;
+  const equippedItemBySlot = useMemo(() => {
+    return new Map(
+      Array.from(getUniqueSlotKeyMap(itemStore?.equipped || []), ([item, slotKey]) => [slotKey, item])
+    );
   }, [itemStore?.equipped]);
 
-  const equippedSlotLookup = useMemo(() => {
-    const lookup = new Map();
-    const equippedItems = itemStore?.equipped || [];
-
-    for (const item of equippedItems) {
-      if (!item?.rowName) continue;
-      lookup.set(item.rowName, item.slot || 'unknown');
-    }
-
-    return lookup;
-  }, [itemStore?.equipped]);
-
-  // Override keys for EQUIPPED items are their unique slot keys ('head',
-  // 'ring2', 'offhand3') — the key space useDerivedStats and the Character
-  // panel read, so edits made here flow into the stats panel. Non-equipped
-  // items fall back to the list key (their edits are tooltip-only).
-  const equippedOverrideKeyLookup = useMemo(() => {
-    const lookup = new Map();
-    for (const [item, slotKey] of getUniqueSlotKeyMap(itemStore?.equipped || [])) {
-      if (item.rowName) lookup.set(item.rowName, slotKey);
-    }
-    return lookup;
-  }, [itemStore?.equipped]);
+  // The visible layout is always the current effective state, not a saved-set
+  // preview. This makes it available on first render and directly editable.
+  const currentMonogramSet = useMemo(() => createMonogramSet(
+    'Current',
+    itemStore?.equipped || [],
+    overrides
+  ), [itemStore?.equipped, overrides]);
 
   const { items, totalItems } = useMemo(() => {
-    // Prefer itemStore inventory (already processed Item models)
-    if (itemStore?.inventory?.length) {
-      return {
-        items: itemStore.inventory,
-        totalItems: itemStore.totalInventoryCount || itemStore.inventory.length,
-      };
+    if (itemStore?.inventory?.length || itemStore?.equipped?.length) {
+      return buildItemList(
+        itemStore.equipped || [],
+        itemStore.inventory || [],
+        itemStore.totalInventoryCount
+      );
     }
 
-    // Fallback to saveData — transform to Item models
     if (!saveData?.raw && !saveData?.json) {
       return { items: [], totalItems: 0 };
     }
 
     const { items: transformed, totalCount } = transformAllItems(saveData.raw || saveData.json);
-    return { items: transformed, totalItems: totalCount };
-  }, [itemStore?.inventory, itemStore?.totalInventoryCount, saveData]);
+    return buildItemList([], transformed, totalCount);
+  }, [itemStore?.equipped, itemStore?.inventory, itemStore?.totalInventoryCount, saveData]);
 
   const filteredItems = useMemo(() => {
     const regexList = filterPatterns.map(pattern => new RegExp(pattern.replace(/\*/g, '.*'), 'i'));
@@ -147,21 +124,21 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
 
       if (!matchesFilter(item)) return false;
       if (!showEquippedOnly) return true;
-      return equippedLookup.has(item.rowName);
+      return item.isEquipped;
     });
-  }, [items, showEquippedOnly, equippedLookup, filterPatterns]);
+  }, [items, showEquippedOnly, filterPatterns]);
 
   const slotFilteredItems = useMemo(() => {
     if (selectedSlots.size === 0) return filteredItems;
     return filteredItems.filter(item => {
-      const slotKey = equippedSlotLookup.get(item.rowName) || 'unknown';
+      const slotKey = getListItemSlot(item);
       return selectedSlots.has(slotKey);
     });
-  }, [filteredItems, selectedSlots, equippedSlotLookup]);
+  }, [filteredItems, selectedSlots]);
 
   const equippedCount = useMemo(() => {
-    return slotFilteredItems.reduce((count, item) => count + (equippedLookup.has(item.rowName) ? 1 : 0), 0);
-  }, [slotFilteredItems, equippedLookup]);
+    return slotFilteredItems.reduce((count, item) => count + (item.isEquipped ? 1 : 0), 0);
+  }, [slotFilteredItems]);
 
   useEffect(() => {
     if (!selectedItemKeys.size) return;
@@ -201,7 +178,7 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
   // Overrides for the selected item live under its unique slot key when it's
   // equipped (so they reach the Character tab stats); list key otherwise.
   const selectedOverrideKey = selectedItem
-    ? (equippedOverrideKeyLookup.get(selectedItem.rowName) || selectedItemKey)
+    ? (selectedItem.equipmentSlotKey || selectedItemKey)
     : selectedItemKey;
 
   const itemAttributes = useMemo(() => {
@@ -281,6 +258,12 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
     onLog?.(`Monogram set "${selectedMonogramSet.name}" applied to ${appliedCount} item(s)${skipped.length ? `; ${skipped.length} different/missing item(s) skipped` : ''}`);
   }, [applyMonogramSet, itemStore?.equipped, onLog, selectedMonogramSet]);
 
+  const handleSetCurrentMonogramSlot = useCallback((slotKey, index, monogramId) => {
+    const item = equippedItemBySlot.get(slotKey);
+    if (!item) return;
+    setMonogramSlot(slotKey, index, monogramId, item.monograms || item.model?.monograms || []);
+  }, [equippedItemBySlot, setMonogramSlot]);
+
   const handleDeleteMonogramSet = useCallback(() => {
     if (!selectedMonogramSet) return;
     deleteSet(selectedMonogramSet.name);
@@ -314,6 +297,7 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
         onNameChange={setMonogramSetName}
         savedSets={monogramSets}
         selectedSet={selectedMonogramSet}
+        currentEntries={currentMonogramSet.entries}
         onSelectSet={name => {
           setSelectedMonogramSetName(name);
           if (name) setMonogramSetName(name);
@@ -321,6 +305,7 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
         onSave={handleSaveMonogramSet}
         onApply={handleApplyMonogramSet}
         onDelete={handleDeleteMonogramSet}
+        onSetMonogramSlot={handleSetCurrentMonogramSlot}
       />
 
       <div className="controls">
@@ -409,8 +394,10 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
           ) : (
             slotFilteredItems.map((item, index) => {
               const itemKey = `${item.rowName || item.displayName}-${index}`;
-              const equippedLabel = equippedLookup.get(item.rowName);
-              const overrideKey = equippedOverrideKeyLookup.get(item.rowName) || itemKey;
+              const equippedLabel = item.isEquipped
+                ? (formatSlotLabel(item.slot) || item.slot || 'Equipped')
+                : null;
+              const overrideKey = item.equipmentSlotKey || itemKey;
               return (
                 <ItemListRow
                   key={itemKey}

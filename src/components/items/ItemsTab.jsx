@@ -1,8 +1,11 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { ItemDetailTooltip } from '../character/ItemDetailTooltip';
 import { ItemEditor } from '../character/ItemEditor';
+import { MonogramSetPanel } from './MonogramSetPanel';
 import { transformAllItems } from '../../models/itemTransformer';
+import { createMonogramSet, matchMonogramSet } from '../../models/MonogramSet';
 import { useItemOverrides } from '../../hooks/useItemOverrides';
+import { useMonogramSets } from '../../hooks/useMonogramSets';
 import { inferEquipmentSlot, formatSlotLabel, getUniqueSlotKeyMap } from '../../utils/equipmentParser';
 
 const DEFAULT_FILTERS = '';
@@ -38,6 +41,9 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
   const [selectedItemKeys, setSelectedItemKeys] = useState(new Set());
   const [singleSelectMode, setSingleSelectMode] = useState(true);
   const [selectedSlots, setSelectedSlots] = useState(new Set());
+  const [monogramSetName, setMonogramSetName] = useState('');
+  const [selectedMonogramSetName, setSelectedMonogramSetName] = useState('');
+  const { sets: monogramSets, saveSet, deleteSet } = useMonogramSets();
 
   // Item overrides for editing. App shares one instance across tabs so edits
   // flow into the Character tab's stats and survive tab switches (this tab
@@ -54,6 +60,7 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
     removeBaseStat,
     restoreBaseStat,
     setMonogramSlot,
+    applyMonogramSet,
     addSkillModifier,
     removeSkillModifier,
     clearSlot,
@@ -236,6 +243,52 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
     setSelectedItemKeys(new Set());
   }, []);
 
+  const selectedMonogramSet = useMemo(
+    () => monogramSets.find(monogramSet => monogramSet.name === selectedMonogramSetName) || null,
+    [monogramSets, selectedMonogramSetName]
+  );
+
+  const handleSaveMonogramSet = useCallback(() => {
+    const name = monogramSetName.trim();
+    if (!name) return;
+
+    const existing = monogramSets.find(monogramSet => monogramSet.name === name);
+    const monogramSet = createMonogramSet(
+      name,
+      itemStore?.equipped || [],
+      overrides,
+      existing?.id
+    );
+
+    if (monogramSet.entries.length === 0) {
+      onLog?.('No equipped monogram items to save');
+      return;
+    }
+
+    saveSet(monogramSet);
+    setSelectedMonogramSetName(name);
+    onLog?.(`Monogram set "${name}" saved (${monogramSet.entries.length} items)`);
+  }, [itemStore?.equipped, monogramSetName, monogramSets, onLog, overrides, saveSet]);
+
+  const handleApplyMonogramSet = useCallback(() => {
+    if (!selectedMonogramSet) return;
+    const { monogramSlotsByEquipment, skipped } = matchMonogramSet(
+      selectedMonogramSet,
+      itemStore?.equipped || []
+    );
+    const appliedCount = Object.keys(monogramSlotsByEquipment).length;
+    applyMonogramSet(monogramSlotsByEquipment);
+    onLog?.(`Monogram set "${selectedMonogramSet.name}" applied to ${appliedCount} item(s)${skipped.length ? `; ${skipped.length} different/missing item(s) skipped` : ''}`);
+  }, [applyMonogramSet, itemStore?.equipped, onLog, selectedMonogramSet]);
+
+  const handleDeleteMonogramSet = useCallback(() => {
+    if (!selectedMonogramSet) return;
+    deleteSet(selectedMonogramSet.name);
+    setSelectedMonogramSetName('');
+    if (monogramSetName === selectedMonogramSet.name) setMonogramSetName('');
+    onLog?.(`Monogram set "${selectedMonogramSet.name}" deleted`);
+  }, [deleteSet, monogramSetName, onLog, selectedMonogramSet]);
+
   if (!itemStore?.hasItems && !saveData) {
     return (
       <div className="tab-content active">
@@ -255,6 +308,20 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
           Browse imported items and try three-slot monogram loadouts without changing the save.
         </p>
       </div>
+
+      <MonogramSetPanel
+        name={monogramSetName}
+        onNameChange={setMonogramSetName}
+        savedSets={monogramSets}
+        selectedSet={selectedMonogramSet}
+        onSelectSet={name => {
+          setSelectedMonogramSetName(name);
+          if (name) setMonogramSetName(name);
+        }}
+        onSave={handleSaveMonogramSet}
+        onApply={handleApplyMonogramSet}
+        onDelete={handleDeleteMonogramSet}
+      />
 
       <div className="controls">
         <div className="control-row">
@@ -393,9 +460,9 @@ export function ItemsTab({ saveData, itemStore, itemOverrides, onLog }) {
           ) : (
             <div className="items-editor-empty-state">
               <div className="empty-state-icon">✎</div>
-              <div>Select an item to view and edit stats.</div>
+              <div>Select an equipped item to edit its monograms.</div>
               <div className="empty-state-hint">
-                Use the editor to add, modify, or remove stat values for theorycrafting.
+                Saved sets capture and reapply the complete effective monogram loadout.
               </div>
             </div>
           )}

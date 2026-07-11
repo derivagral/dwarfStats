@@ -72,7 +72,7 @@ Items are transformed into a clean model (see `src/models/Item.js`):
     pool3: [{rowName, dataTable}],
   },
 
-  // Monograms (Codex modifiers, up to 4 per item)
+  // Imported monograms (Codex modifiers, up to 3 per item)
   monograms: [{id, value, rawTag}],
 
   upgradeCount: number, // Gamble/anvil upgrades
@@ -123,10 +123,10 @@ getMonogramsForSlot('head'); // [{id, name, category, description}, ...]
 
 ## Hooks Used
 
-- `useItemOverrides` - Manages stat and monogram modifications for theorycrafting
-  - `addMod`, `removeMod`, `updateMod` - Stat modifications
-  - `addMonogram`, `removeMonogram` - Monogram modifications
-  - `removeBaseStat`, `restoreBaseStat` - Base stat toggling
+- `useItemOverrides` - Holds engine-only theorycraft state shared across tabs
+  - `setMonogramSlot(slotKey, index, id, imported)` replaces one of three nullable positions
+  - Reset removes the override and restores all imported monograms
+  - The serializable three-position array is the foundation for named monogram sets
 
 ## Slot Types
 

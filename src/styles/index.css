@@ -2407,10 +2407,9 @@ h1::before {
   gap: 0.35rem;
 }
 
-.monogram-set-values .item-badge {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.monogram-set-values .monogram-select {
+  width: 100%;
+  min-width: 0;
 }
 
 @media (max-width: 760px) {

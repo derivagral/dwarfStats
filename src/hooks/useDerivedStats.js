@@ -3,6 +3,7 @@ import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LA
 import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY } from '../utils/statRegistry.js';
 import { MONOGRAM_CALC_CONFIGS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
+import { resolveEffectiveMonograms } from '../utils/monogramOverrides.js';
 import { inferWeaponStance, getUniqueSlotKeyMap } from '../utils/equipmentParser.js';
 import { aggregateSkillEffects, hasWeaponSkillData, collectMainTreeModifierGrants } from '../utils/skillEffectAggregator.js';
 import { detectEquippedAbilities, getStepCooldown, unionAffinities } from '../utils/offhandAbilities.js';
@@ -177,27 +178,15 @@ export function useDerivedStats(options = {}) {
     const uniqueSlotKeys = getUniqueSlotKeyMap(equippedItems);
 
     for (const item of equippedItems) {
-      // Monograms from item (direct or nested model)
-      const itemMonograms = item?.monograms || item?.model?.monograms;
-      if (itemMonograms && Array.isArray(itemMonograms)) {
-        for (const mono of itemMonograms) {
-          monograms.push({
-            id: mono.id,
-            value: mono.value,
-            source: 'item',
-            itemSlot: item.slot,
-          });
-        }
-      }
-
-      // Added monograms from overrides (keyed by unique slot key)
+      const itemMonograms = item?.monograms || item?.model?.monograms || [];
       const slotKey = uniqueSlotKeys.get(item) || item?.slotKey || item?.slot || '';
-      const overrides = itemOverrides[slotKey] || {};
-      for (const mono of overrides.monograms || []) {
+      const slotOverride = itemOverrides[slotKey] || {};
+
+      // Overrides replace the imported three positions exactly. This is what
+      // makes a dropdown selection a swap rather than an extra fourth effect.
+      for (const mono of resolveEffectiveMonograms(itemMonograms, slotOverride)) {
         monograms.push({
-          id: mono.id,
-          value: mono.value || 1,
-          source: 'override',
+          ...mono,
           itemSlot: item?.slot,
         });
       }

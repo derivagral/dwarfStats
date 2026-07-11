@@ -154,6 +154,24 @@ export function useItemOverrides(options = {}) {
     });
   }, [onChange]);
 
+  // Apply a named set atomically. Only matching equipment keys are supplied
+  // by MonogramSet.matchMonogramSet; unrelated override fields are preserved.
+  const applyMonogramSet = useCallback((monogramSlotsByEquipment) => {
+    setOverrides(prev => {
+      const newOverrides = { ...prev };
+
+      for (const [slotKey, monogramSlots] of Object.entries(monogramSlotsByEquipment)) {
+        newOverrides[slotKey] = {
+          ...(newOverrides[slotKey] || {}),
+          monogramSlots: normalizeMonogramSlots(monogramSlots),
+        };
+      }
+
+      onChange?.(newOverrides);
+      return newOverrides;
+    });
+  }, [onChange]);
+
   // Add a skill modifier to an item (for weapons, duplicates allowed)
   const addSkillModifier = useCallback((slotKey, skillModifier) => {
     setOverrides(prev => {
@@ -272,6 +290,7 @@ export function useItemOverrides(options = {}) {
     removeBaseStat,
     restoreBaseStat,
     setMonogramSlot,
+    applyMonogramSet,
     addSkillModifier,
     removeSkillModifier,
     clearSlot,

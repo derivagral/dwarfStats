@@ -93,7 +93,9 @@ describe('override monograms reach derived stats', () => {
       equippedItems,
       stanceContext,
       skillTree,
-      itemOverrides: { head: { monograms: [{ id: 'MeleeParagon.BaseDamage', value: 1 }] } },
+      itemOverrides: {
+        head: { monogramSlots: ['MeleeParagon.BaseDamage', null, null] },
+      },
     });
 
     // Tree node = 2/level; tree + helmet = 4/level (2 instances)

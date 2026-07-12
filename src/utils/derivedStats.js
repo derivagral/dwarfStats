@@ -358,6 +358,59 @@ export const DERIVED_STATS = {
     format: v => v.toFixed(2),
     description: 'Health after bonuses applied',
   },
+  // ---------------------------------------------------------------------------
+  // TOTAL LIFE BONUS % (aggregate of every life-multiplier monogram)
+  // These effects each grant "+X% max Health" and stack ADDITIVELY. They live
+  // at layers 2–3 (buff-stack / highest-stat driven), so this aggregate — and
+  // the finalHealth that consumes it — sit at TERTIARY (after lifeFromElement,
+  // the highest-layer contributor). totalHealth (layer 1) cannot fold these in
+  // directly; finalHealth is the buffed max the Character tab and the
+  // damage-from-health chain should read.
+  // ---------------------------------------------------------------------------
+  totalLifeBonus: {
+    id: 'totalLifeBonus',
+    name: 'Total Life Bonus%',
+    category: 'monogram-buff',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: [
+      'lifeBuffBonus', 'bloodlustLifeBonus', 'lifeFromElement',
+      'healthPercentFromHighest', 'shroudLifeBonus', 'damageCircleLifeBonus',
+    ],
+    calculate: (stats) => (
+      (stats.lifeBuffBonus || 0) +
+      (stats.bloodlustLifeBonus || 0) +
+      (stats.lifeFromElement || 0) +
+      (stats.healthPercentFromHighest || 0) +
+      (stats.shroudLifeBonus || 0) +
+      (stats.damageCircleLifeBonus || 0)
+    ),
+    format: v => `+${v.toFixed(0)}%`,
+    description: 'Sum of all life-multiplier monograms (Draw Life, More Life, '
+      + 'Elemental→HP, Highest→HP, Shroud, Damage Circle)',
+  },
+  // Effective (buffed) max health = base health × (1 + total life%). Prefers
+  // the real save/share max health when present, so a loaded character shows
+  // its actual max scaled by the theorycraft life buffs; otherwise it scales
+  // the gear-summed totalHealth. This is the number the Character tab surfaces
+  // as "Effective Health" and the value the damage-from-health monogram reads.
+  finalHealth: {
+    id: 'finalHealth',
+    name: 'Effective Health',
+    category: 'defense',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['totalHealth', 'totalLifeBonus'],
+    config: {
+      maxHealth: 0, // real max health from save/share; preferred over totalHealth
+    },
+    calculate: (stats, cfg) => {
+      const config = cfg || DERIVED_STATS.finalHealth.config;
+      const base = config.maxHealth || stats.totalHealth || 0;
+      return base * (1 + (stats.totalLifeBonus || 0) / 100);
+    },
+    format: v => v.toFixed(2),
+    description: 'Max health after life-multiplier monograms '
+      + '(base × (1 + total life%))',
+  },
   totalDamage: {
     id: 'totalDamage',
     name: 'Total Damage',
@@ -441,8 +494,10 @@ export const DERIVED_STATS = {
     id: 'damageFromHealth',
     name: 'Damage from Health',
     category: 'conversion',
-    layer: LAYERS.PRIMARY_DERIVED,
-    dependencies: ['totalHealth'],
+    // TERTIARY so it can read totalLifeBonus (the buffed max health includes
+    // life-multiplier monograms). Still computed before the eDPS flat pools.
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['totalHealth', 'totalLifeBonus'],
     config: {
       enabled: false, // gated by the "1% of max Health as damage" monogram
       sourceStat: 'totalHealth',
@@ -453,12 +508,15 @@ export const DERIVED_STATS = {
       const config = cfg || DERIVED_STATS.damageFromHealth.config;
       if (!config.enabled) return 0;
       // Prefer the character's real max health (from save/share) — the
-      // gear-summed totalHealth misses base/VIT-derived health entirely.
-      const source = config.maxHealth || stats[config.sourceStat] || 0;
+      // gear-summed totalHealth misses base/VIT-derived health entirely — then
+      // scale by the life-multiplier monograms so HP-stacking builds also gain
+      // the flat damage they grant.
+      const base = config.maxHealth || stats[config.sourceStat] || 0;
+      const source = base * (1 + (stats.totalLifeBonus || 0) / 100);
       return Math.floor(source * (config.percentage / 100));
     },
     format: v => `+${v.toFixed(0)}`,
-    description: 'Flat damage from 1% of max health (both types; monogram-gated)',
+    description: 'Flat damage from 1% of effective max health (both types; monogram-gated)',
   },
 
   /**
@@ -519,7 +577,9 @@ export const DERIVED_STATS = {
     id: 'finalDamage',
     name: 'Final Damage',
     category: 'final',
-    layer: LAYERS.SECONDARY_DERIVED,
+    // TERTIARY to stay after damageFromHealth (bumped to layer 4 so it can read
+    // the life-buffed max health).
+    layer: LAYERS.TERTIARY_DERIVED,
     dependencies: ['totalDamage', 'damageFromHealth'],
     calculate: (stats) => {
       const baseDamage = stats.totalDamage || 0;

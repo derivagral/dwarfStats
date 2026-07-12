@@ -345,6 +345,14 @@ export function useDerivedStats(options = {}) {
       merged.damageFromHealth = { ...merged.damageFromHealth, maxHealth };
     }
 
+    // Effective Health likewise reconstructs off the real max health when the
+    // save/share supplies it, so the buffed-HP display and the damage-from-health
+    // calc share the same base. finalHealth always computes (no monogram gate),
+    // so seed the override even when no life monogram is active.
+    if (maxHealth > 0) {
+      merged.finalHealth = { ...(merged.finalHealth || DERIVED_STATS.finalHealth.config), maxHealth };
+    }
+
     return merged;
   }, [configOverrides, detectedStance, offhandAbilities, maxHealth]);
 

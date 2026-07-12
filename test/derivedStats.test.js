@@ -662,5 +662,44 @@ describe('derivedStats', () => {
       expect(r.edpsElemFlat).toBe(109);
     });
   });
+
+  describe('effective health (life-multiplier monograms)', () => {
+    it('finalHealth equals totalHealth when no life monograms are active', () => {
+      const r = calculateDerivedStats({ health: 1000 });
+      expect(r.totalLifeBonus).toBe(0);
+      expect(r.finalHealth).toBe(1000);
+    });
+
+    it('finalHealth folds every life-multiplier monogram in additively', () => {
+      // Draw Life at max (100%) + Shroud at max (150%) = +250% life.
+      const r = calculateDerivedStats({ health: 1000 }, {
+        lifeBuffStacks: { enabled: true, maxStacks: 100, currentStacks: 100 },
+        shroudStacks: { enabled: true, maxStacks: 50, currentStacks: 50 },
+      });
+      expect(r.totalLifeBonus).toBe(250);
+      expect(r.finalHealth).toBe(3500); // 1000 × (1 + 2.5)
+    });
+
+    it('finalHealth scales the real save/share max health when supplied', () => {
+      const r = calculateDerivedStats({ health: 69 }, {
+        finalHealth: { maxHealth: 6000 },
+        lifeBuffStacks: { enabled: true, maxStacks: 100, currentStacks: 100 }, // +100%
+      });
+      expect(r.finalHealth).toBe(12000); // 6000 × (1 + 1.0)
+    });
+
+    it('the damage-from-health monogram scales with the life-buffed max health', () => {
+      const base = { damage: 100, elementalDamage: 50, health: 1000 };
+      const r = calculateDerivedStats(base, {
+        damageFromHealth: { enabled: true, sourceStat: 'totalHealth', percentage: 1 },
+        lifeBuffStacks: { enabled: true, maxStacks: 100, currentStacks: 100 }, // +100% life
+      });
+      // Effective health = 1000 × 2 = 2000; 1% = 20 into BOTH flat pools.
+      expect(r.finalHealth).toBe(2000);
+      expect(r.damageFromHealth).toBe(20);
+      expect(r.edpsPhysFlat).toBe(120);
+      expect(r.edpsElemFlat).toBe(70);
+    });
+  });
 });
 

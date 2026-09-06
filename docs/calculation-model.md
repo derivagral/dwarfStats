@@ -56,9 +56,17 @@ are retained for within-skill comparison.
    Use 1% additive armor per stack, as agreed with the maintainer on 2026-09-06.
    Older attack/movement-speed constants remain outside this on-hit pass and
    should be checked against the game before relying on those display rows.
-2. **Duplicate scaler monograms:** do identical crit/essence/energy scalers stack
-   per copy, improve potency, or merely grant the same behavior? Existing paragon
-   instance scaling is retained; new general stacking rules are not inferred.
+2. **Duplicate scalar monograms:** confirmed by the maintainer on 2026-09-06:
+   basic flat and percentage bonuses add per copy. The explicit
+   `ADDITIVE_MONOGRAM_STATS` allowlist scales each contribution before its
+   consumers. Dark Essence scales essence granted, keeping the 500-stack cap;
+   duplicate crit/energy conversions then scale their own bonuses independently.
+   Identical configurations from different tags feeding the same scalar add too.
+   Base Bloodlust, Juggernaut, Shroud and Phasing grants remain single-instance,
+   including mastery plus helmet sources. UV itself is a single behavior, with
+   its numeric supporting monograms eligible for additive stacking. Unverified
+   proc/mining effects do not receive new duplicate scaling. Existing paragon
+   and spawn calculations retain their own instance/cap handling.
 3. **Essence and rounding:** current Dark Essence retains the capped
    `highestStat × 1.25` model. Confirm how ordinary unspent/collected essence
    joins it and whether per-N effects count fractional intervals. Existing
@@ -67,6 +75,30 @@ are retained for within-skill comparison.
    ordering. Health still lacks complete buff/monogram reconstruction; editing
    a modeled health source works, but the computed total is not a promise of
    exact in-game maximum health for every build.
+
+## Farm sets and Unholy Void follow-up
+
+The set editor reports effective equipped copies, current chance, remaining
+capacity and excess copies. Elite spawn caps at 4 copies (40%); container on
+elite kill caps at 10 (100%). Counts include every position, including pants,
+and respond to edits and applied sets. These are equipped-set budgets, not an
+inventory optimizer or a simulation of chained spawn events.
+
+`DamageCircle.ExtraDamage` is the UV ring monogram: the committed description
+confirms 1% stronger attacks per 35 Health Regeneration. The maintainer reports
+one player's evidence that this belongs to the offhand percentage bucket. That
+bucket remains provisional; it must be scoped to UV, not applied globally to
+other offhands. It is not yet implemented by this patch.
+
+The older `DamageCircle.DamageForStats.Highest` mapping also needs a dedicated
+coverage correction: its exported description says 3 base Damage per 25 highest
+stat while UV is active, but the legacy config currently aliases health-to-damage.
+Element-specific Colossus bonuses still share a legacy target with differing
+intervals; they are excluded from the new additive allowlist pending separation.
+Health intermediates can stack without yet reaching a fully reconstructed health
+total; the existing limitation above still applies. Numeric conversion ratios
+and first-hit multipliers also need dedicated rules rather than multiplying a
+whole final damage pool.
 
 ## Implementation coverage after plumbing
 

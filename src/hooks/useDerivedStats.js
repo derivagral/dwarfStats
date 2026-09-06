@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LAYERS } from '../utils/derivedStats.js';
 import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY, findStatForAttribute } from '../utils/statRegistry.js';
-import { MONOGRAM_CALC_CONFIGS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
+import { MONOGRAM_CALC_CONFIGS, ADDITIVE_MONOGRAM_STATS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
 import { resolveEffectiveMonograms } from '../utils/monogramOverrides.js';
 import { inferWeaponStance, getUniqueSlotKeyMap } from '../utils/equipmentParser.js';
 import { aggregateSkillEffects, hasWeaponSkillData, collectMainTreeModifierGrants } from '../utils/skillEffectAggregator.js';
@@ -223,11 +223,8 @@ export function useDerivedStats(options = {}) {
     return counts;
   }, [appliedMonograms]);
 
-  // Build config overrides from applied monograms
-  // This maps monogram effects to calculation engine configs.
-  // When the same monogram appears multiple times (e.g., 2x Bloodlust.Base
-  // across helmet + amulet), instanceCount is set so calculations can
-  // optionally scale with it.
+  // Buff grants remain unique. Numeric contributions add per copy, including
+  // distinct monogram IDs feeding the same contribution (no last-writer loss).
   const configOverrides = useMemo(() => {
     const overrides = {};
     const seen = new Set();
@@ -239,21 +236,18 @@ export function useDerivedStats(options = {}) {
       const monoConfig = MONOGRAM_CALC_CONFIGS[monogramId];
       if (!monoConfig) return;
 
-      if (monoConfig.effects) {
-        for (const effect of monoConfig.effects) {
-          if (effect.derivedStatId && effect.config) {
-            overrides[effect.derivedStatId] = {
-              ...DERIVED_STATS[effect.derivedStatId]?.config,
-              ...effect.config,
-              instanceCount,
-            };
-          }
-        }
-      } else if (monoConfig.derivedStatId && monoConfig.config) {
-        overrides[monoConfig.derivedStatId] = {
-          ...DERIVED_STATS[monoConfig.derivedStatId]?.config,
-          ...monoConfig.config,
+      const effects = monoConfig.effects || [monoConfig];
+      for (const effect of effects) {
+        const id = effect.derivedStatId;
+        if (!id || !effect.config) continue;
+        const previous = overrides[id];
+        overrides[id] = {
+          ...DERIVED_STATS[id]?.config,
+          ...effect.config,
           instanceCount,
+          ...(ADDITIVE_MONOGRAM_STATS.has(id) ? {
+            monogramCopies: (previous?.monogramCopies || 0) + instanceCount,
+          } : {}),
         };
       }
     };

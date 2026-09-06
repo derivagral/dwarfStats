@@ -211,3 +211,62 @@ describe('dependency and comparison guards', () => {
     expect(DERIVED_STATS.totalCritChance.format(2)).toBe('200.0%');
   });
 });
+
+describe('confirmed duplicate monogram rules', () => {
+  it.each([1, 2, 3])('adds %i copies at each stage of the essence → crit chain', async copies => {
+    const options = {
+      characterStats: { strength: 1000, critChance: 0.1 },
+      equippedItems: [
+        item('neck', Array(copies).fill('DarkEssence')),
+        item('ring', Array(copies).fill('BonusCritChance%ForEssence')),
+        item('pants', Array(copies).fill('BonusCritDamage%ForEssence')),
+      ],
+    };
+    const result = probe(options);
+    const essence = 1250 * copies;
+    const chance = Math.floor(essence / 20) * 1.5 * copies;
+    const damage = Math.floor(essence / 10) * 1.5 * copies;
+    expect(result.values.darkEssenceStacks).toBe(500);
+    expect(result.values.essence).toBe(essence);
+    expect(result.values.critChanceFromEssence).toBe(chance);
+    expect(result.values.totalCritChance).toBeCloseTo(0.1 + chance / 100);
+    expect(result.values.critDamageFromEssence).toBe(damage);
+    expect(result.values.finalCritDamage).toBeCloseTo(damage / 100);
+    expect(probe(await sharedOptions(options)).values).toEqual(result.values);
+  });
+
+  it('stacks flat and energy bonuses before conversion, and updates after removing a copy', () => {
+    const options = { equippedItems: [
+      item('neck', ['EliteBuffs.Energy', 'EliteBuffs.Energy', 'EliteBuffs.Energy']),
+      item('head', ['ExtraEnergyAddDamage', 'ExtraEnergyAddDamage']),
+      item('pants', ['DamageBonusAnd51Damage', 'DamageBonusAnd51Damage']),
+    ] };
+    const result = probe(options).values;
+    expect(result.totalMaxEnergy).toBe(400);
+    expect(result.energyDamageBonus).toBe(1800);
+    expect(result.flatDamageMonogramBonus).toBe(600);
+    expect(result.edpsElemFlat).toBe(1800);
+    expect(result.edpsPhysFlat).toBe(600);
+    const edited = probe({ ...options, itemOverrides: {
+      neck: { monogramSlots: ['EliteBuffs.Energy', null, null] },
+    } }).values;
+    expect(edited.totalMaxEnergy).toBe(200);
+    expect(edited.energyDamageBonus).toBe(600);
+  });
+
+  it('adds different monogram IDs feeding the same scalar without order dependence', () => {
+    const equippedItems = [item('neck', ['DarkEssence']),
+      item('ring', ['BonusDamageForEssence', 'PotionsAsDamageBuff'])];
+    const options = { characterStats: { strength: 1000 }, equippedItems };
+    const values = probe(options).values;
+    expect(values.elementalFlatFromEssence).toBe(186);
+    expect(probe({ ...options, equippedItems: [...equippedItems].reverse() }).values).toEqual(values);
+  });
+
+  it.each(['Bloodlust.Base', 'Juggernaut', 'Shroud', 'AllowPhasing',
+    'DamageCircle.Base', 'ExplodingArcaneMineNode'])('keeps %s grants/procs single-instance', id => {
+    const one = probe({ equippedItems: [item('head', [id])] }).values;
+    const three = probe({ equippedItems: [item('head', [id, id, id])] }).values;
+    expect(three).toEqual(one);
+  });
+});

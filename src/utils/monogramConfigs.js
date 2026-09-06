@@ -58,6 +58,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Dark Essence',
     effects: [
       { derivedStatId: 'darkEssenceStacks', config: { enabled: true, maxStacks: 500, currentStacks: 500 } },
+      { derivedStatId: 'essence', config: {} },
     ],
   },
 
@@ -69,6 +70,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Bloodlust Life',
     effects: [
       { derivedStatId: 'lifeBuffStacks', config: { enabled: true, maxStacks: 100, currentStacks: 100 } },
+      { derivedStatId: 'lifeBuffBonus', config: {} },
     ],
   },
   'Bloodlust.MoreLife.Highest': {
@@ -163,6 +165,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Shroud HP',
     description: '+3% life per shroud stack (50 stacks max = 150%)',
     effects: [
+      { derivedStatId: 'shroudLifeBonus', config: {} },
       { derivedStatId: 'shroudStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
     ],
   },
@@ -859,6 +862,41 @@ export const MONOGRAM_CALC_CONFIGS = {
     ],
   },
 };
+
+/**
+ * Numeric contributions confirmed to add per equipped/granted copy. Scale the
+ * contribution once, before its consumers run; never multiply a total pool or
+ * the buff's stack count. Base buffs and unverified proc/mining effects are
+ * deliberately absent. Paragon/spawn effects already handle instanceCount.
+ * Keep shared-target configs identical here (e.g. the two essence-flat tags).
+ */
+export const ADDITIVE_MONOGRAM_STATS = new Set([
+  'essence', 'lifeBuffBonus', 'shroudLifeBonus', 'bloodlustLifeBonus',
+  'bloodlustPhysicalDamageBonus', 'bloodlustDrawBloodBonus',
+  'critDamageFromEssence', 'critChanceFromHighest', 'critChanceFromEssence',
+  'critDamageFromOvercrit', 'fireFromCritChance', 'lightningFromCritChance',
+  'arcaneFromCritChance', 'lifeFromElement', 'damageFromHealth',
+  'damageCircleLifeBonus', 'distanceProcsDamageBonus', 'distanceProcsNearDamageBonus',
+  'eliteAttackSpeedBonus', 'eliteEnergyBonus', 'extraLifestealBonus',
+  'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'highestStatDamageBonus',
+  'critDamageFromArmor', 'lifeBonusFromCritChance', 'energyDamageBonus',
+  'invSlotBossDamageBonus', 'invSlotCritDamageBonus', 'invSlotDamageBonus',
+  'colossusDamageBonus', 'critChanceFromEnergyRegen', 'damagePercentForStat2',
+  'damageNoPotionBonus', 'chargedSecondaryDamageBonus', 'statDamageFlatBonus',
+  'elementalFromEssence', 'elementalFlatFromEssence', 'healthPercentFromHighest',
+  'berserkerMaxDrFlatDamage', 'potionSlotsFromAttributes', 'statBonusFromPotions',
+  'elementalFromHighest', 'shroudElementalFromHighest', 'phasingDurationDamage',
+  'damageFromEssence',
+]);
+
+// Farm-set targets confirmed by the maintainer; share the caps with the editor.
+export const FARM_MONOGRAM_CAPS = [
+  { id: 'ChanceToSpawnAnotherElite', name: 'Spawn another elite', derivedStatId: 'eliteSpawnChance' },
+  { id: 'ChanceToSpawnContainer', name: 'Container on elite kill', derivedStatId: 'containerSpawnChance' },
+].map(effect => {
+  const { chancePerInstance, maxChance } = MONOGRAM_CALC_CONFIGS[effect.id].effects[0].config;
+  return { ...effect, chancePerCopy: chancePerInstance, maxCopies: maxChance / chancePerInstance };
+});
 
 /**
  * Mutually exclusive derived-stat pairs from monogram effects.

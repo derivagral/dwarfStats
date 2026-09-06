@@ -2382,6 +2382,22 @@ h1::before {
   min-width: 14rem;
 }
 
+.monogram-farm-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  margin-top: 0.75rem;
+}
+
+.monogram-farm-summary > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.monogram-farm-summary small {
+  color: var(--text-secondary);
+}
+
 .monogram-set-preview {
   display: grid;
   gap: 0.35rem;

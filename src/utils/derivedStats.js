@@ -3267,7 +3267,9 @@ export function calculateDerivedStats(baseStats, configOverrides = {}) {
 
   for (const stat of calculationOrder) {
     const config = { ...stat.config, ...configOverrides[stat.id] };
-    result[stat.id] = stat.calculate(result, config);
+    // Only explicit monogram contribution configs carry this multiplier.
+    // Consumers therefore see the stacked source and do not scale it again.
+    result[stat.id] = stat.calculate(result, config) * (config.monogramCopies ?? 1);
   }
 
   return result;

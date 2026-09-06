@@ -1,4 +1,5 @@
 import React from 'react';
+import { getMonogramCoverage } from '../../utils/monogramSupport.js';
 import { Button } from '../common';
 import { getMonogramsForSlot, getMonogramName } from '../../utils/monogramRegistry.js';
 import { getMonogramPoolForEquipmentSlot, summarizeFarmMonograms } from '../../models/MonogramSet.js';
@@ -16,6 +17,14 @@ export function MonogramSetPanel({
   onDelete,
 }) {
   const farmSummary = summarizeFarmMonograms(currentEntries);
+  const counts = new Map();
+  for (const entry of currentEntries) {
+    for (const id of entry.monogramSlots || []) {
+      if (id) counts.set(id, (counts.get(id) || 0) + 1);
+    }
+  }
+  const coverage = [...counts].map(([id, copies]) => ({ ...getMonogramCoverage(id), copies }));
+  const incompleteCount = coverage.filter(effect => ['not-modeled', 'partial'].includes(effect.status)).length;
   return (
     <div className="monogram-set-panel">
       <div className="monogram-set-controls">
@@ -66,6 +75,21 @@ export function MonogramSetPanel({
           </div>
         ))}
       </div>
+
+      {coverage.length > 0 && (
+        <details className="monogram-coverage">
+          <summary>Calculation coverage · {incompleteCount} partial or unmodeled</summary>
+          <p>These checks identify connected calculations. They do not verify every in-game rule.</p>
+          <ul>
+            {coverage.map(effect => (
+              <li key={effect.id}>
+                <strong>{effect.name} ×{effect.copies}</strong>: {effect.label}
+                {effect.note && <small>{effect.note}</small>}
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
 
       {currentEntries.length > 0 ? (
         <div className="monogram-set-preview">

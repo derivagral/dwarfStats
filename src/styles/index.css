@@ -1283,6 +1283,8 @@ h1::before {
 
 .stats-header {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 0.75rem;
@@ -1294,6 +1296,12 @@ h1::before {
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.stats-display-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
 }
 
 .hide-zero-toggle {
@@ -2432,4 +2440,22 @@ h1::before {
   .monogram-set-entry {
     grid-template-columns: 1fr;
   }
+}
+
+.monogram-coverage {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.monogram-coverage summary {
+  cursor: pointer;
+}
+
+.monogram-coverage li {
+  margin-bottom: 0.5rem;
+}
+
+.monogram-coverage small {
+  display: block;
+  color: var(--text-secondary);
 }

@@ -112,3 +112,57 @@ whole final damage pool.
   each affected chain against small controlled in-game comparisons.
 - Keep provisional elemental crit weighting and skill multipliers explicit.
   True DPS and automated patch tracking are not prerequisites for this tool.
+
+## Item setup verification after PR #79
+
+`npm run audit:monograms -- --write` rebuilds
+[`monogram-coverage.md`](monogram-coverage.md). The inventory covers selector IDs
+and reviewed numeric grants, not every internal helper tag in the exports.
+Its statuses describe calculation connections, not confirmed runtime support.
+The set editor exposes the same coverage metadata in a collapsed disclosure so
+unmodeled selections cannot silently look fully supported.
+
+The stat sheet defaults to **Active effects only**. A granted effect remains
+visible when its result is zero; **Hide zero** is an independent option. Mastery
+and main-tree grants count as active sources. Buff children such as Bloodlust
+armor inherit the buff grant, while unrelated formulas and legacy placeholders
+stay hidden. These controls affect presentation only. Ability cooldown and total
+offhand CDR are pinned ahead of raw ability affixes, above monograms.
+
+The first item coverage slice adds 18 unconditional grants: three boots energy
+tiers, four boots regeneration tiers, flat health, health percentage, armor
+percentage, flat energy, and all seven +200 attributes. Numeric effects come
+from the committed export; the seven attribute amounts come from its text.
+Each position contributes once to the base aggregation, then existing attribute,
+armor, health, essence, crit and energy dependencies recalculate. Shares carry
+the original item grants rather than baking these bonuses into the base affixes.
+Canonical `ExtraHp` and `ExtraArmor` are now selectable alongside the legacy
+entries; no dictionary entries were reordered or removed.
+
+### Remaining work, in comparison-readiness order
+
+1. **Grant and condition correctness.** Gate legacy potion-slot formulas; audit
+   buff prerequisites and drawbacks (notably health-to-damage losing armor).
+   Keep mastery/tree and equipment sources separate when removing a monogram,
+   and explicitly distinguish one-time grants from additive numeric support.
+2. **Ring conversions and final pools.** Correct UV highest-stat mapping, scope
+   its provisional regen bonus, split Colossus element targets, and reconstruct
+   final health before claiming health-based conversions or EHP are complete.
+   Reconcile legacy selector IDs against the existing exports without silently
+   treating similar names as confirmed aliases.
+3. **A build-difference contract.** Evaluate original and candidate equipment
+   through the same calculation entry point with identical mastery, tree, race,
+   and effect assumptions. Return per-skill normal/boss on-hit deltas, cooldown,
+   and ordinary stat changes. Preserve ability identity: flag a switch in the
+   selected offhand rather than presenting it as an ordinary percentage upgrade.
+4. **Comparison UI.** Preview a replacement or monogram set before applying it,
+   show absolute and percent changes, handle zero baselines, and annotate partial
+   or unmodeled effects on either side. IAS/rotation modeling remains outside
+   the on-hit comparison boundary.
+
+For each newly implemented damage-affecting monogram, require a small numeric
+fixture covering absent/present, duplicate copies, removal/reset, and the final
+consumer. Add prerequisite boundaries when conditional, an unrelated-element
+negative control when elemental, and a share round trip when representation
+changes. Use paired in-game observations to resolve bucket/rounding uncertainty;
+code coverage alone cannot settle those rules.

@@ -13,6 +13,27 @@
  * @module utils/monogramConfigs
  */
 
+import monogramsGenerated from '../data/monograms.generated.json';
+import { findStatForAttribute } from './statRegistry.js';
+
+// Only reviewed unconditional numeric effects. Do not auto-apply every exported
+// effect: some entries contain drawbacks, proc grants, or text-only helper tags.
+const BASIC_EXPORTED_MONOGRAMS = [
+  'BootsExtraEnergy1', 'BootsExtraEnergy2', 'BootsExtraEnergy3',
+  'BootsExtraEnergyRegen1', 'BootsExtraEnergyRegen2',
+  'BootsExtraEnergyRegen3', 'BootsExtraEnergyRegen4',
+  'ExtraHp', 'ExtraArmor', 'ExtraHp%', 'ExtraEnergy',
+];
+export const MONOGRAM_BASE_EFFECTS = Object.fromEntries(BASIC_EXPORTED_MONOGRAMS.map(id => [
+  id, monogramsGenerated.monograms[id].effects.map(effect => ({
+    statId: findStatForAttribute(effect.tag).id, value: effect.value,
+  })),
+]));
+// These seven exports contain description text rather than numeric effect rows.
+for (const attribute of ['Strength', 'Dexterity', 'Wisdom', 'Endurance', 'Agility', 'Luck', 'Stamina']) {
+  MONOGRAM_BASE_EFFECTS[`Extra${attribute}`] = [{ statId: attribute.toLowerCase(), value: 200 }];
+}
+
 export const MONOGRAM_CALC_CONFIGS = {
   // ===========================================================================
   // PHASING (Helmet Monogram - 50 stacks)

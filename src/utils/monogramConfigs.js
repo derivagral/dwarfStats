@@ -43,11 +43,10 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
   'Bloodlust.Damage%PerStack': {
     displayName: 'Bloodlust Damage',
-    derivedStatId: 'monogramValueFromStrength',
+    derivedStatId: 'bloodlustPhysicalDamageBonus',
     config: {
-      sourceStat: 'bloodlustStacks',
-      ratio: 1,
-      baseValue: 2, // Extra 2% damage per stack
+      enabled: true,
+      damagePerStack: 2,
     },
   },
 
@@ -85,15 +84,27 @@ export const MONOGRAM_CALC_CONFIGS = {
   // 1% crit per 20 essence
   // ===========================================================================
   'BonusCritDamage%ForEssence': {
-    displayName: 'Crit from Essence',
+    displayName: 'Crit Damage from Essence',
     effects: [
-      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20 } },
+      { derivedStatId: 'critDamageFromEssence', config: { enabled: true, essencePerCrit: 10, critPerInterval: 1.5 } },
     ],
   },
   'GainCritChanceForHighest': {
     displayName: 'Crit from Stats',
     effects: [
-      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20 } },
+      { derivedStatId: 'critChanceFromHighest', config: { enabled: true, statInterval: 50 } },
+    ],
+  },
+  'BonusCritChance%ForEssence': {
+    displayName: 'Crit Chance from Essence',
+    effects: [
+      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20, critPerInterval: 1.5 } },
+    ],
+  },
+  'GainCritDamageForCritChance': {
+    displayName: 'Crit Damage from Overcrit',
+    effects: [
+      { derivedStatId: 'critDamageFromOvercrit', config: { enabled: true } },
     ],
   },
 
@@ -104,19 +115,19 @@ export const MONOGRAM_CALC_CONFIGS = {
   'ElementForCritChance.Fire': {
     displayName: 'Fire from Crit',
     effects: [
-      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'fire', critThreshold: 100, elementPerCrit: 3 } },
+      { derivedStatId: 'fireFromCritChance', config: { enabled: true, elementType: 'fire', critThreshold: 100, elementPerCrit: 3 } },
     ],
   },
   'ElementForCritChance.Lightning': {
     displayName: 'Lightning from Crit',
     effects: [
-      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'lightning', critThreshold: 100, elementPerCrit: 3 } },
+      { derivedStatId: 'lightningFromCritChance', config: { enabled: true, elementType: 'lightning', critThreshold: 100, elementPerCrit: 3 } },
     ],
   },
   'ElementForCritChance.Arcane': {
     displayName: 'Arcane from Crit',
     effects: [
-      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'arcane', critThreshold: 100, elementPerCrit: 3 } },
+      { derivedStatId: 'arcaneFromCritChance', config: { enabled: true, elementType: 'arcane', critThreshold: 100, elementPerCrit: 3 } },
     ],
   },
 
@@ -127,7 +138,7 @@ export const MONOGRAM_CALC_CONFIGS = {
   'ElementalToHp%.Fire': {
     displayName: 'Life from Fire',
     effects: [
-      { derivedStatId: 'lifeFromElement', config: { enabled: true, elementPer: 30, lifeBonus: 2 } },
+      { derivedStatId: 'lifeFromElement', config: { enabled: true, sourceStat: 'fireFromCritChance', elementPer: 30, lifeBonus: 2 } },
     ],
   },
 
@@ -353,7 +364,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+15 armor per paragon level (maul/spear/sword/2h)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonArmorBonus', config: { armorPerLevel: 15 } },
+      { derivedStatId: 'paragonArmorBonus', config: { enabled: true, armorPerLevel: 15 } },
     ],
   },
   'MeleeParagon.BaseDamage': {
@@ -361,7 +372,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+2 flat damage per paragon level (maul/spear/sword/2h)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonDamageBonus', config: { damagePerLevel: 2 } },
+      { derivedStatId: 'paragonDamageBonus', config: { enabled: true, damagePerLevel: 2 } },
     ],
   },
   'MeleeParagon.MaxHp': {
@@ -369,7 +380,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+10 flat HP per paragon level (maul/spear/sword/2h)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonHpBonus', config: { hpPerLevel: 10 } },
+      { derivedStatId: 'paragonHpBonus', config: { enabled: true, hpPerLevel: 10 } },
     ],
   },
   'RangedParagon.Armor': {
@@ -377,7 +388,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+15 armor per paragon level (bow/magery/scythe/fist)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonArmorBonus', config: { armorPerLevel: 15 } },
+      { derivedStatId: 'paragonArmorBonus', config: { enabled: true, armorPerLevel: 15 } },
     ],
   },
   'RangedParagon.BaseDamage': {
@@ -385,7 +396,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+2 flat damage per paragon level (bow/magery/scythe/fist)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonDamageBonus', config: { damagePerLevel: 2 } },
+      { derivedStatId: 'paragonDamageBonus', config: { enabled: true, damagePerLevel: 2 } },
     ],
   },
   'RangedParagon.MaxHp': {
@@ -393,7 +404,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+10 flat HP per paragon level (bow/magery/scythe/fist)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonHpBonus', config: { hpPerLevel: 10 } },
+      { derivedStatId: 'paragonHpBonus', config: { enabled: true, hpPerLevel: 10 } },
     ],
   },
 
@@ -436,7 +447,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Draw Blood',
     description: '+1% damage per bloodlust stack (100% at max, requires Bloodlust.Base)',
     effects: [
-      { derivedStatId: 'bloodlustDrawBloodBonus', config: { damagePerStack: 1 } },
+      { derivedStatId: 'bloodlustDrawBloodBonus', config: { enabled: true, damagePerStack: 1 } },
     ],
   },
 

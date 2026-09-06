@@ -9,7 +9,7 @@ const categoryLabels = {
   stance: 'Stance/Weapon',
   defense: 'Defense',
   elemental: 'Elemental',
-  edps: 'eDPS',
+  edps: 'On-hit damage',
   affinity: 'Offhand Affinity',
   monograms: 'Monograms',
   abilities: 'Abilities',

@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LAYERS } from '../utils/derivedStats.js';
 import { getStatType } from '../utils/statBuckets.js';
-import { STAT_REGISTRY } from '../utils/statRegistry.js';
-import { MONOGRAM_CALC_CONFIGS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
+import { STAT_REGISTRY, findStatForAttribute } from '../utils/statRegistry.js';
+import { MONOGRAM_CALC_CONFIGS, ADDITIVE_MONOGRAM_STATS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
 import { resolveEffectiveMonograms } from '../utils/monogramOverrides.js';
 import { inferWeaponStance, getUniqueSlotKeyMap } from '../utils/equipmentParser.js';
 import { aggregateSkillEffects, hasWeaponSkillData, collectMainTreeModifierGrants } from '../utils/skillEffectAggregator.js';
-import { detectEquippedAbilities, getStepCooldown, unionAffinities } from '../utils/offhandAbilities.js';
+import { detectEquippedAbilities, getStepCooldown } from '../utils/offhandAbilities.js';
 import { getRacialContributions } from '../utils/raceBonuses.js';
 import { ATTRIBUTE_BONUSES } from '../utils/attributeBonuses.js';
 
@@ -223,11 +223,8 @@ export function useDerivedStats(options = {}) {
     return counts;
   }, [appliedMonograms]);
 
-  // Build config overrides from applied monograms
-  // This maps monogram effects to calculation engine configs.
-  // When the same monogram appears multiple times (e.g., 2x Bloodlust.Base
-  // across helmet + amulet), instanceCount is set so calculations can
-  // optionally scale with it.
+  // Buff grants remain unique. Numeric contributions add per copy, including
+  // distinct monogram IDs feeding the same contribution (no last-writer loss).
   const configOverrides = useMemo(() => {
     const overrides = {};
     const seen = new Set();
@@ -239,21 +236,18 @@ export function useDerivedStats(options = {}) {
       const monoConfig = MONOGRAM_CALC_CONFIGS[monogramId];
       if (!monoConfig) return;
 
-      if (monoConfig.effects) {
-        for (const effect of monoConfig.effects) {
-          if (effect.derivedStatId && effect.config) {
-            overrides[effect.derivedStatId] = {
-              ...DERIVED_STATS[effect.derivedStatId]?.config,
-              ...effect.config,
-              instanceCount,
-            };
-          }
-        }
-      } else if (monoConfig.derivedStatId && monoConfig.config) {
-        overrides[monoConfig.derivedStatId] = {
-          ...DERIVED_STATS[monoConfig.derivedStatId]?.config,
-          ...monoConfig.config,
+      const effects = monoConfig.effects || [monoConfig];
+      for (const effect of effects) {
+        const id = effect.derivedStatId;
+        if (!id || !effect.config) continue;
+        const previous = overrides[id];
+        overrides[id] = {
+          ...DERIVED_STATS[id]?.config,
+          ...effect.config,
           instanceCount,
+          ...(ADDITIVE_MONOGRAM_STATS.has(id) ? {
+            monogramCopies: (previous?.monogramCopies || 0) + instanceCount,
+          } : {}),
         };
       }
     };
@@ -299,8 +293,21 @@ export function useDerivedStats(options = {}) {
   // the eDPS elemental bucket and the offhand cooldown stat. Only offhand
   // items count — weapons can never carry an affinity tag.
   const offhandAbilities = useMemo(
-    () => detectEquippedAbilities(equippedItems),
-    [equippedItems],
+    () => {
+      const keys = getUniqueSlotKeyMap(equippedItems);
+      return detectEquippedAbilities(equippedItems.map(item => {
+        const override = itemOverrides[keys.get(item)] || {};
+        const baseStats = item.baseStats || item.model?.baseStats || item.attributes || [];
+        return {
+          ...item,
+          baseStats: [
+            ...baseStats.filter((_, index) => !override.removedIndices?.includes(index)),
+            ...(override.mods || []).map(mod => ({ stat: mod.statId, value: mod.value })),
+          ],
+        };
+      }));
+    },
+    [equippedItems, itemOverrides],
   );
 
   // Merge stance detection into config overrides for eDPS.
@@ -314,23 +321,30 @@ export function useDerivedStats(options = {}) {
       merged.edpsElemCrit = { ...(configOverrides.edpsElemCrit || {}), stance: detectedStance };
     }
 
-    // Route equipped offhand ability affinities into the elemental bucket and
-    // the offhand cooldown stats. activeAffinities is the union across all
-    // equipped abilities (builds in practice stack one ability across the four
-    // offhand slots); the cooldown row tracks the dominant ability.
+    // The most-equipped ability supplies the element, item-damage scope,
+    // affinities and cooldown. Ties use a stable ability-key ordering.
     const { abilities, offhandCount } = offhandAbilities;
     if (abilities.length > 0) {
-      const activeAffinities = unionAffinities(abilities);
+      // All headline buckets must describe the same ability. Combining the
+      // affinities of unrelated procs exaggerates mixed-offhand builds.
+      const dominant = abilities[0];
+      const activeAffinities = dominant.affinities;
+      merged.edpsED = {
+        ...(merged.edpsED || {}),
+        activeElement: dominant.element,
+        abilityName: dominant.name,
+      };
       merged.edpsElemAdditive = {
         ...DERIVED_STATS.edpsElemAdditive.config,
         ...(merged.edpsElemAdditive || {}),
         activeAffinities,
+        abilityDamageStatId: findStatForAttribute(`EasyRPG.Attributes.Abilities.${dominant.key}.DamageMultiplier`)?.id,
+        abilityName: dominant.name,
       };
       merged.offhandCooldownReduction = {
         ...(merged.offhandCooldownReduction || {}),
         activeAffinities,
       };
-      const dominant = abilities[0];
       merged.offhandCooldownSeconds = {
         ...(merged.offhandCooldownSeconds || {}),
         baseCooldown: getStepCooldown(dominant, offhandCount),
@@ -339,14 +353,15 @@ export function useDerivedStats(options = {}) {
       };
     }
 
-    // The 1%-of-max-Health monogram needs real max health (gear can't supply it).
-    // Inject it into the damageFromHealth override the monogram already created.
-    if (maxHealth > 0 && merged.damageFromHealth) {
+    // Saves and current shares reconstruct the progression health pool. Let
+    // that calculation respond to edits. Older shares have only an observed
+    // health snapshot; retain their legacy fallback until progression exists.
+    if (maxHealth > 0 && !characterStats.health && merged.damageFromHealth) {
       merged.damageFromHealth = { ...merged.damageFromHealth, maxHealth };
     }
 
     return merged;
-  }, [configOverrides, detectedStance, offhandAbilities, maxHealth]);
+  }, [configOverrides, detectedStance, offhandAbilities, maxHealth, characterStats]);
 
   // Calculate all derived stats
   const calculatedStats = useMemo(() => {
@@ -370,8 +385,8 @@ export function useDerivedStats(options = {}) {
       damage: values.finalDamage || values.totalDamage || values.damage || 0,
       armor: values.totalArmor || values.armor || 0,
       health: values.totalHealth || values.health || 0,
-      critChance: values.critChance || 0,
-      critDamage: values.critDamage || 0,
+      critChance: values.totalCritChance || 0,
+      critDamage: values.finalCritDamage || 0,
 
       // Monogram-derived
       monogramBonuses: Object.entries(values)
@@ -395,12 +410,11 @@ export function useDerivedStats(options = {}) {
       totalAgility: { base: 'agility', bonus: 'agilityBonus', attribute: 'agility', category: 'attributes', name: 'Agility' },
       totalLuck: { base: 'luck', bonus: 'luckBonus', attribute: 'luck', category: 'attributes', name: 'Luck' },
       totalStamina: { base: 'stamina', bonus: 'staminaBonus', attribute: 'stamina', category: 'attributes', name: 'Stamina' },
-      totalArmor: { base: 'armor', bonus: 'armorBonus', derivedBonus: { id: 'strengthArmorBonus', source: 'Strength' }, category: 'defense', name: 'Armor' },
-      totalHealth: { base: 'health', bonus: 'healthBonus', derivedBonus: { id: 'staminaHealthBonus', source: 'Stamina' }, category: 'defense', name: 'Health' },
-      totalCritDamage: { base: 'critDamage', additions: [{ id: 'agilityCritDamageBonus', source: 'Agility' }], isPercent: true, category: 'offense', name: 'Critical Damage' },
+      totalArmor: { base: 'armor', bonus: 'armorBonus', derivedFlat: { id: 'paragonArmorBonus', source: 'Paragon Armor' }, derivedBonuses: [{ id: 'strengthArmorBonus', source: 'Strength' }, { id: 'bloodlustArmorBonus', source: 'Bloodlust', sourceType: 'monogram' }], category: 'defense', name: 'Armor' },
+      totalHealth: { base: 'health', bonus: 'healthBonus', derivedFlat: { id: 'paragonHpBonus', source: 'Paragon Health' }, derivedBonus: { id: 'staminaHealthBonus', source: 'Stamina' }, category: 'defense', name: 'Health' },
+      totalCritDamage: { base: 'critDamage', additions: [{ id: 'agilityCritDamageBonus', source: 'Agility' }], isPercent: true, category: 'offense', name: 'Critical Damage (before effects)' },
       totalBossBonus: { base: 'bossBonus', additions: [{ id: 'wisdomBossBonus', source: 'Wisdom' }], isPercent: true, category: 'offense', name: 'Boss Damage Bonus' },
       totalHealthRegen: { base: 'healthRegen', additions: [{ id: 'staminaHealthRegen', source: 'Stamina' }], category: 'defense', name: 'Health Regen' },
-      totalEnergyRegen: { base: 'energyRegen', additions: [{ id: 'enduranceEnergyRegen', source: 'Endurance' }], category: 'defense', name: 'Energy Regen' },
       totalXpBonus: { base: 'xpBonus', additions: [{ id: 'luckXpBonus', source: 'Luck' }], isPercent: true, category: 'utility', name: 'XP Bonus' },
       totalFireDamageBonus: { base: 'fireDamageBonus', additions: [{ id: 'luckFireDamageBonus', source: 'Luck' }], isPercent: true, category: 'elemental', name: 'Fire Damage' },
       totalArcaneDamageBonus: { base: 'arcaneDamageBonus', additions: [{ id: 'luckArcaneDamageBonus', source: 'Luck' }], isPercent: true, category: 'elemental', name: 'Arcane Damage' },
@@ -415,7 +429,7 @@ export function useDerivedStats(options = {}) {
     // Base/bonus stat IDs consumed by total stats (don't show separately).
     // damage and damageBonus are consumed manually since totalDamage no longer
     // owns them in the display routing above.
-    const consumedByTotals = new Set(['damage', 'damageBonus', 'attackSpeed']);
+    const consumedByTotals = new Set(['damage', 'damageBonus', 'attackSpeed', 'critChance', 'maxEnergy', 'energyRegen', 'energyRegenBonus']);
     for (const info of Object.values(TOTAL_STAT_ROUTING)) {
       if (info.base) consumedByTotals.add(info.base);
       if (info.bonus) consumedByTotals.add(info.bonus);
@@ -501,23 +515,26 @@ export function useDerivedStats(options = {}) {
         // Build combined sources from flat base + bonus%
         const baseSources = aggregatedWithSources[routing.base]?.sources || [];
         const bonusSources = routing.bonus ? aggregatedWithSources[routing.bonus]?.sources || [] : [];
-        const baseTotal = aggregatedWithSources[routing.base]?.total || 0;
+        const derivedFlat = routing.derivedFlat ? values[routing.derivedFlat.id] || 0 : 0;
+        const baseTotal = (aggregatedWithSources[routing.base]?.total || 0) + derivedFlat;
         const rawBonusTotal = routing.bonus ? aggregatedWithSources[routing.bonus]?.total || 0 : 0;
-        const derivedBonusTotal = routing.derivedBonus ? values[routing.derivedBonus.id] || 0 : 0;
+        const derivedBonuses = routing.derivedBonuses || (routing.derivedBonus ? [routing.derivedBonus] : []);
+        const derivedBonusTotal = derivedBonuses.reduce((sum, bonus) => sum + (values[bonus.id] || 0), 0);
         const additions = routing.additions || [];
         const additionsTotal = additions.reduce((sum, addition) => sum + (values[addition.id] || 0), 0);
         const bonusTotal = rawBonusTotal + derivedBonusTotal;
 
         const sources = [
           ...baseSources.map(s => ({ ...s, isPercent: Boolean(routing.isPercent) })),
+          ...(derivedFlat ? [{ itemName: routing.derivedFlat.source, slot: 'monogram', value: derivedFlat, sourceType: 'monogram', isPercent: false }] : []),
           ...bonusSources.map(s => ({ ...s, itemName: `${s.itemName} (%)`, isPercent: true })),
-          ...(routing.derivedBonus && derivedBonusTotal ? [{
-            itemName: routing.derivedBonus.source,
-            slot: 'attribute',
-            value: derivedBonusTotal,
-            sourceType: 'attribute',
+          ...derivedBonuses.filter(bonus => values[bonus.id]).map(bonus => ({
+            itemName: bonus.source,
+            slot: bonus.sourceType || 'attribute',
+            value: values[bonus.id],
+            sourceType: bonus.sourceType || 'attribute',
             isPercent: true,
-          }] : []),
+          })),
           ...additions.filter(addition => values[addition.id]).map(addition => ({
             itemName: addition.source,
             slot: 'attribute',
@@ -595,7 +612,7 @@ export function useDerivedStats(options = {}) {
         };
         const def = DERIVED_STATS[stat.id];
         if (def?.breakdown) {
-          const cfg = finalConfigOverrides[stat.id] || def.config;
+          const cfg = { ...def.config, ...finalConfigOverrides[stat.id] };
           record.breakdown = def.breakdown(values, cfg);
         }
         result[displayCategory].push(record);
@@ -645,7 +662,7 @@ export function useDerivedStats(options = {}) {
       const gearCalc = values.totalHealth || 0;
       result.vitals.push({
         id: 'saveMaxHealth',
-        name: 'Max Health (in-game)',
+        name: 'Health (save snapshot)',
         value: maxHealth,
         formattedValue: Math.round(maxHealth).toLocaleString(),
         description: `Read from the save file (current health; equals max when full). Calculated max health: ${gearCalc.toFixed(2)}.`,
@@ -751,7 +768,7 @@ export function useDerivedStats(options = {}) {
     offhandAbilities,
 
     // Config overrides applied
-    configOverrides,
+    configOverrides: finalConfigOverrides,
   };
 }
 
@@ -765,51 +782,13 @@ export function useDerivedStats(options = {}) {
 export function resolveStatId(rawTag) {
   if (!rawTag) return null;
 
-  // Try direct lookup first
-  const statType = getStatType(rawTag);
-  if (statType) return statType.id;
+  // Use the same resolver as extraction, skills, and character sharing.
+  // Never discard the ability namespace before attempting an exact match.
+  const known = getStatType(rawTag) || findStatForAttribute(rawTag);
+  if (known) return known.id;
 
-  // Extract last segment and try again
-  const parts = rawTag.split('.');
-  const lastPart = parts[parts.length - 1];
-
-  // Try exact pattern match first (preserves % suffix for bonus stats)
-  // This ensures Luck%6 matches luckBonus patterns before luck patterns
-  const lastPartLower = lastPart.toLowerCase();
-  for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
-    if (stat.patterns?.some(p => p.toLowerCase() === lastPartLower)) {
-      return id;
-    }
-  }
-
-  // Try tail match (last 2+ segments) for deeper paths
-  if (parts.length > 1) {
-    const tail = parts.slice(-2).join('.');
-    const tailLower = tail.toLowerCase();
-    for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
-      if (stat.patterns?.some(p => p.toLowerCase() === tailLower)) {
-        return id;
-      }
-    }
-  }
-
-  // Normalize: strip %6 suffix and try loose matching as fallback
-  const normalized = lastPart
-    .replace(/%6?$/, '')  // Remove %6 or % suffix
-    .replace(/Bonus$/, 'Bonus')
-    .toLowerCase();
-
-  for (const [id, stat] of Object.entries(STAT_REGISTRY)) {
-    if (stat.patterns?.some(p => p.toLowerCase().includes(normalized))) {
-      return id;
-    }
-  }
-
-  // Log unmapped stats for debugging
-  console.warn(`[useDerivedStats] Unmapped stat pattern: "${rawTag}" (normalized: "${normalized}")`);
-
-  // Fallback: use the last part as-is (camelCase)
-  return lastPart.charAt(0).toLowerCase() + lastPart.slice(1);
+  // Keep unknown namespaces intact for diagnostics and share round-trips.
+  return rawTag;
 }
 
 export default useDerivedStats;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../common';
 import { getMonogramsForSlot, getMonogramName } from '../../utils/monogramRegistry.js';
-import { getMonogramPoolForEquipmentSlot } from '../../models/MonogramSet.js';
+import { getMonogramPoolForEquipmentSlot, summarizeFarmMonograms } from '../../models/MonogramSet.js';
 
 export function MonogramSetPanel({
   name,
@@ -15,6 +15,7 @@ export function MonogramSetPanel({
   onApply,
   onDelete,
 }) {
+  const farmSummary = summarizeFarmMonograms(currentEntries);
   return (
     <div className="monogram-set-panel">
       <div className="monogram-set-controls">
@@ -48,6 +49,22 @@ export function MonogramSetPanel({
         <Button icon="🗑️" onClick={onDelete} disabled={!selectedSet}>
           Delete
         </Button>
+      </div>
+
+      <div className="monogram-farm-summary" aria-label="Equipped farm monograms">
+        {farmSummary.map(effect => (
+          <div key={effect.id}>
+            <strong>{effect.name}</strong>
+            <span>{effect.copies}/{effect.maxCopies} copies · {effect.chance}% chance</span>
+            <small>
+              {effect.excessCopies > 0
+                ? `${effect.excessCopies} excess — no added chance`
+                : effect.remainingCopies > 0
+                  ? `${effect.remainingCopies} more to cap`
+                  : 'At cap'}
+            </small>
+          </div>
+        ))}
       </div>
 
       {currentEntries.length > 0 ? (

@@ -1,4 +1,5 @@
 import { getUniqueSlotKeyMap } from '../utils/equipmentParser.js';
+import { FARM_MONOGRAM_CAPS } from '../utils/monogramConfigs.js';
 import { normalizeMonogramSlots } from '../utils/monogramOverrides.js';
 
 export const MONOGRAM_SET_VERSION = 1;
@@ -104,4 +105,22 @@ export function deserializeMonogramSet(json) {
   } catch {
     return null;
   }
+}
+
+/** Counts the effective equipped layout, including duplicate positions. */
+export function summarizeFarmMonograms(entries = []) {
+  const counts = {};
+  for (const entry of entries) {
+    for (const id of entry.monogramSlots || []) {
+      if (id) counts[id] = (counts[id] || 0) + 1;
+    }
+  }
+  return FARM_MONOGRAM_CAPS.map(cap => {
+    const copies = counts[cap.id] || 0;
+    const activeCopies = Math.min(copies, cap.maxCopies);
+    return { ...cap, copies, activeCopies,
+      excessCopies: Math.max(0, copies - cap.maxCopies),
+      remainingCopies: Math.max(0, cap.maxCopies - copies),
+      chance: activeCopies * cap.chancePerCopy };
+  });
 }

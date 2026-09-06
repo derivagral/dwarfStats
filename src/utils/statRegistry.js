@@ -1665,12 +1665,22 @@ for (const { key, tag, label } of OFFHAND_AFFINITY_CATEGORIES) {
   };
 }
 
+// Append after the affinity entries: existing share dictionary indices must
+// remain stable. Percent regeneration must never resolve as flat regeneration.
+STAT_REGISTRY.energyRegenBonus = {
+  id: 'energyRegenBonus', name: 'Energy Regen Bonus', category: 'defense',
+  patterns: ['Base.EnergyRegeneration%', 'Base.EnergyRegeneration%6', 'EnergyRegeneration%', 'EnergyRegeneration%6'],
+  canonical: 'Base.EnergyRegeneration%', isPercent: true,
+  format: v => `+${(v * 100).toFixed(1)}%`,
+  description: 'Percentage bonus to energy regeneration',
+};
+
 // ============================================================================
 // ADDITIONAL DISPLAY PATTERNS (for attributes not in stat calculations)
 // ============================================================================
 
 // These are display-only mappings for attributes that appear in tooltips
-// but don't need to be tracked as stats
+// but don't need to be tracked as stats.
 export const ADDITIONAL_DISPLAY_PATTERNS = {
   'CraftingSpecks': 'Crafting Specks',
   'Amount': 'Amount',

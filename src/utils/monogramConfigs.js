@@ -43,11 +43,10 @@ export const MONOGRAM_CALC_CONFIGS = {
   },
   'Bloodlust.Damage%PerStack': {
     displayName: 'Bloodlust Damage',
-    derivedStatId: 'monogramValueFromStrength',
+    derivedStatId: 'bloodlustPhysicalDamageBonus',
     config: {
-      sourceStat: 'bloodlustStacks',
-      ratio: 1,
-      baseValue: 2, // Extra 2% damage per stack
+      enabled: true,
+      damagePerStack: 2,
     },
   },
 
@@ -59,6 +58,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Dark Essence',
     effects: [
       { derivedStatId: 'darkEssenceStacks', config: { enabled: true, maxStacks: 500, currentStacks: 500 } },
+      { derivedStatId: 'essence', config: {} },
     ],
   },
 
@@ -70,6 +70,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Bloodlust Life',
     effects: [
       { derivedStatId: 'lifeBuffStacks', config: { enabled: true, maxStacks: 100, currentStacks: 100 } },
+      { derivedStatId: 'lifeBuffBonus', config: {} },
     ],
   },
   'Bloodlust.MoreLife.Highest': {
@@ -85,15 +86,27 @@ export const MONOGRAM_CALC_CONFIGS = {
   // 1% crit per 20 essence
   // ===========================================================================
   'BonusCritDamage%ForEssence': {
-    displayName: 'Crit from Essence',
+    displayName: 'Crit Damage from Essence',
     effects: [
-      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20 } },
+      { derivedStatId: 'critDamageFromEssence', config: { enabled: true, essencePerCrit: 10, critPerInterval: 1.5 } },
     ],
   },
   'GainCritChanceForHighest': {
     displayName: 'Crit from Stats',
     effects: [
-      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20 } },
+      { derivedStatId: 'critChanceFromHighest', config: { enabled: true, statInterval: 50 } },
+    ],
+  },
+  'BonusCritChance%ForEssence': {
+    displayName: 'Crit Chance from Essence',
+    effects: [
+      { derivedStatId: 'critChanceFromEssence', config: { enabled: true, essencePerCrit: 20, critPerInterval: 1.5 } },
+    ],
+  },
+  'GainCritDamageForCritChance': {
+    displayName: 'Crit Damage from Overcrit',
+    effects: [
+      { derivedStatId: 'critDamageFromOvercrit', config: { enabled: true } },
     ],
   },
 
@@ -104,19 +117,19 @@ export const MONOGRAM_CALC_CONFIGS = {
   'ElementForCritChance.Fire': {
     displayName: 'Fire from Crit',
     effects: [
-      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'fire', critThreshold: 100, elementPerCrit: 3 } },
+      { derivedStatId: 'fireFromCritChance', config: { enabled: true, elementType: 'fire', critThreshold: 100, elementPerCrit: 3 } },
     ],
   },
   'ElementForCritChance.Lightning': {
     displayName: 'Lightning from Crit',
     effects: [
-      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'lightning', critThreshold: 100, elementPerCrit: 3 } },
+      { derivedStatId: 'lightningFromCritChance', config: { enabled: true, elementType: 'lightning', critThreshold: 100, elementPerCrit: 3 } },
     ],
   },
   'ElementForCritChance.Arcane': {
     displayName: 'Arcane from Crit',
     effects: [
-      { derivedStatId: 'elementFromCritChance', config: { enabled: true, elementType: 'arcane', critThreshold: 100, elementPerCrit: 3 } },
+      { derivedStatId: 'arcaneFromCritChance', config: { enabled: true, elementType: 'arcane', critThreshold: 100, elementPerCrit: 3 } },
     ],
   },
 
@@ -127,7 +140,7 @@ export const MONOGRAM_CALC_CONFIGS = {
   'ElementalToHp%.Fire': {
     displayName: 'Life from Fire',
     effects: [
-      { derivedStatId: 'lifeFromElement', config: { enabled: true, elementPer: 30, lifeBonus: 2 } },
+      { derivedStatId: 'lifeFromElement', config: { enabled: true, sourceStat: 'fireFromCritChance', elementPer: 30, lifeBonus: 2 } },
     ],
   },
 
@@ -152,6 +165,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Shroud HP',
     description: '+3% life per shroud stack (50 stacks max = 150%)',
     effects: [
+      { derivedStatId: 'shroudLifeBonus', config: {} },
       { derivedStatId: 'shroudStacks', config: { enabled: true, maxStacks: 50, currentStacks: 50 } },
     ],
   },
@@ -353,7 +367,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+15 armor per paragon level (maul/spear/sword/2h)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonArmorBonus', config: { armorPerLevel: 15 } },
+      { derivedStatId: 'paragonArmorBonus', config: { enabled: true, armorPerLevel: 15 } },
     ],
   },
   'MeleeParagon.BaseDamage': {
@@ -361,7 +375,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+2 flat damage per paragon level (maul/spear/sword/2h)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonDamageBonus', config: { damagePerLevel: 2 } },
+      { derivedStatId: 'paragonDamageBonus', config: { enabled: true, damagePerLevel: 2 } },
     ],
   },
   'MeleeParagon.MaxHp': {
@@ -369,7 +383,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+10 flat HP per paragon level (maul/spear/sword/2h)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonHpBonus', config: { hpPerLevel: 10 } },
+      { derivedStatId: 'paragonHpBonus', config: { enabled: true, hpPerLevel: 10 } },
     ],
   },
   'RangedParagon.Armor': {
@@ -377,7 +391,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+15 armor per paragon level (bow/magery/scythe/fist)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonArmorBonus', config: { armorPerLevel: 15 } },
+      { derivedStatId: 'paragonArmorBonus', config: { enabled: true, armorPerLevel: 15 } },
     ],
   },
   'RangedParagon.BaseDamage': {
@@ -385,7 +399,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+2 flat damage per paragon level (bow/magery/scythe/fist)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonDamageBonus', config: { damagePerLevel: 2 } },
+      { derivedStatId: 'paragonDamageBonus', config: { enabled: true, damagePerLevel: 2 } },
     ],
   },
   'RangedParagon.MaxHp': {
@@ -393,7 +407,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     description: '+10 flat HP per paragon level (bow/magery/scythe/fist)',
     effects: [
       { derivedStatId: 'paragonLevel', config: { enabled: true } },
-      { derivedStatId: 'paragonHpBonus', config: { hpPerLevel: 10 } },
+      { derivedStatId: 'paragonHpBonus', config: { enabled: true, hpPerLevel: 10 } },
     ],
   },
 
@@ -436,7 +450,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Draw Blood',
     description: '+1% damage per bloodlust stack (100% at max, requires Bloodlust.Base)',
     effects: [
-      { derivedStatId: 'bloodlustDrawBloodBonus', config: { damagePerStack: 1 } },
+      { derivedStatId: 'bloodlustDrawBloodBonus', config: { enabled: true, damagePerStack: 1 } },
     ],
   },
 
@@ -848,6 +862,41 @@ export const MONOGRAM_CALC_CONFIGS = {
     ],
   },
 };
+
+/**
+ * Numeric contributions confirmed to add per equipped/granted copy. Scale the
+ * contribution once, before its consumers run; never multiply a total pool or
+ * the buff's stack count. Base buffs and unverified proc/mining effects are
+ * deliberately absent. Paragon/spawn effects already handle instanceCount.
+ * Keep shared-target configs identical here (e.g. the two essence-flat tags).
+ */
+export const ADDITIVE_MONOGRAM_STATS = new Set([
+  'essence', 'lifeBuffBonus', 'shroudLifeBonus', 'bloodlustLifeBonus',
+  'bloodlustPhysicalDamageBonus', 'bloodlustDrawBloodBonus',
+  'critDamageFromEssence', 'critChanceFromHighest', 'critChanceFromEssence',
+  'critDamageFromOvercrit', 'fireFromCritChance', 'lightningFromCritChance',
+  'arcaneFromCritChance', 'lifeFromElement', 'damageFromHealth',
+  'damageCircleLifeBonus', 'distanceProcsDamageBonus', 'distanceProcsNearDamageBonus',
+  'eliteAttackSpeedBonus', 'eliteEnergyBonus', 'extraLifestealBonus',
+  'flatDamageMonogramBonus', 'noEnergyDamageBonus', 'highestStatDamageBonus',
+  'critDamageFromArmor', 'lifeBonusFromCritChance', 'energyDamageBonus',
+  'invSlotBossDamageBonus', 'invSlotCritDamageBonus', 'invSlotDamageBonus',
+  'colossusDamageBonus', 'critChanceFromEnergyRegen', 'damagePercentForStat2',
+  'damageNoPotionBonus', 'chargedSecondaryDamageBonus', 'statDamageFlatBonus',
+  'elementalFromEssence', 'elementalFlatFromEssence', 'healthPercentFromHighest',
+  'berserkerMaxDrFlatDamage', 'potionSlotsFromAttributes', 'statBonusFromPotions',
+  'elementalFromHighest', 'shroudElementalFromHighest', 'phasingDurationDamage',
+  'damageFromEssence',
+]);
+
+// Farm-set targets confirmed by the maintainer; share the caps with the editor.
+export const FARM_MONOGRAM_CAPS = [
+  { id: 'ChanceToSpawnAnotherElite', name: 'Spawn another elite', derivedStatId: 'eliteSpawnChance' },
+  { id: 'ChanceToSpawnContainer', name: 'Container on elite kill', derivedStatId: 'containerSpawnChance' },
+].map(effect => {
+  const { chancePerInstance, maxChance } = MONOGRAM_CALC_CONFIGS[effect.id].effects[0].config;
+  return { ...effect, chancePerCopy: chancePerInstance, maxCopies: maxChance / chancePerInstance };
+});
 
 /**
  * Mutually exclusive derived-stat pairs from monogram effects.

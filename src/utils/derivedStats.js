@@ -81,9 +81,9 @@ export function resolveElementRouting(stats, config = {}) {
   // Per-element bonus totals (decimal). Mine buffs are element-typed too, so
   // they route with their element (stored in percent-points, hence /100).
   const totals = {
-    fire: (stats.totalFireDamageBonus || 0) + (stats.fireMineBonus || 0) / 100,
-    arcane: (stats.totalArcaneDamageBonus || 0) + (stats.arcaneMineBonus || 0) / 100,
-    lightning: (stats.totalLightningDamageBonus || 0) + (stats.lightningMineBonus || 0) / 100,
+    fire: (stats.totalFireDamageBonus || 0) + ((stats.fireMineBonus || 0) + (stats.fireFromCritChance || 0)) / 100,
+    arcane: (stats.totalArcaneDamageBonus || 0) + ((stats.arcaneMineBonus || 0) + (stats.arcaneFromCritChance || 0)) / 100,
+    lightning: (stats.totalLightningDamageBonus || 0) + ((stats.lightningMineBonus || 0) + (stats.lightningFromCritChance || 0)) / 100,
   };
 
   const conversions = ELEMENT_CONVERSIONS.filter(c => (stats[c.statId] || 0) > 0);
@@ -174,11 +174,112 @@ function attributeEffect({ id, name, attributeId, totalId, targetStatId }) {
   };
 }
 
+function elementOvercritEffect(element) {
+  return {
+    id: `${element}FromCritChance`, name: `${ELEMENT_LABELS[element]} from Overcrit`,
+    category: 'monogram-chain', layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['totalCritChance'],
+    config: { enabled: false, critThreshold: 100, elementPerCrit: 3 },
+    calculate: (stats, cfg) => cfg.enabled
+      ? Math.max(0, (stats.totalCritChance || 0) * 100 - cfg.critThreshold) * cfg.elementPerCrit : 0,
+    format: v => `+${v.toFixed(1)}%`,
+    description: `3% ${ELEMENT_LABELS[element]} damage per critical chance point above 100%`,
+  };
+}
+
 // ============================================================================
 // DERIVED STAT DEFINITIONS
 // ============================================================================
 
 export const DERIVED_STATS = {
+  fireFromCritChance: elementOvercritEffect('fire'),
+  arcaneFromCritChance: elementOvercritEffect('arcane'),
+  lightningFromCritChance: elementOvercritEffect('lightning'),
+  bloodlustPhysicalDamageBonus: {
+    id: 'bloodlustPhysicalDamageBonus', name: 'Physical Damage (Bloodlust)', category: 'monogram-chain',
+    layer: LAYERS.SECONDARY_DERIVED, dependencies: ['bloodlustStacks'],
+    config: { enabled: false, damagePerStack: 2 },
+    calculate: (stats, cfg) => cfg.enabled ? (stats.bloodlustStacks || 0) * cfg.damagePerStack : 0,
+    format: v => `+${v.toFixed(1)}%`, description: '2% physical damage per Bloodlust stack',
+  },
+  bloodlustArmorBonus: {
+    id: 'bloodlustArmorBonus', name: 'Armor (Bloodlust)', category: 'monogram-buff',
+    layer: LAYERS.SECONDARY_DERIVED, dependencies: ['bloodlustStacks'],
+    config: { armorPerStack: 0.01 },
+    calculate: (stats, cfg) => (stats.bloodlustStacks || 0) * cfg.armorPerStack,
+    format: v => `+${(v * 100).toFixed(1)}%`,
+    description: '1% armor per Bloodlust stack, additive with other armor percentage bonuses',
+  },
+  critDamageFromOvercrit: {
+    id: 'critDamageFromOvercrit', name: 'Crit Damage (Overcrit)', category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED, dependencies: ['totalCritChance'],
+    config: { enabled: false },
+    calculate: (stats, cfg) => cfg.enabled ? Math.max(0, (stats.totalCritChance || 0) * 100 - 100) : 0,
+    format: v => `+${v.toFixed(1)}%`, description: '1% critical damage per critical chance point above 100%',
+  },
+  // Canonical percent totals are decimals. Monogram intermediates retain
+  // display points for compatibility, converted exactly once at this boundary.
+  totalCritChance: {
+    id: 'totalCritChance', name: 'Critical Chance', category: 'offense',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['critChance', 'critChanceFromHighest', 'critChanceFromEssence', 'critChanceFromEnergyRegen', 'juggernautCritChance'],
+    calculate: stats => (stats.critChance || 0) + (
+      (stats.critChanceFromHighest || 0) + (stats.critChanceFromEssence || 0)
+      + (stats.critChanceFromEnergyRegen || 0) + (stats.juggernautCritChance || 0)
+    ) / 100,
+    format: v => `${(v * 100).toFixed(1)}%`,
+    description: 'Global critical chance including stat, essence, energy regeneration and Juggernaut bonuses; uncapped for overcrit conversions',
+    breakdown: stats => [
+      term(stats, 'critChance', '+', 'pct', { fullName: 'Base critical chance', value: stats.critChance || 0 }),
+      ...['critChanceFromHighest', 'critChanceFromEssence', 'critChanceFromEnergyRegen', 'juggernautCritChance']
+        .map(id => term(stats, id, '+', 'pct', { value: (stats[id] || 0) / 100 })),
+      term(stats, 'totalCritChance', '=', 'pct', { isSubtotal: true }),
+    ],
+  },
+  finalCritDamage: {
+    id: 'finalCritDamage', name: 'Critical Damage with Effects', category: 'offense',
+    layer: LAYERS.TERTIARY_DERIVED,
+    dependencies: ['totalCritDamage', 'bloodlustCritDamageBonus', 'critDamageFromArmor', 'critDamageFromEssence', 'critDamageFromOvercrit', 'invSlotCritDamageBonus'],
+    calculate: stats => (stats.totalCritDamage || 0) + (
+      (stats.bloodlustCritDamageBonus || 0) + (stats.critDamageFromArmor || 0)
+      + (stats.critDamageFromEssence || 0) + (stats.critDamageFromOvercrit || 0) + (stats.invSlotCritDamageBonus || 0)
+    ) / 100,
+    format: v => `${(v * 100).toFixed(1)}%`,
+    description: 'Global critical damage including Bloodlust, armor, essence and inventory bonuses; stance critical damage is added per hit',
+    breakdown: stats => [
+      term(stats, 'totalCritDamage', '+', 'pct', { fullName: 'Gear, skills, race and Agility' }),
+      ...['bloodlustCritDamageBonus', 'critDamageFromArmor', 'critDamageFromEssence', 'critDamageFromOvercrit', 'invSlotCritDamageBonus']
+        .map(id => term(stats, id, '+', 'pct', { value: (stats[id] || 0) / 100 })),
+      term(stats, 'finalCritDamage', '=', 'pct', { isSubtotal: true }),
+    ],
+  },
+  critChanceFromHighest: {
+    id: 'critChanceFromHighest', name: 'Crit Chance (Highest Stat)', category: 'monogram-chain',
+    layer: LAYERS.PRIMARY_DERIVED, dependencies: ['highestAttribute'],
+    config: { enabled: false, statInterval: 50 },
+    calculate: (stats, cfg) => cfg.enabled ? Math.floor((stats.highestAttribute || 0) / cfg.statInterval) : 0,
+    format: v => `+${v.toFixed(1)}%`,
+    description: '1% critical chance per 50 highest stat',
+  },
+  critDamageFromEssence: {
+    id: 'critDamageFromEssence', name: 'Crit Damage (Essence)', category: 'monogram-chain',
+    layer: LAYERS.TERTIARY_DERIVED, dependencies: ['essence'],
+    config: { enabled: false, essencePerCrit: 10, critPerInterval: 1.5 },
+    calculate: (stats, cfg) => cfg.enabled ? Math.floor((stats.essence || 0) / cfg.essencePerCrit) * cfg.critPerInterval : 0,
+    format: v => `+${v.toFixed(1)}%`,
+    description: '1.5% critical damage per 10 essence',
+  },
+  totalMaxEnergy: {
+    id: 'totalMaxEnergy', name: 'Maximum Energy', category: 'defense',
+    layer: LAYERS.SECONDARY_DERIVED, dependencies: ['maxEnergy', 'eliteEnergyBonus', 'noEnergyDamageBonus'],
+    config: { baseEnergy: 100 },
+    // Legacy callers supplied an absolute `energy` value. Imported maxEnergy
+    // affixes are additions to the base pool, like the elite blessing.
+    calculate: (stats, cfg) => stats.noEnergyDamageBonus > 0 ? 0
+      : (stats.energy ?? (cfg.baseEnergy + (stats.maxEnergy || 0))) + (stats.eliteEnergyBonus || 0),
+    format: v => v.toFixed(1),
+    description: 'Base energy plus maximum-energy affixes and the elite blessing',
+  },
   // ---------------------------------------------------------------------------
   // LAYER 1: TOTAL ATTRIBUTES (base + bonus%)
   // ---------------------------------------------------------------------------
@@ -335,10 +436,10 @@ export const DERIVED_STATS = {
     name: 'Total Armor',
     category: 'totals',
     layer: LAYERS.TOTALS,
-    dependencies: ['armor', 'armorBonus', 'strengthArmorBonus'],
+    dependencies: ['armor', 'armorBonus', 'strengthArmorBonus', 'paragonArmorBonus', 'bloodlustArmorBonus'],
     calculate: (stats) => {
-      const base = stats.armor || 0;
-      const bonus = (stats.armorBonus || 0) + (stats.strengthArmorBonus || 0);
+      const base = (stats.armor || 0) + (stats.paragonArmorBonus || 0);
+      const bonus = (stats.armorBonus || 0) + (stats.strengthArmorBonus || 0) + (stats.bloodlustArmorBonus || 0);
       return Math.floor(base * (1 + bonus));
     },
     format: v => v.toFixed(0),
@@ -349,9 +450,9 @@ export const DERIVED_STATS = {
     name: 'Total Health',
     category: 'totals',
     layer: LAYERS.TOTALS,
-    dependencies: ['health', 'healthBonus', 'staminaHealthBonus'],
+    dependencies: ['health', 'healthBonus', 'staminaHealthBonus', 'paragonHpBonus'],
     calculate: (stats) => {
-      const base = stats.health || 0;
+      const base = (stats.health || 0) + (stats.paragonHpBonus || 0);
       const bonus = (stats.healthBonus || 0) + (stats.staminaHealthBonus || 0);
       return base * (1 + bonus);
     },
@@ -394,11 +495,17 @@ export const DERIVED_STATS = {
     description: 'Health regeneration including the Stamina dependency',
   },
   totalEnergyRegen: {
-    id: 'totalEnergyRegen', name: 'Energy Regen', category: 'totals', layer: LAYERS.TOTALS,
-    dependencies: ['energyRegen', 'enduranceEnergyRegen'],
-    calculate: stats => (stats.energyRegen || 0) + (stats.enduranceEnergyRegen || 0),
+    id: 'totalEnergyRegen', name: 'Energy Regen', category: 'defense', layer: LAYERS.TOTALS,
+    dependencies: ['energyRegen', 'enduranceEnergyRegen', 'energyRegenBonus'],
+    calculate: stats => ((stats.energyRegen || 0) + (stats.enduranceEnergyRegen || 0)) * (1 + (stats.energyRegenBonus || 0)),
     format: v => `+${v.toFixed(2)}/s`,
-    description: 'Energy regeneration including the Endurance dependency',
+    description: 'Energy regeneration including Endurance and percentage bonuses',
+    breakdown: stats => [
+      term(stats, 'energyRegen', '+', 'flat', { fullName: 'Flat energy regeneration', value: stats.energyRegen || 0 }),
+      term(stats, 'enduranceEnergyRegen', '+', 'flat'),
+      term(stats, 'energyRegenBonus', '×', 'pct', { fullName: 'Regeneration multiplier', value: 1 + (stats.energyRegenBonus || 0) }),
+      term(stats, 'totalEnergyRegen', '=', 'flat', { isSubtotal: true }),
+    ],
   },
   totalXpBonus: {
     id: 'totalXpBonus', name: 'XP Bonus', category: 'totals', layer: LAYERS.TOTALS,
@@ -1259,7 +1366,7 @@ export const DERIVED_STATS = {
     name: 'Energy Elemental Damage',
     category: 'monogram-buff',
     layer: LAYERS.PRIMARY_DERIVED,
-    dependencies: [],
+    dependencies: ['totalMaxEnergy'],
     config: {
       enabled: false,
       baseEnergy: 100,      // energy threshold
@@ -1268,7 +1375,7 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.energyDamageBonus.config;
       if (!config.enabled) return 0;
-      const energy = stats.energy || 0;
+      const energy = stats.totalMaxEnergy || 0;
       const excess = Math.max(0, energy - config.baseEnergy);
       return excess * config.damagePerEnergy;
     },
@@ -1413,10 +1520,12 @@ export const DERIVED_STATS = {
     layer: LAYERS.SECONDARY_DERIVED,
     dependencies: ['paragonLevel'],
     config: {
+      enabled: false,
       armorPerLevel: 15,
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.paragonArmorBonus.config;
+      if (!config.enabled) return 0;
       const level = stats.paragonLevel || 0;
       return level * config.armorPerLevel * (config.instanceCount || 1);
     },
@@ -1430,10 +1539,12 @@ export const DERIVED_STATS = {
     layer: LAYERS.SECONDARY_DERIVED,
     dependencies: ['paragonLevel'],
     config: {
+      enabled: false,
       damagePerLevel: 2,
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.paragonDamageBonus.config;
+      if (!config.enabled) return 0;
       const level = stats.paragonLevel || 0;
       return level * config.damagePerLevel * (config.instanceCount || 1);
     },
@@ -1447,10 +1558,12 @@ export const DERIVED_STATS = {
     layer: LAYERS.SECONDARY_DERIVED,
     dependencies: ['paragonLevel'],
     config: {
+      enabled: false,
       hpPerLevel: 10,
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.paragonHpBonus.config;
+      if (!config.enabled) return 0;
       const level = stats.paragonLevel || 0;
       return level * config.hpPerLevel * (config.instanceCount || 1);
     },
@@ -1558,7 +1671,7 @@ export const DERIVED_STATS = {
       const config = cfg || DERIVED_STATS.critChanceFromEssence.config;
       if (!config.enabled) return 0;
       const essence = stats.essence || 0;
-      return Math.floor(essence / config.essencePerCrit);
+      return Math.floor(essence / config.essencePerCrit) * (config.critPerInterval ?? 1);
     },
     format: v => `+${v.toFixed(0)}%`,
     description: 'Critical chance from Essence (1% per 20 essence)',
@@ -1573,7 +1686,7 @@ export const DERIVED_STATS = {
     name: 'Element% (Crit)',
     category: 'monogram-chain',
     layer: LAYERS.TERTIARY_DERIVED,
-    dependencies: ['critChanceFromEssence'],
+    dependencies: ['totalCritChance'],
     config: {
       enabled: false,
       elementType: 'fire', // fire, arcane, or lightning
@@ -1584,9 +1697,7 @@ export const DERIVED_STATS = {
       const config = cfg || DERIVED_STATS.elementFromCritChance.config;
       if (!config.enabled) return 0;
       // Total crit = base crit + crit from essence + other sources
-      const baseCrit = stats.critChance || 0;
-      const essenceCrit = stats.critChanceFromEssence || 0;
-      const totalCrit = baseCrit + essenceCrit;
+      const totalCrit = (stats.totalCritChance || 0) * 100;
       const excessCrit = Math.max(0, totalCrit - config.critThreshold);
       return excessCrit * config.elementPerCrit;
     },
@@ -1603,7 +1714,7 @@ export const DERIVED_STATS = {
     name: 'Life% (Crit)',
     category: 'monogram-chain',
     layer: LAYERS.TERTIARY_DERIVED,
-    dependencies: ['critChanceFromEssence'],
+    dependencies: ['totalCritChance'],
     config: {
       enabled: false,
       critThreshold: 100, // Only counts crit over this %
@@ -1612,9 +1723,7 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.lifeBonusFromCritChance.config;
       if (!config.enabled) return 0;
-      const baseCrit = stats.critChance || 0;
-      const essenceCrit = stats.critChanceFromEssence || 0;
-      const totalCrit = baseCrit + essenceCrit;
+      const totalCrit = (stats.totalCritChance || 0) * 100;
       const excessCrit = Math.max(0, totalCrit - config.critThreshold);
       return excessCrit * config.lifePerCrit;
     },
@@ -1640,7 +1749,7 @@ export const DERIVED_STATS = {
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.lifeFromElement.config;
       if (!config.enabled) return 0;
-      const element = stats.elementFromCritChance || 0;
+      const element = stats[config.sourceStat || 'elementFromCritChance'] || 0;
       return Math.floor(element / config.elementPer) * config.lifeBonus;
     },
     format: v => `+${v.toFixed(0)}%`,
@@ -1692,10 +1801,12 @@ export const DERIVED_STATS = {
     layer: LAYERS.SECONDARY_DERIVED,
     dependencies: ['bloodlustStacks'],
     config: {
+      enabled: false,
       damagePerStack: 1, // 1% per stack
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.bloodlustDrawBloodBonus.config;
+      if (!config.enabled) return 0;
       const stacks = stats.bloodlustStacks || 0;
       return stacks * config.damagePerStack;
     },
@@ -2477,7 +2588,7 @@ export const DERIVED_STATS = {
     name: 'Physical Multiplier',
     category: 'edps',
     layer: LAYERS.EDPS,
-    dependencies: ['edpsBothTypesDamageBonus', 'edpsED'],
+    dependencies: ['edpsBothTypesDamageBonus', 'edpsED', 'finalCritDamage', 'bloodlustPhysicalDamageBonus'],
     config: {
       stance: null,
       // Conversion monogram: gain this fraction of the elemental damage bonus
@@ -2487,7 +2598,7 @@ export const DERIVED_STATS = {
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsPhysAdditive.config;
-      const critDmg = stats.totalCritDamage || 0;
+      const critDmg = stats.finalCritDamage || 0;
       const physBonus = stats.damageBonus || 0; // generic damage bonus = physical
       const STANCE_DMG_IDS = {
         maul: 'maulDamage', sword: 'swordDamage', archery: 'archeryDamage',
@@ -2508,17 +2619,16 @@ export const DERIVED_STATS = {
       const stanceDmg = pickStance(STANCE_DMG_IDS);
       const stanceCrit = pickStance(STANCE_CRIT_IDS);
       // Stance-crit-merged sources (formerly the standalone SCHD multiplier)
-      const bloodlustCrit = (stats.bloodlustCritDamageBonus || 0) / 100;
-      const critFromArmor = (stats.critDamageFromArmor || 0) / 100;
       // Physical-only monogram damage%
       const drawBlood = (stats.bloodlustDrawBloodBonus || 0) / 100;
+      const bloodlustDamage = (stats.bloodlustPhysicalDamageBonus || 0) / 100;
       const colossus = (stats.colossusDamageBonus || 0) / 100;
       const invSlot = (stats.invSlotDamageBonus || 0) / 100;
       const bothTypes = stats.edpsBothTypesDamageBonus || 0;
       // Converted elemental damage bonus (edpsED − 1) folded in as physical
       const elemConverted = (config.elemBonusToPhysRatio || 0) * Math.max(0, (stats.edpsED || 1) - 1);
-      return critDmg + physBonus + stanceDmg + stanceCrit + bloodlustCrit + critFromArmor
-        + drawBlood + colossus + invSlot + bothTypes + elemConverted;
+      return critDmg + physBonus + stanceDmg + stanceCrit
+        + drawBlood + bloodlustDamage + colossus + invSlot + bothTypes + elemConverted;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
     description: 'Physical additive bucket: StanceCrit + Crit + PhysDmg% + StanceDmg% + both-types',
@@ -2545,13 +2655,12 @@ export const DERIVED_STATS = {
       return [
         scId ? term(stats, scId, '+', 'pct', { fullName: `Stance Crit Damage (${config.stance || 'highest'})` })
              : { label: 'stanceCritDamage', fullName: 'Stance Crit Damage', op: '+', value: 0, fmt: 'pct' },
-        term(stats, 'totalCritDamage', '+', 'pct'),
+        term(stats, 'finalCritDamage', '+', 'pct'),
         term(stats, 'damageBonus', '+', 'pct', { fullName: 'Physical Damage Bonus' }),
         sdId ? term(stats, sdId, '+', 'pct', { fullName: `Stance Damage (${config.stance || 'highest'})` })
              : { label: 'stanceDamage', fullName: 'Stance Damage', op: '+', value: 0, fmt: 'pct' },
-        { label: 'bloodlustCritDamageBonus', fullName: DERIVED_STATS.bloodlustCritDamageBonus.name, op: '+', value: (stats.bloodlustCritDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
-        { label: 'critDamageFromArmor', fullName: DERIVED_STATS.critDamageFromArmor.name, op: '+', value: (stats.critDamageFromArmor || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'bloodlustDrawBloodBonus', fullName: DERIVED_STATS.bloodlustDrawBloodBonus.name, op: '+', value: (stats.bloodlustDrawBloodBonus || 0) / 100, fmt: 'pct', isMonogram: true },
+        { label: 'bloodlustPhysicalDamageBonus', fullName: DERIVED_STATS.bloodlustPhysicalDamageBonus.name, op: '+', value: (stats.bloodlustPhysicalDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'colossusDamageBonus', fullName: DERIVED_STATS.colossusDamageBonus.name, op: '+', value: (stats.colossusDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'invSlotDamageBonus', fullName: DERIVED_STATS.invSlotDamageBonus.name, op: '+', value: (stats.invSlotDamageBonus || 0) / 100, fmt: 'pct', isMonogram: true },
         { label: 'edpsBothTypesDamageBonus', fullName: 'Damage% (Both Types)', op: '+', value: stats.edpsBothTypesDamageBonus || 0, fmt: 'pct', isMonogram: true },
@@ -2574,7 +2683,8 @@ export const DERIVED_STATS = {
     layer: LAYERS.EDPS,
     dependencies: ['edpsBothTypesDamageBonus', ...AFFINITY_DAMAGE_STAT_IDS],
     config: {
-      offhandItemBonus: 0,  // manual extra; item DamageMultiplier affixes auto-add via stats.damageMultiplier
+      offhandItemBonus: 0, // manual extra, alongside generic and selected-ability affixes
+      abilityDamageStatId: null,
       affinity: 0,          // manual affinity extra (kept for shared builds / overrides)
       // Active affinity categories ('Dragon', 'Orbit', …) — auto-set by
       // useDerivedStats from the equipped offhand abilities (base affinities
@@ -2583,7 +2693,7 @@ export const DERIVED_STATS = {
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsElemAdditive.config;
-      const itemOffhand = (stats.damageMultiplier || 0) + (config.offhandItemBonus || 0);
+      const itemOffhand = (stats.damageMultiplier || 0) + (stats[config.abilityDamageStatId] || 0) + (config.offhandItemBonus || 0);
       const affinity = (config.affinity || 0)
         + resolveAffinityBonuses(stats, config.activeAffinities || []).damage;
       const bothTypes = stats.edpsBothTypesDamageBonus || 0;
@@ -2595,7 +2705,7 @@ export const DERIVED_STATS = {
       const config = cfg || DERIVED_STATS.edpsElemAdditive.config;
       const { perCategory } = resolveAffinityBonuses(stats, config.activeAffinities || []);
       return [
-        { label: 'offhandItems', fullName: 'Offhand Damage% (from items)', op: '+', value: (stats.damageMultiplier || 0) + (config.offhandItemBonus || 0), fmt: 'pct' },
+        { label: 'offhandItems', fullName: 'Offhand Damage% (from items)', op: '+', value: (stats.damageMultiplier || 0) + (stats[config.abilityDamageStatId] || 0) + (config.offhandItemBonus || 0), fmt: 'pct' },
         ...perCategory.map(({ category, damage }) => (
           { label: `${category} affinity`, fullName: `${category} Affinity Damage (skill tree)`, op: '+', value: damage, fmt: 'pct' }
         )),
@@ -2623,7 +2733,9 @@ export const DERIVED_STATS = {
     name: 'ED (Elemental)',
     category: 'edps',
     layer: LAYERS.EDPS,
-    dependencies: ['elementFromCritChance', 'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
+    dependencies: ['elementFromCritChance', 'fireFromCritChance', 'arcaneFromCritChance', 'lightningFromCritChance',
+      'totalFireDamageBonus', 'totalArcaneDamageBonus', 'totalLightningDamageBonus',
+      'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
       'elementalFromEssence', 'elementalFromHighest', 'damagePercentForStat2',
       'berserkerElementalFromHighest',
       'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus',
@@ -2660,7 +2772,7 @@ export const DERIVED_STATS = {
         .map(c => `${ELEMENT_LABELS[c.from]}→${ELEMENT_LABELS[c.to]}`)
         .join(', ');
       const routeSource = config?.activeElement
-        ? 'manual override'
+        ? (config.abilityName || 'manual override')
         : 'auto: highest bonus';
 
       const rows = [
@@ -2683,6 +2795,8 @@ export const DERIVED_STATS = {
         const mineValue = (stats[mineId] || 0) / 100;
         if (included.has(el)) {
           rows.push(term(stats, totalId, '+', 'pct'));
+          const critId = `${el}FromCritChance`;
+          if (stats[critId]) rows.push(term(stats, critId, '+', 'pct', { value: stats[critId] / 100 }));
           if (mineValue) {
             rows.push({ label: mineId, fullName: DERIVED_STATS[mineId].name, op: '+', value: mineValue, fmt: 'pct', isMonogram: true });
           }
@@ -2725,7 +2839,7 @@ export const DERIVED_STATS = {
     name: 'Elemental Crit',
     category: 'edps',
     layer: LAYERS.EDPS,
-    dependencies: [],
+    dependencies: ['finalCritDamage'],
     config: { stance: null, offhandCritFactor: 1 },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.edpsElemCrit.config;
@@ -2740,7 +2854,7 @@ export const DERIVED_STATS = {
       } else {
         for (const id of Object.values(STANCE_CRIT_IDS)) if ((stats[id] || 0) > stanceCrit) stanceCrit = stats[id];
       }
-      const critDmg = stats.totalCritDamage || 0;
+      const critDmg = stats.finalCritDamage || 0;
       const factor = config.offhandCritFactor ?? 1;
       return 1 + factor * (critDmg + stanceCrit);
     },
@@ -2759,7 +2873,7 @@ export const DERIVED_STATS = {
       const factor = config.offhandCritFactor ?? 1;
       return [
         { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
-        term(stats, 'totalCritDamage', '+', 'pct'),
+        term(stats, 'finalCritDamage', '+', 'pct'),
         scId ? term(stats, scId, '+', 'pct', { fullName: `Stance Crit Damage (${config.stance || 'highest'})` })
              : { label: 'stanceCritDamage', fullName: 'Stance Crit Damage', op: '+', value: 0, fmt: 'pct' },
         { label: 'offhandCritFactor', fullName: 'Offhand crit weighting (TODO: 10% of crit chance)', op: '×', value: factor, fmt: 'pct' },
@@ -3114,73 +3228,30 @@ export function getStatsByLayer() {
 }
 
 /**
- * Get calculation order (layers sorted, then topological within layer)
+ * Dependencies determine evaluation order; layers are presentation metadata.
+ * Fail on cycles instead of silently evaluating a partial chain as zero.
+ * Configured source stats participate in the graph just like declared inputs.
  */
-export function getCalculationOrder() {
-  const byLayer = getStatsByLayer();
-  const layers = Object.keys(byLayer).map(Number).sort((a, b) => a - b);
-
+export function getCalculationOrder(configOverrides = {}) {
   const order = [];
-  for (const layer of layers) {
-    // Within each layer, sort by dependencies (simple approach: deps first)
-    const layerStats = byLayer[layer] || [];
-    const sorted = topologicalSortWithinLayer(layerStats);
-    order.push(...sorted);
+  const visited = new Set();
+  const visiting = new Set();
+  function visit(id, chain = []) {
+    if (visited.has(id) || !DERIVED_STATS[id]) return;
+    if (visiting.has(id)) throw new Error(`Stat dependency cycle: ${[...chain, id].join(' → ')}`);
+    visiting.add(id);
+    const stat = DERIVED_STATS[id];
+    const config = { ...stat.config, ...configOverrides[id] };
+    const dependencies = [...(stat.dependencies || [])];
+    if (config.sourceStat) dependencies.push(config.sourceStat);
+    if (config.abilityDamageStatId) dependencies.push(config.abilityDamageStatId);
+    for (const dep of dependencies) visit(dep, [...chain, id]);
+    visiting.delete(id);
+    visited.add(id);
+    order.push({ id, ...stat });
   }
-
+  for (const stat of Object.values(DERIVED_STATS).sort((a, b) => a.layer - b.layer)) visit(stat.id);
   return order;
-}
-
-/**
- * Simple topological sort within a layer
- */
-function topologicalSortWithinLayer(stats) {
-  const statMap = new Map(stats.map(s => [s.id, s]));
-  const inDegree = new Map();
-  const graph = new Map();
-
-  // Initialize
-  for (const stat of stats) {
-    inDegree.set(stat.id, 0);
-    graph.set(stat.id, []);
-  }
-
-  // Build edges (only for deps within this layer)
-  for (const stat of stats) {
-    for (const dep of stat.dependencies || []) {
-      if (statMap.has(dep)) {
-        graph.get(dep).push(stat.id);
-        inDegree.set(stat.id, (inDegree.get(stat.id) || 0) + 1);
-      }
-    }
-  }
-
-  // Kahn's algorithm
-  const queue = [];
-  for (const [id, degree] of inDegree.entries()) {
-    if (degree === 0) queue.push(id);
-  }
-
-  const sorted = [];
-  while (queue.length > 0) {
-    const current = queue.shift();
-    sorted.push(statMap.get(current));
-
-    for (const next of graph.get(current) || []) {
-      const newDegree = inDegree.get(next) - 1;
-      inDegree.set(next, newDegree);
-      if (newDegree === 0) queue.push(next);
-    }
-  }
-
-  // Add any remaining (shouldn't happen if no cycles)
-  for (const stat of stats) {
-    if (!sorted.find(s => s.id === stat.id)) {
-      sorted.push(stat);
-    }
-  }
-
-  return sorted;
 }
 
 /**
@@ -3192,11 +3263,13 @@ function topologicalSortWithinLayer(stats) {
  */
 export function calculateDerivedStats(baseStats, configOverrides = {}) {
   const result = { ...baseStats };
-  const calculationOrder = getCalculationOrder();
+  const calculationOrder = getCalculationOrder(configOverrides);
 
   for (const stat of calculationOrder) {
-    const config = configOverrides[stat.id] || stat.config;
-    result[stat.id] = stat.calculate(result, config);
+    const config = { ...stat.config, ...configOverrides[stat.id] };
+    // Only explicit monogram contribution configs carry this multiplier.
+    // Consumers therefore see the stacked source and do not scale it again.
+    result[stat.id] = stat.calculate(result, config) * (config.monogramCopies ?? 1);
   }
 
   return result;
@@ -3207,7 +3280,7 @@ export function calculateDerivedStats(baseStats, configOverrides = {}) {
  */
 export function calculateDerivedStatsDetailed(baseStats, configOverrides = {}) {
   const values = calculateDerivedStats(baseStats, configOverrides);
-  const calculationOrder = getCalculationOrder();
+  const calculationOrder = getCalculationOrder(configOverrides);
 
   const detailed = [];
   for (const stat of calculationOrder) {

@@ -104,7 +104,7 @@ export function createItemShare(item) {
       // Resolve to registry ID via rawTag for ability-specific stats
       // (e.g. rawTag "EasyRPG...EnemyDeath.DamageMultiplier" → registry ID "enemyDeathDamage")
       const registryEntry = s.rawTag ? findStatForAttribute(s.rawTag) : null;
-      const statKey = registryEntry ? registryEntry.id : s.stat;
+      const statKey = registryEntry ? registryEntry.id : (s.rawTag || s.stat);
       return [
         encodeIdOrString(STAT_DICT, statKey),
         s.value ?? null,

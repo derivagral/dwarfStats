@@ -40,18 +40,16 @@ describe('derivedStats', () => {
   });
 
   describe('getCalculationOrder', () => {
-    it('should return stats in layer order', () => {
+    it('evaluates all derived dependencies before their consumers, across layers', () => {
       const order = getCalculationOrder();
 
       expect(Array.isArray(order)).toBe(true);
       expect(order.length).toBeGreaterThan(0);
 
-      // Verify layer ordering - each stat should be in same or higher layer than previous
-      let lastLayer = -1;
+      const positions = new Map(order.map((stat, index) => [stat.id, index]));
       for (const stat of order) {
-        expect(stat.layer).toBeGreaterThanOrEqual(lastLayer);
-        if (stat.layer > lastLayer) {
-          lastLayer = stat.layer;
+        for (const dep of stat.dependencies || []) {
+          if (positions.has(dep)) expect(positions.get(dep), `${dep} → ${stat.id}`).toBeLessThan(positions.get(stat.id));
         }
       }
     });
@@ -663,4 +661,3 @@ describe('derivedStats', () => {
     });
   });
 });
-

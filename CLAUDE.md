@@ -220,6 +220,12 @@ Edit `src/components/character/ItemDetailTooltip.jsx` - handles edge detection a
 
 ## Derived Stats Calculation Engine
 
+See `docs/calculation-model.md` for the current on-hit scope, effect-plumbing
+changes and unresolved game-rule questions. Dependencies now determine order
+across layers; the layer labels below remain presentation groupings. Crit
+totals include chained effects, elemental overcrit retains its element, and
+offhand headlines consistently describe the dominant equipped ability.
+
 Layer-based calculation system in `src/utils/derivedStats.js`:
 
 ```

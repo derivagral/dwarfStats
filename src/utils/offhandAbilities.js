@@ -20,6 +20,7 @@
  */
 
 import playerAbilitiesGenerated from '../data/playerAbilities.generated.json';
+import { STAT_REGISTRY } from './statRegistry.js';
 
 const ABILITIES = playerAbilitiesGenerated.abilities || {};
 const ABILITY_TAG_PREFIX = 'EasyRPG.Attributes.Abilities.';
@@ -32,8 +33,15 @@ export function getAbilityDef(abilityKey) {
 function statTags(item) {
   const baseStats = item?.baseStats || item?.model?.baseStats || [];
   return baseStats
-    .map(stat => stat.rawTag || stat.stat || stat.name)
-    .filter(tag => typeof tag === 'string');
+    .filter(stat => stat.value !== 0)
+    .map(stat => stat.rawTag || STAT_REGISTRY[stat.stat]?.canonical || stat.stat || stat.name)
+    .filter(tag => typeof tag === 'string')
+    .map(tag => {
+      // Shared items carry canonical short paths, save imports full paths.
+      if (tag.startsWith(ABILITY_TAG_PREFIX)) return tag;
+      const short = tag.replace(/^Abilities\./, '');
+      return ABILITIES[short.split('.')[0]] ? `${ABILITY_TAG_PREFIX}${short}` : tag;
+    });
 }
 
 /**
@@ -104,7 +112,7 @@ export function detectEquippedAbilities(equippedItems = []) {
   }
 
   // Most-equipped ability first — the dominant proc of the build
-  abilities.sort((a, b) => b.itemCount - a.itemCount);
+  abilities.sort((a, b) => b.itemCount - a.itemCount || a.key.localeCompare(b.key));
 
   return { abilities, offhandCount: offhandItems.length };
 }

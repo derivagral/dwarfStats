@@ -48,16 +48,16 @@ const hitInputs = ancestors(HIT_OUTPUTS);
 // the status so a configured target cannot silently imply complete support.
 export const MONOGRAM_COVERAGE_NOTES = {
   'DamageCircle.DamageForStats.Highest': 'Legacy mapping uses health; export says 3 base damage per 25 highest stat. Needs correction and UV activation.',
-  'DamageCircle.ExtraDamage': '1% per 35 health regen; UV-only offhand bucket remains provisional.',
+  'DamageCircle.ExtraDamage': '1% per 35 health regen, additive with item Offhand Damage Bonus% (maintainer-confirmed). UV-specific routing is not implemented.',
   'DamageCircle.DamageForHealthRegen': 'Legacy selector ID; verify against DamageCircle.ExtraDamage before implementing.',
-  'GainDamageForHPLoseArmor': 'Damage is calculated; the armor drawback is not modeled.',
+  'GainDamageForHPLoseArmor': 'Health-derived damage is calculated. Despite the legacy tag name, the current export states no armor drawback; do not infer one from the ID.',
   'DamageBonusAnd51Damage': 'Flat damage is calculated; incoming-damage drawback is not modeled.',
   'Bloodlust.DrawLife': 'Life bonus is displayed; complete final-health reconstruction is pending.',
   'Bloodlust.MoreLife.Highest': 'Life bonus is displayed; complete final-health reconstruction is pending.',
   'Shroud.ExtraHp': 'Life bonus is displayed; complete final-health reconstruction is pending.',
   'ElementalToHp%.Fire': 'Uses the overcrit fire contribution; full elemental-to-health reconstruction is pending.',
-  'PotionSlotForStat.Highest': 'Legacy slot formula needs grant gating and actual available-slot accounting.',
-  'Damage%ForPotions': 'Legacy slot/damage chain needs grant gating and final-output verification.',
+  'PotionSlotForStat.Highest': 'Requires its grant. Actual available-potion accounting is separate from capacity.',
+  'Damage%ForPotions': 'Requires its grant; available-potion count and final damage routing remain incomplete.',
 };
 for (const element of ['Fire', 'Arcane', 'Lightning']) {
   MONOGRAM_COVERAGE_NOTES[`Colossus.ElementalBonusForHighestStat.${element}`] =

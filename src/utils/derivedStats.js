@@ -603,10 +603,12 @@ export const DERIVED_STATS = {
     layer: LAYERS.PRIMARY_DERIVED,
     dependencies: ['highestAttribute'],
     config: {
+      enabled: false,
       ratio: 50,  // per 50 of highest stat
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.potionSlotsFromAttributes.config;
+      if (!config.enabled) return 0;
       const highest = stats.highestAttribute || 0;
       return Math.floor(highest / config.ratio);
     },
@@ -672,12 +674,14 @@ export const DERIVED_STATS = {
     layer: LAYERS.SECONDARY_DERIVED,
     dependencies: ['potionSlotsFromAttributes'],
     config: {
+      enabled: false,
       sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
       baseValue: 5,  // +5% damage per potion slot
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.statBonusFromPotions.config;
+      if (!config.enabled) return 0;
       const source = stats[config.sourceStat] || 0;
       return Math.floor(source / config.ratio) * config.baseValue;
     },
@@ -2488,8 +2492,8 @@ export const DERIVED_STATS = {
       const fromHealth = stats.damageFromHealth || 0;      // both types
       const statFlat = stats.statDamageFlatBonus || 0;     // both types (1 per 75)
       const paragon = stats.paragonDamageBonus || 0;       // mastery, both types
-      const flatMono = stats.flatDamageMonogramBonus || 0; // physical
-      const noEnergy = stats.noEnergyDamageBonus || 0;     // physical
+      const flatMono = stats.flatDamageMonogramBonus || 0; // both types
+      const noEnergy = stats.noEnergyDamageBonus || 0;     // both types
       const berserker = stats.berserkerMaxDrFlatDamage || 0; // physical
       const converted = (config.elemToPhysFlatRatio || 0) * (stats.edpsElemFlat || 0);
       return Math.floor(base + fromHealth + statFlat + paragon + flatMono + noEnergy + berserker + converted);
@@ -2523,7 +2527,7 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: ['damageFromHealth', 'statDamageFlatBonus', 'paragonDamageBonus',
-      'energyDamageBonus', 'elementalFlatFromEssence'],
+      'energyDamageBonus', 'elementalFlatFromEssence', 'flatDamageMonogramBonus', 'noEnergyDamageBonus'],
     calculate: (stats) => {
       const base = stats.elementalDamage || 0;             // gear Base.ElementalDamage (flat)
       const fromHealth = stats.damageFromHealth || 0;      // both types
@@ -2531,7 +2535,10 @@ export const DERIVED_STATS = {
       const paragon = stats.paragonDamageBonus || 0;       // mastery, both types
       const energy = stats.energyDamageBonus || 0;         // now elemental (3 per energy >100)
       const essenceFlat = stats.elementalFlatFromEssence || 0; // 1.5 per 20 essence
-      return Math.floor(base + fromHealth + statFlat + paragon + energy + essenceFlat);
+      // Both +300 monograms explicitly export Base.Damage AND Base.ElementalDamage.
+      const flatMono = stats.flatDamageMonogramBonus || 0;
+      const noEnergy = stats.noEnergyDamageBonus || 0;
+      return Math.floor(base + fromHealth + statFlat + paragon + energy + essenceFlat + flatMono + noEnergy);
     },
     format: v => v.toFixed(0),
     description: 'Elemental base damage: gear Base.ElementalDamage + flat monograms (both-types + elemental)',
@@ -2541,6 +2548,8 @@ export const DERIVED_STATS = {
       term(stats, 'statDamageFlatBonus', '+', 'int'),
       term(stats, 'paragonDamageBonus', '+', 'int'),
       term(stats, 'energyDamageBonus', '+', 'int'),
+      term(stats, 'flatDamageMonogramBonus', '+', 'int'),
+      term(stats, 'noEnergyDamageBonus', '+', 'int'),
       term(stats, 'elementalFlatFromEssence', '+', 'int'),
       { label: 'BaseElem', fullName: 'Base Elemental Damage (sum)', op: '=', value: stats.edpsElemFlat, fmt: 'int', isSubtotal: true },
     ],
@@ -2737,7 +2746,7 @@ export const DERIVED_STATS = {
       'totalFireDamageBonus', 'totalArcaneDamageBonus', 'totalLightningDamageBonus',
       'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
       'elementalFromEssence', 'elementalFromHighest', 'damagePercentForStat2',
-      'berserkerElementalFromHighest',
+      'berserkerElementalFromHighest', 'damageNoPotionBonus',
       'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus',
       // Pet conversion flags (base stats from the dragon-slot item)
       'fireToArcane', 'fireToLightning', 'arcaneToFire', 'arcaneToLightning',

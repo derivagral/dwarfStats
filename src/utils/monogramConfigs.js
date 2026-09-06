@@ -803,6 +803,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Potion Slots from Stats',
     derivedStatId: 'potionSlotsFromAttributes',
     config: {
+      enabled: true,
       ratio: 50,  // 1 potion slot per 50 of highest stat
     },
   },
@@ -810,6 +811,7 @@ export const MONOGRAM_CALC_CONFIGS = {
     displayName: 'Damage from Potions',
     derivedStatId: 'statBonusFromPotions',
     config: {
+      enabled: true,
       sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
       baseValue: 5,  // 5% damage per available potion slot

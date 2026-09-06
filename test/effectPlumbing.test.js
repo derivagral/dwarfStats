@@ -245,7 +245,7 @@ describe('confirmed duplicate monogram rules', () => {
     expect(result.totalMaxEnergy).toBe(400);
     expect(result.energyDamageBonus).toBe(1800);
     expect(result.flatDamageMonogramBonus).toBe(600);
-    expect(result.edpsElemFlat).toBe(1800);
+    expect(result.edpsElemFlat).toBe(2400);
     expect(result.edpsPhysFlat).toBe(600);
     const edited = probe({ ...options, itemOverrides: {
       neck: { monogramSlots: ['EliteBuffs.Energy', null, null] },

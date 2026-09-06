@@ -85,10 +85,11 @@ and respond to edits and applied sets. These are equipped-set budgets, not an
 inventory optimizer or a simulation of chained spawn events.
 
 `DamageCircle.ExtraDamage` is the UV ring monogram: the committed description
-confirms 1% stronger attacks per 35 Health Regeneration. The maintainer reports
-one player's evidence that this belongs to the offhand percentage bucket. That
-bucket remains provisional; it must be scoped to UV, not applied globally to
-other offhands. It is not yet implemented by this patch.
+confirms 1% stronger attacks per 35 Health Regeneration. The maintainer confirmed
+that this adds to Offhand Damage Bonus% from offhands, fossil, armor and other
+items. The bucket placement is settled; implementing it still requires a UV
+calculation target so the UV-only bonus does not leak into other offhand attacks.
+It is not yet implemented by this patch.
 
 The older `DamageCircle.DamageForStats.Highest` mapping also needs a dedicated
 coverage correction: its exported description says 3 base Damage per 25 highest
@@ -141,12 +142,14 @@ entries; no dictionary entries were reordered or removed.
 
 ### Remaining work, in comparison-readiness order
 
-1. **Grant and condition correctness.** Gate legacy potion-slot formulas; audit
-   buff prerequisites and drawbacks (notably health-to-damage losing armor).
+1. **Grant and condition correctness.** Audit buff prerequisites and drawbacks.
+   Potion-slot and potion-damage formulas now require their individual grants.
+   Do not infer an armor drawback from the legacy health-to-damage tag name;
+   the current export states only the damage gain.
    Keep mastery/tree and equipment sources separate when removing a monogram,
    and explicitly distinguish one-time grants from additive numeric support.
 2. **Ring conversions and final pools.** Correct UV highest-stat mapping, scope
-   its provisional regen bonus, split Colossus element targets, and reconstruct
+   its confirmed additive regen bonus, split Colossus element targets, and reconstruct
    final health before claiming health-based conversions or EHP are complete.
    Reconcile legacy selector IDs against the existing exports without silently
    treating similar names as confirmed aliases.
@@ -166,3 +169,29 @@ consumer. Add prerequisite boundaries when conditional, an unrelated-element
 negative control when elemental, and a share round trip when representation
 changes. Use paired in-game observations to resolve bucket/rounding uncertainty;
 code coverage alone cannot settle those rules.
+
+### Clarifications and defects found in the follow-up
+
+- `PotionSlotForStat.Highest` previously granted floor(highest/50) slots even
+  without the monogram. With 1,000 highest stat, this fabricated 20 extra slots,
+  causing `Damage%NoPotion` to show 345% instead of the existing three-slot
+  baseline of 45%. Slots and `Damage%ForPotions` now require their own grants.
+  Available potion count (charges) versus slot capacity remains unfinished;
+  `Damage%ForPotions` still needs its final damage consumer wired correctly.
+- `DamageGainNoEnergy` and `DamageBonusAnd51Damage` explicitly grant +300 to
+  BOTH Base.Damage and Base.ElementalDamage in their exported effect lists.
+  Both now reach the elemental flat pool as well as the physical pool, per copy.
+  No-energy still sets maximum energy to zero and blocks energy-to-damage.
+- The 50% drawback is a minimum incoming-hit size relative to health, not a
+  halving of maximum health. Incoming-hit/EHP modeling remains outside this pass.
+  `Damage%NoPotion` prevents potion healing. The essence-drain monogram is
+  another separate drawback: damage bonus with health loss based on essence.
+- Colossus is the 2H mastery buff. The code issue is the shared target used by
+  its three highest-stat scaler monograms, which overwrites mixed grants and
+  loses element routing. Its `.Fire` export says +5% generic Elemental per 30
+  highest stat; Arcane/Lightning say +5% of their named element per 40. Confirm
+  whether the Fire-tagged scaler is generic or specifically fire before changing
+  that behavior. Mastery/tree contributions must remain independent sources.
+- UV highest-stat scaling can be corrected without reconstructing health:
+  replace its health-to-damage alias with floor(highest/25) × 3 per copy,
+  gated by UV activation. Final UV output routing remains a dedicated follow-up.

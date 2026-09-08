@@ -256,7 +256,8 @@ export const STAT_REGISTRY = {
     canonical: 'Base.Damage%6',
     isPercent: true,
     format: v => `+${(v * 100).toFixed(0)}%`,
-    description: 'Damage Bonus',
+    description: 'Physical Damage Bonus',
+    regexPatterns: ['^(?:Base\\.)?Damage%(?:6)?$'],
   },
   damageMultiplier: {
     id: 'damageMultiplier',
@@ -1686,6 +1687,16 @@ export const ADDITIONAL_DISPLAY_PATTERNS = {
   'Amount': 'Amount',
   'Charges': 'Charges',
   'ItemTier': 'Item Tier',
+};
+
+// Append-only: share dictionary indices must not shift.
+STAT_REGISTRY.elementalDamageBonus = {
+  id: 'elementalDamageBonus', name: 'Elemental Damage Bonus', category: 'elemental',
+  patterns: ['Base.ElementalDamage%', 'Base.ElementalDamage%6', 'ElementalDamage%', 'ElementalDamage%6'],
+  canonical: 'Base.ElementalDamage%', isPercent: true,
+  regexPatterns: ['^(?:Base\\.)?ElementalDamage%(?:6)?$'],
+  format: value => `+${(value * 100).toFixed(2)}%`,
+  description: 'Generic elemental damage bonus, separate from physical and individual-element bonuses',
 };
 
 // ============================================================================

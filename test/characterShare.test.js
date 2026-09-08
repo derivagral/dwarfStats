@@ -636,8 +636,8 @@ describe('CharacterShareModel — allocated attributes', () => {
     const luckBonus = 0.6397; // sum of luckBonus affixes (~64%)
     const baseLuck = restored.luck.value + gearLuck;
     const r = calculateDerivedStats({ luck: baseLuck, luckBonus });
-    // floor((535 + 60.94) × 1.6397) ≈ 977 — matches the save, not ~100.
-    expect(r.totalLuck).toBe(Math.floor(baseLuck * (1 + luckBonus)));
+    // Preserve fractional attributes; presentation rounds at the boundary.
+    expect(r.totalLuck).toBeCloseTo(baseLuck * (1 + luckBonus));
     expect(r.totalLuck).toBeGreaterThan(900);
   });
 });

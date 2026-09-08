@@ -1,0 +1,8650 @@
+{
+  "_generated": "by extraction/generate-registries.mjs — do not edit by hand",
+  "_source": "DT_GENERATED_SkillTree_Main (numeric attribute grants by node level)",
+  "effectsByRow": {
+    "UI_SkillTreeNode_Large": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_9": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_10": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_11": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_19": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.AttackSpeed",
+          "value": 15
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_20": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_21": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_22": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_23": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_24": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_25": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_26": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_29": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_30": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_31": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_32": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_33": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_34": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_35": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_36": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_40": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_39": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 10
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_42": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_44": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_45": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_46": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_47": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_48": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_50": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_53": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_54": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_65": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_66": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_67": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_68": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_69": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_70": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_71": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_72": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 5
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_77": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_78": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_79": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_73": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_74": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_76": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_82": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_84": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_85": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_86": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 15
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 15
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_87": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_88": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_89": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_90": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_91": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_92": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_93": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_94": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_95": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_96": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_97": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_98": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_99": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_100": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_101": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_102": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_38": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_106": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_107": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_108": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_109": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_110": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_111": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_112": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_113": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_8": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 10
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_18": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_63": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_117": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_118": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_119": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_120": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_121": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_122": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_123": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_124": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_9": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_125": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_126": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_10": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_127": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_128": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_129": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_130": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_131": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_132": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_11": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_133": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_134": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_135": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_136": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_137": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_138": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_139": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_140": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_12": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_141": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_142": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_143": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_144": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_145": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_146": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_147": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_148": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_13": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_149": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_150": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_151": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_152": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_153": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_154": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_155": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_156": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_14": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_157": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_158": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_159": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_160": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_161": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_162": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_163": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_164": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_169": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_174": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_176": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_178": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_180": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_181": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_182": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_183": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_184": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_185": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_186": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_187": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_188": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_15": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_189": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_16": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 10
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_190": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_191": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_192": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_193": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_194": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_195": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_196": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_199": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_204": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_212": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_218": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_223": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_253": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_255": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_265": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_277": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_279": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_281": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_302": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_303": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_304": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_305": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_56": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_306": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_307": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_308": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_309": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_310": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_311": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_312": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_313": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_314": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_315": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_316": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_317": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_318": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_319": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_320": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_321": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_322": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_323": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_324": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_325": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_326": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_327": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_328": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_329": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_330": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_331": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_332": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_333": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxEnergy",
+          "value": 1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_62": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 25
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 10
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_70": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration",
+          "value": 5
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_165": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_72": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_73": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_8": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_12": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_13": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_14": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_74": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_15": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_16": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_75": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_17": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_27": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_76": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_28": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_37": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_77": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_41": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_49": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_56": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_57": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_60": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_43": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_51": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_52": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_58": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_62": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_12_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_12_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_12_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_12_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_12_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_12_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_12_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_12_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_83": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_105": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_114": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_167": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_168": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_173": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_175": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_179": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_216": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_252": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_256": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArmCriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_171": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_264": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_266": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_267_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_267_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_267_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_267_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_267_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_267_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_267_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_267_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_268": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_269": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_270": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_271": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.SpearCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_1_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_1_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_1_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_1_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_1_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_1_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_1_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_2_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_2_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_2_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_2_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_2_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_2_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_2_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_3_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_3_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_3_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_3_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_3_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_3_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_3_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_4_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_4_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_4_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_4_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_4_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_4_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_4_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_5_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_5_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_5_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_5_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_5_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_5_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_5_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_6_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_6_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_6_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_6_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_6_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_6_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_6_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_7_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_7_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_7_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_7_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_7_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_7_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_7_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_8_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_8_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_8_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_8_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_8_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_8_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_8_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_344_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_344_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_344_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_344_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_344_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_344_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_344_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_344_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_0_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_9_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_9_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_9_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_9_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_9_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_9_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_9_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_9_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_10_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_10_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_10_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_10_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_10_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_10_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_10_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_10_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_11_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_11_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_11_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_11_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_11_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_11_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_11_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_11_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_13_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_13_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_13_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_13_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_13_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_13_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_13_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_13_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_14_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_14_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_14_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_14_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_14_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_14_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_14_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_14_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_15_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_15_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_15_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_15_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_15_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_15_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_15_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_15_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_16_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_16_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_16_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_16_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_16_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_16_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_16_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_16_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_61": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_64": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_75": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_80": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_81": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_17_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_17_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_17_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_17_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_17_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_17_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_17_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_17_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_254": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_257": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_18_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_18_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_18_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_18_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_18_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_18_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_18_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_18_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_272": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_345": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_19_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_19_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_19_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_19_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_19_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_19_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_19_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_19_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_374": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_375": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandedCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_376": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_377": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_378": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_379": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandCritcalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_380": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandedCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_381": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHandedCritcalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_20_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_20_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_20_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_20_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_20_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_20_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_20_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_21_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_21_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_21_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_21_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_21_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_21_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_21_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_21_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_22_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_22_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_22_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_22_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_22_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_22_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_22_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_23_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_23_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_23_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_23_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_23_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_23_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_23_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_23_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_24_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_24_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_24_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_24_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_24_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_24_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_24_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_25_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_25_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_25_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_25_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_25_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_25_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_25_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_25_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_26_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_26_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_26_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_26_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_26_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_26_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_26_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_27_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_27_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_27_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_27_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_27_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_27_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_27_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_27_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_28_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_28_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_28_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_28_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_28_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_28_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_28_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_29_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_29_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_29_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_29_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_29_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_29_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_29_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_29_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_30_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Strength",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_30_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Agility",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_30_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Stamina",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_30_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Intelligence",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_30_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Dexterity",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_30_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Wisdom",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_30_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_31_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_31_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_31_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_31_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_31_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_31_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_31_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_31_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_32_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_32_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_32_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_33_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_33_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_33_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_34_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_34_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_34_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_35_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_35_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_35_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_36_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_36_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_36_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_37_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_37_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_37_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_38_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_38_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_38_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_39_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_39_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_39_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_40_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_40_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_40_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_41_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_41_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_41_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_42_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_42_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_42_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_43_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_43_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_43_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_382": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_383": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.EnergyRegeneration%",
+          "value": 0.02
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_384": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_385": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_78": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_80": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_81": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_83": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_85": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_44_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_44_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_44_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_44_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_44_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_44_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_44_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_44_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_45_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_45_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_45_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_45_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_45_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_45_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_45_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_45_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_46_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_46_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_46_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_46_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_46_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_46_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_46_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_46_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_47_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_47_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_47_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_47_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_47_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_47_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_47_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_47_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_48_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_48_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_48_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_48_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_48_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_48_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_48_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_48_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_49_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_49_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_49_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_49_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_49_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_49_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_49_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_49_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_50_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_50_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_50_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_51_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_51_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_51_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_52_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_52_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_52_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_53_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_53_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_53_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_54_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_54_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_54_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_55_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_55_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_55_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_449": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_450": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_451": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_452": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_453": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_454": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_455": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_457": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_485": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.03
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_486": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.03
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_487": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.03
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_492": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.GlobalModifiers.MoveSpeed%",
+          "value": 0.03
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_56_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_56_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_56_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_57_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_57_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_57_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_58_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_58_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_58_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_59_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_59_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_59_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_60_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_60_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_60_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_61_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fire%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_61_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_61_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_62_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_62_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_62_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_62_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_62_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_62_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_62_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_62_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_63_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_63_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_63_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_63_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_63_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_63_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_63_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_63_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_518": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_519": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_520": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_521": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_522": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_523": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_524": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_525": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_526": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Arcane%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_564": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_565": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_566": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_567": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_568": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_569": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_570": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_571": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_572": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.01
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalChance",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_599": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_608": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_609": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_610": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_611": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_612": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_613": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_614": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_615": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Lightning%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_100": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_102": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 15
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_105": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_111": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_116": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_64_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_64_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_64_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_64_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_64_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_64_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_64_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_64_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_65_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_65_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_65_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_65_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_65_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_65_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_65_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_65_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_66_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_66_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_66_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_66_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_66_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_66_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_66_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_66_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_67_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_67_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_67_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_67_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_67_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_67_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_67_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_67_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_68_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_68_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_68_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_68_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_68_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_68_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_68_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_68_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_69_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_69_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_69_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_69_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_69_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_69_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_69_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_69_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_70_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_70_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_70_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_70_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_70_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_70_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_70_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_70_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_71_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_71_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_71_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_71_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_71_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_71_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_71_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_71_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_72_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_72_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_72_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_72_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_72_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_72_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_72_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_72_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_73_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_73_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_73_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_73_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_73_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_73_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_73_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_73_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_74_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_74_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_74_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_74_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_74_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_74_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_74_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_74_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_75_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_75_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_75_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_75_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_75_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_75_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_75_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_75_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_76_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_76_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_76_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_76_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_76_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_76_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_76_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_76_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_77_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_77_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_77_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_77_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_77_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_77_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_77_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_77_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_78_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_78_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_78_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_78_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_78_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_78_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_78_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_78_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_79_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_79_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_79_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_79_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_79_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_79_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_79_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_79_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_80_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_80_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_80_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_80_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_80_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_80_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_80_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_80_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_81_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_81_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_81_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_81_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_81_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_81_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_81_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_81_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_659": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_660": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_661": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_662": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_663": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_664": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_665": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_666": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_685": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_686": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_689": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_690": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_691": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_692": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_693": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_694": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_695": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_696": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_697": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_698": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.MaxHealth%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_699": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_700": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_701": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_702": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_703": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_704": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_705": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_706": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.InventorySlots",
+          "value": 3
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_707": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_709": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_711": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_712": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_716": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_737": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_738": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_739": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_740": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_741": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_742": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_743": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_744": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.CriticalDamage",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_764": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_766": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_767": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_770": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_771": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_774": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_775": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_776": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_777": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_778": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_779": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.ElementalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_780": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_781": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_782": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_783": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage",
+          "value": 2
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_784": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_785": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_786": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_787": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_788": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_789": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_790": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_791": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_793": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_794": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_815": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_816": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_817": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_818": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_819": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_843": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_844": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_845": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_846": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_847": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_848": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_849": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_850": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_851": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_852": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Boss%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_861": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_862": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_863": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_867": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_868": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.Armor%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_124": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_708": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_710": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_713": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_714": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_715": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_745": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_746": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_747": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_748": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_751": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_753": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_792": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_820": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_821": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_822": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_902": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_911": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_912": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_913": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_917": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_918": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_919": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_920": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_921": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_922": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_923": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_924": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_925": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_926": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck",
+          "value": 2
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_125": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_126": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Characteristics.Luck%",
+          "value": 0.05
+        },
+        {
+          "tag": "EasyRPG.Attributes.Fists.ComboPointScalingText",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_927": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 10
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_928": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_929": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_930": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 10
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_931": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.02
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_127": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration",
+          "value": 20
+        },
+        {
+          "tag": "EasyRPG.Attributes.Base.HealthRegeneration%",
+          "value": 0.05
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_93_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_93_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_93_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_93_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_93_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_93_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_93_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_93_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_94_0": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Spear%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_94_1": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.PoleArm%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_94_2": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.TwoHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_94_3": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.OneHanded%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_94_4": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Archery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_94_5": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Magery.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_94_6": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Fists.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_DropDown_94_7": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_219": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_273": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_932": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_933": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_934": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_935": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_936": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_937": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_938": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_939": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_940": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_941": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_942": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_943": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_946": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_947": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Small_953": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalChance%",
+          "value": 0.01
+        }
+      ]
+    ],
+    "UI_SkillTreeNode_Large_128": [
+      [
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.Damage%",
+          "value": 0.1
+        },
+        {
+          "tag": "EasyRPG.Attributes.DamageSystem.Damage.Scythe.CriticalDamage%",
+          "value": 0.1
+        }
+      ]
+    ]
+  }
+}

@@ -189,9 +189,16 @@ code coverage alone cannot settle those rules.
 - Colossus is the 2H mastery buff. The code issue is the shared target used by
   its three highest-stat scaler monograms, which overwrites mixed grants and
   loses element routing. Its `.Fire` export says +5% generic Elemental per 30
-  highest stat; Arcane/Lightning say +5% of their named element per 40. Confirm
-  whether the Fire-tagged scaler is generic or specifically fire before changing
-  that behavior. Mastery/tree contributions must remain independent sources.
+  highest stat; Arcane/Lightning say +5% of their named element per 40. The user suggests specifically Fire as a working assumption; this is not
+  yet numerically verified. Mastery/tree contributions must remain independent sources.
 - UV highest-stat scaling can be corrected without reconstructing health:
   replace its health-to-damage alias with floor(highest/25) × 3 per copy,
   gated by UV activation. Final UV output routing remains a dedicated follow-up.
+
+### Attribute routing corrections
+
+Physical and generic elemental percentages now resolve separately and feed their
+respective damage paths. Main-tree numeric attribute grants reach both imports
+and shares; primary totals retain fractional precision. Synthetic regression
+cases exercise identity, dependent totals, unallocated nodes, and share parity.
+Detailed user-build calibration artifacts are excluded pending publication approval.

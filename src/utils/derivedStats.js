@@ -292,9 +292,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.strength || 0;
       const bonus = stats.strengthBonus || 0; // decimal: 0.50 = 50%
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.strength.description,
   },
   totalDexterity: {
@@ -306,9 +306,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.dexterity || 0;
       const bonus = stats.dexterityBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.dexterity.description,
   },
   totalWisdom: {
@@ -320,9 +320,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.wisdom || 0;
       const bonus = stats.wisdomBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.wisdom.description,
   },
   totalEndurance: {
@@ -334,9 +334,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.endurance || 0;
       const bonus = stats.enduranceBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.endurance.description,
   },
   totalAgility: {
@@ -348,9 +348,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.agility || 0;
       const bonus = stats.agilityBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.agility.description,
   },
   totalLuck: {
@@ -362,9 +362,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.luck || 0;
       const bonus = stats.luckBonus || 0; // decimal: 1.64 = 164%
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.luck.description,
   },
   totalStamina: {
@@ -376,9 +376,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.stamina || 0;
       const bonus = stats.staminaBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.stamina.description,
   },
 
@@ -2742,7 +2742,7 @@ export const DERIVED_STATS = {
     name: 'ED (Elemental)',
     category: 'edps',
     layer: LAYERS.EDPS,
-    dependencies: ['elementFromCritChance', 'fireFromCritChance', 'arcaneFromCritChance', 'lightningFromCritChance',
+    dependencies: ['elementalDamageBonus', 'elementFromCritChance', 'fireFromCritChance', 'arcaneFromCritChance', 'lightningFromCritChance',
       'totalFireDamageBonus', 'totalArcaneDamageBonus', 'totalLightningDamageBonus',
       'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
       'elementalFromEssence', 'elementalFromHighest', 'damagePercentForStat2',
@@ -2768,7 +2768,7 @@ export const DERIVED_STATS = {
       const shroudElemHi = (stats.shroudElementalFromHighest || 0) / 100;
       const phasingElem = (stats.phasingElementalBonus || 0) / 100;
       const noPotionElem = (stats.damageNoPotionBonus || 0) / 100; // now elemental (15%/slot)
-      return 1 + elemental + elemFromCrit
+      return 1 + (stats.elementalDamageBonus || 0) + elemental + elemFromCrit
         + essenceElem + highestElem + perStat2Elem + berserkerElem + shroudElem + shroudElemHi + phasingElem + noPotionElem;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
@@ -2786,6 +2786,7 @@ export const DERIVED_STATS = {
 
       const rows = [
         { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
+        { label: 'elementalDamageBonus', fullName: 'Generic Elemental Damage Bonus', op: '+', value: stats.elementalDamageBonus || 0, fmt: 'pct' },
         {
           label: `active: ${ELEMENT_LABELS[active]}`,
           fullName: routeNote

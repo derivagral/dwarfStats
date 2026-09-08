@@ -292,9 +292,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.strength || 0;
       const bonus = stats.strengthBonus || 0; // decimal: 0.50 = 50%
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.strength.description,
   },
   totalDexterity: {
@@ -306,9 +306,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.dexterity || 0;
       const bonus = stats.dexterityBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.dexterity.description,
   },
   totalWisdom: {
@@ -320,9 +320,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.wisdom || 0;
       const bonus = stats.wisdomBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.wisdom.description,
   },
   totalEndurance: {
@@ -334,9 +334,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.endurance || 0;
       const bonus = stats.enduranceBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.endurance.description,
   },
   totalAgility: {
@@ -348,9 +348,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.agility || 0;
       const bonus = stats.agilityBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.agility.description,
   },
   totalLuck: {
@@ -362,9 +362,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.luck || 0;
       const bonus = stats.luckBonus || 0; // decimal: 1.64 = 164%
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.luck.description,
   },
   totalStamina: {
@@ -376,9 +376,9 @@ export const DERIVED_STATS = {
     calculate: (stats) => {
       const base = stats.stamina || 0;
       const bonus = stats.staminaBonus || 0;
-      return Math.floor(base * (1 + bonus));
+      return base * (1 + bonus);
     },
-    format: v => v.toFixed(0),
+    format: v => v.toFixed(2),
     description: ATTRIBUTE_BONUSES.stamina.description,
   },
 
@@ -603,10 +603,12 @@ export const DERIVED_STATS = {
     layer: LAYERS.PRIMARY_DERIVED,
     dependencies: ['highestAttribute'],
     config: {
+      enabled: false,
       ratio: 50,  // per 50 of highest stat
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.potionSlotsFromAttributes.config;
+      if (!config.enabled) return 0;
       const highest = stats.highestAttribute || 0;
       return Math.floor(highest / config.ratio);
     },
@@ -672,12 +674,14 @@ export const DERIVED_STATS = {
     layer: LAYERS.SECONDARY_DERIVED,
     dependencies: ['potionSlotsFromAttributes'],
     config: {
+      enabled: false,
       sourceStat: 'potionSlotsFromAttributes',
       ratio: 1,
       baseValue: 5,  // +5% damage per potion slot
     },
     calculate: (stats, cfg) => {
       const config = cfg || DERIVED_STATS.statBonusFromPotions.config;
+      if (!config.enabled) return 0;
       const source = stats[config.sourceStat] || 0;
       return Math.floor(source / config.ratio) * config.baseValue;
     },
@@ -2488,8 +2492,8 @@ export const DERIVED_STATS = {
       const fromHealth = stats.damageFromHealth || 0;      // both types
       const statFlat = stats.statDamageFlatBonus || 0;     // both types (1 per 75)
       const paragon = stats.paragonDamageBonus || 0;       // mastery, both types
-      const flatMono = stats.flatDamageMonogramBonus || 0; // physical
-      const noEnergy = stats.noEnergyDamageBonus || 0;     // physical
+      const flatMono = stats.flatDamageMonogramBonus || 0; // both types
+      const noEnergy = stats.noEnergyDamageBonus || 0;     // both types
       const berserker = stats.berserkerMaxDrFlatDamage || 0; // physical
       const converted = (config.elemToPhysFlatRatio || 0) * (stats.edpsElemFlat || 0);
       return Math.floor(base + fromHealth + statFlat + paragon + flatMono + noEnergy + berserker + converted);
@@ -2523,7 +2527,7 @@ export const DERIVED_STATS = {
     category: 'edps',
     layer: LAYERS.EDPS,
     dependencies: ['damageFromHealth', 'statDamageFlatBonus', 'paragonDamageBonus',
-      'energyDamageBonus', 'elementalFlatFromEssence'],
+      'energyDamageBonus', 'elementalFlatFromEssence', 'flatDamageMonogramBonus', 'noEnergyDamageBonus'],
     calculate: (stats) => {
       const base = stats.elementalDamage || 0;             // gear Base.ElementalDamage (flat)
       const fromHealth = stats.damageFromHealth || 0;      // both types
@@ -2531,7 +2535,10 @@ export const DERIVED_STATS = {
       const paragon = stats.paragonDamageBonus || 0;       // mastery, both types
       const energy = stats.energyDamageBonus || 0;         // now elemental (3 per energy >100)
       const essenceFlat = stats.elementalFlatFromEssence || 0; // 1.5 per 20 essence
-      return Math.floor(base + fromHealth + statFlat + paragon + energy + essenceFlat);
+      // Both +300 monograms explicitly export Base.Damage AND Base.ElementalDamage.
+      const flatMono = stats.flatDamageMonogramBonus || 0;
+      const noEnergy = stats.noEnergyDamageBonus || 0;
+      return Math.floor(base + fromHealth + statFlat + paragon + energy + essenceFlat + flatMono + noEnergy);
     },
     format: v => v.toFixed(0),
     description: 'Elemental base damage: gear Base.ElementalDamage + flat monograms (both-types + elemental)',
@@ -2541,6 +2548,8 @@ export const DERIVED_STATS = {
       term(stats, 'statDamageFlatBonus', '+', 'int'),
       term(stats, 'paragonDamageBonus', '+', 'int'),
       term(stats, 'energyDamageBonus', '+', 'int'),
+      term(stats, 'flatDamageMonogramBonus', '+', 'int'),
+      term(stats, 'noEnergyDamageBonus', '+', 'int'),
       term(stats, 'elementalFlatFromEssence', '+', 'int'),
       { label: 'BaseElem', fullName: 'Base Elemental Damage (sum)', op: '=', value: stats.edpsElemFlat, fmt: 'int', isSubtotal: true },
     ],
@@ -2733,11 +2742,11 @@ export const DERIVED_STATS = {
     name: 'ED (Elemental)',
     category: 'edps',
     layer: LAYERS.EDPS,
-    dependencies: ['elementFromCritChance', 'fireFromCritChance', 'arcaneFromCritChance', 'lightningFromCritChance',
+    dependencies: ['elementalDamageBonus', 'elementFromCritChance', 'fireFromCritChance', 'arcaneFromCritChance', 'lightningFromCritChance',
       'totalFireDamageBonus', 'totalArcaneDamageBonus', 'totalLightningDamageBonus',
       'arcaneMineBonus', 'fireMineBonus', 'lightningMineBonus',
       'elementalFromEssence', 'elementalFromHighest', 'damagePercentForStat2',
-      'berserkerElementalFromHighest',
+      'berserkerElementalFromHighest', 'damageNoPotionBonus',
       'shroudElementalBonus', 'shroudElementalFromHighest', 'phasingElementalBonus',
       // Pet conversion flags (base stats from the dragon-slot item)
       'fireToArcane', 'fireToLightning', 'arcaneToFire', 'arcaneToLightning',
@@ -2759,7 +2768,7 @@ export const DERIVED_STATS = {
       const shroudElemHi = (stats.shroudElementalFromHighest || 0) / 100;
       const phasingElem = (stats.phasingElementalBonus || 0) / 100;
       const noPotionElem = (stats.damageNoPotionBonus || 0) / 100; // now elemental (15%/slot)
-      return 1 + elemental + elemFromCrit
+      return 1 + (stats.elementalDamageBonus || 0) + elemental + elemFromCrit
         + essenceElem + highestElem + perStat2Elem + berserkerElem + shroudElem + shroudElemHi + phasingElem + noPotionElem;
     },
     format: v => `${(v * 100).toFixed(0)}%`,
@@ -2777,6 +2786,7 @@ export const DERIVED_STATS = {
 
       const rows = [
         { label: 'base', fullName: 'Base multiplier', op: '=', value: 1, fmt: 'pct' },
+        { label: 'elementalDamageBonus', fullName: 'Generic Elemental Damage Bonus', op: '+', value: stats.elementalDamageBonus || 0, fmt: 'pct' },
         {
           label: `active: ${ELEMENT_LABELS[active]}`,
           fullName: routeNote

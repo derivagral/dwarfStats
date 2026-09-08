@@ -19,16 +19,19 @@ const categoryLabels = {
 
 // Vitals (in-game max health) and eDPS first — the progress-indicator numbers
 // belong above the fold; monograms last.
-const categoryOrder = ['vitals', 'edps', 'attributes', 'offense', 'stance', 'elemental', 'affinity', 'defense', 'monograms', 'abilities', 'utility', 'unmapped'];
+const categoryOrder = ['vitals', 'edps', 'abilities', 'attributes', 'offense', 'stance', 'elemental', 'affinity', 'defense', 'utility', 'monograms', 'unmapped'];
 
-/**
- * @param {Object} props
- * @param {Object} props.characterData - Character data with equipped items (may include modified items)
- */
+// Display filters never change the calculation or shared build.
+export function filterStatRows(stats, category, { hideZero = false, activeEffectsOnly = true } = {}) {
+  return stats.filter(stat => (!hideZero || stat.value !== 0)
+    && (category !== 'monograms' || !activeEffectsOnly || stat.isActiveEffect));
+}
+
 export function StatsPanel({ characterData }) {
   const [hideZero, setHideZero] = useState(false);
+  const [activeEffectsOnly, setActiveEffectsOnly] = useState(true);
   const [collapsedCategories, setCollapsedCategories] = useState({});
-  const { categories } = useDerivedStats(characterData);
+  const { categories } = useDerivedStats(characterData || {});
 
   const toggleHideZero = useCallback(() => {
     setHideZero(prev => !prev);
@@ -55,14 +58,21 @@ export function StatsPanel({ characterData }) {
     <div className="stats-panel">
       <div className="stats-header">
         <span className="stats-title">Character Stats</span>
-        <label className="hide-zero-toggle">
-          <input
-            type="checkbox"
-            checked={hideZero}
-            onChange={toggleHideZero}
-          />
-          <span>Hide zero</span>
-        </label>
+        <div className="stats-display-toggles">
+          <label className="hide-zero-toggle" title="Show only effects granted by equipped items, mastery, or the skill tree. This changes visibility only.">
+            <input type="checkbox" checked={activeEffectsOnly}
+              onChange={event => setActiveEffectsOnly(event.target.checked)} />
+            <span>Active effects only</span>
+          </label>
+          <label className="hide-zero-toggle">
+            <input
+              type="checkbox"
+              checked={hideZero}
+              onChange={toggleHideZero}
+            />
+            <span>Hide zero</span>
+          </label>
+        </div>
       </div>
 
       <div className="stats-content">
@@ -70,11 +80,8 @@ export function StatsPanel({ characterData }) {
           let stats = categories[categoryKey];
           if (!stats || stats.length === 0) return null;
 
-          // Filter zeros if enabled
-          if (hideZero) {
-            stats = stats.filter(s => s.value !== 0);
-            if (stats.length === 0) return null;
-          }
+          stats = filterStatRows(stats, categoryKey, { hideZero, activeEffectsOnly });
+          if (stats.length === 0) return null;
 
           const isCollapsed = Boolean(collapsedCategories[categoryKey]);
           const contentId = `stats-category-${categoryKey}`;

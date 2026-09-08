@@ -228,7 +228,7 @@ describe('derivedStats', () => {
       expect(result.byLayer).toBeDefined();
 
       const strengthDetail = result.detailed.find(s => s.id === 'totalStrength');
-      expect(strengthDetail.formattedValue).toBe('125');
+      expect(strengthDetail.formattedValue).toBe('125.00');
     });
   });
 

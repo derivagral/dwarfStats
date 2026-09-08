@@ -2,12 +2,13 @@ import { useMemo } from 'react';
 import { calculateDerivedStats, calculateDerivedStatsDetailed, DERIVED_STATS, LAYERS } from '../utils/derivedStats.js';
 import { getStatType } from '../utils/statBuckets.js';
 import { STAT_REGISTRY, findStatForAttribute } from '../utils/statRegistry.js';
-import { MONOGRAM_CALC_CONFIGS, ADDITIVE_MONOGRAM_STATS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
+import { MONOGRAM_CALC_CONFIGS, MONOGRAM_BASE_EFFECTS, ADDITIVE_MONOGRAM_STATS, applyExclusiveMonogramRules } from '../utils/monogramConfigs.js';
 import { resolveEffectiveMonograms } from '../utils/monogramOverrides.js';
 import { inferWeaponStance, getUniqueSlotKeyMap } from '../utils/equipmentParser.js';
 import { aggregateSkillEffects, hasWeaponSkillData, collectMainTreeModifierGrants } from '../utils/skillEffectAggregator.js';
 import { detectEquippedAbilities, getStepCooldown } from '../utils/offhandAbilities.js';
 import { getRacialContributions } from '../utils/raceBonuses.js';
+import { getActiveMonogramStats } from '../utils/monogramSupport.js';
 import { ATTRIBUTE_BONUSES } from '../utils/attributeBonuses.js';
 
 // Re-export for backward compatibility
@@ -31,6 +32,53 @@ export function useDerivedStats(options = {}) {
     stanceContext = null, maxHealth = 0, skillTree = null,
     characterRace = null, characterLevel = 0,
   } = options;
+
+  // Collect all applied monograms for config overrides
+  // Supports both formats:
+  //   - item.monograms (direct from Item model)
+  //   - item.model.monograms (nested model format)
+  const appliedMonograms = useMemo(() => {
+    const monograms = [];
+    const uniqueSlotKeys = getUniqueSlotKeyMap(equippedItems);
+
+    for (const item of equippedItems) {
+      const itemMonograms = item?.monograms || item?.model?.monograms || [];
+      const slotKey = uniqueSlotKeys.get(item) || item?.slotKey || item?.slot || '';
+      const slotOverride = itemOverrides[slotKey] || {};
+
+      // Overrides replace the imported three positions exactly. This is what
+      // makes a dropdown selection a swap rather than an extra fourth effect.
+      for (const mono of resolveEffectiveMonograms(itemMonograms, slotOverride)) {
+        monograms.push({
+          ...mono,
+          itemSlot: slotKey,
+          itemName: item?.displayName || item?.model?.displayName || item?.name || slotKey,
+        });
+      }
+    }
+
+    // Main-tree modifier grants (e.g. Melee Mastery: Damage = the
+    // MeleeParagon.BaseDamage effect, +2 flat per mastery level). These stack
+    // ADDITIVELY with helmet monograms of the same id — the shared
+    // instanceCount makes the paragon calcs scale per source. Only ids with a
+    // calc config matter; Melee/Ranged grants are gated by the active weapon
+    // family ("While using a melee/ranged weapon…").
+    const family = stanceContext?.activeStance?.monogramFamily || null;
+    for (const grant of collectMainTreeModifierGrants(skillTree)) {
+      if (!MONOGRAM_CALC_CONFIGS[grant.id] && !MONOGRAM_BASE_EFFECTS[grant.id]) continue;
+      if (family && grant.id.startsWith('MeleeParagon') && family !== 'melee') continue;
+      if (family && grant.id.startsWith('RangedParagon') && family !== 'ranged') continue;
+      monograms.push({
+        id: grant.id,
+        value: 1,
+        source: 'mainTree',
+        itemSlot: 'skilltree',
+      });
+    }
+
+    return monograms;
+  }, [equippedItems, itemOverrides, skillTree, stanceContext]);
+
 
   // Aggregate base stats from all equipped items WITH source tracking
   // Returns { [statId]: { total: number, sources: [{ itemName, slot, value }] } }
@@ -111,7 +159,7 @@ export function useDerivedStats(options = {}) {
       //   - item.baseStats (direct from Item model via extractEquippedItems)
       //   - item.model.baseStats (nested model format)
       //   - item.attributes (legacy format)
-      const baseStats = item?.baseStats || item?.model?.baseStats || item?.attributes;
+      const baseStats = item?.baseStats || item?.model?.baseStats || item?.attributes || [];
       if (!baseStats || !Array.isArray(baseStats)) continue;
 
       const slotKey = uniqueSlotKeys.get(item) || item.slotKey || item.slot || '';
@@ -157,8 +205,22 @@ export function useDerivedStats(options = {}) {
       }
     }
 
+    // Apply each effective monogram position exactly once. Keep these out of
+    // saved baseStats: shares store the grants and recalculate them on load.
+    for (const mono of appliedMonograms) {
+      for (const effect of MONOGRAM_BASE_EFFECTS[mono.id] || []) {
+        const { statId, value } = effect;
+        if (!stats[statId]) stats[statId] = { total: 0, sources: [] };
+        stats[statId].total += value;
+        stats[statId].sources.push({
+          itemName: `${mono.itemName || mono.source || 'Monogram'}: ${mono.id}`,
+          slot: mono.itemSlot, value, sourceType: 'monogram', monogramId: mono.id,
+        });
+      }
+    }
+
     return stats;
-  }, [equippedItems, itemOverrides, characterStats, stanceContext, skillTree, characterRace, characterLevel]);
+  }, [equippedItems, itemOverrides, characterStats, stanceContext, skillTree, characterRace, characterLevel, appliedMonograms]);
 
   // Flatten to simple { [statId]: total } for backward compatibility
   const aggregatedBaseStats = useMemo(() => {
@@ -168,51 +230,6 @@ export function useDerivedStats(options = {}) {
     }
     return flat;
   }, [aggregatedWithSources]);
-
-  // Collect all applied monograms for config overrides
-  // Supports both formats:
-  //   - item.monograms (direct from Item model)
-  //   - item.model.monograms (nested model format)
-  const appliedMonograms = useMemo(() => {
-    const monograms = [];
-    const uniqueSlotKeys = getUniqueSlotKeyMap(equippedItems);
-
-    for (const item of equippedItems) {
-      const itemMonograms = item?.monograms || item?.model?.monograms || [];
-      const slotKey = uniqueSlotKeys.get(item) || item?.slotKey || item?.slot || '';
-      const slotOverride = itemOverrides[slotKey] || {};
-
-      // Overrides replace the imported three positions exactly. This is what
-      // makes a dropdown selection a swap rather than an extra fourth effect.
-      for (const mono of resolveEffectiveMonograms(itemMonograms, slotOverride)) {
-        monograms.push({
-          ...mono,
-          itemSlot: item?.slot,
-        });
-      }
-    }
-
-    // Main-tree modifier grants (e.g. Melee Mastery: Damage = the
-    // MeleeParagon.BaseDamage effect, +2 flat per mastery level). These stack
-    // ADDITIVELY with helmet monograms of the same id — the shared
-    // instanceCount makes the paragon calcs scale per source. Only ids with a
-    // calc config matter; Melee/Ranged grants are gated by the active weapon
-    // family ("While using a melee/ranged weapon…").
-    const family = stanceContext?.activeStance?.monogramFamily || null;
-    for (const grant of collectMainTreeModifierGrants(skillTree)) {
-      if (!MONOGRAM_CALC_CONFIGS[grant.id]) continue;
-      if (family && grant.id.startsWith('MeleeParagon') && family !== 'melee') continue;
-      if (family && grant.id.startsWith('RangedParagon') && family !== 'ranged') continue;
-      monograms.push({
-        id: grant.id,
-        value: 1,
-        source: 'mainTree',
-        itemSlot: 'skilltree',
-      });
-    }
-
-    return monograms;
-  }, [equippedItems, itemOverrides, skillTree, stanceContext]);
 
   // Count how many instances of each monogram ID are applied
   const monogramInstanceCounts = useMemo(() => {
@@ -398,6 +415,7 @@ export function useDerivedStats(options = {}) {
   // Build categories for StatsPanel display
   const categories = useMemo(() => {
     const { values, detailed } = calculatedStats;
+    const activeMonogramStats = getActiveMonogramStats(finalConfigOverrides);
 
     // Map calculated totals to their raw sources and display routing. Primary,
     // armor, and health totals multiply bonus%; the remaining targets add the
@@ -590,6 +608,7 @@ export function useDerivedStats(options = {}) {
       // Route monogram stats to monograms section
       if (monogramStatIds.has(stat.id) || stat.category === 'monogram' || stat.category === 'monogram-buff' || stat.category === 'monogram-chain' || stat.category === 'chained') {
         result.monograms.push({
+          isActiveEffect: activeMonogramStats.has(stat.id),
           id: stat.id,
           name: stat.name,
           value: stat.value,
@@ -718,6 +737,13 @@ export function useDerivedStats(options = {}) {
         result[key].sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
       }
     }
+
+    // Keep effective cooldown and total CDR ahead of raw ability affixes.
+    const cooldownOrder = ['offhandCooldownSeconds', 'offhandCooldownReduction'];
+    result.abilities.sort((a, b) => {
+      const rank = id => cooldownOrder.includes(id) ? cooldownOrder.indexOf(id) : cooldownOrder.length;
+      return rank(a.id) - rank(b.id);
+    });
 
     // Pin the per-skill on-hit results to the top of the eDPS section so the
     // damage headlines are the user's landing spot, ahead of the buckets.

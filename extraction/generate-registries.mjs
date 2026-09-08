@@ -221,6 +221,17 @@ function generateCards(cardRows) {
 // the shipped lookup remains tiny instead of embedding the full raw export.
 // ---------------------------------------------------------------------------
 
+// All numeric attribute grants; modifier behavior tags keep their own pipeline.
+function generateMainTreeAttributes(mainTreeRows) {
+  const effectsByRow = {};
+  for (const [rowName, row] of Object.entries(mainTreeRows)) {
+    const levels = (prop(row, 'SkillLevels') ?? []).map(level =>
+      effectList(prop(level, 'BonusAttributes')).filter(effect => effect.tag.startsWith('EasyRPG.Attributes.')));
+    if (levels.some(effects => effects.length)) effectsByRow[rowName] = levels;
+  }
+  return effectsByRow;
+}
+
 function generateMainTreeHealth(mainTreeRows) {
   const effectsByRow = {};
   const healthTags = new Set([
@@ -542,11 +553,13 @@ const affixRows = loadTable('DT_Base_Item_Attributes.json');
 const poolRows = loadTable('DT_Yellow_Orange_Modifiers.json');
 const cardRows = loadTable('DT_Crystal_Cards_Skills.json');
 const statusRows = loadTable('DT_StatusEffects.json');
+let mainTreeAttributes = null;
 let mainTreeHealth = null;
 let mainTreeAffinity = null;
 let mainTreeModifiers = null;
 try {
   const mainTreeRows = loadTable('DT_GENERATED_SkillTree_Main.json');
+  mainTreeAttributes = generateMainTreeAttributes(mainTreeRows);
   mainTreeHealth = generateMainTreeHealth(mainTreeRows);
   mainTreeAffinity = generateMainTreeAffinity(mainTreeRows);
   mainTreeModifiers = generateMainTreeModifiers(mainTreeRows);
@@ -591,6 +604,10 @@ fs.writeFileSync(path.join(GEN_DIR, 'weaponSkills.generated.json'),
   JSON.stringify({ ...banner, weaponSkills }, null, 2));
 fs.writeFileSync(path.join(GEN_DIR, 'statusEffects.generated.json'),
   JSON.stringify({ ...banner, statusEffects }, null, 2));
+if (mainTreeAttributes) {
+  fs.writeFileSync(path.join(GEN_DIR, 'mainTreeAttributes.generated.json'),
+    JSON.stringify({ ...banner, _source: 'DT_GENERATED_SkillTree_Main (numeric attribute grants by node level)', effectsByRow: mainTreeAttributes }, null, 2));
+}
 if (mainTreeHealth) {
   fs.writeFileSync(path.join(GEN_DIR, 'mainTreeHealth.generated.json'),
     JSON.stringify({ ...banner, _source: 'DT_GENERATED_SkillTree_Main (MaxHealth effects only)', effectsByRow: mainTreeHealth }, null, 2));

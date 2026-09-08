@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "audit:monograms": "node scripts/audit-monograms.mjs"
   },
   "dependencies": {
     "react": "^18.2.0",

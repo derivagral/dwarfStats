@@ -85,10 +85,11 @@ and respond to edits and applied sets. These are equipped-set budgets, not an
 inventory optimizer or a simulation of chained spawn events.
 
 `DamageCircle.ExtraDamage` is the UV ring monogram: the committed description
-confirms 1% stronger attacks per 35 Health Regeneration. The maintainer reports
-one player's evidence that this belongs to the offhand percentage bucket. That
-bucket remains provisional; it must be scoped to UV, not applied globally to
-other offhands. It is not yet implemented by this patch.
+confirms 1% stronger attacks per 35 Health Regeneration. The maintainer confirmed
+that this adds to Offhand Damage Bonus% from offhands, fossil, armor and other
+items. The bucket placement is settled; implementing it still requires a UV
+calculation target so the UV-only bonus does not leak into other offhand attacks.
+It is not yet implemented by this patch.
 
 The older `DamageCircle.DamageForStats.Highest` mapping also needs a dedicated
 coverage correction: its exported description says 3 base Damage per 25 highest
@@ -112,3 +113,92 @@ whole final damage pool.
   each affected chain against small controlled in-game comparisons.
 - Keep provisional elemental crit weighting and skill multipliers explicit.
   True DPS and automated patch tracking are not prerequisites for this tool.
+
+## Item setup verification after PR #79
+
+`npm run audit:monograms -- --write` rebuilds
+[`monogram-coverage.md`](monogram-coverage.md). The inventory covers selector IDs
+and reviewed numeric grants, not every internal helper tag in the exports.
+Its statuses describe calculation connections, not confirmed runtime support.
+The set editor exposes the same coverage metadata in a collapsed disclosure so
+unmodeled selections cannot silently look fully supported.
+
+The stat sheet defaults to **Active effects only**. A granted effect remains
+visible when its result is zero; **Hide zero** is an independent option. Mastery
+and main-tree grants count as active sources. Buff children such as Bloodlust
+armor inherit the buff grant, while unrelated formulas and legacy placeholders
+stay hidden. These controls affect presentation only. Ability cooldown and total
+offhand CDR are pinned ahead of raw ability affixes, above monograms.
+
+The first item coverage slice adds 18 unconditional grants: three boots energy
+tiers, four boots regeneration tiers, flat health, health percentage, armor
+percentage, flat energy, and all seven +200 attributes. Numeric effects come
+from the committed export; the seven attribute amounts come from its text.
+Each position contributes once to the base aggregation, then existing attribute,
+armor, health, essence, crit and energy dependencies recalculate. Shares carry
+the original item grants rather than baking these bonuses into the base affixes.
+Canonical `ExtraHp` and `ExtraArmor` are now selectable alongside the legacy
+entries; no dictionary entries were reordered or removed.
+
+### Remaining work, in comparison-readiness order
+
+1. **Grant and condition correctness.** Audit buff prerequisites and drawbacks.
+   Potion-slot and potion-damage formulas now require their individual grants.
+   Do not infer an armor drawback from the legacy health-to-damage tag name;
+   the current export states only the damage gain.
+   Keep mastery/tree and equipment sources separate when removing a monogram,
+   and explicitly distinguish one-time grants from additive numeric support.
+2. **Ring conversions and final pools.** Correct UV highest-stat mapping, scope
+   its confirmed additive regen bonus, split Colossus element targets, and reconstruct
+   final health before claiming health-based conversions or EHP are complete.
+   Reconcile legacy selector IDs against the existing exports without silently
+   treating similar names as confirmed aliases.
+3. **A build-difference contract.** Evaluate original and candidate equipment
+   through the same calculation entry point with identical mastery, tree, race,
+   and effect assumptions. Return per-skill normal/boss on-hit deltas, cooldown,
+   and ordinary stat changes. Preserve ability identity: flag a switch in the
+   selected offhand rather than presenting it as an ordinary percentage upgrade.
+4. **Comparison UI.** Preview a replacement or monogram set before applying it,
+   show absolute and percent changes, handle zero baselines, and annotate partial
+   or unmodeled effects on either side. IAS/rotation modeling remains outside
+   the on-hit comparison boundary.
+
+For each newly implemented damage-affecting monogram, require a small numeric
+fixture covering absent/present, duplicate copies, removal/reset, and the final
+consumer. Add prerequisite boundaries when conditional, an unrelated-element
+negative control when elemental, and a share round trip when representation
+changes. Use paired in-game observations to resolve bucket/rounding uncertainty;
+code coverage alone cannot settle those rules.
+
+### Clarifications and defects found in the follow-up
+
+- `PotionSlotForStat.Highest` previously granted floor(highest/50) slots even
+  without the monogram. With 1,000 highest stat, this fabricated 20 extra slots,
+  causing `Damage%NoPotion` to show 345% instead of the existing three-slot
+  baseline of 45%. Slots and `Damage%ForPotions` now require their own grants.
+  Available potion count (charges) versus slot capacity remains unfinished;
+  `Damage%ForPotions` still needs its final damage consumer wired correctly.
+- `DamageGainNoEnergy` and `DamageBonusAnd51Damage` explicitly grant +300 to
+  BOTH Base.Damage and Base.ElementalDamage in their exported effect lists.
+  Both now reach the elemental flat pool as well as the physical pool, per copy.
+  No-energy still sets maximum energy to zero and blocks energy-to-damage.
+- The 50% drawback is a minimum incoming-hit size relative to health, not a
+  halving of maximum health. Incoming-hit/EHP modeling remains outside this pass.
+  `Damage%NoPotion` prevents potion healing. The essence-drain monogram is
+  another separate drawback: damage bonus with health loss based on essence.
+- Colossus is the 2H mastery buff. The code issue is the shared target used by
+  its three highest-stat scaler monograms, which overwrites mixed grants and
+  loses element routing. Its `.Fire` export says +5% generic Elemental per 30
+  highest stat; Arcane/Lightning say +5% of their named element per 40. The user suggests specifically Fire as a working assumption; this is not
+  yet numerically verified. Mastery/tree contributions must remain independent sources.
+- UV highest-stat scaling can be corrected without reconstructing health:
+  replace its health-to-damage alias with floor(highest/25) × 3 per copy,
+  gated by UV activation. Final UV output routing remains a dedicated follow-up.
+
+### Attribute routing corrections
+
+Physical and generic elemental percentages now resolve separately and feed their
+respective damage paths. Main-tree numeric attribute grants reach both imports
+and shares; primary totals retain fractional precision. Synthetic regression
+cases exercise identity, dependent totals, unallocated nodes, and share parity.
+Detailed user-build calibration artifacts are excluded pending publication approval.

@@ -1335,6 +1335,12 @@ export const SLOT_MONOGRAMS = {
   ],
 };
 
+// Canonical exported IDs for the basic health/armor options. Preserve legacy
+// selector IDs and registry insertion order so existing shares keep decoding.
+for (const slot of ['pants', 'ring']) {
+  SLOT_MONOGRAMS[slot].push('ExtraHp', 'ExtraArmor');
+}
+
 // ============================================================================
 // LOOKUP HELPERS
 // ============================================================================

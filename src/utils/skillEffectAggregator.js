@@ -3,7 +3,7 @@
  *
  * Converts a parsed skill tree (extractSkillTree) into flat stat
  * contributions using generated game data:
- * - Main passive tree: health effects mapped from generated UI node IDs
+ * - Main passive tree: numeric attribute effects mapped from generated UI node IDs
  * - Crystal cards: per-level {tag, value} effects × card level
  * - Weapon stance skills: per-level effects × skill level (covers paragon
  *   nodes, which scale linearly to their game max level)
@@ -21,17 +21,23 @@
 import cardsGenerated from '../data/cards.generated.json';
 import weaponSkillsGenerated from '../data/weaponSkills.generated.json';
 import mainTreeHealthGenerated from '../data/mainTreeHealth.generated.json';
+import mainTreeAttributesGenerated from '../data/mainTreeAttributes.generated.json';
 import mainTreeAffinityGenerated from '../data/mainTreeAffinity.generated.json';
 import mainTreeModifiersGenerated from '../data/mainTreeModifiers.generated.json';
 import { findStatForAttribute } from './statRegistry.js';
 
 const GENERATED_CARDS = cardsGenerated.cards || {};
 const GENERATED_WEAPON_SKILLS = weaponSkillsGenerated.weaponSkills || {};
+const MAIN_TREE_ATTRIBUTE_EFFECTS = mainTreeAttributesGenerated.effectsByRow || {};
 const MAIN_TREE_HEALTH_EFFECTS = mainTreeHealthGenerated.effectsByRow || {};
 const MAIN_TREE_AFFINITY_EFFECTS = mainTreeAffinityGenerated.effectsByRow || {};
 const MAIN_TREE_AFFINITY_NAMES = mainTreeAffinityGenerated.namesByRow || {};
 const MAIN_TREE_MODIFIER_GRANTS = mainTreeModifiersGenerated.grantsByRow || {};
 const MAIN_TREE_MODIFIER_NAMES = mainTreeModifiersGenerated.namesByRow || {};
+
+export function hasMainTreeAttributeEffect(rowName) {
+  return !!MAIN_TREE_ATTRIBUTE_EFFECTS[rowName];
+}
 
 export function hasMainTreeHealthEffect(rowName) {
   return !!MAIN_TREE_HEALTH_EFFECTS[rowName];
@@ -59,6 +65,7 @@ export function hasMainTreeModifierGrant(rowName) {
 export function collectMainTreeModifierGrants(skillTree) {
   const grants = [];
   for (const skill of skillTree?.mainTree ?? []) {
+    if ((skill.level ?? 1) <= 0) continue;
     const nodeGrants = MAIN_TREE_MODIFIER_GRANTS[skill.rowName];
     if (!nodeGrants) continue;
     const label = MAIN_TREE_MODIFIER_NAMES[skill.rowName] || skill.rowName;
@@ -132,16 +139,17 @@ export function aggregateSkillEffects(skillTree, options = {}) {
   const contributions = [];
   if (!skillTree) return contributions;
 
-  // --- Main passive tree: generated node IDs → health + affinity effects --
+  // --- Main passive tree: generated node IDs → attributes + affinity effects --
   // The save stores opaque UI_SkillTreeNode_* row names. The compact maps are
-  // generated from DT_GENERATED_SkillTree_Main: MaxHealth/MaxHealth% effects
+  // generated from DT_GENERATED_SkillTree_Main: numeric attribute effects
   // plus OffhandCategories affinity damage%/cooldown nodes (which carry
   // display names like "Sky Rush" for readable breakdowns).
   for (const skill of skillTree.mainTree ?? []) {
-    const level = skill.level || 1;
-    const healthEffects = MAIN_TREE_HEALTH_EFFECTS[skill.rowName];
-    if (healthEffects) {
-      pushEffects(contributions, healthEffects, level, `${skill.rowName} (L${level})`, 'mainTree');
+    const level = skill.level ?? 1;
+    if (level <= 0) continue;
+    const attributeLevels = MAIN_TREE_ATTRIBUTE_EFFECTS[skill.rowName] || [];
+    for (const effects of attributeLevels.slice(0, level)) {
+      pushEffects(contributions, effects, 1, `${skill.rowName} (L${level})`, 'mainTree');
     }
     const affinityEffects = MAIN_TREE_AFFINITY_EFFECTS[skill.rowName];
     if (affinityEffects) {
